@@ -1,0 +1,58 @@
+modLoader="javafml"
+loaderVersion="[40,)"
+license="LGPL v2.1"
+issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier/issues"
+
+[[mods]]
+modId="misc_twf"
+version="${file.jarVersion}"
+displayName="Survive in the Winter Frontier"
+logoFile="logo.png"
+credits="Liu Dongyu"
+authors="Hexagram"
+description='''
+A minecraft mod for modpack "The Winter Frontier"
+'''
+
+[[dependencies.misc_twf]]
+    modId="forge"
+    mandatory=true
+    versionRange="[40,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.misc_twf]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.18.2,1.19)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.misc_twf]]
+    modId="tac"
+    mandatory=true
+    versionRange="[0.3.7,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.misc_twf]]
+    modId="createaddition"
+    mandatory=true
+    versionRange="[1.18.2-1.0.0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.misc_twf]]
+    modId="hordes"
+    mandatory=true
+    versionRange="[1.18.2-1.2.1,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.misc_twf]]
+    modId="travelersbackpack"
+    mandatory=true
+    versionRange="[1.18.2-7.1.41,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.misc_twf]]
+    modId="curios"
+    mandatory=true
+    versionRange="[1.18.2-5.0.9.1,)"
+    ordering="NONE"
+    side="BOTH"
