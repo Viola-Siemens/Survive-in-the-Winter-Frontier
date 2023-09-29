@@ -4,6 +4,8 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "misc_twf.refmap.json",
   "mixins": [
+    "CowEntityMixin",
+    "GoatEntityMixin"
   ],
   "minVersion": "0.8"
 }
