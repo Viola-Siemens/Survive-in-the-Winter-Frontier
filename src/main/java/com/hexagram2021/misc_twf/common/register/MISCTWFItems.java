@@ -1,5 +1,7 @@
 package com.hexagram2021.misc_twf.common.register;
 
+import com.hexagram2021.misc_twf.SurviveInTheWinterFrontier;
+import com.hexagram2021.misc_twf.common.item.AbyssVirusVaccine;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
@@ -14,6 +16,10 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
 public final class MISCTWFItems {
 	private static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
+
+	public static final ItemEntry<AbyssVirusVaccine> ABYSS_VIRUS_VACCINE = ItemEntry.register(
+			"abyss_virus_vaccine", () -> new AbyssVirusVaccine(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+	);
 
 	private MISCTWFItems() {
 	}
