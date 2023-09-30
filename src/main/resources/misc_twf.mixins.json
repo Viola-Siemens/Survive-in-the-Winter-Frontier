@@ -5,7 +5,8 @@
   "refmap": "misc_twf.refmap.json",
   "mixins": [
     "CowEntityMixin",
-    "GoatEntityMixin"
+    "GoatEntityMixin",
+    "InfectionRegisterMixin"
   ],
   "minVersion": "0.8"
 }

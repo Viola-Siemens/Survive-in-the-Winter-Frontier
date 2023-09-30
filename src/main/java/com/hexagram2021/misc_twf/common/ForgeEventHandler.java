@@ -2,10 +2,12 @@ package com.hexagram2021.misc_twf.common;
 
 import com.hexagram2021.misc_twf.common.item.AbyssVirusVaccine;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
+import com.hexagram2021.misc_twf.common.util.EnergyUtils;
 import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -19,6 +21,13 @@ public class ForgeEventHandler {
 	public static void onSpawnZombiePlayer(SpawnZombiePlayerEvent event) {
 		if(MISCTWFSavedData.isImmuneToZombification(event.getPlayer().getUUID())) {
 			event.setCanceled(true);
+		}
+	}
+
+	@SubscribeEvent
+	public static void onAttackItemStackCapability(AttachCapabilitiesEvent<ItemStack> event) {
+		if(EnergyUtils.canStoreEnergy(event.getObject())) {
+
 		}
 	}
 
