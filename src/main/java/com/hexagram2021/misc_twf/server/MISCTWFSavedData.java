@@ -58,6 +58,7 @@ public class MISCTWFSavedData extends SavedData {
 			return;
 		}
 		INSTANCE.immunityAgainstZombification.put(uuid, new VaccineContent(time));
+		INSTANCE.setDirty();
 	}
 
 	public static boolean isImmuneToZombification(UUID uuid) {

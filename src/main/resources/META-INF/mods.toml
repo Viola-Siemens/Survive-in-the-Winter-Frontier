@@ -41,7 +41,7 @@ A minecraft mod for modpack "The Winter Frontier"
 [[dependencies.misc_twf]]
     modId="hordes"
     mandatory=true
-    versionRange="[1.18.2-1.2.1,)"
+    versionRange="[1.2,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
