@@ -30,7 +30,7 @@ public class GoatEntityMixin implements IProduceMilk {
 			return;
 		}
 
-		this.setMilkCoolDown(MISCTWFCommonConfig.MILK_INTERVAL.get());
+		this.setMilkCoolDown(MISCTWFCommonConfig.MILK_INTERVAL.get() * 20);
 	}
 
 	@Inject(method = "aiStep", at = @At(value = "TAIL"))

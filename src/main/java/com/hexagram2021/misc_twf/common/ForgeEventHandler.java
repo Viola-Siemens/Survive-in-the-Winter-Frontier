@@ -1,9 +1,11 @@
 package com.hexagram2021.misc_twf.common;
 
 import com.hexagram2021.misc_twf.common.item.AbyssVirusVaccine;
+import com.hexagram2021.misc_twf.common.item.IEnergyItem;
+import com.hexagram2021.misc_twf.common.item.capability.ItemStackEnergyHandler;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
-import com.hexagram2021.misc_twf.common.util.EnergyUtils;
 import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -24,10 +26,12 @@ public class ForgeEventHandler {
 		}
 	}
 
+	private static final ResourceLocation ENERGY = new ResourceLocation(MODID, "energy");
+
 	@SubscribeEvent
 	public static void onAttackItemStackCapability(AttachCapabilitiesEvent<ItemStack> event) {
-		if(EnergyUtils.canStoreEnergy(event.getObject())) {
-
+		if(event.getObject().getItem() instanceof IEnergyItem energyItem) {
+			event.addCapability(ENERGY, new ItemStackEnergyHandler(energyItem.getEnergyCapability()));
 		}
 	}
 
