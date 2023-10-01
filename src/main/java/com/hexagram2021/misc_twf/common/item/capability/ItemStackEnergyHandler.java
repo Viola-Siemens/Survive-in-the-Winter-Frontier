@@ -16,8 +16,8 @@ public class ItemStackEnergyHandler implements ICapabilityProvider, INBTSerializ
 	private final EnergyStorage energyStorage;
 	private final LazyOptional<IEnergyStorage> holder;
 
-	public ItemStackEnergyHandler(int capability) {
-		this.energyStorage = new EnergyStorage(capability);
+	public ItemStackEnergyHandler(int capability, int receiveSpeed, int extractSpeed) {
+		this.energyStorage = new EnergyStorage(capability, receiveSpeed, extractSpeed);
 		this.holder = LazyOptional.of(() -> this.energyStorage);
 	}
 

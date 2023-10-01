@@ -5,5 +5,10 @@
 
   "itemGroup.misc_twf": "Survive in the Winter Frontier",
 
-  "item.misc_twf.abyss_virus_vaccine": "Abyss Virus Vaccine"
+  "item.misc_twf.abyss_virus_vaccine": "Abyss Virus Vaccine",
+  "item.misc_twf.night_vision_device": "Night Vision Device",
+
+  "item.misc_twf.energy.stored": "Energy: (%d / %d)",
+
+  "message.misc_twf.abyss_virus_vaccine.success": "Injected abyss virus vaccine to %s."
 }

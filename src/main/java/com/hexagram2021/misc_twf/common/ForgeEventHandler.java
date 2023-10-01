@@ -26,12 +26,16 @@ public class ForgeEventHandler {
 		}
 	}
 
-	private static final ResourceLocation ENERGY = new ResourceLocation(MODID, "energy");
+	public static final ResourceLocation ENERGY = new ResourceLocation(MODID, "energy");
 
 	@SubscribeEvent
 	public static void onAttackItemStackCapability(AttachCapabilitiesEvent<ItemStack> event) {
 		if(event.getObject().getItem() instanceof IEnergyItem energyItem) {
-			event.addCapability(ENERGY, new ItemStackEnergyHandler(energyItem.getEnergyCapability()));
+			event.addCapability(ENERGY, new ItemStackEnergyHandler(
+					energyItem.getEnergyCapability(),
+					energyItem.getMaxEnergyReceiveSpeed(),
+					energyItem.getMaxEnergyExtractSpeed()
+			));
 		}
 	}
 
