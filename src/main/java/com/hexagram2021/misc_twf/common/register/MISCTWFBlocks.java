@@ -1,7 +1,9 @@
 package com.hexagram2021.misc_twf.common.register;
 
+import com.hexagram2021.misc_twf.SurviveInTheWinterFrontier;
 import com.hexagram2021.misc_twf.common.block.UltravioletLampBlock;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -43,6 +45,7 @@ public final class MISCTWFBlocks {
 		public BlockEntry(String name, Supplier<BlockBehaviour.Properties> properties, Function<BlockBehaviour.Properties, T> make) {
 			this.properties = properties;
 			this.regObject = REGISTER.register(name, () -> make.apply(properties.get()));
+			MISCTWFItems.ItemEntry.register(name, () -> new BlockItem(this.regObject.get(), new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP)));
 		}
 
 		public T get() {
