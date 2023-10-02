@@ -4,6 +4,8 @@ import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -31,7 +33,10 @@ public class LightTextureMixin {
 			for (int i = 0; i < stacksHandler.getSlots(); i++) {
 				ItemStack stack = stackHandler.getStackInSlot(i);
 				if(stack.is(MISCTWFItems.NIGHT_VISION_DEVICE.get())) {
-					return 1.0F;
+					IEnergyStorage ies = stack.getCapability(CapabilityEnergy.ENERGY).orElse(null);
+					if(ies.getEnergyStored() > 0) {
+						return 1.0F;
+					}
 				}
 			}
 		}

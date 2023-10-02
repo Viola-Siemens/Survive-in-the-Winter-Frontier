@@ -6,7 +6,8 @@
   "mixins": [
     "CowEntityMixin",
     "GoatEntityMixin",
-    "InfectionRegisterMixin"
+    "InfectionRegisterMixin",
+    "MonsterMixin"
   ],
   "minVersion": "0.8",
   "client": [

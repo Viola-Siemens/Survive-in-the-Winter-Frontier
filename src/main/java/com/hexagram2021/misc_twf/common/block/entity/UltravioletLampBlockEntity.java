@@ -1,6 +1,7 @@
 package com.hexagram2021.misc_twf.common.block.entity;
 
 import com.hexagram2021.misc_twf.common.block.UltravioletLampBlock;
+import com.hexagram2021.misc_twf.common.entity.IAvoidBlockMonster;
 import com.hexagram2021.misc_twf.common.menu.UltravioletLampMenu;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItemTags;
@@ -12,6 +13,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
@@ -21,6 +24,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.entity.EntityTypeTest;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -80,6 +86,15 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 		boolean newLit = false;
 		if(--blockEntity.tickEnergyTime <= 0) {
 			blockEntity.tickEnergyTime = 20;
+			level.getEntities(EntityTypeTest.forClass(Monster.class), AABB.ofSize(Vec3.atCenterOf(blockPos), 32.0D, 32.0D, 32.0D), monster -> true)
+					.forEach(monster -> {
+						if(blockPos.closerThan(monster.blockPosition(), 32.0D)) {
+							//monster.addEffect(new MobEffectInstance());
+							if (monster.getTarget() == null && blockPos.closerThan(monster.blockPosition(), 20.0D) && monster instanceof IAvoidBlockMonster avoidBlockMonster) {
+								avoidBlockMonster.getAvoidBlockGoal().blockPos = blockPos;
+							}
+						}
+					});
 			for(ItemStack itemStack: blockEntity.items) {
 				if(!isBattery(itemStack)) {
 					continue;
