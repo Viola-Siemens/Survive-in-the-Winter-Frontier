@@ -1,0 +1,25 @@
+package com.hexagram2021.misc_twf.common.register;
+
+import com.hexagram2021.misc_twf.common.menu.UltravioletLampMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+
+import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
+
+public final class MISCTWFMenuTypes {
+	private static final DeferredRegister<MenuType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.CONTAINERS, MODID);
+
+	public static final RegistryObject<MenuType<UltravioletLampMenu>> ULTRAVIOLET_LAMP_MENU = REGISTER.register(
+			"ultraviolet_lamp", () -> new MenuType<>(UltravioletLampMenu::new)
+	);
+
+	private MISCTWFMenuTypes() {
+	}
+
+	public static void init(IEventBus bus) {
+		REGISTER.register(bus);
+	}
+}

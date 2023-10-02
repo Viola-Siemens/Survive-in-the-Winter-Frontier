@@ -2,7 +2,10 @@ package com.hexagram2021.misc_twf.client;
 
 import com.hexagram2021.misc_twf.client.model.NightVisionDeviceModel;
 import com.hexagram2021.misc_twf.client.renderer.NightVisionDeviceRenderer;
+import com.hexagram2021.misc_twf.client.screen.UltravioletLampScreen;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
+import com.hexagram2021.misc_twf.common.register.MISCTWFMenuTypes;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -21,10 +24,17 @@ public class ModClientEventHandler {
 
 	@SubscribeEvent
 	public static void onClientSetup(final FMLClientSetupEvent event) {
-		event.enqueueWork(ModClientEventHandler::registerCuriosRenderers);
+		event.enqueueWork(() -> {
+			registerContainersAndScreens();
+			registerCuriosRenderers();
+		});
 	}
 
 	private static void registerCuriosRenderers() {
 		CuriosRendererRegistry.register(MISCTWFItems.NIGHT_VISION_DEVICE.get(), NightVisionDeviceRenderer::new);
+	}
+
+	private static void registerContainersAndScreens() {
+		MenuScreens.register(MISCTWFMenuTypes.ULTRAVIOLET_LAMP_MENU.get(), UltravioletLampScreen::new);
 	}
 }

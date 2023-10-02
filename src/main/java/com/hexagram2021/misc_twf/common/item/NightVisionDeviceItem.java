@@ -1,13 +1,10 @@
 package com.hexagram2021.misc_twf.common.item;
 
-import com.hexagram2021.misc_twf.common.ForgeEventHandler;
 import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.energy.CapabilityEnergy;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -29,23 +26,17 @@ public class NightVisionDeviceItem extends Item implements ICurioItem, IEnergyIt
 
 	@Override
 	public CompoundTag getShareTag(ItemStack stack) {
-		CompoundTag nbt = stack.getOrCreateTag();
-		stack.getCapability(CapabilityEnergy.ENERGY).ifPresent(ies -> nbt.putInt(ForgeEventHandler.ENERGY.toString(), ies.getEnergyStored()));
+		CompoundTag nbt = stack.getTag();
+		this.getEnergyShareTag(nbt == null ? new CompoundTag() : nbt.copy(), stack);
 		return nbt;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void readShareTag(ItemStack stack, @Nullable CompoundTag nbt) {
 		super.readShareTag(stack, nbt);
 
-		if (nbt != null && nbt.contains(ForgeEventHandler.ENERGY.toString(), Tag.TAG_INT)) {
-			stack.getCapability(CapabilityEnergy.ENERGY).ifPresent(ies -> {
-				if(ies instanceof INBTSerializable) {
-					INBTSerializable<Tag> nbtSerializable = (INBTSerializable<Tag>)ies;
-					nbtSerializable.deserializeNBT(nbt.get(ForgeEventHandler.ENERGY.toString()));
-				}
-			});
+		if (nbt != null) {
+			this.readEnergyShareTag(nbt, stack);
 		}
 	}
 

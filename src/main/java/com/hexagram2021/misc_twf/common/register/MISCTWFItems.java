@@ -1,7 +1,9 @@
 package com.hexagram2021.misc_twf.common.register;
 
 import com.hexagram2021.misc_twf.SurviveInTheWinterFrontier;
+import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
 import com.hexagram2021.misc_twf.common.item.AbyssVirusVaccine;
+import com.hexagram2021.misc_twf.common.item.AccumulatorItem;
 import com.hexagram2021.misc_twf.common.item.NightVisionDeviceItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -24,6 +26,24 @@ public final class MISCTWFItems {
 
 	public static final ItemEntry<NightVisionDeviceItem> NIGHT_VISION_DEVICE = ItemEntry.register(
 			"night_vision_device", () -> new NightVisionDeviceItem(new Item.Properties().stacksTo(1).tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+	);
+
+	public static final ItemEntry<AccumulatorItem> ORDINARY_ACCUMULATOR = ItemEntry.register(
+			"ordinary_accumulator", () -> new AccumulatorItem(new Item.Properties().stacksTo(1).tab(SurviveInTheWinterFrontier.ITEM_GROUP)) {
+				@Override
+				public int getEnergyCapability() {
+					return MISCTWFCommonConfig.ORDINARY_ACCUMULATOR_CAPABILITY.get();
+				}
+			}
+	);
+
+	public static final ItemEntry<AccumulatorItem> MILITARY_ACCUMULATOR = ItemEntry.register(
+			"military_accumulator", () -> new AccumulatorItem(new Item.Properties().stacksTo(1).tab(SurviveInTheWinterFrontier.ITEM_GROUP)) {
+				@Override
+				public int getEnergyCapability() {
+					return MISCTWFCommonConfig.MILITARY_ACCUMULATOR_CAPABILITY.get();
+				}
+			}
 	);
 
 	private MISCTWFItems() {

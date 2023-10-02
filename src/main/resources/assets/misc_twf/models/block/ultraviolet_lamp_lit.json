@@ -1,0 +1,6 @@
+{
+  "parent": "misc_twf:block/template_ultraviolet_lamp",
+  "textures": {
+    "texture": "misc_twf:block/ultraviolet_lamp_lit"
+  }
+}
