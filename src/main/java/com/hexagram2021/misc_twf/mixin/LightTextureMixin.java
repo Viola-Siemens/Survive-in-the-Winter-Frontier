@@ -26,16 +26,18 @@ public class LightTextureMixin {
 	@ModifyConstant(method = "updateLightTexture", constant = @Constant(floatValue = 0.0F, ordinal = 1))
 	public float getNightVisionDeviceBrightness(float constant) {
 		ICuriosItemHandler handler = CuriosApi.getCuriosHelper().getCuriosHandler(this.minecraft.player).orElse(null);
-		Map<String, ICurioStacksHandler> curios = handler.getCurios();
-		for(Map.Entry<String, ICurioStacksHandler> entry : curios.entrySet()) {
-			ICurioStacksHandler stacksHandler = entry.getValue();
-			IDynamicStackHandler stackHandler = stacksHandler.getStacks();
-			for (int i = 0; i < stacksHandler.getSlots(); i++) {
-				ItemStack stack = stackHandler.getStackInSlot(i);
-				if(stack.is(MISCTWFItems.NIGHT_VISION_DEVICE.get())) {
-					IEnergyStorage ies = stack.getCapability(CapabilityEnergy.ENERGY).orElse(null);
-					if(ies.getEnergyStored() > 0) {
-						return 1.0F;
+		if(handler != null) {
+			Map<String, ICurioStacksHandler> curios = handler.getCurios();
+			for (Map.Entry<String, ICurioStacksHandler> entry : curios.entrySet()) {
+				ICurioStacksHandler stacksHandler = entry.getValue();
+				IDynamicStackHandler stackHandler = stacksHandler.getStacks();
+				for (int i = 0; i < stacksHandler.getSlots(); i++) {
+					ItemStack stack = stackHandler.getStackInSlot(i);
+					if (stack.is(MISCTWFItems.NIGHT_VISION_DEVICE.get())) {
+						IEnergyStorage ies = stack.getCapability(CapabilityEnergy.ENERGY).orElse(null);
+						if (ies != null && ies.getEnergyStored() > 0) {
+							return 1.0F;
+						}
 					}
 				}
 			}

@@ -27,7 +27,7 @@ public class NightVisionDeviceItem extends Item implements ICurioItem, IEnergyIt
 	@Override
 	public CompoundTag getShareTag(ItemStack stack) {
 		CompoundTag nbt = stack.getTag();
-		this.getEnergyShareTag(nbt == null ? new CompoundTag() : nbt.copy(), stack);
+		nbt = this.getEnergyShareTag(nbt == null ? new CompoundTag() : nbt.copy(), stack);
 		return nbt;
 	}
 

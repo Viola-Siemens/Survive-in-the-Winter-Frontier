@@ -13,8 +13,9 @@ public interface IEnergyItem {
 	int getMaxEnergyReceiveSpeed();
 	int getMaxEnergyExtractSpeed();
 
-	default void getEnergyShareTag(CompoundTag nbt, ItemStack stack) {
+	default CompoundTag getEnergyShareTag(CompoundTag nbt, ItemStack stack) {
 		stack.getCapability(CapabilityEnergy.ENERGY).ifPresent(ies -> nbt.putInt(ForgeEventHandler.ENERGY.toString(), ies.getEnergyStored()));
+		return nbt;
 	}
 
 	@SuppressWarnings("unchecked")
