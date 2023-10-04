@@ -32,7 +32,7 @@ public class AvoidBlockGoal<T extends Block> extends Goal {
 
 	@Override
 	public boolean canUse() {
-		if(this.blockPos == null) {
+		if(this.blockPos == null || this.mob.getTarget() != null) {
 			return false;
 		}
 		if(!this.blockPos.closerThan(this.mob.blockPosition(), this.maxDist)) {

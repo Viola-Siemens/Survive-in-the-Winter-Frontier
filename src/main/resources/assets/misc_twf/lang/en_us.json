@@ -13,6 +13,8 @@
 
   "item.misc_twf.energy.stored": "Energy: (%d / %d)",
 
+  "effect.misc_twf.fragile": "Fragile",
+
   "container.misc_twf.ultraviolet_lamp": "Ultraviolet Lamp",
 
   "message.misc_twf.abyss_virus_vaccine.success": "Injected abyss virus vaccine to %s."

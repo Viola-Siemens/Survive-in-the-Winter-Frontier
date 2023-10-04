@@ -5,6 +5,7 @@ import com.hexagram2021.misc_twf.common.entity.IAvoidBlockMonster;
 import com.hexagram2021.misc_twf.common.menu.UltravioletLampMenu;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItemTags;
+import com.hexagram2021.misc_twf.common.register.MISCTWFMobEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -14,6 +15,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -86,13 +88,16 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 		boolean newLit = false;
 		if(--blockEntity.tickEnergyTime <= 0) {
 			blockEntity.tickEnergyTime = 20;
-			level.getEntities(EntityTypeTest.forClass(Monster.class), AABB.ofSize(Vec3.atCenterOf(blockPos), 32.0D, 32.0D, 32.0D), monster -> true)
+			level.getEntities(EntityTypeTest.forClass(Monster.class), AABB.ofSize(Vec3.atCenterOf(blockPos), 36.0D, 36.0D, 36.0D), monster -> true)
 					.forEach(monster -> {
 						if(blockPos.closerThan(monster.blockPosition(), 32.0D)) {
-							//monster.addEffect(new MobEffectInstance());
+							monster.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200, 0));
+							monster.addEffect(new MobEffectInstance(MISCTWFMobEffects.FRAGILE.get(), 200, 3));
 							if (monster.getTarget() == null && blockPos.closerThan(monster.blockPosition(), 20.0D) && monster instanceof IAvoidBlockMonster avoidBlockMonster) {
 								avoidBlockMonster.getAvoidBlockGoal().blockPos = blockPos;
 							}
+						} else {
+							monster.addEffect(new MobEffectInstance(MISCTWFMobEffects.FRAGILE.get(), 200, 2));
 						}
 					});
 			for(ItemStack itemStack: blockEntity.items) {

@@ -1,15 +1,19 @@
 package com.hexagram2021.misc_twf.common;
 
+import com.hexagram2021.misc_twf.common.effect.FragileEffect;
 import com.hexagram2021.misc_twf.common.item.AbyssVirusVaccine;
 import com.hexagram2021.misc_twf.common.item.IEnergyItem;
 import com.hexagram2021.misc_twf.common.item.capability.ItemStackEnergyHandler;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
+import com.hexagram2021.misc_twf.common.register.MISCTWFMobEffects;
 import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -36,6 +40,15 @@ public class ForgeEventHandler {
 					energyItem.getMaxEnergyReceiveSpeed(),
 					energyItem.getMaxEnergyExtractSpeed()
 			));
+		}
+	}
+
+	@SubscribeEvent
+	public static void onLivingHurt(LivingHurtEvent event) {
+		LivingEntity livingEntity = event.getEntityLiving();
+		MobEffectInstance effectInstance = livingEntity.getEffect(MISCTWFMobEffects.FRAGILE.get());
+		if(effectInstance != null) {
+			event.setAmount(event.getAmount() * FragileEffect.getDamageMultiplier(effectInstance.getAmplifier()));
 		}
 	}
 
