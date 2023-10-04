@@ -10,6 +10,7 @@ public class MISCTWFCommonConfig {
 	public static final ForgeConfigSpec.IntValue NIGHT_VISION_DEVICE_ENERGY_CAPABILITY;
 	public static final ForgeConfigSpec.IntValue ORDINARY_ACCUMULATOR_CAPABILITY;
 	public static final ForgeConfigSpec.IntValue MILITARY_ACCUMULATOR_CAPABILITY;
+	public static final ForgeConfigSpec.IntValue WAYFARER_ARMOR_CAPABILITY;
 
 	static {
 		BUILDER.push("misc_twf-common-config");
@@ -17,6 +18,7 @@ public class MISCTWFCommonConfig {
 			NIGHT_VISION_DEVICE_ENERGY_CAPABILITY = BUILDER.comment("The maximum time (in seconds) will a night vision device be used without charging.").defineInRange("NIGHT_VISION_DEVICE_ENERGY_CAPABILITY", 6000, 0, 120000);
 			ORDINARY_ACCUMULATOR_CAPABILITY = BUILDER.comment("The maximum time (in seconds) will a ordinary accumulator be used without charging.").defineInRange("ORDINARY_ACCUMULATOR_CAPABILITY", 3600, 0, 120000);
 			MILITARY_ACCUMULATOR_CAPABILITY = BUILDER.comment("The maximum time (in seconds) will a military accumulator be used without charging.").defineInRange("MILITARY_ACCUMULATOR_CAPABILITY", 18000, 0, 120000);
+			WAYFARER_ARMOR_CAPABILITY = BUILDER.comment("The maximum time (in seconds) will a wayfarer armor be used without charging.").defineInRange("WAYFARER_ARMOR_CAPABILITY", 8400, 0, 120000);
 		BUILDER.pop();
 
 		SPEC = BUILDER.build();

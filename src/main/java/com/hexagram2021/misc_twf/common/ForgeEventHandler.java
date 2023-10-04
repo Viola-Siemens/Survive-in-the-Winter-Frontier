@@ -17,19 +17,11 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.smileycorp.hordes.common.event.SpawnZombiePlayerEvent;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEventHandler {
-	@SubscribeEvent
-	public static void onSpawnZombiePlayer(SpawnZombiePlayerEvent event) {
-		if(MISCTWFSavedData.isImmuneToZombification(event.getPlayer().getUUID())) {
-			event.setCanceled(true);
-		}
-	}
-
 	public static final ResourceLocation ENERGY = new ResourceLocation(MODID, "energy");
 
 	@SubscribeEvent

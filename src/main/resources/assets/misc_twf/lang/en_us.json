@@ -10,6 +10,10 @@
   "item.misc_twf.night_vision_device": "Night Vision Device",
   "item.misc_twf.ordinary_accumulator": "Ordinary Accumulator",
   "item.misc_twf.military_accumulator": "Military Accumulator",
+  "item.misc_twf.wayfarer_head": "Wayfarer MK-I Helmet",
+  "item.misc_twf.wayfarer_chest": "Wayfarer MK-I Chestplate",
+  "item.misc_twf.wayfarer_legs": "Wayfarer MK-I Leggings",
+  "item.misc_twf.wayfarer_feet": "Wayfarer MK-I Boots",
 
   "item.misc_twf.energy.stored": "Energy: (%d / %d)",
 

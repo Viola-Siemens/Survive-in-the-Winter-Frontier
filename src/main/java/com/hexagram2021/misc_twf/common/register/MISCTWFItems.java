@@ -5,7 +5,9 @@ import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
 import com.hexagram2021.misc_twf.common.item.AbyssVirusVaccine;
 import com.hexagram2021.misc_twf.common.item.AccumulatorItem;
 import com.hexagram2021.misc_twf.common.item.NightVisionDeviceItem;
+import com.hexagram2021.misc_twf.common.item.WayfarerArmorItem;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -13,6 +15,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.Locale;
 import java.util.function.Supplier;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
@@ -51,6 +54,12 @@ public final class MISCTWFItems {
 
 	public static void init(IEventBus bus) {
 		REGISTER.register(bus);
+
+		for(EquipmentSlot type : EquipmentSlot.values()) {
+			if(type.getType() == EquipmentSlot.Type.ARMOR) {
+				ItemEntry.register(WayfarerArmorItem.name + "_" + type.name().toLowerCase(Locale.ENGLISH), () -> new WayfarerArmorItem(type));
+			}
+		}
 	}
 
 	public static class ItemEntry<T extends Item> implements Supplier<T>, ItemLike {

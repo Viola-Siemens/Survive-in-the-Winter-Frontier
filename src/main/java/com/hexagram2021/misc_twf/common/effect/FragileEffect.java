@@ -5,7 +5,7 @@ import net.minecraft.world.effect.MobEffectCategory;
 
 public class FragileEffect extends MobEffect {
 	public FragileEffect() {
-		super(MobEffectCategory.HARMFUL, 0xbe209a);
+		super(MobEffectCategory.HARMFUL, 0xfad6f4);
 	}
 
 	/*  |   1  |   2  |   3  |   4  |
