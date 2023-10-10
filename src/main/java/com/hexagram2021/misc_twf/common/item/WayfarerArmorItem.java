@@ -79,12 +79,26 @@ public class WayfarerArmorItem extends ArmorItem implements IEnergyItem {
 		}
 	}
 
+	@Nullable
+	protected MobEffectInstance getTickedEffect() {
+		return switch (this.slot) {
+			case HEAD -> new MobEffectInstance(MobEffects.WATER_BREATHING, 40);
+			case CHEST -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 40);
+			case LEGS -> new MobEffectInstance(MobEffects.DIG_SPEED, 40);
+			case FEET -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 40);
+			default -> null;
+		};
+	}
+
 	@Override
 	public void onArmorTick(ItemStack stack, Level level, Player player) {
 		if(player.tickCount % 20 == 0) {
 			stack.getCapability(CapabilityEnergy.ENERGY).ifPresent(ies -> {
 				if(ies.getEnergyStored() > 0) {
-					player.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 40));
+					MobEffectInstance effectInstance = this.getTickedEffect();
+					if(effectInstance != null) {
+						player.addEffect(effectInstance);
+					}
 				}
 				ies.extractEnergy(1, false);
 			});

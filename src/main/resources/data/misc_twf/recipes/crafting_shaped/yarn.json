@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "s": {
+      "item": "minecraft:string"
+    }
+  },
+  "pattern": [
+    "sss",
+    "ss "
+  ],
+  "result": {
+    "item": "misc_twf:yarn"
+  }
+}

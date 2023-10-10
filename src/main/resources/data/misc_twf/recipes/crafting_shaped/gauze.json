@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "y": {
+      "item": "misc_twf:yarn"
+    }
+  },
+  "pattern": [
+    "yy",
+    "yy"
+  ],
+  "result": {
+    "item": "misc_twf:gauze"
+  }
+}

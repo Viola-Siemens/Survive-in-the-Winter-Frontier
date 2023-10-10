@@ -23,6 +23,36 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 public final class MISCTWFItems {
 	private static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
 
+	public static final class Materials {
+		public static final ItemEntry<Item> YARN = ItemEntry.register(
+				"yarn", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<Item> GAUZE = ItemEntry.register(
+				"gauze", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<Item> WAYFARER_INGOT = ItemEntry.register(
+				"wayfarer_ingot", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<Item> SECOND_BRAIN_CORE = ItemEntry.register(
+				"second_brain_core", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<Item> SYRINGE = ItemEntry.register(
+				"syringe", () -> new Item(new Item.Properties().stacksTo(1).tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<Item> MYSTERIOUS_FLESH = ItemEntry.register(
+				"mysterious_flesh", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<Item> MUTANT_POTION = ItemEntry.register(
+				"mutant_potion", () -> new Item(new Item.Properties().stacksTo(1).tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+
+		private Materials() {
+		}
+
+		public static void init() {
+		}
+	}
+
 	public static final ItemEntry<AbyssVirusVaccine> ABYSS_VIRUS_VACCINE = ItemEntry.register(
 			"abyss_virus_vaccine", () -> new AbyssVirusVaccine(new Item.Properties().stacksTo(1).tab(SurviveInTheWinterFrontier.ITEM_GROUP))
 	);
@@ -53,6 +83,8 @@ public final class MISCTWFItems {
 	}
 
 	public static void init(IEventBus bus) {
+		Materials.init();
+
 		REGISTER.register(bus);
 
 		for(EquipmentSlot type : EquipmentSlot.values()) {
