@@ -1,0 +1,24 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "misc_twf:glowing_netherite_ingot"
+    },
+    {
+      "item": "misc_twf:void_crystal"
+    },
+    {
+      "item": "misc_twf:second_brain_core"
+    },
+    {
+      "fluid": "minecraft:lava",
+      "amount": 1000
+    }
+  ],
+  "results": [
+    {
+      "item": "misc_twf:wayfarer_ingot"
+    }
+  ],
+  "heatRequirement": "superheated"
+}

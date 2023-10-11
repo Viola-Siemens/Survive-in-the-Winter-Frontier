@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -47,7 +48,8 @@ public class ForgeEventHandler {
 	@SubscribeEvent
 	public static void onInteractWithEntity(PlayerInteractEvent.EntityInteract event) {
 		if(event.getTarget() instanceof LivingEntity entity) {
-			ItemStack itemstack = event.getPlayer().getItemInHand(event.getHand());
+			Player player = event.getPlayer();
+			ItemStack itemstack = player.getItemInHand(event.getHand());
 			if(itemstack.is(MISCTWFItems.ABYSS_VIRUS_VACCINE.asItem())) {
 				if(entity.level.isClientSide) {
 					event.setCancellationResult(InteractionResult.SUCCESS);
@@ -61,7 +63,12 @@ public class ForgeEventHandler {
 				}
 				itemstack.shrink(1);
 				MISCTWFSavedData.setImmuneToZombification(entity.getUUID(), entity.tickCount);
-				AbyssVirusVaccine.afterUse(event.getPlayer(), entity);
+				AbyssVirusVaccine.afterUse(player, entity);
+				if(itemstack.isEmpty()) {
+					player.setItemInHand(event.getHand(), new ItemStack(MISCTWFItems.Materials.SYRINGE));
+				} else {
+					player.drop(new ItemStack(MISCTWFItems.Materials.SYRINGE), true);
+				}
 				event.setCancellationResult(InteractionResult.CONSUME);
 				event.setCanceled(true);
 			}

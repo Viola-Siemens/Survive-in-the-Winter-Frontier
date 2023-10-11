@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common.item;
 
+import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
 import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
 import net.minecraft.Util;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -28,6 +29,10 @@ public class AbyssVirusVaccine extends Item {
 		itemstack.shrink(1);
 		MISCTWFSavedData.setImmuneToZombification(player.getUUID(), player.tickCount);
 		afterUse(player, player);
+		if(itemstack.isEmpty()) {
+			return InteractionResultHolder.consume(new ItemStack(MISCTWFItems.Materials.SYRINGE));
+		}
+		player.drop(new ItemStack(MISCTWFItems.Materials.SYRINGE), true);
 		return InteractionResultHolder.consume(itemstack);
 	}
 

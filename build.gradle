@@ -117,6 +117,10 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    maven { // JEI
+        name 'DVS1 Maven FS'
+        url 'https://dvs1.progwml6.com/files/maven'
+    }
     maven {
         name 'theillusivec4\'s Maven'
         url 'https://maven.theillusivec4.top/'
@@ -137,9 +141,11 @@ dependencies {
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
+    runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.5.5.174:api")
+
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:1.18.2-5.0.9.1")
     implementation fg.deobf('curse.maven:atlaslib-463826:4567244')
-    implementation fg.deobf("curse.maven:create-328085:4550986")
+    runtimeOnly fg.deobf("curse.maven:create-328085:4550986")
     implementation fg.deobf("curse.maven:createaddition-439890:4683727")
     implementation fg.deobf("curse.maven:flywheel-486392:4341461")
     implementation fg.deobf('curse.maven:framework-549225:4613856')

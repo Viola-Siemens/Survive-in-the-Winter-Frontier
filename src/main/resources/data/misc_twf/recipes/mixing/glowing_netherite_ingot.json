@@ -1,0 +1,24 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "minecraft:netherite_ingot"
+    },
+    {
+      "item": "minecraft:nether_star"
+    },
+    {
+      "item": "misc_twf:void_crystal"
+    },
+    {
+      "fluid": "minecraft:lava",
+      "amount": 1000
+    }
+  ],
+  "results": [
+    {
+      "item": "misc_twf:glowing_netherite_ingot"
+    }
+  ],
+  "heatRequirement": "superheated"
+}

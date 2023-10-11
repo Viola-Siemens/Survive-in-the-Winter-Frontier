@@ -1,0 +1,30 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "misc_twf:white_crystal_core",
+      "count": 4
+    },
+    {
+      "item": "minecraft:lapis_lazuli",
+      "count": 2
+    },
+    {
+      "item": "minecraft:amethyst_shard",
+      "count": 2
+    },
+    {
+      "item": "misc_twf:sculk_shard"
+    },
+    {
+      "fluid": "minecraft:lava",
+      "amount": 1000
+    }
+  ],
+  "results": [
+    {
+      "item": "misc_twf:void_crystal"
+    }
+  ],
+  "heatRequirement": "superheated"
+}

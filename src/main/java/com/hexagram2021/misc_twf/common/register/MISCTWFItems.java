@@ -20,6 +20,7 @@ import java.util.function.Supplier;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
+@SuppressWarnings("unused")
 public final class MISCTWFItems {
 	private static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
 
@@ -29,6 +30,21 @@ public final class MISCTWFItems {
 		);
 		public static final ItemEntry<Item> GAUZE = ItemEntry.register(
 				"gauze", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<Item> ENERGY_CORE = ItemEntry.register(
+				"energy_core", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<Item> WHITE_CRYSTAL_CORE = ItemEntry.register(
+				"white_crystal_core", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<Item> SCULK_SHARD = ItemEntry.register(
+				"sculk_shard", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<Item> VOID_CRYSTAL = ItemEntry.register(
+				"void_crystal", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<Item> GLOWING_NETHERITE_INGOT = ItemEntry.register(
+				"glowing_netherite_ingot", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
 		);
 		public static final ItemEntry<Item> WAYFARER_INGOT = ItemEntry.register(
 				"wayfarer_ingot", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))

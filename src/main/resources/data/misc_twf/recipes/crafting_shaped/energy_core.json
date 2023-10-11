@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "w": {
+      "item": "createaddition:copper_wire"
+    },
+    "c": {
+      "item": "createaddition:capacitor"
+    },
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "t": {
+      "item": "create:electron_tube"
+    },
+    "p": {
+      "item": "create:precision_mechanism"
+    }
+  },
+  "pattern": [
+    "wcw",
+    "tpt",
+    "rcr"
+  ],
+  "result": {
+    "item": "misc_twf:energy_core"
+  }
+}

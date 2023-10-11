@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "X": {
+      "item": "misc_twf:glowing_netherite_ingot"
+    },
+    "C": {
+      "item": "misc_twf:energy_core"
+    }
+  },
+  "pattern": [
+    "X X",
+    "XCX",
+    "XXX"
+  ],
+  "result": {
+    "item": "misc_twf:wayfarer_chest"
+  }
+}

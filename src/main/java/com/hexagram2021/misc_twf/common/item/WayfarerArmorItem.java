@@ -29,10 +29,10 @@ public class WayfarerArmorItem extends ArmorItem implements IEnergyItem {
 
 	public static final String name = "wayfarer";
 	private static final int durabilityMultiplier = 12;
-	private static final int[] slotProtections = new int[]{2, 5, 7, 3};
+	private static final int[] slotProtections = new int[]{12, 16, 24, 14};
 	private static final int enchantmentValue = 20;
-	private static final float toughness = 1.0F;
-	private static final float knockbackResistance = 0.1F;
+	private static final float toughness = 8.0F;
+	private static final float knockbackResistance = 1.5F;
 
 	@SuppressWarnings("deprecation")
 	private static final LazyLoadedValue<Ingredient> repairIngredient = new LazyLoadedValue<>(() -> Ingredient.of(Items.EMERALD));
