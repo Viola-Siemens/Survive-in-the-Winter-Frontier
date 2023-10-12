@@ -1,0 +1,46 @@
+{
+  "language": "Chinese",
+  "language.code": "zh_cn",
+  "language.region": "China",
+
+  "itemGroup.misc_twf": "冬境边域：生存法则",
+
+  "block.misc_twf.ultraviolet_lamp": "强紫外线照射灯",
+  "block.misc_twf.mechanical_enclosure": "机械外壳",
+  "item.misc_twf.yarn": "纱线",
+  "item.misc_twf.gauze": "纱布",
+  "item.misc_twf.energy_core": "能源核心",
+  "item.misc_twf.white_crystal_core": "白色水晶核",
+  "item.misc_twf.sculk_shard": "幽匿碎片",
+  "item.misc_twf.void_crystal": "虚能结晶",
+  "item.misc_twf.glowing_netherite_ingot": "闪耀下界合金锭",
+  "item.misc_twf.wayfarer_ingot": "虚能锭",
+  "item.misc_twf.aluminum_plate": "铝板",
+  "item.misc_twf.rubber_plate": "橡胶板",
+  "item.misc_twf.second_brain_core": "二阶脑核",
+  "item.misc_twf.syringe": "空注射器",
+  "item.misc_twf.mysterious_flesh": "神秘血肉",
+  "item.misc_twf.mutant_potion": "变异药品",
+  "item.misc_twf.abyss_virus_vaccine": "深渊病毒免疫注射剂",
+  "item.misc_twf.night_vision_device": "夜视仪",
+  "item.misc_twf.ordinary_accumulator": "普通蓄电池",
+  "item.misc_twf.military_accumulator": "军用蓄电池",
+  "item.misc_twf.wayfarer_head": "远行者 MK-I 外骨骼头盔",
+  "item.misc_twf.wayfarer_chest": "远行者 MK-I 外骨骼胸甲",
+  "item.misc_twf.wayfarer_legs": "远行者 MK-I 外骨骼护腿",
+  "item.misc_twf.wayfarer_feet": "远行者 MK-I 外骨骼靴子",
+  "item.misc_twf.lamp_support": "紫外线灯支架",
+  "item.misc_twf.lamp_pedestal": "紫外线灯底座",
+  "item.misc_twf.lamp_tube": "紫外线灯管",
+  "item.misc_twf.uv_led": "紫外LED灯",
+
+  "item.misc_twf.energy.stored": "电量：（%d / %d）",
+
+  "effect.misc_twf.fragile": "脆弱",
+
+  "container.misc_twf.ultraviolet_lamp": "强紫外线照射灯",
+
+  "jade.misc_twf.producemilk.time": "产奶冷却：%d秒",
+
+  "message.misc_twf.abyss_virus_vaccine.success": "已将深渊病毒疫苗注射到%s身上。"
+}

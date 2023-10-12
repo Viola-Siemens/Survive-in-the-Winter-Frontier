@@ -117,17 +117,21 @@ repositories {
             includeGroup "curse.maven"
         }
     }
-    maven { // JEI
-        name 'DVS1 Maven FS'
-        url 'https://dvs1.progwml6.com/files/maven'
+    maven {
+        name = 'DVS1 Maven FS'
+        url = 'https://dvs1.progwml6.com/files/maven'
     }
     maven {
-        name 'theillusivec4\'s Maven'
-        url 'https://maven.theillusivec4.top/'
+        name = 'theillusivec4\'s Maven'
+        url = 'https://maven.theillusivec4.top/'
     }
     maven {
         name = "ModMaven"
         url = "https://modmaven.dev"
+    }
+    maven {
+        name = 'GeckoLib'
+        url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
     }
     flatDir {
         dirs 'libs'
@@ -142,6 +146,7 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
     runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.5.5.174")
+    runtimeOnly fg.deobf('software.bernie.geckolib:geckolib-forge-1.18:3.0.57')
 
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:1.18.2-5.0.9.1")
     implementation fg.deobf('curse.maven:atlaslib-463826:4567244')
