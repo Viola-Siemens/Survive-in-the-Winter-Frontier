@@ -56,3 +56,9 @@ A minecraft mod for modpack "The Winter Frontier"
     versionRange="[1.18.2-5.0.9.1,)"
     ordering="NONE"
     side="BOTH"
+[[dependencies.misc_twf]]
+    modId="jade"
+    mandatory=true
+    versionRange="[5.2.0,)"
+    ordering="NONE"
+    side="BOTH"

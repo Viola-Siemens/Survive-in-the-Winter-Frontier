@@ -33,5 +33,7 @@
 
   "container.misc_twf.ultraviolet_lamp": "Ultraviolet Lamp",
 
+  "jade.misc_twf.producemilk.time": "Produce Milk CD: %ds",
+
   "message.misc_twf.abyss_virus_vaccine.success": "Injected abyss virus vaccine to %s."
 }
