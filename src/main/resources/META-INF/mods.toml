@@ -62,3 +62,9 @@ A minecraft mod for modpack "The Winter Frontier"
     versionRange="[5.2.0,)"
     ordering="NONE"
     side="BOTH"
+[[dependencies.misc_twf]]
+    modId="zombie_extreme"
+    mandatory=true
+    versionRange="[0.2.0,)"
+    ordering="NONE"
+    side="BOTH"

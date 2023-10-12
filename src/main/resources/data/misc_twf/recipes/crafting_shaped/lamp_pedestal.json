@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": {
+      "item": "createaddition:accumulator"
+    },
+    "m": {
+      "item": "misc_twf:mechanical_enclosure"
+    }
+  },
+  "pattern": [
+    "am"
+  ],
+  "result": {
+    "item": "misc_twf:lamp_pedestal"
+  }
+}

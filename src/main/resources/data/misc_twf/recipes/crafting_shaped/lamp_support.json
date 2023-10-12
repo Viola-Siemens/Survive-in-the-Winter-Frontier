@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "s": {
+      "item": "create:shaft"
+    },
+    "g": {
+      "item": "create:gantry_shaft"
+    }
+  },
+  "pattern": [
+    "s",
+    "g",
+    "s"
+  ],
+  "result": {
+    "item": "misc_twf:lamp_support"
+  }
+}

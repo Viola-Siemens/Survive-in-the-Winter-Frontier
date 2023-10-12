@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -21,6 +22,7 @@ import java.util.function.Supplier;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
+@SuppressWarnings("unused")
 public final class MISCTWFBlocks {
 	private static final DeferredRegister<Block> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
 
@@ -29,6 +31,12 @@ public final class MISCTWFBlocks {
 			() -> BlockBehaviour.Properties.of(Material.DECORATION).instabreak()
 					.lightLevel(blockState -> blockState.getValue(UltravioletLampBlock.LIT) ? 15 : 0).sound(SoundType.METAL).noOcclusion(),
 			UltravioletLampBlock::new
+	);
+
+	public static final BlockEntry<Block> MECHANICAL_ENCLOSURE = new BlockEntry<>(
+			"mechanical_enclosure",
+			() -> BlockBehaviour.Properties.of(Material.STONE).strength(2.0F).color(MaterialColor.TERRACOTTA_BLACK),
+			Block::new
 	);
 
 	private MISCTWFBlocks() {

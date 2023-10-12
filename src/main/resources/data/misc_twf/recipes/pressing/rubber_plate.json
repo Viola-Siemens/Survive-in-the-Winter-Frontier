@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "zombie_extreme:ruber"
+    }
+  ],
+  "results": [
+    {
+      "item": "misc_twf:rubber_plate"
+    }
+  ]
+}

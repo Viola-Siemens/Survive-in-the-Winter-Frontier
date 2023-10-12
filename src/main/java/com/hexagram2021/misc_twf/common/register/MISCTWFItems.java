@@ -49,6 +49,12 @@ public final class MISCTWFItems {
 		public static final ItemEntry<Item> WAYFARER_INGOT = ItemEntry.register(
 				"wayfarer_ingot", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
 		);
+		public static final ItemEntry<Item> ALUMINUM_PLATE = ItemEntry.register(
+				"aluminum_plate", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<Item> RUBBER_PLATE = ItemEntry.register(
+				"rubber_plate", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
 		public static final ItemEntry<Item> SECOND_BRAIN_CORE = ItemEntry.register(
 				"second_brain_core", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
 		);
@@ -60,6 +66,18 @@ public final class MISCTWFItems {
 		);
 		public static final ItemEntry<Item> MUTANT_POTION = ItemEntry.register(
 				"mutant_potion", () -> new Item(new Item.Properties().stacksTo(1).tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<Item> LAMP_SUPPORT = ItemEntry.register(
+				"lamp_support", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<Item> LAMP_PEDESTAL = ItemEntry.register(
+				"lamp_pedestal", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<Item> LAMP_TUBE = ItemEntry.register(
+				"lamp_tube", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<Item> UV_LED = ItemEntry.register(
+				"uv_led", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
 		);
 
 		private Materials() {

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "t": {
+      "item": "create:electron_tube"
+    },
+    "w": {
+      "item": "createaddition:copper_wire"
+    },
+    "c": {
+      "item": "createaddition:capacitor"
+    }
+  },
+  "pattern": [
+    "twc"
+  ],
+  "result": {
+    "item": "misc_twf:uv_led"
+  }
+}
