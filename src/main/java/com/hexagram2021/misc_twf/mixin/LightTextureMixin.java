@@ -3,6 +3,7 @@ package com.hexagram2021.misc_twf.mixin;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -40,6 +41,13 @@ public class LightTextureMixin {
 						}
 					}
 				}
+			}
+		}
+		ItemStack stack = this.minecraft.player.getItemBySlot(EquipmentSlot.HEAD);
+		if(stack.is(MISCTWFItems.WAYFARER_ARMORS.get(EquipmentSlot.HEAD).get())) {
+			IEnergyStorage ies = stack.getCapability(CapabilityEnergy.ENERGY).orElse(null);
+			if (ies != null && ies.getEnergyStored() > 0) {
+				return 1.0F;
 			}
 		}
 		return constant;

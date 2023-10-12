@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common.register;
 
+import com.google.common.collect.Maps;
 import com.hexagram2021.misc_twf.SurviveInTheWinterFrontier;
 import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
 import com.hexagram2021.misc_twf.common.item.AbyssVirusVaccine;
@@ -16,6 +17,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Locale;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
@@ -116,6 +118,8 @@ public final class MISCTWFItems {
 	private MISCTWFItems() {
 	}
 
+	public static final Map<EquipmentSlot, ItemEntry<WayfarerArmorItem>> WAYFARER_ARMORS = Maps.newEnumMap(EquipmentSlot.class);
+
 	public static void init(IEventBus bus) {
 		Materials.init();
 
@@ -123,7 +127,7 @@ public final class MISCTWFItems {
 
 		for(EquipmentSlot type : EquipmentSlot.values()) {
 			if(type.getType() == EquipmentSlot.Type.ARMOR) {
-				ItemEntry.register(WayfarerArmorItem.name + "_" + type.name().toLowerCase(Locale.ENGLISH), () -> new WayfarerArmorItem(type));
+				WAYFARER_ARMORS.put(type, ItemEntry.register(WayfarerArmorItem.name + "_" + type.name().toLowerCase(Locale.ENGLISH), () -> new WayfarerArmorItem(type)));
 			}
 		}
 	}
