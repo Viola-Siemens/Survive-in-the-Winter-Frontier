@@ -88,18 +88,6 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 		boolean newLit = false;
 		if(--blockEntity.tickEnergyTime <= 0) {
 			blockEntity.tickEnergyTime = 20;
-			level.getEntities(EntityTypeTest.forClass(Monster.class), AABB.ofSize(Vec3.atCenterOf(blockPos), 36.0D, 36.0D, 36.0D), monster -> true)
-					.forEach(monster -> {
-						if(blockPos.closerThan(monster.blockPosition(), 32.0D)) {
-							monster.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200, 0));
-							monster.addEffect(new MobEffectInstance(MISCTWFMobEffects.FRAGILE.get(), 200, 3));
-							if (monster.getTarget() == null && blockPos.closerThan(monster.blockPosition(), 20.0D) && monster instanceof IAvoidBlockMonster avoidBlockMonster) {
-								avoidBlockMonster.getAvoidBlockGoal().blockPos = blockPos;
-							}
-						} else {
-							monster.addEffect(new MobEffectInstance(MISCTWFMobEffects.FRAGILE.get(), 200, 2));
-						}
-					});
 			for(ItemStack itemStack: blockEntity.items) {
 				if(!isBattery(itemStack)) {
 					continue;
@@ -115,6 +103,20 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 				blockState = blockState.setValue(UltravioletLampBlock.LIT, newLit);
 				level.setBlock(blockPos, blockState, 3);
 				setChanged(level, blockPos, blockState);
+			}
+			if(newLit) {
+				level.getEntities(EntityTypeTest.forClass(Monster.class), AABB.ofSize(Vec3.atCenterOf(blockPos), 36.0D, 36.0D, 36.0D), monster -> true)
+						.forEach(monster -> {
+							if(blockPos.closerThan(monster.blockPosition(), 32.0D)) {
+								monster.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200, 0));
+								monster.addEffect(new MobEffectInstance(MISCTWFMobEffects.FRAGILE.get(), 200, 3));
+								if (monster.getTarget() == null && blockPos.closerThan(monster.blockPosition(), 20.0D) && monster instanceof IAvoidBlockMonster avoidBlockMonster) {
+									avoidBlockMonster.getAvoidBlockGoal().blockPos = blockPos;
+								}
+							} else {
+								monster.addEffect(new MobEffectInstance(MISCTWFMobEffects.FRAGILE.get(), 200, 2));
+							}
+						});
 			}
 		}
 	}
