@@ -7,10 +7,13 @@
     "CowEntityMixin",
     "GoatEntityMixin",
     "InfectionRegisterMixin",
-    "MonsterMixin"
+    "MonsterMixin",
+    "TravelersBackpackBlockEntityMixin",
+    "TravelersBackpackContainerMixin"
   ],
   "minVersion": "0.8",
   "client": [
-    "LightTextureMixin"
+    "LightTextureMixin",
+    "TravelersBackpackScreenMixin"
   ]
 }

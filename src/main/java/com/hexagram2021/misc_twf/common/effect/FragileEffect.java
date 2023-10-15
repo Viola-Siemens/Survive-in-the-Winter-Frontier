@@ -8,7 +8,8 @@ public class FragileEffect extends MobEffect {
 		super(MobEffectCategory.HARMFUL, 0xfad6f4);
 	}
 
-	/*  |   1  |   2  |   3  |   4  |
+	/*
+		|   1  |   2  |   3  |   4  |
 		+------+------+------+------+
 		| 125% | 150% | 175% | 200% |
 	 */

@@ -33,6 +33,7 @@
   "item.misc_twf.lamp_pedestal": "Lamp Pedestal",
   "item.misc_twf.lamp_tube": "Lamp Tube",
   "item.misc_twf.uv_led": "UV LED",
+  "item.misc_twf.travelers_backpack_tac_slot": "Traveler's Backpack TaC Slot",
 
   "item.misc_twf.energy.stored": "Energy: (%d / %d)",
 
@@ -42,5 +43,7 @@
 
   "jade.misc_twf.producemilk.time": "Produce Milk CD: %ds",
 
-  "message.misc_twf.abyss_virus_vaccine.success": "Injected abyss virus vaccine to %s."
+  "message.misc_twf.abyss_virus_vaccine.success": "Injected abyss virus vaccine to %s.",
+
+  "screen.travelersbackpack.tac_button": "Open TaC Bullet Slot"
 }

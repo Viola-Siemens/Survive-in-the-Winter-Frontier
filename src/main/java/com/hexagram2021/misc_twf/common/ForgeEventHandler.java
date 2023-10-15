@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -62,6 +63,9 @@ public class ForgeEventHandler {
 					return;
 				}
 				itemstack.shrink(1);
+				if(entity instanceof Mob mob) {
+					mob.setPersistenceRequired();
+				}
 				MISCTWFSavedData.setImmuneToZombification(entity.getUUID(), entity.tickCount);
 				AbyssVirusVaccine.afterUse(player, entity);
 				if(itemstack.isEmpty()) {

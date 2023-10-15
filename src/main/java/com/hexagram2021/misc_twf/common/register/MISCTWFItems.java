@@ -81,6 +81,9 @@ public final class MISCTWFItems {
 		public static final ItemEntry<Item> UV_LED = ItemEntry.register(
 				"uv_led", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
 		);
+		public static final ItemEntry<Item> TRAVELERS_BACKPACK_TAC_SLOT = ItemEntry.register(
+				"travelers_backpack_tac_slot", () -> new Item(new Item.Properties().stacksTo(1).tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
 
 		private Materials() {
 		}

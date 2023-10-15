@@ -29,4 +29,10 @@ public interface IEnergyItem {
 			});
 		}
 	}
+
+	default CompoundTag getMaxEnergyTag() {
+		CompoundTag nbt = new CompoundTag();
+		nbt.putInt(ForgeEventHandler.ENERGY.toString(), this.getEnergyCapability());
+		return nbt;
+	}
 }

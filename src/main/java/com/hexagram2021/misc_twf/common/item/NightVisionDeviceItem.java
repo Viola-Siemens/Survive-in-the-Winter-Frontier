@@ -1,8 +1,10 @@
 package com.hexagram2021.misc_twf.common.item;
 
 import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -53,5 +55,14 @@ public class NightVisionDeviceItem extends Item implements ICurioItem, IEnergyIt
 	@Override
 	public int getMaxEnergyExtractSpeed() {
 		return 1;
+	}
+
+	@Override
+	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> list) {
+		if (this.allowdedIn(tab)) {
+			ItemStack itemStack = new ItemStack(this);
+			this.readShareTag(itemStack, this.getMaxEnergyTag());
+			list.add(itemStack);
+		}
 	}
 }

@@ -2,6 +2,8 @@ package com.hexagram2021.misc_twf.common.item;
 
 import com.hexagram2021.misc_twf.SurviveInTheWinterFrontier;
 import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
+import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -13,12 +15,11 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.energy.CapabilityEnergy;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -35,7 +36,7 @@ public class WayfarerArmorItem extends ArmorItem implements IEnergyItem {
 	private static final float knockbackResistance = 1.5F;
 
 	@SuppressWarnings("deprecation")
-	private static final LazyLoadedValue<Ingredient> repairIngredient = new LazyLoadedValue<>(() -> Ingredient.of(Items.EMERALD));
+	private static final LazyLoadedValue<Ingredient> repairIngredient = new LazyLoadedValue<>(() -> Ingredient.of(MISCTWFItems.Materials.WAYFARER_INGOT));
 
 	public static final ArmorMaterial mat = new WayfarerArmorMaterial();
 
@@ -105,6 +106,20 @@ public class WayfarerArmorItem extends ArmorItem implements IEnergyItem {
 		}
 	}
 
+	@Override
+	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> list) {
+		if (this.allowdedIn(tab)) {
+			ItemStack itemStack = new ItemStack(this);
+			this.readShareTag(itemStack, this.getMaxEnergyTag());
+			list.add(itemStack);
+		}
+	}
+
+	@Override @Nullable
+	public SoundEvent getEquipSound() {
+		return null;
+	}
+
 	private static class WayfarerArmorMaterial implements ArmorMaterial {
 		@Override
 		public int getDurabilityForSlot(EquipmentSlot pSlot) {
@@ -121,17 +136,17 @@ public class WayfarerArmorItem extends ArmorItem implements IEnergyItem {
 			return enchantmentValue;
 		}
 
-		@Override @NotNull
+		@Override
 		public SoundEvent getEquipSound() {
 			return SoundEvents.ARMOR_EQUIP_GOLD;
 		}
 
-		@Override @NotNull
+		@Override
 		public Ingredient getRepairIngredient() {
 			return repairIngredient.get();
 		}
 
-		@Override @NotNull
+		@Override
 		public String getName() {
 			return name;
 		}

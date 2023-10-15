@@ -33,6 +33,7 @@
   "item.misc_twf.lamp_pedestal": "紫外线灯底座",
   "item.misc_twf.lamp_tube": "紫外线灯管",
   "item.misc_twf.uv_led": "紫外LED灯",
+  "item.misc_twf.travelers_backpack_tac_slot": "旅行背包永恒枪械工坊子弹槽",
 
   "item.misc_twf.energy.stored": "电量：（%d / %d）",
 
@@ -42,5 +43,7 @@
 
   "jade.misc_twf.producemilk.time": "产奶冷却：%d秒",
 
-  "message.misc_twf.abyss_virus_vaccine.success": "已将深渊病毒疫苗注射到%s身上。"
+  "message.misc_twf.abyss_virus_vaccine.success": "已将深渊病毒疫苗注射到%s身上。",
+
+  "screen.travelersbackpack.tac_button": "打开永恒枪械工坊子弹槽"
 }
