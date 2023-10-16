@@ -1,6 +1,7 @@
 package com.hexagram2021.misc_twf.common.register;
 
 import com.hexagram2021.misc_twf.common.menu.TravelersBackpackBlockEntityTacMenu;
+import com.hexagram2021.misc_twf.common.menu.TravelersBackpackItemTacMenu;
 import com.hexagram2021.misc_twf.common.menu.UltravioletLampMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
@@ -19,6 +20,9 @@ public final class MISCTWFMenuTypes {
 	);
 	public static final RegistryObject<MenuType<TravelersBackpackBlockEntityTacMenu>> TRAVELERS_BACKPACK_BLOCK_ENTITY_TAC_SLOT_MENU = REGISTER.register(
 			"travelers_backpack_block_entity_tac_slot", () -> IForgeMenuType.create(TravelersBackpackBlockEntityTacMenu::new)
+	);
+	public static final RegistryObject<MenuType<TravelersBackpackItemTacMenu>> TRAVELERS_BACKPACK_ITEM_TAC_SLOT_MENU = REGISTER.register(
+			"travelers_backpack_item_tac_slot", () -> IForgeMenuType.create(TravelersBackpackItemTacMenu::new)
 	);
 
 	private MISCTWFMenuTypes() {

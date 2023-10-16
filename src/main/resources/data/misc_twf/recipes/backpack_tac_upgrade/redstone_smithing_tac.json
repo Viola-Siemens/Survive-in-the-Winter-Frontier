@@ -1,0 +1,12 @@
+{
+  "type": "misc_twf:backpack_tac_upgrade",
+  "base": {
+    "item": "travelersbackpack:redstone"
+  },
+  "addition": {
+    "item": "misc_twf:travelers_backpack_tac_slot"
+  },
+  "result": {
+    "item": "travelersbackpack:redstone"
+  }
+}

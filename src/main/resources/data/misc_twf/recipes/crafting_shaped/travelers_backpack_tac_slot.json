@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "G": {
+      "item": "misc_twf:gauze"
+    }
+  },
+  "pattern": [
+    "L L",
+    "LGL",
+    "GGG"
+  ],
+  "result": {
+    "item": "misc_twf:travelers_backpack_tac_slot"
+  }
+}
