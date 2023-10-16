@@ -4,8 +4,6 @@ import com.hexagram2021.misc_twf.common.util.IAmmoBackpack;
 import com.tiviacz.travelersbackpack.inventory.TravelersBackpackContainer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -18,25 +16,19 @@ public abstract class TravelersBackpackContainerMixin implements IAmmoBackpack {
 	@Shadow
 	protected abstract ItemStackHandler createHandler(int size, boolean isInventory);
 
-	@SuppressWarnings("NotNullFieldNotInitialized")
-	private ItemStackHandler ammoInventory;
+	private final ItemStackHandler ammoInventory = this.createHandler(9, false);
 
-	private boolean updateToTac = false;
-
-	@Inject(method = "<init>", at = @At(value = "TAIL"), remap = false)
-	public void addAmmoHandler(ItemStack stack, Player player, byte screenID, CallbackInfo ci) {
-		this.ammoInventory = this.createHandler(9, false);
-	}
+	private boolean upgradeToTac = false;
 
 	@Inject(method = "saveAllData", at = @At(value = "HEAD"), remap = false)
 	public void saveTac(CompoundTag compound, CallbackInfo ci) {
-		compound.putBoolean("UpgradeToTac", this.updateToTac);
+		compound.putBoolean("UpgradeToTac", this.upgradeToTac);
 		compound.put("AmmoInventory", this.ammoInventory.serializeNBT());
 	}
 
 	@Inject(method = "loadAllData", at = @At(value = "HEAD"), remap = false)
 	public void loadTac(CompoundTag compound, CallbackInfo ci) {
-		this.updateToTac = compound.contains("updateToTac", Tag.TAG_BYTE) && compound.getBoolean("updateToTac");
+		this.upgradeToTac = compound.contains("UpgradeToTac", Tag.TAG_BYTE) && compound.getBoolean("UpgradeToTac");
 		if(compound.contains("AmmoInventory", Tag.TAG_COMPOUND)) {
 			this.ammoInventory.deserializeNBT(compound.getCompound("AmmoInventory"));
 		}
@@ -44,7 +36,7 @@ public abstract class TravelersBackpackContainerMixin implements IAmmoBackpack {
 
 	@Override
 	public boolean canStoreAmmo() {
-		return this.updateToTac;
+		return this.upgradeToTac;
 	}
 
 	@Override
