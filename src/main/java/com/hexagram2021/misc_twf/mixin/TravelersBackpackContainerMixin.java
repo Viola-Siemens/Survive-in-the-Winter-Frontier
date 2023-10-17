@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(TravelersBackpackContainer.class)
 public abstract class TravelersBackpackContainerMixin implements IAmmoBackpack {
-	@Shadow
+	@Shadow(remap = false)
 	protected abstract ItemStackHandler createHandler(int size, boolean isInventory);
 
 	private final ItemStackHandler ammoInventory = this.createHandler(9, false);

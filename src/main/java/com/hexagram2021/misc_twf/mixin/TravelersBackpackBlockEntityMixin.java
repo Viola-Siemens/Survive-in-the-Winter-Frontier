@@ -4,16 +4,19 @@ import com.hexagram2021.misc_twf.common.util.IAmmoBackpack;
 import com.tiviacz.travelersbackpack.blockentity.TravelersBackpackBlockEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(TravelersBackpackBlockEntity.class)
 public abstract class TravelersBackpackBlockEntityMixin implements IAmmoBackpack {
-	@Shadow
+	@Shadow(remap = false)
 	protected abstract ItemStackHandler createHandler(int size, boolean isInventory);
 
 	private final ItemStackHandler ammoInventory = this.createHandler(9, false);
@@ -32,6 +35,12 @@ public abstract class TravelersBackpackBlockEntityMixin implements IAmmoBackpack
 		if(compound.contains("AmmoInventory", Tag.TAG_COMPOUND)) {
 			this.ammoInventory.deserializeNBT(compound.getCompound("AmmoInventory"));
 		}
+	}
+
+	@Inject(method = "transferToItemStack", at = @At(value = "INVOKE", target = "Lcom/tiviacz/travelersbackpack/blockentity/TravelersBackpackBlockEntity;saveTier(Lnet/minecraft/nbt/CompoundTag;)V", shift = At.Shift.BEFORE), remap = false, locals = LocalCapture.CAPTURE_FAILSOFT)
+	public void saveTacToItemStack(ItemStack stack, CallbackInfoReturnable<ItemStack> cir, CompoundTag compound) {
+		compound.putBoolean("UpgradeToTac", this.upgradeToTac);
+		compound.put("AmmoInventory", this.ammoInventory.serializeNBT());
 	}
 
 	@Override

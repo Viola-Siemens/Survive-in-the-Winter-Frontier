@@ -5,6 +5,7 @@ import com.hexagram2021.misc_twf.common.network.ServerboundOpenTacBackpackPacket
 import com.hexagram2021.misc_twf.common.util.IAmmoBackpack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.tiviacz.travelersbackpack.blockentity.TravelersBackpackBlockEntity;
 import com.tiviacz.travelersbackpack.client.screens.ScreenImageButton;
 import com.tiviacz.travelersbackpack.client.screens.TravelersBackpackScreen;
 import com.tiviacz.travelersbackpack.inventory.ITravelersBackpackContainer;
@@ -25,8 +26,12 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
 @Mixin(TravelersBackpackScreen.class)
 public class TravelersBackpackScreenMixin {
-	@Shadow @Final public ITravelersBackpackContainer container;
-	private static final ResourceLocation TAC_TRAVELERS_BACKPACK = new ResourceLocation(MODID, "textures/gui/container/travelers_backpack_tac.png");
+	@Shadow(remap = false) @Final
+	public ITravelersBackpackContainer container;
+
+	@Shadow(remap = false) @Final
+	private byte screenID;
+	private static final ResourceLocation EXTRAS_TAC_TRAVELERS_BACKPACK = new ResourceLocation(MODID, "textures/gui/container/travelers_backpack_tac.png");
 
 	@SuppressWarnings("NotNullFieldNotInitialized")
 	private ScreenImageButton TAC_BUTTON;
@@ -38,7 +43,7 @@ public class TravelersBackpackScreenMixin {
 
 	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/tiviacz/travelersbackpack/client/screens/widgets/ControlTab;render(Lcom/mojang/blaze3d/vertex/PoseStack;IIF)V", shift = At.Shift.BEFORE), remap = false)
 	public void renderTACButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
-		RenderSystem.setShaderTexture(0, TAC_TRAVELERS_BACKPACK);
+		RenderSystem.setShaderTexture(0, EXTRAS_TAC_TRAVELERS_BACKPACK);
 		if(this.container instanceof IAmmoBackpack ammoBackpack && ammoBackpack.canStoreAmmo()) {
 			TravelersBackpackScreen current = (TravelersBackpackScreen)(Object)this;
 			if(this.TAC_BUTTON.inButton(current, mouseX, mouseY)) {
@@ -59,12 +64,20 @@ public class TravelersBackpackScreenMixin {
 		}
 	}
 
-	@Inject(method = "mouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;mouseClicked(DDI)Z", shift = At.Shift.BEFORE, ordinal = 0), remap = false, cancellable = true)
+	@Inject(method = "mouseClicked", at = @At(value = "HEAD"), remap = false, cancellable = true)
 	public void onClickTACButton(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
 		if(this.container instanceof IAmmoBackpack ammoBackpack && ammoBackpack.canStoreAmmo()) {
 			TravelersBackpackScreen current = (TravelersBackpackScreen)(Object)this;
 			if (this.TAC_BUTTON.inButton(current, (int)mouseX, (int)mouseY)) {
-				SurviveInTheWinterFrontier.packetHandler.sendToServer(new ServerboundOpenTacBackpackPacket());
+				if(this.container instanceof TravelersBackpackBlockEntity blockEntity) {
+					SurviveInTheWinterFrontier.packetHandler.sendToServer(new ServerboundOpenTacBackpackPacket(
+							ServerboundOpenTacBackpackPacket.TYPE_BACKPACK_TO_TAC_SLOT, this.screenID, blockEntity.getBlockPos()
+					));
+				} else {
+					SurviveInTheWinterFrontier.packetHandler.sendToServer(new ServerboundOpenTacBackpackPacket(
+							ServerboundOpenTacBackpackPacket.TYPE_BACKPACK_TO_TAC_SLOT, this.screenID
+					));
+				}
 				cir.setReturnValue(true);
 				cir.cancel();
 			}

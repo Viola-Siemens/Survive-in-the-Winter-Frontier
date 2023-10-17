@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractTravelersBackpackTacMenu extends AbstractContainerMenu {
 	protected final Inventory inventory;
-	protected final IAmmoBackpack container;
+	public final IAmmoBackpack container;
 
 	protected static final int CONTAINER_START = 0;
 	protected static final int CONTAINER_END = 9;

@@ -2,6 +2,7 @@ package com.hexagram2021.misc_twf.client;
 
 import com.hexagram2021.misc_twf.client.model.NightVisionDeviceModel;
 import com.hexagram2021.misc_twf.client.renderer.NightVisionDeviceRenderer;
+import com.hexagram2021.misc_twf.client.screen.TravelersBackpackTacScreen;
 import com.hexagram2021.misc_twf.client.screen.UltravioletLampScreen;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlocks;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
@@ -44,5 +45,7 @@ public class ModClientEventHandler {
 
 	private static void registerContainersAndScreens() {
 		MenuScreens.register(MISCTWFMenuTypes.ULTRAVIOLET_LAMP_MENU.get(), UltravioletLampScreen::new);
+		MenuScreens.register(MISCTWFMenuTypes.TRAVELERS_BACKPACK_BLOCK_ENTITY_TAC_SLOT_MENU.get(), TravelersBackpackTacScreen::new);
+		MenuScreens.register(MISCTWFMenuTypes.TRAVELERS_BACKPACK_ITEM_TAC_SLOT_MENU.get(), TravelersBackpackTacScreen::new);
 	}
 }

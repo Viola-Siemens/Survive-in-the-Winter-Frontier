@@ -36,6 +36,7 @@
   "item.misc_twf.travelers_backpack_tac_slot": "Traveler's Backpack TaC Slot",
 
   "item.misc_twf.energy.stored": "Energy: (%d / %d)",
+  "item.misc_twf.has_tac_slot": "Available to store TaC ammo",
 
   "effect.misc_twf.fragile": "Fragile",
 
@@ -45,5 +46,6 @@
 
   "message.misc_twf.abyss_virus_vaccine.success": "Injected abyss virus vaccine to %s.",
 
-  "screen.travelersbackpack.tac_button": "Open TaC Bullet Slot"
+  "screen.travelersbackpack.tac_button": "Open TaC Bullet Slot",
+  "screen.travelersbackpack.tac_back": "Back to Backpack"
 }

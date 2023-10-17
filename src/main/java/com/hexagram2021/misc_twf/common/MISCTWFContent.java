@@ -20,6 +20,7 @@ public class MISCTWFContent {
 		MISCTWFRecipeSerializers.init(bus);
 		MISCTWFMobEffects.init(bus);
 		MISCTWFMenuTypes.init(bus);
+		MISCTWFTravelersBackpackTacOps.init(bus);
 	}
 
 	private static void initTags() {

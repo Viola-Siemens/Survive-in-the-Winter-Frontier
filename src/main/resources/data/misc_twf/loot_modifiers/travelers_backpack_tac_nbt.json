@@ -1,0 +1,177 @@
+{
+  "type": "misc_twf:travelers_backpack_tac_nbt_ops",
+  "conditions": [
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:bat"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:bee"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:blaze"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:bookshelf"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:cactus"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:cake"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:chicken"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:coal"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:cow"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:creeper"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:diamond"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:dragon"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:emerald"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:end"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:enderman"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:fox"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:ghast"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:gold"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:hay"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:horse"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:iron"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:iron_golem"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:lapis"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:magma_cube"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:melon"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:nether"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:netherite"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:ocelot"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:pig"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:pumpkin"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:quartz"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:redstone"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:sandstone"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:sheep"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:skeleton"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:snow"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:spider"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:sponge"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:squid"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:standard"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:villager"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:wither"
+    },
+    {
+      "condition": "block_state_property",
+      "block": "travelersbackpack:wolf"
+    }
+  ]
+}
