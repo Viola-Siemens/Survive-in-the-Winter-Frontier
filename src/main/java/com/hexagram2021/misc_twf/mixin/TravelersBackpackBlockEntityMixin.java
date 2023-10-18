@@ -25,8 +25,7 @@ public abstract class TravelersBackpackBlockEntityMixin implements IAmmoBackpack
 
 	@Inject(method = "saveAllData", at = @At(value = "HEAD"), remap = false)
 	public void saveTac(CompoundTag compound, CallbackInfo ci) {
-		compound.putBoolean("UpgradeToTac", this.upgradeToTac);
-		compound.put("AmmoInventory", this.ammoInventory.serializeNBT());
+		this.saveAmmo(compound);
 	}
 
 	@Inject(method = "loadAllData", at = @At(value = "HEAD"), remap = false)
@@ -39,8 +38,7 @@ public abstract class TravelersBackpackBlockEntityMixin implements IAmmoBackpack
 
 	@Inject(method = "transferToItemStack", at = @At(value = "INVOKE", target = "Lcom/tiviacz/travelersbackpack/blockentity/TravelersBackpackBlockEntity;saveTier(Lnet/minecraft/nbt/CompoundTag;)V", shift = At.Shift.BEFORE), remap = false, locals = LocalCapture.CAPTURE_FAILSOFT)
 	public void saveTacToItemStack(ItemStack stack, CallbackInfoReturnable<ItemStack> cir, CompoundTag compound) {
-		compound.putBoolean("UpgradeToTac", this.upgradeToTac);
-		compound.put("AmmoInventory", this.ammoInventory.serializeNBT());
+		this.saveAmmo(compound);
 	}
 
 	@Override
@@ -51,5 +49,11 @@ public abstract class TravelersBackpackBlockEntityMixin implements IAmmoBackpack
 	@Override
 	public ItemStackHandler getAmmoHandler() {
 		return this.ammoInventory;
+	}
+
+	@Override
+	public void saveAmmo(CompoundTag compound) {
+		compound.putBoolean("UpgradeToTac", this.upgradeToTac);
+		compound.put("AmmoInventory", this.ammoInventory.serializeNBT());
 	}
 }

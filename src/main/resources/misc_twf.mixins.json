@@ -6,8 +6,10 @@
   "mixins": [
     "CowEntityMixin",
     "GoatEntityMixin",
+    "GunMixin",
     "InfectionRegisterMixin",
     "MonsterMixin",
+    "ReloadTrackerMixin",
     "TravelersBackpackBlockEntityMixin",
     "TravelersBackpackContainerMixin"
   ],

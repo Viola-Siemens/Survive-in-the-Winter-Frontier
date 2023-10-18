@@ -22,8 +22,7 @@ public abstract class TravelersBackpackContainerMixin implements IAmmoBackpack {
 
 	@Inject(method = "saveAllData", at = @At(value = "HEAD"), remap = false)
 	public void saveTac(CompoundTag compound, CallbackInfo ci) {
-		compound.putBoolean("UpgradeToTac", this.upgradeToTac);
-		compound.put("AmmoInventory", this.ammoInventory.serializeNBT());
+		this.saveAmmo(compound);
 	}
 
 	@Inject(method = "loadAllData", at = @At(value = "HEAD"), remap = false)
@@ -42,5 +41,11 @@ public abstract class TravelersBackpackContainerMixin implements IAmmoBackpack {
 	@Override
 	public ItemStackHandler getAmmoHandler() {
 		return this.ammoInventory;
+	}
+
+	@Override
+	public void saveAmmo(CompoundTag compound) {
+		compound.putBoolean("UpgradeToTac", this.upgradeToTac);
+		compound.put("AmmoInventory", this.ammoInventory.serializeNBT());
 	}
 }
