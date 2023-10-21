@@ -10,6 +10,7 @@ import com.hexagram2021.misc_twf.common.item.WayfarerArmorItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -86,6 +87,12 @@ public final class MISCTWFItems {
 		);
 		public static final ItemEntry<Item> TRAVELERS_BACKPACK_TAC_SLOT = ItemEntry.register(
 				"travelers_backpack_tac_slot", () -> new Item(new Item.Properties().stacksTo(1).tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<Item> MUTANT_POTION_BUCKET = ItemEntry.register(
+				"mutant_potion_bucket", () -> new Item(new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<Item> ABYSS_VIRUS_VACCINE_BUCKET = ItemEntry.register(
+				"abyss_virus_vaccine_bucket", () -> new Item(new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).tab(SurviveInTheWinterFrontier.ITEM_GROUP))
 		);
 
 		private Materials() {

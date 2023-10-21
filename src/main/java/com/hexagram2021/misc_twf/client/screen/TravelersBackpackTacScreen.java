@@ -36,6 +36,7 @@ public class TravelersBackpackTacScreen extends AbstractContainerScreen<Abstract
 		this.screenId = ((ITravelersBackpackContainer)menu.container).getScreenID();
 		this.imageWidth = 176;
 		this.imageHeight = 144;
+		this.inventoryLabelY = this.imageHeight - 94;
 	}
 
 	@Override

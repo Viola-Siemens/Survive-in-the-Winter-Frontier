@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "misc_twf:syringe"
+    },
+    {
+      "item": "misc_twf:abyss_virus_vaccine_bucket"
+    }
+  ],
+  "result": {
+    "item": "misc_twf:abyss_virus_vaccine"
+  }
+}

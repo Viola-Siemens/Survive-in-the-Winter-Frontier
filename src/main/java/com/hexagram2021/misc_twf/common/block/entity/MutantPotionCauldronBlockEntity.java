@@ -29,6 +29,15 @@ public class MutantPotionCauldronBlockEntity extends BlockEntity {
 		this.setChanged();
 	}
 
+	public int getFlag() {
+		return this.flag;
+	}
+
+	public void setFlag(int flag) {
+		this.flag = flag;
+		this.setChanged();
+	}
+
 	public boolean containsFlag(int flag) {
 		// assert (flag & (-flag)) == flag;
 		return (this.flag & flag) == flag;
