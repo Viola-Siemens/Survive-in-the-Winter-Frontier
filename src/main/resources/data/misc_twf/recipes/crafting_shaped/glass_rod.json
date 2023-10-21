@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "g": {
+      "item": "minecraft:glass"
+    }
+  },
+  "pattern": [
+    "gg"
+  ],
+  "result": {
+    "item": "misc_twf:glass_rod"
+  }
+}

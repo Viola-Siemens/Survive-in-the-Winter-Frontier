@@ -7,8 +7,11 @@
 
   "block.misc_twf.ultraviolet_lamp": "强紫外线照射灯",
   "block.misc_twf.mechanical_enclosure": "机械外壳",
+  "block.misc_twf.mutant_potion_cauldron": "装变异药品的炼药锅",
+  "block.misc_twf.abyss_virus_vaccine_cauldron": "装深渊病毒免疫药剂的炼药锅",
   "item.misc_twf.yarn": "纱线",
   "item.misc_twf.gauze": "纱布",
+  "item.misc_twf.glass_rod": "玻璃棒",
   "item.misc_twf.energy_core": "能源核心",
   "item.misc_twf.white_crystal_core": "白色水晶核",
   "item.misc_twf.sculk_shard": "幽匿碎片",
@@ -43,6 +46,8 @@
   "container.misc_twf.ultraviolet_lamp": "强紫外线照射灯",
 
   "jade.misc_twf.producemilk.time": "产奶冷却：%d秒",
+  "jade.misc_twf.mutant_potion_cauldron.need_rod": "需要使用玻璃板搅拌药剂。",
+  "jade.misc_twf.mutant_potion_cauldron.need_material": "需要以下药剂原材料：",
 
   "message.misc_twf.abyss_virus_vaccine.success": "已将深渊病毒疫苗注射到%s身上。",
 

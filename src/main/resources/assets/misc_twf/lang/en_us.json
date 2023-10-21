@@ -7,8 +7,11 @@
 
   "block.misc_twf.ultraviolet_lamp": "Ultraviolet Lamp",
   "block.misc_twf.mechanical_enclosure": "Mechanical Enclosure",
+  "block.misc_twf.mutant_potion_cauldron": "Mutant Potion Cauldron",
+  "block.misc_twf.abyss_virus_vaccine_cauldron": "Abyss Virus Vaccine Cauldron",
   "item.misc_twf.yarn": "Yarn",
   "item.misc_twf.gauze": "Gauze",
+  "item.misc_twf.glass_rod": "Glass Rod",
   "item.misc_twf.energy_core": "Energy Core",
   "item.misc_twf.white_crystal_core": "White Crystal Core",
   "item.misc_twf.sculk_shard": "Sculk Shard",
@@ -43,6 +46,8 @@
   "container.misc_twf.ultraviolet_lamp": "Ultraviolet Lamp",
 
   "jade.misc_twf.producemilk.time": "Produce Milk CD: %ds",
+  "jade.misc_twf.mutant_potion_cauldron.need_rod": "Glass rod is needed to mix it up.",
+  "jade.misc_twf.mutant_potion_cauldron.need_material": "The following materials are needed:",
 
   "message.misc_twf.abyss_virus_vaccine.success": "Injected abyss virus vaccine to %s.",
 

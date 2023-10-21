@@ -1,6 +1,7 @@
 package com.hexagram2021.misc_twf;
 
 import com.hexagram2021.misc_twf.common.MISCTWFContent;
+import com.hexagram2021.misc_twf.common.ModVanillaCompat;
 import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
 import com.hexagram2021.misc_twf.common.network.IMISCTWFPacket;
 import com.hexagram2021.misc_twf.common.network.ServerboundOpenTacBackpackPacket;
@@ -67,6 +68,7 @@ public class SurviveInTheWinterFrontier {
 
 	private void setup(final FMLCommonSetupEvent event) {
 		registerMessage(ServerboundOpenTacBackpackPacket.class, ServerboundOpenTacBackpackPacket::new);
+		ModVanillaCompat.init();
 	}
 
 	private void enqueueIMC(final InterModEnqueueEvent event) {

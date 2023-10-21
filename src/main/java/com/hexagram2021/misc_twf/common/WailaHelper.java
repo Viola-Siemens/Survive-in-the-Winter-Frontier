@@ -1,5 +1,8 @@
-package com.hexagram2021.misc_twf.common.entity.compat;
+package com.hexagram2021.misc_twf.common;
 
+import com.hexagram2021.misc_twf.common.block.MutantPotionCauldronBlock;
+import com.hexagram2021.misc_twf.common.block.compat.MutantPotionCauldronProvider;
+import com.hexagram2021.misc_twf.common.entity.compat.MobProduceMilkProvider;
 import mcp.mobius.waila.api.*;
 import net.minecraft.world.entity.animal.Cow;
 import net.minecraft.world.entity.animal.goat.Goat;
@@ -15,6 +18,7 @@ public class WailaHelper implements IWailaPlugin {
 
 	@Override
 	public void registerClient(IWailaClientRegistration registration) {
+		registration.registerComponentProvider(MutantPotionCauldronProvider.INSTANCE, TooltipPosition.BODY, MutantPotionCauldronBlock.class);
 		registration.registerComponentProvider(MobProduceMilkProvider.INSTANCE, TooltipPosition.BODY, Cow.class);
 		registration.registerComponentProvider(MobProduceMilkProvider.INSTANCE, TooltipPosition.BODY, Goat.class);
 	}
