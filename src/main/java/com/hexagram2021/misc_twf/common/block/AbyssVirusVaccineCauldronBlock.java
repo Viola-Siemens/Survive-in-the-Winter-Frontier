@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class AbyssVirusVaccineCauldronBlock extends AbstractCauldronBlock {
 	public AbyssVirusVaccineCauldronBlock(Properties properties) {
-		super(properties, ModVanillaCompat.MUTANT_POTION);
+		super(properties, ModVanillaCompat.ABYSS_VIRUS_VACCINE);
 	}
 
 	@Override
