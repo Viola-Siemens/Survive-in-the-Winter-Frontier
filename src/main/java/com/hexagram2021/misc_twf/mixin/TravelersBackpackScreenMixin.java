@@ -41,7 +41,7 @@ public class TravelersBackpackScreenMixin {
 		this.TAC_BUTTON = new ScreenImageButton(16, 73 + screenContainer.container.getTier().getMenuSlotPlacementFactor(), 18, 18);
 	}
 
-	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/tiviacz/travelersbackpack/client/screens/widgets/ControlTab;render(Lcom/mojang/blaze3d/vertex/PoseStack;IIF)V", shift = At.Shift.BEFORE), remap = false)
+	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/tiviacz/travelersbackpack/client/screens/widgets/ControlTab;render(Lcom/mojang/blaze3d/vertex/PoseStack;IIF)V", shift = At.Shift.BEFORE, remap = false))
 	public void renderTACButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
 		RenderSystem.setShaderTexture(0, EXTRAS_TAC_TRAVELERS_BACKPACK);
 		if(this.container instanceof IAmmoBackpack ammoBackpack && ammoBackpack.canStoreAmmo()) {
@@ -54,7 +54,7 @@ public class TravelersBackpackScreenMixin {
 		}
 	}
 
-	@Inject(method = "renderTooltip", at = @At(value = "INVOKE", target = "Lcom/tiviacz/travelersbackpack/client/screens/widgets/CraftingWidget;renderTooltip(Lcom/mojang/blaze3d/vertex/PoseStack;II)V", shift = At.Shift.BEFORE), remap = false)
+	@Inject(method = "renderTooltip", at = @At(value = "INVOKE", target = "Lcom/tiviacz/travelersbackpack/client/screens/widgets/CraftingWidget;renderTooltip(Lcom/mojang/blaze3d/vertex/PoseStack;II)V", shift = At.Shift.BEFORE, remap = false))
 	public void renderTACButtonTooltip(PoseStack poseStack, int mouseX, int mouseY, CallbackInfo ci) {
 		if(this.container instanceof IAmmoBackpack ammoBackpack && ammoBackpack.canStoreAmmo()) {
 			TravelersBackpackScreen current = (TravelersBackpackScreen)(Object)this;
@@ -64,7 +64,7 @@ public class TravelersBackpackScreenMixin {
 		}
 	}
 
-	@Inject(method = "mouseClicked", at = @At(value = "HEAD"), remap = false, cancellable = true)
+	@Inject(method = "mouseClicked", at = @At(value = "HEAD"), cancellable = true)
 	public void onClickTACButton(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
 		if(this.container instanceof IAmmoBackpack ammoBackpack && ammoBackpack.canStoreAmmo()) {
 			TravelersBackpackScreen current = (TravelersBackpackScreen)(Object)this;
