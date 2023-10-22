@@ -156,6 +156,7 @@ dependencies {
     implementation fg.deobf('curse.maven:framework-549225:4613856')
     implementation fg.deobf("curse.maven:hordes-485779:4756150")
     implementation fg.deobf("curse.maven:jade-324717:4575623")
+    implementation fg.deobf("curse.maven:rubidium_extras-558905:3936081")
     implementation fg.deobf("curse.maven:travelersbackpack-321117:4790586")
     runtimeOnly fg.deobf("curse.maven:zombie_extreme-392809:4746394")
     implementation fg.deobf("com.tac.guns:tac-a:0.3.7.0-1.18.2-all")

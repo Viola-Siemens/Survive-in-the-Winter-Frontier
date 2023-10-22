@@ -41,7 +41,7 @@ public class TravelersBackpackScreenMixin {
 		this.TAC_BUTTON = new ScreenImageButton(16, 73 + screenContainer.container.getTier().getMenuSlotPlacementFactor(), 18, 18);
 	}
 
-	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/tiviacz/travelersbackpack/client/screens/widgets/ControlTab;render(Lcom/mojang/blaze3d/vertex/PoseStack;IIF)V", shift = At.Shift.BEFORE, remap = false))
+	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/tiviacz/travelersbackpack/client/screens/widgets/ControlTab;render(Lcom/mojang/blaze3d/vertex/PoseStack;IIF)V", shift = At.Shift.BEFORE))
 	public void renderTACButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
 		RenderSystem.setShaderTexture(0, EXTRAS_TAC_TRAVELERS_BACKPACK);
 		if(this.container instanceof IAmmoBackpack ammoBackpack && ammoBackpack.canStoreAmmo()) {
