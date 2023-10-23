@@ -49,7 +49,7 @@ public class NightVisionDeviceItem extends Item implements ICurioItem, IEnergyIt
 
 	@Override
 	public int getMaxEnergyReceiveSpeed() {
-		return 2;
+		return 5;
 	}
 
 	@Override

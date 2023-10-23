@@ -56,7 +56,7 @@ public class WayfarerArmorItem extends ArmorItem implements IEnergyItem {
 
 	@Override
 	public int getMaxEnergyReceiveSpeed() {
-		return 2;
+		return 5;
 	}
 
 	@Override
