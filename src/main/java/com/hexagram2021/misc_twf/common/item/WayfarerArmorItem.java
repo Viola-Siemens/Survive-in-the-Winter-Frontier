@@ -115,11 +115,6 @@ public class WayfarerArmorItem extends ArmorItem implements IEnergyItem {
 		}
 	}
 
-	@Override @Nullable
-	public SoundEvent getEquipSound() {
-		return null;
-	}
-
 	private static class WayfarerArmorMaterial implements ArmorMaterial {
 		@Override
 		public int getDurabilityForSlot(EquipmentSlot pSlot) {

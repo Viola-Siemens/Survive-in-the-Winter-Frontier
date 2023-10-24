@@ -9,6 +9,7 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
 public final class MISCTWFItemTags {
 	public static final TagKey<Item> BATTERY = create("battery");
+	public static final TagKey<Item> WAYFARER_ARMORS = create("wayfarer_armors");
 
 	private MISCTWFItemTags() {
 	}
