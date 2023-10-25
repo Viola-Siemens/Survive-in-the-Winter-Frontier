@@ -30,6 +30,7 @@ public class ForgeEventHandler {
 	public static void onAttackItemStackCapability(AttachCapabilitiesEvent<ItemStack> event) {
 		if(event.getObject().getItem() instanceof IEnergyItem energyItem) {
 			event.addCapability(ENERGY, new ItemStackEnergyHandler(
+					event.getObject(),
 					energyItem.getEnergyCapability(),
 					energyItem.getMaxEnergyReceiveSpeed(),
 					energyItem.getMaxEnergyExtractSpeed()

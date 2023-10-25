@@ -27,19 +27,11 @@ public class NightVisionDeviceItem extends Item implements ICurioItem, IEnergyIt
 	}
 
 	@Override
-	public CompoundTag getShareTag(ItemStack stack) {
-		CompoundTag nbt = stack.getTag();
-		nbt = this.getEnergyShareTag(nbt == null ? new CompoundTag() : nbt.copy(), stack);
-		return nbt;
-	}
-
-	@Override
 	public void readShareTag(ItemStack stack, @Nullable CompoundTag nbt) {
-		super.readShareTag(stack, nbt);
-
 		if (nbt != null) {
 			this.readEnergyShareTag(nbt, stack);
 		}
+		super.readShareTag(stack, nbt);
 	}
 
 	@Override
@@ -61,7 +53,7 @@ public class NightVisionDeviceItem extends Item implements ICurioItem, IEnergyIt
 	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> list) {
 		if (this.allowdedIn(tab)) {
 			ItemStack itemStack = new ItemStack(this);
-			this.readShareTag(itemStack, this.getMaxEnergyTag());
+			this.readShareTag(itemStack, this.getMaxEnergyTag(itemStack));
 			list.add(itemStack);
 		}
 	}
