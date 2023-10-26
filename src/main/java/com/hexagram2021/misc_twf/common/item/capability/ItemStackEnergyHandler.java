@@ -1,7 +1,7 @@
 package com.hexagram2021.misc_twf.common.item.capability;
 
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.IntTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -12,7 +12,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ItemStackEnergyHandler implements ICapabilityProvider, INBTSerializable<Tag> {
+public class ItemStackEnergyHandler implements ICapabilityProvider, INBTSerializable<IntTag> {
 	private final TaggedEnergyStorage energyStorage;
 	private final LazyOptional<IEnergyStorage> holder;
 
@@ -27,12 +27,12 @@ public class ItemStackEnergyHandler implements ICapabilityProvider, INBTSerializ
 	}
 
 	@Override
-	public Tag serializeNBT() {
-		return this.energyStorage.serializeNBT();
+	public IntTag serializeNBT() {
+		return IntTag.valueOf(this.energyStorage.getEnergyStored());
 	}
 
 	@Override
-	public void deserializeNBT(Tag nbt) {
-		this.energyStorage.deserializeNBT(nbt);
+	public void deserializeNBT(IntTag nbt) {
+		this.energyStorage.setEnergy(nbt.getAsInt());
 	}
 }

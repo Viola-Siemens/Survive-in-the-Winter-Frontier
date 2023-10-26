@@ -1,6 +1,7 @@
 package com.hexagram2021.misc_twf.common.item;
 
 import com.hexagram2021.misc_twf.common.ForgeEventHandler;
+import com.hexagram2021.misc_twf.common.item.capability.TaggedEnergyStorage;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
@@ -20,6 +21,8 @@ public interface IEnergyItem {
 				if(ies instanceof INBTSerializable) {
 					INBTSerializable<Tag> nbtSerializable = (INBTSerializable<Tag>)ies;
 					nbtSerializable.deserializeNBT(nbt.get(ForgeEventHandler.ENERGY.toString()));
+				} else if(ies instanceof TaggedEnergyStorage es) {
+					es.setEnergy(nbt.getInt(ForgeEventHandler.ENERGY.toString()));
 				}
 			});
 		}
