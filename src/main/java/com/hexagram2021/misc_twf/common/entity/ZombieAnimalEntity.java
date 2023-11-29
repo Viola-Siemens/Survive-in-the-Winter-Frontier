@@ -13,8 +13,19 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.world.entity.ai.goal.MoveThroughVillageGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.ZombieAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -32,16 +43,35 @@ public class ZombieAnimalEntity<T extends Animal> extends Zombie {
 	private int conversionTime;
 
 	@Nullable
-	private EntityType<? extends T> animalEntityType;
+	private final EntityType<? extends T> animalEntityType;
 
-	public ZombieAnimalEntity(EntityType<? extends Zombie> entityType, Level level) {
-		super(entityType, level);
-		this.animalEntityType = null;
-	}
-
-	public ZombieAnimalEntity(EntityType<? extends Zombie> entityType, EntityType<? extends T> animalEntityType, Level level) {
+	public ZombieAnimalEntity(EntityType<? extends Zombie> entityType, @Nullable EntityType<? extends T> animalEntityType, Level level) {
 		super(entityType, level);
 		this.animalEntityType = animalEntityType;
+	}
+
+	public static AttributeSupplier.Builder createAttributes(double maxHealth, double moveSpeed) {
+		return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 32.0D).add(Attributes.MAX_HEALTH, maxHealth).add(Attributes.MOVEMENT_SPEED, moveSpeed).add(Attributes.ATTACK_DAMAGE, 3.0D).add(Attributes.ARMOR, 2.0D).add(Attributes.SPAWN_REINFORCEMENTS_CHANCE);
+	}
+
+	@Override
+	protected void addBehaviourGoals() {
+		this.goalSelector.addGoal(6, new MoveThroughVillageGoal(this, 1.0D, true, 4, this::canAnimalBreakDoors));
+		this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+		this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false));
+		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
+		this.addAnimalBehaviourGoals();
+	}
+
+	protected void addAnimalBehaviourGoals() {
+		this.goalSelector.addGoal(1, new LeapAtTargetGoal(this, 0.4F));
+		this.goalSelector.addGoal(2, new ZombieAttackGoal(this, 1.0D, false));
+	}
+
+	public boolean canAnimalBreakDoors() {
+		return false;
 	}
 
 	@Override
@@ -105,10 +135,14 @@ public class ZombieAnimalEntity<T extends Animal> extends Zombie {
 			return;
 		}
 		animal.finalizeSpawn(level, level.getCurrentDifficultyAt(animal.blockPosition()), MobSpawnType.CONVERSION, null, null);
+		this.extraConversion(animal);
 		if (!this.isSilent()) {
 			level.levelEvent(null, LevelEvent.SOUND_ZOMBIE_CONVERTED, this.blockPosition(), 0);
 		}
 		ForgeEventFactory.onLivingConvert(this, animal);
+	}
+
+	protected void extraConversion(T animal) {
 	}
 
 	public boolean isConverting() {
@@ -149,9 +183,5 @@ public class ZombieAnimalEntity<T extends Animal> extends Zombie {
 		} else {
 			super.handleEntityEvent(event);
 		}
-	}
-
-	public void setAnimalEntityType(EntityType<? extends T> animalEntityType) {
-		this.animalEntityType = animalEntityType;
 	}
 }

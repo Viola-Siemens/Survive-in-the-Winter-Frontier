@@ -1,10 +1,11 @@
 package com.hexagram2021.misc_twf.client;
 
-import com.hexagram2021.misc_twf.client.model.NightVisionDeviceModel;
-import com.hexagram2021.misc_twf.client.renderer.NightVisionDeviceRenderer;
+import com.hexagram2021.misc_twf.client.model.*;
+import com.hexagram2021.misc_twf.client.renderer.*;
 import com.hexagram2021.misc_twf.client.screen.TravelersBackpackTacScreen;
 import com.hexagram2021.misc_twf.client.screen.UltravioletLampScreen;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlocks;
+import com.hexagram2021.misc_twf.common.register.MISCTWFEntities;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
 import com.hexagram2021.misc_twf.common.register.MISCTWFMenuTypes;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -24,6 +25,15 @@ public class ModClientEventHandler {
 	@SubscribeEvent
 	public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		event.registerLayerDefinition(MISCTWFModelLayers.NIGHT_VISION_DEVICE, NightVisionDeviceModel::createBodyLayer);
+
+		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_POLAR_BEAR, ZombiePolarBearModel::createBodyLayer);
+		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_SHEEP, ZombieSheepModel::createBodyLayer);
+	}
+
+	@SubscribeEvent
+	public static void onRegisterRenderer(EntityRenderersEvent.RegisterRenderers event) {
+		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_SHEEP.get(), ZombieSheepRenderer::new);
+		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_POLAR_BEAR.get(), ZombiePolarBearRenderer::new);
 	}
 
 	@SubscribeEvent

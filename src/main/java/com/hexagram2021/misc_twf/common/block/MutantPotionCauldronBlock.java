@@ -22,7 +22,7 @@ public class MutantPotionCauldronBlock extends AbstractCauldronBlock implements 
 	}
 
 	@Override
-	protected double getContentHeight(BlockState p_153500_) {
+	protected double getContentHeight(BlockState blockState) {
 		return 0.9375D;
 	}
 
