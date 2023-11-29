@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "misc_twf:zombie_chicken",
+    "misc_twf:zombie_cow",
+    "misc_twf:zombie_goat",
+    "misc_twf:zombie_pig",
+    "misc_twf:zombie_polar_bear",
+    "misc_twf:zombie_rabbit",
+    "misc_twf:zombie_sheep",
+    "misc_twf:zombie_wolf"
+  ]
+}

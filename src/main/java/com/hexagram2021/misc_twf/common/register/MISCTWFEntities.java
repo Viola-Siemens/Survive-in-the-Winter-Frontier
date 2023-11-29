@@ -16,8 +16,8 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 public final class MISCTWFEntities {
 	private static final DeferredRegister<EntityType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.ENTITIES, MODID);
 
-	public static final RegistryObject<EntityType<ZombieAnimalEntity<Chicken>>> ZOMBIE_CHICKEN = REGISTER.register(
-			"zombie_chicken", () -> EntityType.Builder.of(getEntityFactory(EntityType.CHICKEN), MobCategory.MONSTER)
+	public static final RegistryObject<EntityType<ZombieChickenEntity>> ZOMBIE_CHICKEN = REGISTER.register(
+			"zombie_chicken", () -> EntityType.Builder.of(ZombieChickenEntity::new, MobCategory.MONSTER)
 					.sized(0.4F, 0.7F).clientTrackingRange(12).build(new ResourceLocation(MODID, "zombie_chicken").toString())
 	);
 	public static final RegistryObject<EntityType<ZombieAnimalEntity<Cow>>> ZOMBIE_COW = REGISTER.register(

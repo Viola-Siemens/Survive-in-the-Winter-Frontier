@@ -1,6 +1,7 @@
 package com.hexagram2021.misc_twf.common;
 
 import com.hexagram2021.misc_twf.common.effect.FragileEffect;
+import com.hexagram2021.misc_twf.common.entity.ZombieSheepEntity;
 import com.hexagram2021.misc_twf.common.item.AbyssVirusVaccine;
 import com.hexagram2021.misc_twf.common.item.IEnergyItem;
 import com.hexagram2021.misc_twf.common.item.capability.ItemStackEnergyHandler;
@@ -12,9 +13,11 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.LivingConversionEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -44,6 +47,13 @@ public class ForgeEventHandler {
 		MobEffectInstance effectInstance = livingEntity.getEffect(MISCTWFMobEffects.FRAGILE.get());
 		if(effectInstance != null) {
 			event.setAmount(event.getAmount() * FragileEffect.getDamageMultiplier(effectInstance.getAmplifier()));
+		}
+	}
+
+	@SubscribeEvent
+	public static void onLivingConvert(LivingConversionEvent.Post event) {
+		if(event.getEntityLiving() instanceof Sheep sheep && event.getOutcome() instanceof ZombieSheepEntity zombieSheep) {
+			zombieSheep.setColor(sheep.getColor());
 		}
 	}
 
