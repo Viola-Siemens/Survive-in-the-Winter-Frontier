@@ -88,6 +88,7 @@ public class ZombieChickenModel<T extends ZombieChickenEntity> extends AgeableLi
 		return ImmutableList.of(this.body, this.rightLeg, this.leftLeg, this.rightWing, this.leftWing);
 	}
 
+	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.head.xRot = headPitch * Mth.DEG_TO_RAD;
 		this.head.yRot = netHeadYaw * Mth.DEG_TO_RAD;

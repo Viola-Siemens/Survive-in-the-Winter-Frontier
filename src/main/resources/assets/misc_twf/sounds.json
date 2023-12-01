@@ -1,0 +1,121 @@
+{
+  "entity.zombie_chicken.ambient": {
+    "category": "entity",
+    "sounds": [
+      "misc_twf:zombie_chicken/say1",
+      "misc_twf:zombie_chicken/say2",
+      "misc_twf:zombie_chicken/say3",
+      "misc_twf:zombie_chicken/say4"
+    ],
+    "subtitle": "subtitles.entity.misc_twf.zombie_chicken.ambient"
+  },
+  "entity.zombie_chicken.hurt": {
+    "category": "entity",
+    "sounds": [
+      "misc_twf:zombie_chicken/hurt1",
+      "misc_twf:zombie_chicken/hurt2"
+    ],
+    "subtitle": "subtitles.entity.misc_twf.zombie_chicken.hurt"
+  },
+  "entity.zombie_chicken.death": {
+    "category": "entity",
+    "sounds": [
+      "misc_twf:zombie_chicken/hurt1",
+      "misc_twf:zombie_chicken/hurt2"
+    ],
+    "subtitle": "subtitles.entity.misc_twf.zombie_chicken.death"
+  },
+  "entity.zombie_chicken.step": {
+    "category": "entity",
+    "sounds": [
+      "misc_twf:zombie_chicken/step1",
+      "misc_twf:zombie_chicken/step2"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "entity.zombie_cow.ambient": {
+    "category": "entity",
+    "sounds": [
+      "misc_twf:zombie_cow/say1",
+      "misc_twf:zombie_cow/say2",
+      "misc_twf:zombie_cow/say3",
+      "misc_twf:zombie_cow/say4"
+    ],
+    "subtitle": "subtitles.entity.misc_twf.zombie_cow.ambient"
+  },
+  "entity.zombie_cow.hurt": {
+    "category": "entity",
+    "sounds": [
+      "misc_twf:zombie_cow/hurt1",
+      "misc_twf:zombie_cow/hurt2",
+      "misc_twf:zombie_cow/hurt3"
+    ],
+    "subtitle": "subtitles.entity.misc_twf.zombie_cow.hurt"
+  },
+  "entity.zombie_cow.death": {
+    "category": "entity",
+    "sounds": [
+      "misc_twf:zombie_cow/hurt1",
+      "misc_twf:zombie_cow/hurt2",
+      "misc_twf:zombie_cow/hurt3"
+    ],
+    "subtitle": "subtitles.entity.misc_twf.zombie_cow.death"
+  },
+  "entity.zombie_cow.step": {
+    "category": "entity",
+    "sounds": [
+      "misc_twf:zombie_cow/step1",
+      "misc_twf:zombie_cow/step2",
+      "misc_twf:zombie_cow/step3",
+      "misc_twf:zombie_cow/step4"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "entity.zombie_goat.ambient": {
+    "category": "entity",
+    "sounds": [
+      "misc_twf:zombie_goat/idle1",
+      "misc_twf:zombie_goat/idle2",
+      "misc_twf:zombie_goat/idle3",
+      "misc_twf:zombie_goat/idle4",
+      "misc_twf:zombie_goat/idle5",
+      "misc_twf:zombie_goat/idle6",
+      "misc_twf:zombie_goat/idle7",
+      "misc_twf:zombie_goat/idle8"
+    ],
+    "subtitle": "subtitles.entity.misc_twf.zombie_goat.ambient"
+  },
+  "entity.zombie_goat.hurt": {
+    "category": "entity",
+    "sounds": [
+      "misc_twf:zombie_goat/hurt1",
+      "misc_twf:zombie_goat/hurt2",
+      "misc_twf:zombie_goat/hurt3",
+      "misc_twf:zombie_goat/hurt4"
+    ],
+    "subtitle": "subtitles.entity.misc_twf.zombie_goat.hurt"
+  },
+  "entity.zombie_goat.death": {
+    "category": "entity",
+    "sounds": [
+      "misc_twf:zombie_goat/death1",
+      "misc_twf:zombie_goat/death2",
+      "misc_twf:zombie_goat/death3",
+      "misc_twf:zombie_goat/death4",
+      "misc_twf:zombie_goat/death5"
+    ],
+    "subtitle": "subtitles.entity.misc_twf.zombie_goat.death"
+  },
+  "entity.zombie_goat.step": {
+    "category": "entity",
+    "sounds": [
+      "misc_twf:zombie_goat/step1",
+      "misc_twf:zombie_goat/step2",
+      "misc_twf:zombie_goat/step3",
+      "misc_twf:zombie_goat/step4",
+      "misc_twf:zombie_goat/step5",
+      "misc_twf:zombie_goat/step6"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  }
+}

@@ -46,6 +46,7 @@ public class ZombiePolarBearModel<T extends ZombiePolarBearEntity> extends Quadr
 		return LayerDefinition.create(meshdefinition, 128, 64);
 	}
 
+	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 		float alpha = ageInTicks - (float)entity.tickCount;

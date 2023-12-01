@@ -1,10 +1,13 @@
 package com.hexagram2021.misc_twf.common.entity;
 
+import com.hexagram2021.misc_twf.common.register.MISCTWFSounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
@@ -44,10 +47,30 @@ public class ZombieSheepEntity extends ZombieAnimalEntity<Sheep> {
 		animal.setSheared(true);
 	}
 
-	@Nullable
+	@Override @Nullable
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficultyInstance, MobSpawnType mobSpawnType,
 										@Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag tag) {
 		this.setColor(Sheep.getRandomSheepColor(level.getRandom()));
 		return super.finalizeSpawn(level, difficultyInstance, mobSpawnType, spawnGroupData, tag);
+	}
+
+	@Override
+	protected SoundEvent getAmbientSound() {
+		return MISCTWFSounds.ZOMBIE_SHEEP_AMBIENT;
+	}
+
+	@Override
+	protected SoundEvent getHurtSound(DamageSource damageSource) {
+		return MISCTWFSounds.ZOMBIE_SHEEP_HURT;
+	}
+
+	@Override
+	protected SoundEvent getDeathSound() {
+		return MISCTWFSounds.ZOMBIE_SHEEP_DEATH;
+	}
+
+	@Override
+	protected SoundEvent getStepSound() {
+		return MISCTWFSounds.ZOMBIE_SHEEP_STEP;
 	}
 }

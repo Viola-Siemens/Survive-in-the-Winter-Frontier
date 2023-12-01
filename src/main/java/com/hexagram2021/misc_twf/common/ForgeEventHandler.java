@@ -1,6 +1,7 @@
 package com.hexagram2021.misc_twf.common;
 
 import com.hexagram2021.misc_twf.common.effect.FragileEffect;
+import com.hexagram2021.misc_twf.common.entity.ZombieGoatEntity;
 import com.hexagram2021.misc_twf.common.entity.ZombieSheepEntity;
 import com.hexagram2021.misc_twf.common.item.AbyssVirusVaccine;
 import com.hexagram2021.misc_twf.common.item.IEnergyItem;
@@ -14,8 +15,10 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.animal.Sheep;
+import net.minecraft.world.entity.animal.goat.GoatAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingConversionEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -47,6 +50,12 @@ public class ForgeEventHandler {
 		MobEffectInstance effectInstance = livingEntity.getEffect(MISCTWFMobEffects.FRAGILE.get());
 		if(effectInstance != null) {
 			event.setAmount(event.getAmount() * FragileEffect.getDamageMultiplier(effectInstance.getAmplifier()));
+		}
+
+		if(event.getSource().getEntity() instanceof ZombieGoatEntity goat) {
+			Vec3 direction = goat.position().subtract(livingEntity.position()).normalize();
+			double multiplier = goat.isBaby() ? GoatAi.BABY_RAM_KNOCKBACK_FORCE : GoatAi.ADULT_RAM_KNOCKBACK_FORCE;
+			livingEntity.knockback(direction.x * multiplier, direction.y * multiplier, direction.z * multiplier);
 		}
 	}
 

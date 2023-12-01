@@ -1,5 +1,7 @@
 package com.hexagram2021.misc_twf.common.entity;
 
+import com.hexagram2021.misc_twf.common.register.MISCTWFSounds;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
@@ -53,5 +55,25 @@ public class ZombieChickenEntity extends ZombieAnimalEntity<Chicken> {
 	@Override
 	public boolean causeFallDamage(float damage, float multiplier, DamageSource damageSource) {
 		return false;
+	}
+
+	@Override
+	protected SoundEvent getAmbientSound() {
+		return MISCTWFSounds.ZOMBIE_CHICKEN_AMBIENT;
+	}
+
+	@Override
+	protected SoundEvent getHurtSound(DamageSource damageSource) {
+		return MISCTWFSounds.ZOMBIE_CHICKEN_HURT;
+	}
+
+	@Override
+	protected SoundEvent getDeathSound() {
+		return MISCTWFSounds.ZOMBIE_CHICKEN_DEATH;
+	}
+
+	@Override
+	protected SoundEvent getStepSound() {
+		return MISCTWFSounds.ZOMBIE_CHICKEN_STEP;
 	}
 }
