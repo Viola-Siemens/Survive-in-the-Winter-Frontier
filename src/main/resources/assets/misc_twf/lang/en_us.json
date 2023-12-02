@@ -54,5 +54,31 @@
   "message.misc_twf.abyss_virus_vaccine.success": "Injected abyss virus vaccine to %s.",
 
   "screen.travelersbackpack.tac_button": "Open TaC Bullet Slot",
-  "screen.travelersbackpack.tac_back": "Back to Backpack"
+  "screen.travelersbackpack.tac_back": "Back to Backpack",
+
+  "subtitles.entity.misc_twf.zombie_chicken.ambient": "Zombie Chicken clucks",
+  "subtitles.entity.misc_twf.zombie_chicken.hurt": "Zombie Chicken hurts",
+  "subtitles.entity.misc_twf.zombie_chicken.death": "Zombie Chicken dies",
+  "subtitles.entity.misc_twf.zombie_cow.ambient": "Zombie Cow moos",
+  "subtitles.entity.misc_twf.zombie_cow.hurt": "Zombie Cow hurts",
+  "subtitles.entity.misc_twf.zombie_cow.death": "Zombie Cow dies",
+  "subtitles.entity.misc_twf.zombie_goat.ambient": "Zombie Goat bleats",
+  "subtitles.entity.misc_twf.zombie_goat.hurt": "Zombie Goat hurts",
+  "subtitles.entity.misc_twf.zombie_goat.death": "Zombie Goat dies",
+  "subtitles.entity.misc_twf.zombie_pig.ambient": "Zombie Pig oinks",
+  "subtitles.entity.misc_twf.zombie_pig.hurt": "Zombie Pig hurts",
+  "subtitles.entity.misc_twf.zombie_pig.death": "Zombie Pig dies",
+  "subtitles.entity.misc_twf.zombie_polar_bear.ambient": "Zombie Polar Bear groans",
+  "subtitles.entity.misc_twf.zombie_polar_bear.hurt": "Zombie Polar Bear hurts",
+  "subtitles.entity.misc_twf.zombie_polar_bear.death": "Zombie Polar Bear dies",
+  "subtitles.entity.misc_twf.zombie_rabbit.ambient": "Zombie Rabbit squeaks",
+  "subtitles.entity.misc_twf.zombie_rabbit.hurt": "Zombie Rabbit hurts",
+  "subtitles.entity.misc_twf.zombie_rabbit.death": "Zombie Rabbit dies",
+  "subtitles.entity.misc_twf.zombie_rabbit.jump": "Zombie Rabbit jumps",
+  "subtitles.entity.misc_twf.zombie_sheep.ambient": "Zombie Sheep baahs",
+  "subtitles.entity.misc_twf.zombie_sheep.hurt": "Zombie Sheep hurts",
+  "subtitles.entity.misc_twf.zombie_sheep.death": "Zombie Sheep dies",
+  "subtitles.entity.misc_twf.zombie_wolf.ambient": "Zombie Wolf pants",
+  "subtitles.entity.misc_twf.zombie_wolf.hurt": "Zombie Wolf hurts",
+  "subtitles.entity.misc_twf.zombie_wolf.death": "Zombie Wolf dies"
 }
