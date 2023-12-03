@@ -54,5 +54,31 @@
   "message.misc_twf.abyss_virus_vaccine.success": "已将深渊病毒疫苗注射到%s身上。",
 
   "screen.travelersbackpack.tac_button": "打开永恒枪械工坊子弹槽",
-  "screen.travelersbackpack.tac_back": "返回背包"
+  "screen.travelersbackpack.tac_back": "返回背包",
+
+  "subtitles.entity.misc_twf.zombie_chicken.ambient": "僵尸鸡：咯咯叫",
+  "subtitles.entity.misc_twf.zombie_chicken.hurt": "僵尸鸡：受伤",
+  "subtitles.entity.misc_twf.zombie_chicken.death": "僵尸鸡：死亡",
+  "subtitles.entity.misc_twf.zombie_cow.ambient": "僵尸牛：哞~",
+  "subtitles.entity.misc_twf.zombie_cow.hurt": "僵尸牛：受伤",
+  "subtitles.entity.misc_twf.zombie_cow.death": "僵尸牛：死亡",
+  "subtitles.entity.misc_twf.zombie_goat.ambient": "僵尸山羊：咩~",
+  "subtitles.entity.misc_twf.zombie_goat.hurt": "僵尸山羊：受伤",
+  "subtitles.entity.misc_twf.zombie_goat.death": "僵尸山羊：死亡",
+  "subtitles.entity.misc_twf.zombie_pig.ambient": "僵尸猪：哼叫",
+  "subtitles.entity.misc_twf.zombie_pig.hurt": "僵尸猪：受伤",
+  "subtitles.entity.misc_twf.zombie_pig.death": "僵尸猪：死亡",
+  "subtitles.entity.misc_twf.zombie_polar_bear.ambient": "僵尸北极熊：低吼",
+  "subtitles.entity.misc_twf.zombie_polar_bear.hurt": "僵尸北极熊：受伤",
+  "subtitles.entity.misc_twf.zombie_polar_bear.death": "僵尸北极熊：死亡",
+  "subtitles.entity.misc_twf.zombie_rabbit.ambient": "僵尸兔子：吱吱叫",
+  "subtitles.entity.misc_twf.zombie_rabbit.hurt": "僵尸兔子：受伤",
+  "subtitles.entity.misc_twf.zombie_rabbit.death": "僵尸兔子：死亡",
+  "subtitles.entity.misc_twf.zombie_rabbit.jump": "僵尸兔子：跳动",
+  "subtitles.entity.misc_twf.zombie_sheep.ambient": "僵尸羊：咩~",
+  "subtitles.entity.misc_twf.zombie_sheep.hurt": "僵尸羊：受伤",
+  "subtitles.entity.misc_twf.zombie_sheep.death": "僵尸羊：死亡",
+  "subtitles.entity.misc_twf.zombie_wolf.ambient": "僵尸狼：喘息",
+  "subtitles.entity.misc_twf.zombie_wolf.hurt": "僵尸狼：受伤",
+  "subtitles.entity.misc_twf.zombie_wolf.death": "僵尸狼：死亡"
 }
