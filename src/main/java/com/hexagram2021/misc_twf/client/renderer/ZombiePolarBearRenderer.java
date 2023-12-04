@@ -30,4 +30,9 @@ public class ZombiePolarBearRenderer extends MobRenderer<ZombiePolarBearEntity, 
 		transform.scale(1.25F, 1.25F, 1.25F);
 		super.scale(entity, transform, tick);
 	}
+
+	@Override
+	protected boolean isShaking(ZombiePolarBearEntity entity) {
+		return super.isShaking(entity) || entity.isConverting();
+	}
 }

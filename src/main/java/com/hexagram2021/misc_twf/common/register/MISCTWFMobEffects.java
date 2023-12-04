@@ -12,7 +12,7 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 public final class MISCTWFMobEffects {
 	private static final DeferredRegister<MobEffect> REGISTER = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MODID);
 	
-	public static RegistryObject<FragileEffect> FRAGILE = REGISTER.register("fragile", FragileEffect::new);
+	public static final RegistryObject<FragileEffect> FRAGILE = REGISTER.register("fragile", FragileEffect::new);
 
 	private MISCTWFMobEffects() {
 	}

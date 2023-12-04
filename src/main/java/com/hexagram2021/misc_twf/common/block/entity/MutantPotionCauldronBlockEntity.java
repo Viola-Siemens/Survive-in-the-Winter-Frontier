@@ -38,6 +38,7 @@ public class MutantPotionCauldronBlockEntity extends BlockEntity {
 		this.setChanged();
 	}
 
+	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 	public boolean containsFlag(int flag) {
 		// assert (flag & (-flag)) == flag;
 		return (this.flag & flag) == flag;

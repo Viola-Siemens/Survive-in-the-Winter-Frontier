@@ -1,10 +1,8 @@
 package com.hexagram2021.misc_twf.client.renderer;
 
 import com.hexagram2021.misc_twf.client.MISCTWFModelLayers;
-import com.hexagram2021.misc_twf.client.model.ZombieGoatModel;
 import com.hexagram2021.misc_twf.client.model.ZombiePigModel;
 import com.hexagram2021.misc_twf.common.entity.ZombieAnimalEntity;
-import com.hexagram2021.misc_twf.common.entity.ZombieGoatEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -25,5 +23,10 @@ public class ZombiePigRenderer extends MobRenderer<ZombieAnimalEntity<Pig>, Zomb
 	@Override
 	public ResourceLocation getTextureLocation(ZombieAnimalEntity<Pig> entity) {
 		return TEXTURE_LOCATION;
+	}
+
+	@Override
+	protected boolean isShaking(ZombieAnimalEntity<Pig> entity) {
+		return super.isShaking(entity) || entity.isConverting();
 	}
 }

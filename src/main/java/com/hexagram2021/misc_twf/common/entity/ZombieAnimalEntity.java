@@ -55,6 +55,12 @@ public class ZombieAnimalEntity<T extends Animal> extends Zombie {
 	}
 
 	@Override
+	protected void defineSynchedData() {
+		super.defineSynchedData();
+		this.getEntityData().define(DATA_CONVERTING_ID, false);
+	}
+
+	@Override
 	protected void addBehaviourGoals() {
 		this.goalSelector.addGoal(6, new MoveThroughVillageGoal(this, 1.0D, true, 4, this::canAnimalBreakDoors));
 		this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));

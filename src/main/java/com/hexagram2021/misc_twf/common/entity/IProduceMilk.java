@@ -13,6 +13,7 @@ public interface IProduceMilk {
 	int getMilkCoolDown();
 	void setMilkCoolDown(int delay);
 
+	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 	default boolean isAvailableToProduceMilk() {
 		return this.getMilkCoolDown() <= 0;
 	}

@@ -23,4 +23,9 @@ public class ZombieRabbitRenderer extends MobRenderer<ZombieRabbitEntity, Zombie
 	public ResourceLocation getTextureLocation(ZombieRabbitEntity entity) {
 		return TEXTURE_LOCATION;
 	}
+
+	@Override
+	protected boolean isShaking(ZombieRabbitEntity entity) {
+		return super.isShaking(entity) || entity.isConverting();
+	}
 }

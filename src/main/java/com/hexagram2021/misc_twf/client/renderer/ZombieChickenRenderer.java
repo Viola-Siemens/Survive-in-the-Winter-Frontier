@@ -31,4 +31,9 @@ public class ZombieChickenRenderer extends MobRenderer<ZombieChickenEntity, Zomb
 		float flapSpeed = Mth.lerp(partialTick, entity.oFlapSpeed, entity.flapSpeed);
 		return (Mth.sin(flap) + 1.0F) * flapSpeed;
 	}
+
+	@Override
+	protected boolean isShaking(ZombieChickenEntity entity) {
+		return super.isShaking(entity) || entity.isConverting();
+	}
 }
