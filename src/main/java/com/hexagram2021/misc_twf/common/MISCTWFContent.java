@@ -21,6 +21,7 @@ public class MISCTWFContent {
 		MISCTWFBlocks.init(bus);
 		MISCTWFBlockEntities.init(bus);
 		MISCTWFItems.init(bus);
+		MISCTWFEntities.init(bus);
 		MISCTWFRecipeSerializers.init(bus);
 		MISCTWFMobEffects.init(bus);
 		MISCTWFMenuTypes.init(bus);
