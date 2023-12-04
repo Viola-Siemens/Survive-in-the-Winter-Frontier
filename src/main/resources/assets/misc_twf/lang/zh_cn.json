@@ -43,6 +43,15 @@
   "item.misc_twf.energy.stored": "电量：（%d / %d）",
   "item.misc_twf.has_tac_slot": "可以存放TaC弹药",
 
+  "entity.misc_twf.zombie_chicken": "僵尸鸡",
+  "entity.misc_twf.zombie_cow": "僵尸牛",
+  "entity.misc_twf.zombie_goat": "僵尸山羊",
+  "entity.misc_twf.zombie_pig": "僵尸猪",
+  "entity.misc_twf.zombie_polar_bear": "僵尸北极熊",
+  "entity.misc_twf.zombie_rabbit": "僵尸兔子",
+  "entity.misc_twf.zombie_sheep": "僵尸绵羊",
+  "entity.misc_twf.zombie_wolf": "僵尸狼",
+
   "effect.misc_twf.fragile": "脆弱",
 
   "container.misc_twf.ultraviolet_lamp": "强紫外线照射灯",
@@ -75,9 +84,9 @@
   "subtitles.entity.misc_twf.zombie_rabbit.hurt": "僵尸兔子：受伤",
   "subtitles.entity.misc_twf.zombie_rabbit.death": "僵尸兔子：死亡",
   "subtitles.entity.misc_twf.zombie_rabbit.jump": "僵尸兔子：跳动",
-  "subtitles.entity.misc_twf.zombie_sheep.ambient": "僵尸羊：咩~",
-  "subtitles.entity.misc_twf.zombie_sheep.hurt": "僵尸羊：受伤",
-  "subtitles.entity.misc_twf.zombie_sheep.death": "僵尸羊：死亡",
+  "subtitles.entity.misc_twf.zombie_sheep.ambient": "僵尸绵羊：咩~",
+  "subtitles.entity.misc_twf.zombie_sheep.hurt": "僵尸绵羊：受伤",
+  "subtitles.entity.misc_twf.zombie_sheep.death": "僵尸绵羊：死亡",
   "subtitles.entity.misc_twf.zombie_wolf.ambient": "僵尸狼：喘息",
   "subtitles.entity.misc_twf.zombie_wolf.hurt": "僵尸狼：受伤",
   "subtitles.entity.misc_twf.zombie_wolf.death": "僵尸狼：死亡"

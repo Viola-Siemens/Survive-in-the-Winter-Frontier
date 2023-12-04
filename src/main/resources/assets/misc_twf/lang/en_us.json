@@ -43,6 +43,15 @@
   "item.misc_twf.energy.stored": "Energy: (%d / %d)",
   "item.misc_twf.has_tac_slot": "Available to store TaC ammo",
 
+  "entity.misc_twf.zombie_chicken": "Zombie Chicken",
+  "entity.misc_twf.zombie_cow": "Zombie Cow",
+  "entity.misc_twf.zombie_goat": "Zombie Goat",
+  "entity.misc_twf.zombie_pig": "Zombie Pig",
+  "entity.misc_twf.zombie_polar_bear": "Zombie Polar Bear",
+  "entity.misc_twf.zombie_rabbit": "Zombie Rabbit",
+  "entity.misc_twf.zombie_sheep": "Zombie Sheep",
+  "entity.misc_twf.zombie_wolf": "Zombie Wolf",
+
   "effect.misc_twf.fragile": "Fragile",
 
   "container.misc_twf.ultraviolet_lamp": "Ultraviolet Lamp",
