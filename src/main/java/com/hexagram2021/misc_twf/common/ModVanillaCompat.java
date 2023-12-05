@@ -17,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -141,6 +142,9 @@ public class ModVanillaCompat {
 			}
 			return InteractionResult.sidedSuccess(level.isClientSide);
 		});
+
+		//Composter
+		ComposterBlock.COMPOSTABLES.put(MISCTWFItems.Materials.ANIMAL_POOP.get(), 1.0F);
 
 		//Dispenser
 		DispenserBlock.registerBehavior(MISCTWFItems.Materials.ANIMAL_POOP.get(), DispenserBlock.DISPENSER_REGISTRY.getOrDefault(Items.BONE_MEAL, DispenseItemBehavior.NOOP));

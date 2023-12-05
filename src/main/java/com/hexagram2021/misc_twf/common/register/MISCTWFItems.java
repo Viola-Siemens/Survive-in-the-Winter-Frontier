@@ -95,7 +95,6 @@ public final class MISCTWFItems {
 		public static final ItemEntry<Item> ABYSS_VIRUS_VACCINE_BUCKET = ItemEntry.register(
 				"abyss_virus_vaccine_bucket", () -> new Item(new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).tab(SurviveInTheWinterFrontier.ITEM_GROUP))
 		);
-
 		public static final ItemEntry<Item> ANIMAL_POOP = ItemEntry.register(
 				"animal_poop", () -> new BoneMealItem(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
 		);

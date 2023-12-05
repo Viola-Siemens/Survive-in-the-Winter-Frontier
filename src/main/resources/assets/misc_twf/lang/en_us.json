@@ -39,6 +39,7 @@
   "item.misc_twf.lamp_tube": "Lamp Tube",
   "item.misc_twf.uv_led": "UV LED",
   "item.misc_twf.travelers_backpack_tac_slot": "Traveler's Backpack TaC Slot",
+  "item.misc_twf.animal_poop": "Animal Poop",
 
   "item.misc_twf.energy.stored": "Energy: (%d / %d)",
   "item.misc_twf.has_tac_slot": "Available to store TaC ammo",
