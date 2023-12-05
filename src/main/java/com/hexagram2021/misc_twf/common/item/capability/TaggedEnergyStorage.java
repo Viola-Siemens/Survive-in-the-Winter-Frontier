@@ -13,10 +13,10 @@ public class TaggedEnergyStorage implements IEnergyStorage {
 	protected final int maxExtract;
 
 	public TaggedEnergyStorage(ItemStack itemStack, int capacity, int maxReceive, int maxExtract) {
+		this.self = itemStack;
 		this.capacity = capacity;
 		this.maxReceive = maxReceive;
 		this.maxExtract = maxExtract;
-		this.self = itemStack;
 	}
 
 	@Override

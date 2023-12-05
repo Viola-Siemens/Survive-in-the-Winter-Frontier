@@ -1,10 +1,12 @@
 package com.hexagram2021.misc_twf.common;
 
 import com.hexagram2021.misc_twf.common.entity.ZombieAnimalEntity;
+import com.hexagram2021.misc_twf.common.entity.capability.CapabilityAnimal;
 import com.hexagram2021.misc_twf.common.register.*;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.alchemy.Potion;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -40,6 +42,11 @@ public class MISCTWFContent {
 	@SubscribeEvent
 	public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
 		MISCTWFSounds.init(event.getRegistry());
+	}
+
+	@SubscribeEvent
+	public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+		CapabilityAnimal.register(event::register);
 	}
 
 	@SubscribeEvent

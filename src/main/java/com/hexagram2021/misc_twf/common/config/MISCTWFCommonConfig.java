@@ -7,6 +7,8 @@ public class MISCTWFCommonConfig {
 	private static final ForgeConfigSpec SPEC;
 
 	public static final ForgeConfigSpec.IntValue MILK_INTERVAL;
+	public static final ForgeConfigSpec.IntValue ANIMAL_POOPING_INTERVAL;
+	public static final ForgeConfigSpec.IntValue ANIMAL_POOPING_INTERVAL_NOISE;
 	public static final ForgeConfigSpec.IntValue NIGHT_VISION_DEVICE_ENERGY_CAPABILITY;
 	public static final ForgeConfigSpec.IntValue ORDINARY_ACCUMULATOR_CAPABILITY;
 	public static final ForgeConfigSpec.IntValue MILITARY_ACCUMULATOR_CAPABILITY;
@@ -17,6 +19,8 @@ public class MISCTWFCommonConfig {
 	static {
 		BUILDER.push("misc_twf-common-config");
 			MILK_INTERVAL = BUILDER.comment("The cool down for cows and goats to produce milk (in seconds).").defineInRange("MILK_INTERVAL", 60, 0, 120000);
+			ANIMAL_POOPING_INTERVAL = BUILDER.comment("The minimum cool down for animals to poop (in seconds).").defineInRange("ANIMAL_POOPING_INTERVAL", 360, 5, 120000);
+			ANIMAL_POOPING_INTERVAL_NOISE = BUILDER.comment("The randomly additional cool down for animals to poop (in seconds).").defineInRange("ANIMAL_POOPING_INTERVAL_NOISE", 60, 0, 120000);
 			NIGHT_VISION_DEVICE_ENERGY_CAPABILITY = BUILDER.comment("The maximum time (in seconds) will a night vision device be used without charging.").defineInRange("NIGHT_VISION_DEVICE_ENERGY_CAPABILITY", 6000, 0, 120000);
 			ORDINARY_ACCUMULATOR_CAPABILITY = BUILDER.comment("The maximum time (in seconds) will a ordinary accumulator be used without charging.").defineInRange("ORDINARY_ACCUMULATOR_CAPABILITY", 3600, 0, 120000);
 			MILITARY_ACCUMULATOR_CAPABILITY = BUILDER.comment("The maximum time (in seconds) will a military accumulator be used without charging.").defineInRange("MILITARY_ACCUMULATOR_CAPABILITY", 18000, 0, 120000);

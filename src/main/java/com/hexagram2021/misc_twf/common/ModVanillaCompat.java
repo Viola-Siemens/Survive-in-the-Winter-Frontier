@@ -4,6 +4,7 @@ import com.hexagram2021.misc_twf.common.block.entity.MutantPotionCauldronBlockEn
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlocks;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
 import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -29,6 +31,7 @@ public class ModVanillaCompat {
 	private static final String TAG_MUTANT_POTION_FLAG = "MutantPotionFlag";
 
 	public static void init() {
+		//Cauldron
 		CauldronInteraction.EMPTY.put(MISCTWFItems.Materials.MUTANT_POTION_BUCKET.get(), (blockState, level, blockPos, player, hand, itemStack) -> {
 			if(!level.isClientSide) {
 				CompoundTag nbt = itemStack.getTag();
@@ -138,5 +141,8 @@ public class ModVanillaCompat {
 			}
 			return InteractionResult.sidedSuccess(level.isClientSide);
 		});
+
+		//Dispenser
+		DispenserBlock.registerBehavior(MISCTWFItems.Materials.ANIMAL_POOP.get(), DispenserBlock.DISPENSER_REGISTRY.getOrDefault(Items.BONE_MEAL, DispenseItemBehavior.NOOP));
 	}
 }

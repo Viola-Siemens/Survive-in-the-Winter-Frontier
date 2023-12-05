@@ -3,25 +3,30 @@ package com.hexagram2021.misc_twf.common;
 import com.hexagram2021.misc_twf.common.effect.FragileEffect;
 import com.hexagram2021.misc_twf.common.entity.ZombieGoatEntity;
 import com.hexagram2021.misc_twf.common.entity.ZombieSheepEntity;
+import com.hexagram2021.misc_twf.common.entity.capability.AnimalPoopingHandler;
+import com.hexagram2021.misc_twf.common.entity.capability.CapabilityAnimal;
+import com.hexagram2021.misc_twf.common.entity.capability.IPoopingAnimal;
 import com.hexagram2021.misc_twf.common.item.AbyssVirusVaccine;
 import com.hexagram2021.misc_twf.common.item.IEnergyItem;
 import com.hexagram2021.misc_twf.common.item.capability.ItemStackEnergyHandler;
+import com.hexagram2021.misc_twf.common.register.MISCTWFEntityTags;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
 import com.hexagram2021.misc_twf.common.register.MISCTWFMobEffects;
 import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.animal.goat.GoatAi;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingConversionEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -32,9 +37,10 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEventHandler {
 	public static final ResourceLocation ENERGY = new ResourceLocation(MODID, "energy");
+	public static final ResourceLocation POOPING = new ResourceLocation(MODID, "pooping");
 
 	@SubscribeEvent
-	public static void onAttackItemStackCapability(AttachCapabilitiesEvent<ItemStack> event) {
+	public static void onAttachItemStackCapability(AttachCapabilitiesEvent<ItemStack> event) {
 		if(event.getObject().getItem() instanceof IEnergyItem energyItem) {
 			event.addCapability(ENERGY, new ItemStackEnergyHandler(
 					event.getObject(),
@@ -42,6 +48,13 @@ public class ForgeEventHandler {
 					energyItem.getMaxEnergyReceiveSpeed(),
 					energyItem.getMaxEnergyExtractSpeed()
 			));
+		}
+	}
+
+	@SubscribeEvent
+	public static void onAttachLivingEntityCapability(AttachCapabilitiesEvent<Entity> event) {
+		if(event.getObject().getType().is(MISCTWFEntityTags.POOPING_ANIMALS)) {
+			event.addCapability(POOPING, new AnimalPoopingHandler(event.getObject()));
 		}
 	}
 
@@ -57,6 +70,14 @@ public class ForgeEventHandler {
 			Vec3 direction = goat.position().subtract(livingEntity.position()).normalize();
 			double multiplier = goat.isBaby() ? GoatAi.BABY_RAM_KNOCKBACK_FORCE : GoatAi.ADULT_RAM_KNOCKBACK_FORCE;
 			livingEntity.knockback(direction.x * multiplier, direction.y * multiplier, direction.z * multiplier);
+		}
+	}
+
+	@SubscribeEvent
+	public static void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {
+		LivingEntity livingEntity = event.getEntityLiving();
+		if(!livingEntity.level.isClientSide) {
+			livingEntity.getCapability(CapabilityAnimal.POOPING).ifPresent(IPoopingAnimal::tick);
 		}
 	}
 
