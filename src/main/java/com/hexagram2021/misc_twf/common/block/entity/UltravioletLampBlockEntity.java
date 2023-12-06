@@ -160,6 +160,7 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 		}
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	@Override
 	public boolean stillValid(Player player) {
 		if (this.level.getBlockEntity(this.worldPosition) != this) {
