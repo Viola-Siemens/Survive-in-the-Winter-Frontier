@@ -2,6 +2,8 @@ package com.hexagram2021.misc_twf.common.entity;
 
 import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -69,6 +71,21 @@ public class ZombieAnimalEntity<T extends Animal> extends Zombie {
 		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false));
 		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
 		this.addAnimalBehaviourGoals();
+	}
+
+	@Override
+	public void addAdditionalSaveData(CompoundTag nbt) {
+		nbt.putInt("ConversionTime", this.isConverting() ? this.conversionTime : -1);
+	}
+
+	@Override
+	public void readAdditionalSaveData(CompoundTag nbt) {
+		if (nbt.contains("ConversionTime", Tag.TAG_ANY_NUMERIC)) {
+			int time = nbt.getInt("ConversionTime");
+			if(time > -1) {
+				this.startConverting(time);
+			}
+		}
 	}
 
 	protected void addAnimalBehaviourGoals() {

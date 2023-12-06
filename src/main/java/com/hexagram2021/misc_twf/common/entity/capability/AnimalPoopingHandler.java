@@ -2,7 +2,7 @@ package com.hexagram2021.misc_twf.common.entity.capability;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.IntTag;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -14,7 +14,7 @@ public class AnimalPoopingHandler implements ICapabilityProvider, INBTSerializab
 	private final PoopingAnimal poopingAnimal;
 	private final LazyOptional<IPoopingAnimal> holder;
 
-	public AnimalPoopingHandler(Entity entity) {
+	public AnimalPoopingHandler(LivingEntity entity) {
 		this.poopingAnimal = new PoopingAnimal(entity);
 		this.holder = LazyOptional.of(() -> this.poopingAnimal);
 	}

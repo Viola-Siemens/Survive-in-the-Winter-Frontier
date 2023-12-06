@@ -53,8 +53,8 @@ public class ForgeEventHandler {
 
 	@SubscribeEvent
 	public static void onAttachLivingEntityCapability(AttachCapabilitiesEvent<Entity> event) {
-		if(event.getObject().getType().is(MISCTWFEntityTags.POOPING_ANIMALS)) {
-			event.addCapability(POOPING, new AnimalPoopingHandler(event.getObject()));
+		if(event.getObject() instanceof LivingEntity livingEntity && livingEntity.getType().is(MISCTWFEntityTags.POOPING_ANIMALS)) {
+			event.addCapability(POOPING, new AnimalPoopingHandler(livingEntity));
 		}
 	}
 
