@@ -21,7 +21,8 @@ import java.util.Map;
 
 @Mixin(LightTexture.class)
 public class LightTextureMixin {
-	@Shadow @Final private Minecraft minecraft;
+	@Shadow @Final
+	private Minecraft minecraft;
 
 	@SuppressWarnings("ConstantConditions")
 	@ModifyConstant(method = "updateLightTexture", constant = @Constant(floatValue = 0.0F, ordinal = 1))

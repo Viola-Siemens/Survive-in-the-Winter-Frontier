@@ -1,6 +1,7 @@
 package com.hexagram2021.misc_twf.mixin;
 
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
+import me.srrapero720.embeddiumplus.features.true_darkness.Darkness;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -16,7 +17,6 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
-import vice.rubidium_extras.features.TotalDarkness.Darkness;
 
 import java.util.Map;
 
@@ -26,7 +26,7 @@ public class DarknessMixin {
 	public static boolean enabled;
 
 	@SuppressWarnings("ConstantConditions")
-	@Inject(method = "updateLuminance", at = @At(value = "FIELD", target = "Lvice/rubidium_extras/features/TotalDarkness/Darkness;enabled:Z", shift = At.Shift.BEFORE, ordinal = 1, remap = false), remap = false, cancellable = true)
+	@Inject(method = "updateLuminance", at = @At(value = "FIELD", target = "Lme/srrapero720/embeddiumplus/features/true_darkness/Darkness;enabled:Z", shift = At.Shift.BEFORE, ordinal = 1, remap = false), remap = false, cancellable = true)
 	private static void disableIfWearingDevice(float tickDelta, Minecraft client, GameRenderer worldRenderer, float prevFlicker, CallbackInfo ci) {
 		ICuriosItemHandler handler = CuriosApi.getCuriosHelper().getCuriosHandler(client.player).orElse(null);
 		if(handler != null) {
