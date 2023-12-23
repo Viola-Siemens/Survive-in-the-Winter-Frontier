@@ -1,0 +1,12 @@
+{
+  "__comment": "Why I have to do this instead of using cube_all?",
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "misc_twf:block/blood_block1",
+    "up": "misc_twf:block/blood_block2",
+    "north": "misc_twf:block/blood_block3",
+    "south": "misc_twf:block/blood_block4",
+    "west": "misc_twf:block/blood_block5",
+    "east": "misc_twf:block/blood_block6"
+  }
+}

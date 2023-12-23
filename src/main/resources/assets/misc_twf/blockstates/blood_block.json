@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "misc_twf:block/blood_block"
+      },
+      {
+        "model": "misc_twf:block/blood_block",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/blood_block",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/blood_block",
+        "y": 270
+      }
+    ]
+  }
+}

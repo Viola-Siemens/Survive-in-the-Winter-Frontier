@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "misc_twf:block/infected_dirt_dd"
+      },
+      {
+        "model": "misc_twf:block/infected_dirt_dd",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/infected_dirt_dd",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/infected_dirt_dd",
+        "y": 270
+      }
+    ]
+  }
+}

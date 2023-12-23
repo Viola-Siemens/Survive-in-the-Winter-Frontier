@@ -25,7 +25,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
-import static net.minecraft.world.level.block.Blocks.CAULDRON;
+import static net.minecraft.world.level.block.Blocks.*;
 
 @SuppressWarnings("unused")
 public final class MISCTWFBlocks {
@@ -54,6 +54,19 @@ public final class MISCTWFBlocks {
 			() -> BlockBehaviour.Properties.copy(CAULDRON),
 			AbyssVirusVaccineCauldronBlock::new, null
 	);
+
+	public static final BlockEntry<Block> BLOOD_BLOCK = new BlockEntry<>("blood_block", () -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK), Block::new);
+	public static final BlockEntry<Block> FLESH_AND_BLOOD_BLOCK = new BlockEntry<>("flesh_and_blood_block", () -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK), Block::new);
+	public static final BlockEntry<Block> FLESH_AND_BLOOD_BLOCK_D = new BlockEntry<>("flesh_and_blood_block_d", () -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK), Block::new);
+	public static final BlockEntry<Block> FLESH_AND_BLOOD_BLOCK_DD = new BlockEntry<>("flesh_and_blood_block_dd", () -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK), Block::new);
+	public static final BlockEntry<Block> INFECTED_DIRT = new BlockEntry<>("infected_dirt", () -> BlockBehaviour.Properties.copy(DIRT), Block::new);
+	public static final BlockEntry<Block> INFECTED_DIRT_D = new BlockEntry<>("infected_dirt_d", () -> BlockBehaviour.Properties.copy(DIRT), Block::new);
+	public static final BlockEntry<Block> INFECTED_DIRT_DD = new BlockEntry<>("infected_dirt_dd", () -> BlockBehaviour.Properties.copy(DIRT), Block::new);
+	public static final BlockEntry<Block> INFECTED_GRASS_BLOCK = new BlockEntry<>("infected_grass_block", () -> BlockBehaviour.Properties.copy(GRASS_BLOCK), Block::new);
+	public static final BlockEntry<Block> INFECTED_GRASS_BLOCK_D = new BlockEntry<>("infected_grass_block_d", () -> BlockBehaviour.Properties.copy(GRASS_BLOCK), Block::new);
+	public static final BlockEntry<Block> INFECTED_GRASS_BLOCK_DD = new BlockEntry<>("infected_grass_block_dd", () -> BlockBehaviour.Properties.copy(GRASS_BLOCK), Block::new);
+	public static final BlockEntry<Block> INTESTINE = new BlockEntry<>("intestine", () -> BlockBehaviour.Properties.copy(REDSTONE_WIRE).sound(SoundType.NETHER_WART).noDrops(), Block::new);
+	public static final BlockEntry<Block> RIBS = new BlockEntry<>("ribs", () -> BlockBehaviour.Properties.copy(REDSTONE_WIRE).sound(SoundType.BONE_BLOCK), Block::new);
 
 	private MISCTWFBlocks() {
 	}

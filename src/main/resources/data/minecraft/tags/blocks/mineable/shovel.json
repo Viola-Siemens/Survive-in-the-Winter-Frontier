@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:infected_dirt",
+    "minecraft:infected_dirt_d",
+    "minecraft:infected_dirt_dd",
+    "minecraft:infected_grass_block",
+    "minecraft:infected_grass_block_d",
+    "minecraft:infected_grass_block_dd"
+  ]
+}

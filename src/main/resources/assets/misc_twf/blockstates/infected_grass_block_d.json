@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "misc_twf:block/infected_grass_block_d"
+      },
+      {
+        "model": "misc_twf:block/infected_grass_block_d",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/infected_grass_block_d",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/infected_grass_block_d",
+        "y": 270
+      }
+    ]
+  }
+}

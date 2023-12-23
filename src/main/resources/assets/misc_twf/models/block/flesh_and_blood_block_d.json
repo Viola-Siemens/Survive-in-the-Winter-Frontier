@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "misc_twf:block/flesh_and_blood_block_d1",
+    "up": "misc_twf:block/flesh_and_blood_block_d2",
+    "north": "misc_twf:block/flesh_and_blood_block_d3",
+    "south": "misc_twf:block/flesh_and_blood_block_d4",
+    "west": "misc_twf:block/flesh_and_blood_block_d5",
+    "east": "misc_twf:block/flesh_and_blood_block_d6"
+  }
+}
