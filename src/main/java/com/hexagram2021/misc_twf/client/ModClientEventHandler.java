@@ -59,6 +59,7 @@ public class ModClientEventHandler {
 
 	private static void registerRenderLayers() {
 		ItemBlockRenderTypes.setRenderLayer(MISCTWFBlocks.ULTRAVIOLET_LAMP.get(), RenderType.translucent());
+		ItemBlockRenderTypes.setRenderLayer(MISCTWFBlocks.INTESTINE.get(), RenderType.cutout());
 	}
 
 	private static void registerCuriosRenderers() {

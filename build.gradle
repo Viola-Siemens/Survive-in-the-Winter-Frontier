@@ -31,7 +31,7 @@ minecraft {
 
     runs {
         client {
-            workingDirectory project.file('run')
+            workingDirectory project.file('run/client')
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'mixin.env.remapRefMap', 'true'
@@ -50,7 +50,7 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run')
+            workingDirectory project.file('run/server')
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'mixin.env.remapRefMap', 'true'
@@ -69,7 +69,7 @@ minecraft {
         }
 
         gameTestServer {
-            workingDirectory project.file('run')
+            workingDirectory project.file('run/test_server')
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'mixin.env.remapRefMap', 'true'
@@ -88,7 +88,7 @@ minecraft {
         }
 
         data {
-            workingDirectory project.file('run')
+            workingDirectory project.file('run/data')
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'mixin.env.remapRefMap', 'true'
@@ -152,7 +152,8 @@ dependencies {
     implementation fg.deobf('curse.maven:atlaslib-463826:4567244')
     runtimeOnly fg.deobf("curse.maven:create-328085:4550986")
     implementation fg.deobf("curse.maven:createaddition-439890:4683727")
-    implementation fg.deobf("curse.maven:embeddiumplus-931925:4958315")
+    compileOnly fg.deobf("curse.maven:embeddium-908741:4949961")
+    compileOnly fg.deobf("curse.maven:embeddiumplus-931925:4958315")
     runtimeOnly fg.deobf("curse.maven:flywheel-486392:4341461")
     implementation fg.deobf('curse.maven:framework-549225:4613856')
     implementation fg.deobf("curse.maven:hordes-485779:4756150")

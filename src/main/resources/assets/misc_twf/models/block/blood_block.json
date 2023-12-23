@@ -2,6 +2,7 @@
   "__comment": "Why I have to do this instead of using cube_all?",
   "parent": "minecraft:block/cube",
   "textures": {
+    "particle": "misc_twf:block/blood_block1",
     "down": "misc_twf:block/blood_block1",
     "up": "misc_twf:block/blood_block2",
     "north": "misc_twf:block/blood_block3",

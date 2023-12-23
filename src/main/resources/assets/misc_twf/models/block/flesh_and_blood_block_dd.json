@@ -1,6 +1,7 @@
 {
   "parent": "minecraft:block/cube",
   "textures": {
+    "particle": "misc_twf:block/flesh_and_blood_block_dd1",
     "down": "misc_twf:block/flesh_and_blood_block_dd1",
     "up": "misc_twf:block/flesh_and_blood_block_dd2",
     "north": "misc_twf:block/flesh_and_blood_block_dd3",

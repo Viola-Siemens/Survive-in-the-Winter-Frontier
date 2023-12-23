@@ -1,11 +1,11 @@
 {
   "replace": false,
   "values": [
-    "minecraft:infected_dirt",
-    "minecraft:infected_dirt_d",
-    "minecraft:infected_dirt_dd",
-    "minecraft:infected_grass_block",
-    "minecraft:infected_grass_block_d",
-    "minecraft:infected_grass_block_dd"
+    "misc_twf:infected_dirt",
+    "misc_twf:infected_dirt_d",
+    "misc_twf:infected_dirt_dd",
+    "misc_twf:infected_grass_block",
+    "misc_twf:infected_grass_block_d",
+    "misc_twf:infected_grass_block_dd"
   ]
 }
