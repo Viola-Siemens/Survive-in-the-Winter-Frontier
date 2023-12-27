@@ -20,6 +20,7 @@ public class MISCTWFContent {
 	public static void modConstruct(IEventBus bus) {
 		initTags();
 
+		MISCTWFFluids.init(bus);
 		MISCTWFBlocks.init(bus);
 		MISCTWFBlockEntities.init(bus);
 		MISCTWFItems.init(bus);

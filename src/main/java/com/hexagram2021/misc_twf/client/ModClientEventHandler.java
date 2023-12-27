@@ -4,10 +4,7 @@ import com.hexagram2021.misc_twf.client.model.*;
 import com.hexagram2021.misc_twf.client.renderer.*;
 import com.hexagram2021.misc_twf.client.screen.TravelersBackpackTacScreen;
 import com.hexagram2021.misc_twf.client.screen.UltravioletLampScreen;
-import com.hexagram2021.misc_twf.common.register.MISCTWFBlocks;
-import com.hexagram2021.misc_twf.common.register.MISCTWFEntities;
-import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
-import com.hexagram2021.misc_twf.common.register.MISCTWFMenuTypes;
+import com.hexagram2021.misc_twf.common.register.*;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -60,6 +57,9 @@ public class ModClientEventHandler {
 	private static void registerRenderLayers() {
 		ItemBlockRenderTypes.setRenderLayer(MISCTWFBlocks.ULTRAVIOLET_LAMP.get(), RenderType.translucent());
 		ItemBlockRenderTypes.setRenderLayer(MISCTWFBlocks.INTESTINE.get(), RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(MISCTWFBlocks.BLOODSTAIN.get(), RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(MISCTWFFluids.BLOOD_FLUID.getFlowing(), RenderType.translucent());
+		ItemBlockRenderTypes.setRenderLayer(MISCTWFFluids.BLOOD_FLUID.getStill(), RenderType.translucent());
 	}
 
 	private static void registerCuriosRenderers() {

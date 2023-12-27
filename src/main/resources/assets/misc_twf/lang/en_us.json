@@ -13,6 +13,9 @@
   "block.misc_twf.flesh_and_blood_block": "Flesh And Blood Block",
   "block.misc_twf.flesh_and_blood_block_d": "Flesh And Blood Block (Dark)",
   "block.misc_twf.flesh_and_blood_block_dd": "Flesh And Blood Block (Extreme Dark)",
+  "block.misc_twf.flesh_and_blood_slab": "Flesh And Blood Slab",
+  "block.misc_twf.flesh_and_blood_slab_d": "Flesh And Blood Slab (Dark)",
+  "block.misc_twf.flesh_and_blood_slab_dd": "Flesh And Blood Slab (Extreme Dark)",
   "block.misc_twf.infected_dirt": "Infected Dirt",
   "block.misc_twf.infected_dirt_d": "Infected Dirt (Dark)",
   "block.misc_twf.infected_dirt_dd": "Infected Dirt (Extreme Dark)",
@@ -20,7 +23,9 @@
   "block.misc_twf.infected_grass_block_d": "Infected Grass Block (Dark)",
   "block.misc_twf.infected_grass_block_dd": "Infected Grass Block (Extreme Dark)",
   "block.misc_twf.intestine": "Intestine",
+  "block.misc_twf.bloodstain": "Bloodstain",
   "block.misc_twf.ribs": "Ribs",
+  "block.misc_twf.blood": "Blood",
 
   "item.misc_twf.yarn": "Yarn",
   "item.misc_twf.gauze": "Gauze",
@@ -53,6 +58,7 @@
   "item.misc_twf.uv_led": "UV LED",
   "item.misc_twf.travelers_backpack_tac_slot": "Traveler's Backpack TaC Slot",
   "item.misc_twf.animal_poop": "Animal Poop",
+  "item.misc_twf.blood_bucket": "Blood Bucket",
 
   "item.misc_twf.energy.stored": "Energy: (%d / %d)",
   "item.misc_twf.has_tac_slot": "Available to store TaC ammo",

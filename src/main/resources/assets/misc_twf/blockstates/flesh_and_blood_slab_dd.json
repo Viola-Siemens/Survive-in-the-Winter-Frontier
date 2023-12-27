@@ -1,0 +1,55 @@
+{
+  "variants": {
+    "type=bottom": [
+      {
+        "model": "misc_twf:block/flesh_and_blood_slab_dd"
+      },
+      {
+        "model": "misc_twf:block/flesh_and_blood_slab_dd",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/flesh_and_blood_slab_dd",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/flesh_and_blood_slab_dd",
+        "y": 270
+      }
+    ],
+    "type=double": [
+      {
+        "model": "misc_twf:block/flesh_and_blood_block_dd"
+      },
+      {
+        "model": "misc_twf:block/flesh_and_blood_block_dd",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/flesh_and_blood_block_dd",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/flesh_and_blood_block_dd",
+        "y": 270
+      }
+    ],
+    "type=top": [
+      {
+        "model": "misc_twf:block/flesh_and_blood_slab_top_dd"
+      },
+      {
+        "model": "misc_twf:block/flesh_and_blood_slab_top_dd",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/flesh_and_blood_slab_top_dd",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/flesh_and_blood_slab_top_dd",
+        "y": 270
+      }
+    ]
+  }
+}

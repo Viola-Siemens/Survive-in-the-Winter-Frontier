@@ -1,0 +1,156 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "misc_twf:block/bloodstain1"
+      },
+      {
+        "model": "misc_twf:block/bloodstain1",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/bloodstain1",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/bloodstain1",
+        "y": 270
+      },
+      {
+        "model": "misc_twf:block/bloodstain2"
+      },
+      {
+        "model": "misc_twf:block/bloodstain2",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/bloodstain2",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/bloodstain2",
+        "y": 270
+      },
+      {
+        "model": "misc_twf:block/bloodstain3"
+      },
+      {
+        "model": "misc_twf:block/bloodstain3",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/bloodstain3",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/bloodstain3",
+        "y": 270
+      },
+      {
+        "model": "misc_twf:block/bloodstain4"
+      },
+      {
+        "model": "misc_twf:block/bloodstain4",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/bloodstain4",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/bloodstain4",
+        "y": 270
+      },
+      {
+        "model": "misc_twf:block/bloodstain5"
+      },
+      {
+        "model": "misc_twf:block/bloodstain5",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/bloodstain5",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/bloodstain5",
+        "y": 270
+      },
+      {
+        "model": "misc_twf:block/bloodstain6"
+      },
+      {
+        "model": "misc_twf:block/bloodstain6",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/bloodstain6",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/bloodstain6",
+        "y": 270
+      },
+      {
+        "model": "misc_twf:block/bloodstain7"
+      },
+      {
+        "model": "misc_twf:block/bloodstain7",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/bloodstain7",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/bloodstain7",
+        "y": 270
+      },
+      {
+        "model": "misc_twf:block/bloodstain8"
+      },
+      {
+        "model": "misc_twf:block/bloodstain8",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/bloodstain8",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/bloodstain8",
+        "y": 270
+      },
+      {
+        "model": "misc_twf:block/bloodstain9"
+      },
+      {
+        "model": "misc_twf:block/bloodstain9",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/bloodstain9",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/bloodstain9",
+        "y": 270
+      },
+      {
+        "model": "misc_twf:block/bloodstain10"
+      },
+      {
+        "model": "misc_twf:block/bloodstain10",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/bloodstain10",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/bloodstain10",
+        "y": 270
+      }
+    ]
+  }
+}

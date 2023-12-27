@@ -1,10 +1,6 @@
 {
   "replace": false,
   "values": [
-    "misc_twf:blood_block",
-    "misc_twf:flesh_and_blood_block",
-    "misc_twf:flesh_and_blood_block_d",
-    "misc_twf:flesh_and_blood_block_dd",
     "misc_twf:flesh_and_blood_slab",
     "misc_twf:flesh_and_blood_slab_d",
     "misc_twf:flesh_and_blood_slab_dd"

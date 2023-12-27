@@ -1,0 +1,20 @@
+{
+  "parent": "minecraft:block/block",
+  "render_type": "cutout",
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "misc_twf:block/bloodstain2",
+    "bloodstain": "misc_twf:block/bloodstain2"
+  },
+  "elements": [
+    {
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 0.25, 16 ],
+      "shade": false,
+      "faces": {
+        "up":   { "uv": [ 0, 0, 16, 16 ], "texture": "#bloodstain" },
+        "down": { "uv": [ 0, 16, 16, 0 ], "texture": "#bloodstain" }
+      }
+    }
+  ]
+}

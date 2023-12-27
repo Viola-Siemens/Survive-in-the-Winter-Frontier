@@ -4,8 +4,7 @@
     "sounds": [
       "misc_twf:zombie_chicken/say1",
       "misc_twf:zombie_chicken/say2",
-      "misc_twf:zombie_chicken/say3",
-      "misc_twf:zombie_chicken/say4"
+      "misc_twf:zombie_chicken/say3"
     ],
     "subtitle": "subtitles.entity.misc_twf.zombie_chicken.ambient"
   },

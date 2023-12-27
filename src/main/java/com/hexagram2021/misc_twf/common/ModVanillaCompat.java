@@ -2,8 +2,12 @@ package com.hexagram2021.misc_twf.common;
 
 import com.hexagram2021.misc_twf.common.block.entity.MutantPotionCauldronBlockEntity;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlocks;
+import com.hexagram2021.misc_twf.common.register.MISCTWFFluids;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.BlockSource;
 import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -12,10 +16,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUtils;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.DispenserBlock;
@@ -148,5 +150,23 @@ public class ModVanillaCompat {
 
 		//Dispenser
 		DispenserBlock.registerBehavior(MISCTWFItems.Materials.ANIMAL_POOP.get(), DispenserBlock.DISPENSER_REGISTRY.getOrDefault(Items.BONE_MEAL, DispenseItemBehavior.NOOP));
+		DispenserBlock.registerBehavior(MISCTWFFluids.BLOOD_FLUID.getBucket(), BUCKET_DISPENSE_BEHAVIOR);
 	}
+
+	private static final DispenseItemBehavior BUCKET_DISPENSE_BEHAVIOR = new DefaultDispenseItemBehavior() {
+		private final DefaultDispenseItemBehavior defaultBehavior = new DefaultDispenseItemBehavior();
+
+		@Override
+		@SuppressWarnings("deprecation")
+		public ItemStack execute(BlockSource blockSource, ItemStack itemStack) {
+			BucketItem bucketitem = (BucketItem)itemStack.getItem();
+			BlockPos blockpos = blockSource.getPos().relative(blockSource.getBlockState().getValue(DispenserBlock.FACING));
+			Level level = blockSource.getLevel();
+			if(bucketitem.emptyContents(null, level, blockpos, null)) {
+				bucketitem.checkExtraContent(null, level, itemStack, blockpos);
+				return new ItemStack(Items.BUCKET);
+			}
+			return this.defaultBehavior.dispense(blockSource, itemStack);
+		}
+	};
 }

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "misc_twf:block/flesh_and_blood_block_d1",
+    "top": "misc_twf:block/flesh_and_blood_block_d2",
+    "side": "misc_twf:block/flesh_and_blood_block_d3"
+  }
+}

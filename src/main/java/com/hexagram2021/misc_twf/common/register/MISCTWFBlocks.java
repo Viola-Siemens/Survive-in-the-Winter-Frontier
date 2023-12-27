@@ -10,9 +10,11 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -59,6 +61,27 @@ public final class MISCTWFBlocks {
 	public static final BlockEntry<Block> FLESH_AND_BLOOD_BLOCK = new BlockEntry<>("flesh_and_blood_block", () -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK), Block::new);
 	public static final BlockEntry<Block> FLESH_AND_BLOOD_BLOCK_D = new BlockEntry<>("flesh_and_blood_block_d", () -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK), Block::new);
 	public static final BlockEntry<Block> FLESH_AND_BLOOD_BLOCK_DD = new BlockEntry<>("flesh_and_blood_block_dd", () -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK), Block::new);
+	public static final BlockEntry<Block> FLESH_AND_BLOOD_SLAB = new BlockEntry<>("flesh_and_blood_slab", () -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK), p -> new SlabBlock(
+			p.isSuffocating(
+					(state, world, pos) -> FLESH_AND_BLOOD_BLOCK.defaultBlockState().isSuffocating(world, pos) && state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE
+			).isRedstoneConductor(
+					(state, world, pos) -> FLESH_AND_BLOOD_BLOCK.defaultBlockState().isRedstoneConductor(world, pos) && state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE
+			)
+	));
+	public static final BlockEntry<Block> FLESH_AND_BLOOD_SLAB_D = new BlockEntry<>("flesh_and_blood_slab_d", () -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK), p -> new SlabBlock(
+			p.isSuffocating(
+					(state, world, pos) -> FLESH_AND_BLOOD_BLOCK_D.defaultBlockState().isSuffocating(world, pos) && state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE
+			).isRedstoneConductor(
+					(state, world, pos) -> FLESH_AND_BLOOD_BLOCK_D.defaultBlockState().isRedstoneConductor(world, pos) && state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE
+			)
+	));
+	public static final BlockEntry<Block> FLESH_AND_BLOOD_SLAB_DD = new BlockEntry<>("flesh_and_blood_slab_dd", () -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK), p -> new SlabBlock(
+			p.isSuffocating(
+					(state, world, pos) -> FLESH_AND_BLOOD_BLOCK_DD.defaultBlockState().isSuffocating(world, pos) && state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE
+			).isRedstoneConductor(
+					(state, world, pos) -> FLESH_AND_BLOOD_BLOCK_DD.defaultBlockState().isRedstoneConductor(world, pos) && state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE
+			)
+	));
 	public static final BlockEntry<Block> INFECTED_DIRT = new BlockEntry<>("infected_dirt", () -> BlockBehaviour.Properties.copy(DIRT), Block::new);
 	public static final BlockEntry<Block> INFECTED_DIRT_D = new BlockEntry<>("infected_dirt_d", () -> BlockBehaviour.Properties.copy(DIRT), Block::new);
 	public static final BlockEntry<Block> INFECTED_DIRT_DD = new BlockEntry<>("infected_dirt_dd", () -> BlockBehaviour.Properties.copy(DIRT), Block::new);
@@ -66,6 +89,7 @@ public final class MISCTWFBlocks {
 	public static final BlockEntry<Block> INFECTED_GRASS_BLOCK_D = new BlockEntry<>("infected_grass_block_d", () -> BlockBehaviour.Properties.copy(GRASS_BLOCK), Block::new);
 	public static final BlockEntry<Block> INFECTED_GRASS_BLOCK_DD = new BlockEntry<>("infected_grass_block_dd", () -> BlockBehaviour.Properties.copy(GRASS_BLOCK), Block::new);
 	public static final BlockEntry<Block> INTESTINE = new BlockEntry<>("intestine", () -> BlockBehaviour.Properties.copy(REDSTONE_WIRE).sound(SoundType.NETHER_WART).noDrops(), Block::new);
+	public static final BlockEntry<Block> BLOODSTAIN = new BlockEntry<>("bloodstain", () -> BlockBehaviour.Properties.copy(REDSTONE_WIRE).sound(SoundType.NETHER_WART).noDrops(), Block::new);
 	public static final BlockEntry<Block> RIBS = new BlockEntry<>("ribs", () -> BlockBehaviour.Properties.copy(REDSTONE_WIRE).sound(SoundType.BONE_BLOCK), Block::new);
 
 	private MISCTWFBlocks() {
