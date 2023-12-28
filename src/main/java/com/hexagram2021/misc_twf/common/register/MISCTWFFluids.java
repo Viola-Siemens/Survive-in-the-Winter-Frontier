@@ -46,8 +46,7 @@ public final class MISCTWFFluids {
 					if(!entity.isAlive()) {
 						return;
 					}
-					entity.updateFluidHeightAndDoFluidPushing(MISCTWFFluidTags.BLOOD, 0.008D);
-					entity.makeStuckInBlock(blockState, new Vec3(0.375D, 0.25F, 0.375D));
+					entity.makeStuckInBlock(blockState, new Vec3(0.375D, 0.5F, 0.375D));
 				}
 			}
 	);

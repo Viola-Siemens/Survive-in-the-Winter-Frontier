@@ -6,11 +6,13 @@
   "mixins": [
     "AbstractFurnaceBlockEntityMixin",
     "CowEntityMixin",
+    "EntityMixin",
     "FireChargeItemMixin",
     "FlintAndSteelItemMixin",
     "GoatEntityMixin",
     "GunMixin",
     "InfectionRegisterMixin",
+    "LivingEntityMixin",
     "MonsterMixin",
     "ReloadTrackerMixin",
     "TravelersBackpackBlockEntityMixin",
