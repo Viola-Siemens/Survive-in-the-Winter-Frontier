@@ -43,7 +43,7 @@ public final class MISCTWFFluids {
 				@Override
 				@SuppressWarnings("deprecation")
 				public void entityInside(BlockState blockState, Level level, BlockPos pos, Entity entity) {
-					if(level.isClientSide || !entity.isAlive()) {
+					if(!entity.isAlive()) {
 						return;
 					}
 					entity.updateFluidHeightAndDoFluidPushing(MISCTWFFluidTags.BLOOD, 0.008D);
