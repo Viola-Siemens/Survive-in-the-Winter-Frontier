@@ -25,7 +25,7 @@ public abstract class MonsterMixin extends PathfinderMob implements IAvoidBlockM
 	}
 
 	@Inject(method = "<init>", at = @At(value = "TAIL"))
-	protected void addAvoidBlockGoal(EntityType<? extends Monster> type, Level level, CallbackInfo ci) {
+	protected void misc_twf$addAvoidBlockGoal(EntityType<? extends Monster> type, Level level, CallbackInfo ci) {
 		this.avoidBlockGoal = new AvoidBlockGoal<>(this, MISCTWFBlocks.ULTRAVIOLET_LAMP.get(), 24.0F, 1.0D, 1.2D);
 		this.goalSelector.addGoal(0, this.avoidBlockGoal);
 	}

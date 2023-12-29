@@ -27,12 +27,12 @@ public abstract class TravelersBackpackBlockEntityMixin implements IAmmoBackpack
 	private boolean upgradeToTac = false;
 
 	@Inject(method = "saveAllData", at = @At(value = "HEAD"), remap = false)
-	public void saveTac(CompoundTag compound, CallbackInfo ci) {
+	public void misc_twf$saveTac(CompoundTag compound, CallbackInfo ci) {
 		this.saveAmmo(compound);
 	}
 
 	@Inject(method = "loadAllData", at = @At(value = "HEAD"), remap = false)
-	public void loadTac(CompoundTag compound, CallbackInfo ci) {
+	public void misc_twf$loadTac(CompoundTag compound, CallbackInfo ci) {
 		this.upgradeToTac = compound.contains("UpgradeToTac", Tag.TAG_BYTE) && compound.getBoolean("UpgradeToTac");
 		if(compound.contains("AmmoInventory", Tag.TAG_COMPOUND)) {
 			this.ammoInventory.deserializeNBT(compound.getCompound("AmmoInventory"));
@@ -40,7 +40,7 @@ public abstract class TravelersBackpackBlockEntityMixin implements IAmmoBackpack
 	}
 
 	@Inject(method = "transferToItemStack", at = @At(value = "INVOKE", target = "Lcom/tiviacz/travelersbackpack/blockentity/TravelersBackpackBlockEntity;saveTier(Lnet/minecraft/nbt/CompoundTag;)V", shift = At.Shift.BEFORE), remap = false, locals = LocalCapture.CAPTURE_FAILSOFT)
-	public void saveTacToItemStack(ItemStack stack, CallbackInfoReturnable<ItemStack> cir, CompoundTag compound) {
+	public void misc_twf$saveTacToItemStack(ItemStack stack, CallbackInfoReturnable<ItemStack> cir, CompoundTag compound) {
 		this.saveAmmo(compound);
 	}
 

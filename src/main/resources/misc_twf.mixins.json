@@ -12,7 +12,6 @@
     "GoatEntityMixin",
     "GunMixin",
     "InfectionRegisterMixin",
-    "LivingEntityMixin",
     "MonsterMixin",
     "ReloadTrackerMixin",
     "TravelersBackpackBlockEntityMixin",

@@ -3,22 +3,18 @@ package com.hexagram2021.misc_twf.common.register;
 import com.hexagram2021.misc_twf.SurviveInTheWinterFrontier;
 import com.hexagram2021.misc_twf.common.fluid.BloodFluid;
 import com.hexagram2021.misc_twf.common.fluid.FluidConstructor;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper;
@@ -30,6 +26,7 @@ import org.apache.commons.lang3.mutable.MutableObject;
 
 import javax.annotation.Nullable;
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
@@ -39,16 +36,8 @@ public final class MISCTWFFluids {
 	public static final FluidEntry<BloodFluid> BLOOD_FLUID = FluidEntry.register(
 			"blood", MISCTWFFluidTags.BLOOD, BloodFluid.Source::new, BloodFluid.Flowing::new,
 			new ResourceLocation(MODID, "block/fluid/blood_still"), new ResourceLocation(MODID, "block/fluid/blood_flowing"),
-			(entry, props) -> new LiquidBlock(entry::getStill, props) {
-				@Override
-				@SuppressWarnings("deprecation")
-				public void entityInside(BlockState blockState, Level level, BlockPos pos, Entity entity) {
-					if(!entity.isAlive()) {
-						return;
-					}
-					entity.makeStuckInBlock(blockState, new Vec3(0.375D, 0.5F, 0.375D));
-				}
-			}
+			() -> BlockBehaviour.Properties.of(Material.WATER).color(MaterialColor.COLOR_RED).noCollission().strength(5.0F).speedFactor(0.5F).noDrops(),
+			(entry, props) -> new LiquidBlock(entry::getStill, props)
 	);
 
 	public record FluidEntry<T extends Fluid>(RegistryObject<T> still, RegistryObject<T> flowing,
@@ -72,6 +61,7 @@ public final class MISCTWFFluids {
 		public static <T extends Fluid> FluidEntry<T> register(String name, TagKey<Fluid> fluidTag,
 															   FluidConstructor<T> stillMaker, FluidConstructor<T> flowingMaker,
 															   ResourceLocation stillTex, ResourceLocation flowingTex,
+															   Supplier<BlockBehaviour.Properties> blockProperties,
 															   BiFunction<FluidEntry<T>, BlockBehaviour.Properties, ? extends LiquidBlock> blockMaker) {
 			Mutable<FluidEntry<T>> thisMutable = new MutableObject<>();
 			RegistryObject<T> still = REGISTER.register(name, () -> makeFluid(
@@ -82,7 +72,7 @@ public final class MISCTWFFluids {
 			));
 			MISCTWFBlocks.BlockEntry<LiquidBlock> block = new MISCTWFBlocks.BlockEntry<>(
 					name,
-					() -> BlockBehaviour.Properties.copy(Blocks.WATER).strength(5.0F),
+					blockProperties,
 					p -> blockMaker.apply(thisMutable.getValue(), p),
 					null
 			);

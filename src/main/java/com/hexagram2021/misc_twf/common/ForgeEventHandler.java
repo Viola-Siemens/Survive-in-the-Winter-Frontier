@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common;
 
+import be.florens.expandability.api.forge.PlayerSwimEvent;
 import com.hexagram2021.misc_twf.common.effect.FragileEffect;
 import com.hexagram2021.misc_twf.common.entity.ZombieGoatEntity;
 import com.hexagram2021.misc_twf.common.entity.ZombieSheepEntity;
@@ -10,6 +11,7 @@ import com.hexagram2021.misc_twf.common.item.AbyssVirusVaccine;
 import com.hexagram2021.misc_twf.common.item.IEnergyItem;
 import com.hexagram2021.misc_twf.common.item.capability.ItemStackEnergyHandler;
 import com.hexagram2021.misc_twf.common.register.MISCTWFEntityTags;
+import com.hexagram2021.misc_twf.common.register.MISCTWFFluidTags;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
 import com.hexagram2021.misc_twf.common.register.MISCTWFMobEffects;
 import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
@@ -29,6 +31,7 @@ import net.minecraftforge.event.entity.living.LivingConversionEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -118,6 +121,15 @@ public class ForgeEventHandler {
 				event.setCancellationResult(InteractionResult.CONSUME);
 				event.setCanceled(true);
 			}
+		}
+	}
+
+	@SubscribeEvent
+	public static void onPlayerSwim(PlayerSwimEvent event) {
+		Player player = event.getPlayer();
+		double fluidHeight = player.getFluidHeight(MISCTWFFluidTags.BLOOD);
+		if(fluidHeight > 0 && (!player.isOnGround() || fluidHeight > player.getFluidJumpThreshold())) {
+			event.setResult(Event.Result.ALLOW);
 		}
 	}
 }

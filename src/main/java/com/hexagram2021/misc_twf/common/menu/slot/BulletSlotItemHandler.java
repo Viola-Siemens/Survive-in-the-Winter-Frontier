@@ -31,7 +31,8 @@ public class BulletSlotItemHandler extends SlotItemHandler {
 	@Override
 	public void setChanged() {
 		super.setChanged();
-		if (this.container instanceof ITravelersBackpackContainer container && container.getScreenID() == Reference.WEARABLE_SCREEN_ID) {
+		if (this.container instanceof ITravelersBackpackContainer travelersBackpackContainer &&
+				travelersBackpackContainer.getScreenID() == Reference.WEARABLE_SCREEN_ID) {
 			CapabilityUtils.synchronise(this.player);
 			CapabilityUtils.synchroniseToOthers(this.player);
 		}

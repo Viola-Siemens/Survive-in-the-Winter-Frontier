@@ -34,7 +34,7 @@ public class GoatEntityMixin implements IProduceMilk {
 	}
 
 	@Inject(method = "aiStep", at = @At(value = "TAIL"))
-	public void countDownMilkCoolDown(CallbackInfo ci) {
+	public void misc_twf$countDownMilkCoolDown(CallbackInfo ci) {
 		int milkCD = this.getMilkCoolDown();
 		if(milkCD > 0) {
 			this.setMilkCoolDown(milkCD - 1);

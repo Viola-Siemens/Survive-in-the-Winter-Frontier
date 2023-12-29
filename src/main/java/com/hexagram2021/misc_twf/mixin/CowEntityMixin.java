@@ -36,7 +36,7 @@ public abstract class CowEntityMixin extends Animal implements IProduceMilk {
 	}
 
 	@Inject(method = "mobInteract", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;playSound(Lnet/minecraft/sounds/SoundEvent;FF)V", shift = At.Shift.BEFORE), cancellable = true)
-	public void checkMilkCoolDown(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+	public void misc_twf$checkMilkCoolDown(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
 		if(!this.isAvailableToProduceMilk()) {
 			cir.setReturnValue(InteractionResult.sidedSuccess(this.level.isClientSide));
 			cir.cancel();

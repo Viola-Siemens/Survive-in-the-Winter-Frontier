@@ -73,11 +73,11 @@ public abstract class AbstractTravelersBackpackTacMenu extends AbstractContainer
 
 	@Override
 	public void removed(Player player) {
-		if(this.container instanceof ITravelersBackpackContainer container) {
-			if(container.getScreenID() == Reference.BLOCK_ENTITY_SCREEN_ID) {
-				container.setUsingPlayer(null);
+		if(this.container instanceof ITravelersBackpackContainer travelersBackpackContainer) {
+			if(travelersBackpackContainer.getScreenID() == Reference.BLOCK_ENTITY_SCREEN_ID) {
+				travelersBackpackContainer.setUsingPlayer(null);
 			} else {
-				container.setDataChanged((byte)10);
+				travelersBackpackContainer.setDataChanged((byte)10);
 			}
 		}
 		super.removed(player);
