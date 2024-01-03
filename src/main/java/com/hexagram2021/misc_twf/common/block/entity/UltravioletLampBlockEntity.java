@@ -158,6 +158,7 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 		if (itemStack.getCount() > this.getMaxStackSize()) {
 			itemStack.setCount(this.getMaxStackSize());
 		}
+		this.setChanged();
 	}
 
 	@SuppressWarnings("ConstantConditions")

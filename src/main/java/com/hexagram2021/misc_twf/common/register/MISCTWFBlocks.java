@@ -1,11 +1,7 @@
 package com.hexagram2021.misc_twf.common.register;
 
 import com.hexagram2021.misc_twf.SurviveInTheWinterFrontier;
-import com.hexagram2021.misc_twf.common.block.AbyssVirusVaccineCauldronBlock;
-import com.hexagram2021.misc_twf.common.block.BloodstainBlock;
-import com.hexagram2021.misc_twf.common.block.MutantPotionCauldronBlock;
-import com.hexagram2021.misc_twf.common.block.RibsBlock;
-import com.hexagram2021.misc_twf.common.block.UltravioletLampBlock;
+import com.hexagram2021.misc_twf.common.block.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -40,6 +36,12 @@ public final class MISCTWFBlocks {
 			() -> BlockBehaviour.Properties.of(Material.DECORATION).instabreak()
 					.lightLevel(blockState -> blockState.getValue(UltravioletLampBlock.LIT) ? 15 : 0).sound(SoundType.METAL).noOcclusion(),
 			UltravioletLampBlock::new
+	);
+
+	public static final BlockEntry<MoldDetacherBlock> MOLD_DETACHER = new BlockEntry<>(
+			"mold_detacher",
+			() -> BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.PODZOL).strength(2.0F).sound(SoundType.WOOD).noOcclusion(),
+			MoldDetacherBlock::new
 	);
 
 	public static final BlockEntry<Block> MECHANICAL_ENCLOSURE = new BlockEntry<>(

@@ -149,12 +149,12 @@ dependencies {
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.1.255")
+    implementation fg.deobf("mezz.jei:jei-1.18.2:9.7.1.255")
     runtimeOnly fg.deobf('software.bernie.geckolib:geckolib-forge-1.18:3.0.57')
 
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:1.18.2-5.0.9.1")
     implementation fg.deobf('curse.maven:atlaslib-463826:4567244')
-    runtimeOnly fg.deobf("curse.maven:create-328085:4550986")
+    implementation fg.deobf("curse.maven:create-328085:4550986")
     implementation fg.deobf("curse.maven:createaddition-439890:4683727")
     compileOnly fg.deobf("curse.maven:embeddium-908741:4949961")
     compileOnly fg.deobf("curse.maven:embeddiumplus-931925:4958315")

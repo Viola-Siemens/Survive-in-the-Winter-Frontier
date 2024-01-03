@@ -112,7 +112,7 @@ public class UltravioletLampBlock extends BaseEntityBlock {
 
 	@Override
 	public PushReaction getPistonPushReaction(BlockState blockState) {
-		return PushReaction.NORMAL;
+		return PushReaction.DESTROY;
 	}
 
 	@Override

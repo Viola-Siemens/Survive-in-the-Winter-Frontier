@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "misc_twf:block/mold_detacher",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "misc_twf:block/mold_detacher",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "misc_twf:block/mold_detacher",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "misc_twf:block/mold_detacher"
+    }
+  }
+}
