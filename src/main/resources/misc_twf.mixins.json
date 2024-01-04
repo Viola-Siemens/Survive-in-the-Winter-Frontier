@@ -11,7 +11,7 @@
     "FlintAndSteelItemMixin",
     "GoatEntityMixin",
     "GunMixin",
-    "InfectionRegisterMixin",
+    "InfectionEventHandlerMixin",
     "MonsterMixin",
     "ReloadTrackerMixin",
     "TravelersBackpackBlockEntityMixin",

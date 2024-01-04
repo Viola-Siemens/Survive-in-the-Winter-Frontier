@@ -63,7 +63,7 @@ public final class MISCTWFItems {
 				"second_brain_core", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
 		);
 		public static final ItemEntry<Item> SYRINGE = ItemEntry.register(
-				"syringe", () -> new Item(new Item.Properties().stacksTo(1).tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+				"syringe", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
 		);
 		public static final ItemEntry<Item> GLASS_ROD = ItemEntry.register(
 				"glass_rod", () -> new Item(new Item.Properties().stacksTo(1).tab(SurviveInTheWinterFrontier.ITEM_GROUP))

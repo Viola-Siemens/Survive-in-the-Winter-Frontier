@@ -160,7 +160,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:embeddiumplus-931925:4958315")
     runtimeOnly fg.deobf("curse.maven:flywheel-486392:4341461")
     implementation fg.deobf('curse.maven:framework-549225:4613856')
-    implementation fg.deobf("curse.maven:hordes-485779:4756150")
+    implementation fg.deobf("curse.maven:hordes-485779:4886655")
     implementation fg.deobf("curse.maven:jade-324717:4575623")
     implementation fg.deobf("curse.maven:travelersbackpack-321117:4790586")
     runtimeOnly fg.deobf("curse.maven:zombie_extreme-392809:4746394")
