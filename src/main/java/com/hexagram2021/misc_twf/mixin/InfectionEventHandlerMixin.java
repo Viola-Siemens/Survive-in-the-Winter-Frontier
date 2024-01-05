@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = InfectionEventHandler.class, priority = 42)
 public class InfectionEventHandlerMixin {
-	@Inject(method = "onDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z", shift = At.Shift.BEFORE), remap = false, cancellable = true)
+	@Inject(method = "onDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z", shift = At.Shift.BEFORE), cancellable = true)
 	private void misc_twf$ignoreIfPlayerVillagerImmuneToInfection(LivingDamageEvent event, CallbackInfo ci) {
 		LivingEntity entity = event.getEntityLiving();
 		if(MISCTWFSavedData.isImmuneToZombification(entity.getUUID())) {
