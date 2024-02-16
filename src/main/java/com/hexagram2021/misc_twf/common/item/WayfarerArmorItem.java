@@ -50,6 +50,11 @@ public class WayfarerArmorItem extends ArmorItem implements IEnergyItem {
 	}
 
 	@Override
+	public boolean isEnchantable(ItemStack itemStack) {
+		return this.getItemStackLimit(itemStack) == 1;
+	}
+
+	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
 		return MODID + ":textures/models/armor/" + name + "_layer" + (slot==EquipmentSlot.LEGS?"_legs": "") + ".png";
 	}
