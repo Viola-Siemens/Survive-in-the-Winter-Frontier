@@ -1,13 +1,16 @@
 package com.hexagram2021.misc_twf.common.item;
 
+import com.google.common.collect.Streams;
 import com.hexagram2021.misc_twf.SurviveInTheWinterFrontier;
 import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.LazyLoadedValue;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -20,6 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 
@@ -105,6 +109,16 @@ public class WayfarerArmorItem extends ArmorItem implements IEnergyItem {
 					ies.extractEnergy(1, false);
 				}
 			});
+			if(this.slot.equals(EquipmentSlot.HEAD)) {
+				if(Streams.stream(player.getArmorSlots()).allMatch(itemStack -> itemStack.getItem() instanceof WayfarerArmorItem)) {
+					MISCTWFCommonConfig.WAYFARER_ARMOR_EFFECTS.get().forEach(id -> {
+						MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(id));
+						if(effect != null) {
+							player.addEffect(new MobEffectInstance(effect, 40));
+						}
+					});
+				}
+			}
 		}
 	}
 

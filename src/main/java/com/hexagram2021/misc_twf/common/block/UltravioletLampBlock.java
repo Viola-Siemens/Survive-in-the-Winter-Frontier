@@ -2,6 +2,7 @@ package com.hexagram2021.misc_twf.common.block;
 
 import com.hexagram2021.misc_twf.common.block.entity.UltravioletLampBlockEntity;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
+import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -128,6 +129,9 @@ public class UltravioletLampBlock extends BaseEntityBlock {
 	@Override
 	public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState newState, boolean v) {
 		if (!blockState.is(newState.getBlock())) {
+			if(blockState.getValue(LIT)) {
+				MISCTWFSavedData.destroyLamp(blockPos);
+			}
 			BlockEntity blockentity = level.getBlockEntity(blockPos);
 			if (blockentity instanceof UltravioletLampBlockEntity ultravioletLampBlockEntity) {
 				if (level instanceof ServerLevel) {

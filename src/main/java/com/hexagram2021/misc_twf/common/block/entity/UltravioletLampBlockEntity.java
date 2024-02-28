@@ -6,6 +6,7 @@ import com.hexagram2021.misc_twf.common.menu.UltravioletLampMenu;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItemTags;
 import com.hexagram2021.misc_twf.common.register.MISCTWFMobEffects;
+import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -103,6 +104,11 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 				blockState = blockState.setValue(UltravioletLampBlock.LIT, newLit);
 				level.setBlock(blockPos, blockState, 3);
 				setChanged(level, blockPos, blockState);
+				if(newLit) {
+					MISCTWFSavedData.placeLamp(blockPos);
+				} else {
+					MISCTWFSavedData.destroyLamp(blockPos);
+				}
 			}
 			if(newLit) {
 				level.getEntities(EntityTypeTest.forClass(Monster.class), AABB.ofSize(Vec3.atCenterOf(blockPos), 36.0D, 36.0D, 36.0D), monster -> true)

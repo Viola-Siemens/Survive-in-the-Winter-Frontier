@@ -21,6 +21,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.animal.goat.GoatAi;
 import net.minecraft.world.entity.player.Player;
@@ -30,6 +31,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingConversionEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -130,6 +132,13 @@ public class ForgeEventHandler {
 		double fluidHeight = player.getFluidHeight(MISCTWFFluidTags.BLOOD);
 		if(fluidHeight > 0 && (!player.isOnGround() || fluidHeight > player.getFluidJumpThreshold())) {
 			event.setResult(Event.Result.ALLOW);
+		}
+	}
+
+	@SubscribeEvent
+	public static void onEntitySpawn(LivingSpawnEvent.CheckSpawn event) {
+		if(event.getEntityLiving().getType().getCategory().equals(MobCategory.MONSTER) && MISCTWFSavedData.denyMonsterSpawn(event.getEntityLiving().getOnPos())) {
+			event.setResult(Event.Result.DENY);
 		}
 	}
 }
