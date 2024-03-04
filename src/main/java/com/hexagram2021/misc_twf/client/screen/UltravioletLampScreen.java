@@ -23,6 +23,7 @@ public class UltravioletLampScreen extends AbstractContainerScreen<UltravioletLa
 
 	@Override
 	public void render(PoseStack transform, int x, int y, float partialTicks) {
+		this.renderBackground(transform);
 		super.render(transform, x, y, partialTicks);
 		this.renderTooltip(transform, x, y);
 	}

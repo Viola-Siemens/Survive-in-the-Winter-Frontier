@@ -1,22 +1,33 @@
 package com.hexagram2021.misc_twf.server;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
 import com.hexagram2021.misc_twf.common.util.MISCTWFLogger;
 import com.hexagram2021.tetrachordlib.core.container.IMultidimensional;
 import com.hexagram2021.tetrachordlib.core.container.KDTree;
 import com.hexagram2021.tetrachordlib.vanilla.MDUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 
 import javax.annotation.Nullable;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.function.Function;
 
 public class MISCTWFSavedData extends SavedData {
+	public static final Set<ResourceLocation> dimensions = Sets.newHashSet(
+			Level.OVERWORLD.location(), Level.NETHER.location(), Level.END.location()
+	);
+	private static final Function<ResourceLocation, KDTree<BlockPos, Integer>> computeFunction = k -> KDTree.newLinkedKDTree(3);
+
 	@Nullable
 	private static MISCTWFSavedData INSTANCE;
 
@@ -30,12 +41,12 @@ public class MISCTWFSavedData extends SavedData {
 	private static final String TAG_POSITION = "position";
 
 	private final Map<UUID, VaccineContent> immunityAgainstZombification;
-	private final KDTree<BlockPos, Integer> lampPositions;
+	private final Map<ResourceLocation, KDTree<BlockPos, Integer>> lampPositions;
 
 	public MISCTWFSavedData() {
 		super();
 		this.immunityAgainstZombification = Maps.newHashMap();
-		this.lampPositions = KDTree.newLinkedKDTree(3);
+		this.lampPositions = Maps.newHashMap();
 	}
 
 	public MISCTWFSavedData(CompoundTag nbt) {
@@ -47,15 +58,21 @@ public class MISCTWFSavedData extends SavedData {
 				this.immunityAgainstZombification.put(compoundTag.getUUID(TAG_ID), new VaccineContent(nbt.getCompound(TAG_CONTENT)));
 			}
 		}
-		if(nbt.contains(TAG_LAMPS, Tag.TAG_LIST)) {
-			ListTag list = nbt.getList(TAG_LAMPS, Tag.TAG_COMPOUND);
-			@SuppressWarnings("unchecked")
-			KDTree.BuildNode<BlockPos, Integer>[] buildNodes = list.stream().map(tag -> {
-				CompoundTag compoundTag = (CompoundTag)tag;
-				BlockPos blockPos = BlockPos.of(compoundTag.getLong(TAG_POSITION));
-				return new KDTree.BuildNode<>(MDUtils.vec3i(blockPos), blockPos);
-			}).toArray(KDTree.BuildNode[]::new);
-			this.lampPositions.build(buildNodes);
+		if(nbt.contains(TAG_LAMPS, Tag.TAG_COMPOUND)) {
+			CompoundTag lamps = nbt.getCompound(TAG_LAMPS);
+			dimensions.forEach(dimension -> {
+				String dimensionKey = dimension.toString();
+				if(lamps.contains(dimensionKey, Tag.TAG_LIST)) {
+					ListTag list = lamps.getList(dimensionKey, Tag.TAG_COMPOUND);
+					@SuppressWarnings("unchecked")
+					KDTree.BuildNode<BlockPos, Integer>[] buildNodes = list.stream().map(tag -> {
+						CompoundTag compoundTag = (CompoundTag)tag;
+						BlockPos blockPos = BlockPos.of(compoundTag.getLong(TAG_POSITION));
+						return new KDTree.BuildNode<>(MDUtils.vec3i(blockPos), blockPos);
+					}).toArray(KDTree.BuildNode[]::new);
+					this.lampPositions.computeIfAbsent(dimension, computeFunction).build(buildNodes);
+				}
+			});
 		}
 	}
 
@@ -72,15 +89,19 @@ public class MISCTWFSavedData extends SavedData {
 		}
 		nbt.put(TAG_IMMUNITY, immunity);
 
-		ListTag lamps = new ListTag();
 		synchronized (this.lampPositions) {
-			this.lampPositions.inDfs((blockPos, intPosition) -> {
-				CompoundTag tag = new CompoundTag();
-				tag.putLong(TAG_POSITION, blockPos.asLong());
-				lamps.add(tag);
+			CompoundTag lamps = new CompoundTag();
+			this.lampPositions.forEach((dimension, tree) -> {
+				ListTag list = new ListTag();
+				tree.inDfs((blockPos, intPosition) -> {
+					CompoundTag tag = new CompoundTag();
+					tag.putLong(TAG_POSITION, blockPos.asLong());
+					list.add(tag);
+				});
+				lamps.put(dimension.toString(), list);
 			});
+			nbt.put(TAG_LAMPS, lamps);
 		}
-		nbt.put(TAG_LAMPS, lamps);
 
 		return nbt;
 	}
@@ -103,34 +124,43 @@ public class MISCTWFSavedData extends SavedData {
 		return INSTANCE.immunityAgainstZombification.containsKey(uuid);
 	}
 
-	public static void placeLamp(BlockPos blockPos) {
+	public static void placeLamp(GlobalPos globalPos) {
+		BlockPos blockPos = globalPos.pos();
+//		MISCTWFLogger.debug("Place lamp at " + globalPos.dimension().location() + " (" + blockPos.toShortString() + ").");
 		if(INSTANCE == null) {
 			MISCTWFLogger.warn("Ignore trying to place lamp at (" + blockPos.toShortString() + ") as saved data is not loaded.");
 			return;
 		}
-		INSTANCE.lampPositions.insert(KDTree.BuildNode.of(blockPos, MDUtils.vec3i(blockPos)));
+		INSTANCE.lampPositions.computeIfAbsent(globalPos.dimension().location(), computeFunction)
+				.insert(KDTree.BuildNode.of(blockPos, MDUtils.vec3i(blockPos)));
 		INSTANCE.setDirty();
 	}
-	public static void destroyLamp(BlockPos blockPos) {
+	public static void destroyLamp(GlobalPos globalPos) {
+		BlockPos blockPos = globalPos.pos();
+//		MISCTWFLogger.debug("Destroy lamp at " + globalPos.dimension().location() + " (" + blockPos.toShortString() + ").");
 		if(INSTANCE == null) {
 			MISCTWFLogger.warn("Ignore trying to destroy lamp at (" + blockPos.toShortString() + ") as saved data is not loaded.");
 			return;
 		}
-		if(INSTANCE.lampPositions.remove(MDUtils.vec3i(blockPos)) == null) {
+		KDTree<BlockPos, Integer> dimensionKDT = INSTANCE.lampPositions.computeIfAbsent(globalPos.dimension().location(), computeFunction);
+		if(dimensionKDT.isEmpty() || dimensionKDT.remove(MDUtils.vec3i(blockPos)) == null) {
 			MISCTWFLogger.warn("Ignore trying to destroy lamp at (" + blockPos.toShortString() + ") as the target block is not exists in the container.");
 		}
 		INSTANCE.setDirty();
 	}
-	public static boolean denyMonsterSpawn(BlockPos blockPos) {
+	public static boolean denyMonsterSpawn(GlobalPos globalPos) {
+		BlockPos blockPos = globalPos.pos();
+//		MISCTWFLogger.debug("Query lamp at " + globalPos.dimension().location() + " (" + blockPos.toShortString() + ").");
 		if(INSTANCE == null) {
 			MISCTWFLogger.warn("Ignore trying to query lamp on (" + blockPos.toShortString() + ") as saved data is not loaded.");
 			return false;
 		}
-		if(INSTANCE.lampPositions.isEmpty()) {
+		KDTree<BlockPos, Integer> dimensionKDT = INSTANCE.lampPositions.get(globalPos.dimension().location());
+		if(dimensionKDT == null || dimensionKDT.isEmpty()) {
 			return false;
 		}
 		IMultidimensional<Integer> target = MDUtils.vec3i(blockPos);
-		IMultidimensional<Integer> closest = INSTANCE.lampPositions.findClosest(target).value();
+		IMultidimensional<Integer> closest = dimensionKDT.findClosest(target).value();
 		return closest.distanceWith(target) <= MISCTWFCommonConfig.ULTRAVIOLET_LAMPS_RADIUS.get();
 	}
 

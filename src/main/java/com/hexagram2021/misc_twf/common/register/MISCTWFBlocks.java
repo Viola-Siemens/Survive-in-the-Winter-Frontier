@@ -2,6 +2,7 @@ package com.hexagram2021.misc_twf.common.register;
 
 import com.hexagram2021.misc_twf.SurviveInTheWinterFrontier;
 import com.hexagram2021.misc_twf.common.block.*;
+import com.hexagram2021.misc_twf.common.infrastructure.compat.ModCreateCompat;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -38,11 +39,12 @@ public final class MISCTWFBlocks {
 			UltravioletLampBlock::new
 	);
 
-	public static final BlockEntry<MoldDetacherBlock> MOLD_DETACHER = new BlockEntry<>(
-			"mold_detacher",
-			() -> BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.PODZOL).strength(2.0F).sound(SoundType.WOOD).noOcclusion(),
-			MoldDetacherBlock::new
-	);
+	public static final com.tterrag.registrate.util.entry.BlockEntry<MoldDetacherBlock> MOLD_DETACHER = ModCreateCompat.REGISTRATE
+			.block("mold_detacher", MoldDetacherBlock::new)
+			.initialProperties(Material.WOOD, MaterialColor.PODZOL)
+			.properties(properties -> properties.strength(2.0F).sound(SoundType.WOOD).noOcclusion())
+			.simpleItem()
+			.register();
 
 	public static final BlockEntry<Block> MECHANICAL_ENCLOSURE = new BlockEntry<>(
 			"mechanical_enclosure",

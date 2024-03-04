@@ -9,6 +9,7 @@ import com.hexagram2021.misc_twf.common.register.MISCTWFMobEffects;
 import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -105,9 +106,9 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 				level.setBlock(blockPos, blockState, 3);
 				setChanged(level, blockPos, blockState);
 				if(newLit) {
-					MISCTWFSavedData.placeLamp(blockPos);
+					MISCTWFSavedData.placeLamp(GlobalPos.of(level.dimension(), blockPos));
 				} else {
-					MISCTWFSavedData.destroyLamp(blockPos);
+					MISCTWFSavedData.destroyLamp(GlobalPos.of(level.dimension(), blockPos));
 				}
 			}
 			if(newLit) {

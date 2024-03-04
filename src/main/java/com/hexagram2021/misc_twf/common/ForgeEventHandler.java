@@ -15,6 +15,7 @@ import com.hexagram2021.misc_twf.common.register.MISCTWFFluidTags;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
 import com.hexagram2021.misc_twf.common.register.MISCTWFMobEffects;
 import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -137,7 +138,8 @@ public class ForgeEventHandler {
 
 	@SubscribeEvent
 	public static void onEntitySpawn(LivingSpawnEvent.CheckSpawn event) {
-		if(event.getEntityLiving().getType().getCategory().equals(MobCategory.MONSTER) && MISCTWFSavedData.denyMonsterSpawn(event.getEntityLiving().getOnPos())) {
+		if(event.getEntityLiving().getType().getCategory().equals(MobCategory.MONSTER) &&
+				MISCTWFSavedData.denyMonsterSpawn(GlobalPos.of(event.getEntityLiving().level.dimension(), event.getEntityLiving().blockPosition().above()))) {
 			event.setResult(Event.Result.DENY);
 		}
 	}

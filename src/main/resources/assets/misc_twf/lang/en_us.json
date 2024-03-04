@@ -87,6 +87,11 @@
   "screen.travelersbackpack.tac_button": "Open TaC Bullet Slot",
   "screen.travelersbackpack.tac_back": "Back to Backpack",
 
+  "misc_twf.ponder.mold_detacher.header": "Using mold detachers",
+  "misc_twf.ponder.shared.mold_detacher": "Mold detacher can automatically detach ammo from mold.",
+  "misc_twf.ponder.shared.power_side": "Mold detacher starts working when it receives rotational force from power side.",
+  "misc_twf.ponder.shared.input_funnel": "Funnels or hoppers should be added to any horizontal side except power side to input materials and output products.",
+
   "subtitles.entity.misc_twf.zombie_chicken.ambient": "Zombie Chicken clucks",
   "subtitles.entity.misc_twf.zombie_chicken.hurt": "Zombie Chicken hurts",
   "subtitles.entity.misc_twf.zombie_chicken.death": "Zombie Chicken dies",

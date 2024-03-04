@@ -63,6 +63,12 @@ A minecraft mod for modpack "The Winter Frontier"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
+    modId="tetrachordlib"
+    mandatory=true
+    versionRange="[1.18,1.19)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.misc_twf]]
     modId="jade"
     mandatory=true
     versionRange="[5.2.0,)"

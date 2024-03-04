@@ -29,7 +29,7 @@ public class MoldDetacherRecipeCategory implements IRecipeCategory<MoldDetacherR
 
 	public MoldDetacherRecipeCategory(IGuiHelper guiHelper) {
 		this.background = guiHelper.createDrawable(TEXTURE, 0, 0, width, height);
-		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(MISCTWFBlocks.MOLD_DETACHER));
+		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(MISCTWFBlocks.MOLD_DETACHER.get()));
 	}
 
 	@Override

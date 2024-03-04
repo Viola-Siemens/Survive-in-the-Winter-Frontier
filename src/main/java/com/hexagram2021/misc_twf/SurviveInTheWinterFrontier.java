@@ -77,6 +77,7 @@ public class SurviveInTheWinterFrontier {
 
 	public void serverStarted(final ServerStartedEvent event) {
 		ServerLevel world = event.getServer().getLevel(Level.OVERWORLD);
+		event.getServer().levelKeys().forEach(level -> MISCTWFSavedData.dimensions.add(level.location()));
 		assert world != null;
 		if(!world.isClientSide) {
 			MISCTWFSavedData worldData = world.getDataStorage().computeIfAbsent(MISCTWFSavedData::new, MISCTWFSavedData::new, MISCTWFSavedData.SAVED_DATA_NAME);

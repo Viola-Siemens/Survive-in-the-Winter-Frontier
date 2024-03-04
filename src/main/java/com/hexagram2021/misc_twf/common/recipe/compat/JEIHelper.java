@@ -55,6 +55,6 @@ public class JEIHelper implements IModPlugin {
 
 	@Override
 	public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-		registration.addRecipeCatalyst(new ItemStack(MISCTWFBlocks.MOLD_DETACHER), MISCTWFJEIRecipeTypes.MOLD_DETACHER);
+		registration.addRecipeCatalyst(new ItemStack(MISCTWFBlocks.MOLD_DETACHER.get()), MISCTWFJEIRecipeTypes.MOLD_DETACHER);
 	}
 }

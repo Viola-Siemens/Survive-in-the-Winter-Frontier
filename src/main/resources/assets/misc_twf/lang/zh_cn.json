@@ -87,6 +87,11 @@
   "screen.travelersbackpack.tac_button": "打开永恒枪械工坊子弹槽",
   "screen.travelersbackpack.tac_back": "返回背包",
 
+  "misc_twf.ponder.mold_detacher.header": "使用模具分离器",
+  "misc_twf.ponder.shared.mold_detacher": "模具分离器可以自动将弹药从模具上剥离出来，实现子弹生产自动化。",
+  "misc_twf.ponder.shared.power_side": "模具分离器在动力侧接收到旋转应力时将会开始工作。",
+  "misc_twf.ponder.shared.input_funnel": "除动力侧外的其它水平侧应该添加通道或漏斗来输入原料和输出产物。",
+
   "subtitles.entity.misc_twf.zombie_chicken.ambient": "僵尸鸡：咯咯叫",
   "subtitles.entity.misc_twf.zombie_chicken.hurt": "僵尸鸡：受伤",
   "subtitles.entity.misc_twf.zombie_chicken.death": "僵尸鸡：死亡",

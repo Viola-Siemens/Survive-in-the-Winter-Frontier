@@ -4,6 +4,7 @@ import com.hexagram2021.misc_twf.client.model.*;
 import com.hexagram2021.misc_twf.client.renderer.*;
 import com.hexagram2021.misc_twf.client.screen.TravelersBackpackTacScreen;
 import com.hexagram2021.misc_twf.client.screen.UltravioletLampScreen;
+import com.hexagram2021.misc_twf.common.infrastructure.compat.ModCreateCompat;
 import com.hexagram2021.misc_twf.common.register.*;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -47,6 +48,7 @@ public class ModClientEventHandler {
 
 	@SubscribeEvent
 	public static void onClientSetup(final FMLClientSetupEvent event) {
+		ModCreateCompat.register();
 		event.enqueueWork(() -> {
 			registerRenderLayers();
 			registerContainersAndScreens();
