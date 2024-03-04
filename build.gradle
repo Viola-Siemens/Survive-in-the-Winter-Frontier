@@ -170,7 +170,7 @@ dependencies {
     implementation fg.deobf("curse.maven:travelersbackpack-321117:4790586")
     runtimeOnly fg.deobf("curse.maven:zombie_extreme-392809:4746394")
     implementation fg.deobf("curse.maven:tac-491264:4886929")
-    implementation fg.deobf("curse.maven:tetrachordlib-980149:5142799")
+    implementation fg.deobf("curse.maven:tetrachordlib-980149:5153986")
     runtimeOnly fg.deobf("curse.maven:spark-361579:4505375")
     implementation fg.deobf("be.florens:expandability-forge:6.0.0")
 }
