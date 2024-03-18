@@ -6,6 +6,7 @@ import com.hexagram2021.misc_twf.common.register.*;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -44,6 +45,14 @@ public class MISCTWFContent {
 	@SubscribeEvent
 	public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
 		MISCTWFSounds.init(event.getRegistry());
+	}
+
+	@SubscribeEvent
+	public static void registerStructures(RegistryEvent.Register<StructureFeature<?>> event) {
+		MISCTWFStructures.init(event.getRegistry()::register);
+		MISCTWFStructurePieceTypes.init();
+		MISCTWFConfiguredStructures.init();
+		MISCTWFStructureSets.init();
 	}
 
 	@SubscribeEvent
