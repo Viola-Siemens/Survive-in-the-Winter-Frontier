@@ -17,7 +17,7 @@ plugins {
 }
 apply plugin: 'org.spongepowered.mixin'
 
-version = '1.2.3'
+version = '1.2.4'
 group = 'com.hexagram2021.misc_twf'
 archivesBaseName = 'misc_twf'
 
@@ -167,7 +167,7 @@ dependencies {
     implementation fg.deobf('curse.maven:framework-549225:4613856')
     implementation fg.deobf("curse.maven:hordes-485779:4886655")
     implementation fg.deobf("curse.maven:jade-324717:4575623")
-    implementation fg.deobf("curse.maven:travelersbackpack-321117:4790586")
+    implementation fg.deobf("curse.maven:travelersbackpack-321117:5189429")
     runtimeOnly fg.deobf("curse.maven:zombie_extreme-392809:4746394")
     implementation fg.deobf("curse.maven:tac-491264:4886929")
     implementation fg.deobf("curse.maven:tetrachordlib-980149:5153986")
