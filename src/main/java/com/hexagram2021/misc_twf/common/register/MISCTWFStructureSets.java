@@ -16,7 +16,7 @@ public final class MISCTWFStructureSets {
 	public static final Holder<StructureSet> BOSS_LAIR = register(
 			MISCTWFStructureSetKeys.BOSS_LAIR,
 			MISCTWFConfiguredStructures.BOSS_LAIR,
-			new RandomSpreadStructurePlacement(150, 50, RandomSpreadType.TRIANGULAR, 1460517424)
+			new RandomSpreadStructurePlacement(200, 50, RandomSpreadType.TRIANGULAR, 1460517424)
 	);
 
 	private MISCTWFStructureSets() {
