@@ -30,7 +30,7 @@ public class BossLairPieces {
 		T createPiece(StructurePieceAccessor pieces, int x, int y, int z, Direction direction, int depth);
 	}
 
-	private static sealed abstract class AbstractBossLairPiece extends StructurePiece permits HallPiece, AbstractEarRoomPiece, WallPiece {
+	private static sealed abstract class AbstractBossLairPiece extends StructurePiece permits HallPiece, AbstractEarRoomPiece, StaircasePiece, WallPiece {
 		protected static final BlockState STONE = Blocks.STONE.defaultBlockState();
 
 		protected AbstractBossLairPiece(StructurePieceType type, int depth, BoundingBox bbox) {
@@ -125,7 +125,7 @@ public class BossLairPieces {
 		}
 
 		protected static boolean isOkBox(BoundingBox bbox) {
-			return bbox.minY() > 10;
+			return bbox.minY() > 3;
 		}
 	}
 
@@ -134,9 +134,9 @@ public class BossLairPieces {
 		protected static final int HEIGHT = 11;
 		protected static final int LENGTH = 37;
 
-		private static final int OFF_X = 7;
-		private static final int OFF_Y = 1;
-		private static final int OFF_Z = 0;
+		protected static final int OFF_X = 7;
+		protected static final int OFF_Y = 1;
+		protected static final int OFF_Z = 0;
 
 		protected static final BlockState BLOOD = MISCTWFFluids.BLOOD_FLUID.getBlock().defaultBlockState();
 
@@ -159,8 +159,8 @@ public class BossLairPieces {
 
 		@Override
 		public void addChildren(StartPiece startPiece, StructurePieceAccessor pieces) {
-			this.generateChildLeft(startPiece, pieces, BoilerRoomPiece::createPiece, 1, 18);
-			this.generateChildRight(startPiece, pieces, BoilerRoomPiece::createPiece, 1, 18);
+			this.generateChildLeft(startPiece, pieces, BoilerRoomPiece::createPiece, 1, LENGTH / 2);
+			this.generateChildRight(startPiece, pieces, BoilerRoomPiece::createPiece, 1, LENGTH / 2);
 		}
 
 		@Override
@@ -188,7 +188,7 @@ public class BossLairPieces {
 			this(x, z, getRandomHorizontalDirection(random));
 		}
 		private StartPiece(int x, int z, Direction direction) {
-			super(START_TYPE, 0, makeBoundingBox(x, 3, z, direction, WIDTH, HEIGHT, LENGTH), direction);
+			super(START_TYPE, 0, makeBoundingBox(x, 5, z, direction, WIDTH, HEIGHT, LENGTH), direction);
 		}
 
 		public StartPiece(StructurePieceSerializationContext context, CompoundTag nbt) {
@@ -197,9 +197,9 @@ public class BossLairPieces {
 
 		@Override
 		public void addChildren(StartPiece startPiece, StructurePieceAccessor pieces) {
-			this.generateChildForward(startPiece, pieces, HallPiece::createPiece, 7, 1);
-			this.generateChildLeft(startPiece, pieces, BossRoomPiece::createPiece, 1, 18);
-			this.generateChildRight(startPiece, pieces, BossRoomPiece::createPiece, 1, 18);
+			this.generateChildForward(startPiece, pieces, StaircasePiece::createPiece, OFF_X, 1);
+			this.generateChildLeft(startPiece, pieces, BossRoomPiece::createPiece, 1, LENGTH / 2);
+			this.generateChildRight(startPiece, pieces, BossRoomPiece::createPiece, 1, LENGTH / 2);
 		}
 
 		@Override
@@ -271,6 +271,58 @@ public class BossLairPieces {
 		public static BossRoomPiece createPiece(StructurePieceAccessor pieces, int x, int y, int z, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new BossRoomPiece(depth, boundingbox, direction) : null;
+		}
+	}
+
+	public static final class StaircasePiece extends AbstractBossLairPiece {
+		private static final int WIDTH = 15;
+		private static final int HEIGHT = 17;
+		private static final int LENGTH = 16;
+
+		private static final int OFF_X = 7;
+		private static final int OFF_Y = 1;
+		private static final int OFF_Z = 0;
+
+		public StaircasePiece(int depth, BoundingBox bbox, Direction direction) {
+			super(STAIRCASE_TYPE, depth, bbox);
+			this.setOrientation(direction);
+		}
+
+		public StaircasePiece(@SuppressWarnings("unused") StructurePieceSerializationContext context, CompoundTag nbt) {
+			super(STAIRCASE_TYPE, nbt);
+		}
+
+		@Override
+		public void addChildren(StartPiece startPiece, StructurePieceAccessor pieces) {
+			this.generateChildForward(startPiece, pieces, HallPiece::createPiece, 7, 9);
+		}
+
+		@Override
+		public void postProcess(WorldGenLevel level, StructureFeatureManager manager, ChunkGenerator chunk, Random random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
+			for(int z = 0; z < LENGTH; ++z) {
+				int dz = (z + 1) / 2;
+				for(int y = dz; y < HEIGHT - (LENGTH / 2) + dz; ++y) {
+					this.placeBlock(level, STONE, 0, y, z, bbox);
+					this.placeBlock(level, STONE, WIDTH - 1, y, z, bbox);
+				}
+			}
+			for(int x = 1; x < WIDTH - 1; ++x) {
+				for(int z = 0; z < LENGTH; ++z) {
+					int dz = (z + 1) / 2;
+					this.placeBlock(level, STONE, x, dz, z, bbox);
+					for (int y = dz + 1; y < HEIGHT - (LENGTH / 2) + dz - 1; ++y) {
+						this.placeBlock(level, CAVE_AIR, x, y, z, bbox);
+					}
+					this.placeBlock(level, STONE, x, HEIGHT - (LENGTH / 2) + dz - 1, z, bbox);
+				}
+			}
+		}
+
+		@Nullable
+		public static StaircasePiece createPiece(StructurePieceAccessor pieces, int x, int y, int z, Direction direction, int depth) {
+			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
+			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new StaircasePiece(depth, boundingbox, direction) : null;
 		}
 	}
 
