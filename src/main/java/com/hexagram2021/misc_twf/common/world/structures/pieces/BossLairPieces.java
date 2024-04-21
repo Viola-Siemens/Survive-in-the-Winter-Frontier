@@ -1,10 +1,12 @@
 package com.hexagram2021.misc_twf.common.world.structures.pieces;
 
 import com.google.common.collect.Lists;
+import com.hexagram2021.misc_twf.SurviveInTheWinterFrontier;
 import com.hexagram2021.misc_twf.common.register.MISCTWFFluids;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.WorldGenLevel;
@@ -16,6 +18,8 @@ import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePieceAccessor;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -213,6 +217,11 @@ public class BossLairPieces {
 	}
 
 	public static abstract sealed class AbstractEarRoomPiece extends AbstractBossLairPiece permits BoilerRoomPiece, BossRoomPiece {
+		protected static final BlockState BRICKS = Blocks.BRICKS.defaultBlockState();
+		protected static final BlockState POLISHED_CUT_DRIPSTONE = RegistryObject.create(new ResourceLocation("create", "polished_cut_dripstone"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		protected static final BlockState POLISHED_CUT_OCHRUM = RegistryObject.create(new ResourceLocation("create", "polished_cut_ochrum"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		protected static final BlockState OCHRUM_PILLAR = RegistryObject.create(new ResourceLocation("create", "ochrum_pillar"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+
 		protected static final int WIDTH = 37;
 		protected static final int HEIGHT = 14;
 		protected static final int LENGTH = 15;
@@ -234,11 +243,45 @@ public class BossLairPieces {
 		public void addChildren(StartPiece startPiece, StructurePieceAccessor pieces) {
 		}
 
+		private static final ResourceLocation LOOT_TABLE = new ResourceLocation(SurviveInTheWinterFrontier.MODID, "chests/ear");
+
 		@Override
 		public void postProcess(WorldGenLevel level, StructureFeatureManager manager, ChunkGenerator chunk, Random random,
 								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
-			this.generateBox(level, bbox, 0, 0, 0, WIDTH - 1, HEIGHT - 1, LENGTH - 1, STONE, CAVE_AIR, true);
+			//outline
+			this.generateBox(level, bbox, 0, 0, 0, WIDTH - 1, HEIGHT - 1, LENGTH - 1, STONE, CAVE_AIR, false);
+			this.generateBox(level, bbox, 2, 1, LENGTH - 2, WIDTH - 3, HEIGHT - 6, LENGTH - 2, BRICKS, BRICKS, false);
+			this.generateBox(level, bbox, 2, 1, 1, 15, HEIGHT - 6, 1, BRICKS, BRICKS, false);
+			this.generateBox(level, bbox, 21, 1, 1, WIDTH - 3, HEIGHT - 6, 1, BRICKS, BRICKS, false);
+			this.generateBox(level, bbox, 1, 1, 2, 1, HEIGHT - 6, LENGTH - 3, BRICKS, BRICKS, false);
+			this.generateBox(level, bbox, WIDTH - 2, 1, 2, WIDTH - 2, HEIGHT - 6, LENGTH - 3, BRICKS, BRICKS, false);
+
+			//floor
+			this.generateBox(level, bbox, 1, 0, 1, WIDTH - 2, 0, LENGTH - 2, POLISHED_CUT_DRIPSTONE, POLISHED_CUT_DRIPSTONE, false);
+
+			//vertical pillars
+			this.placeBlock(level, POLISHED_CUT_OCHRUM, 1, 1, 1, bbox);
+			this.generateBox(level, bbox, 1, 2, 1, 1, HEIGHT - 6, 1, OCHRUM_PILLAR, OCHRUM_PILLAR, false);
+			this.placeBlock(level, POLISHED_CUT_OCHRUM, 1, 1, LENGTH - 2, bbox);
+			this.generateBox(level, bbox, 1, 2, LENGTH - 2, 1, HEIGHT - 6, LENGTH - 2, OCHRUM_PILLAR, OCHRUM_PILLAR, false);
+			this.placeBlock(level, POLISHED_CUT_OCHRUM, WIDTH - 2, 1, 1, bbox);
+			this.generateBox(level, bbox, WIDTH - 2, 2, 1, WIDTH - 2, HEIGHT - 6, 1, OCHRUM_PILLAR, OCHRUM_PILLAR, false);
+			this.placeBlock(level, POLISHED_CUT_OCHRUM, WIDTH - 2, 1, LENGTH - 2, bbox);
+			this.generateBox(level, bbox, WIDTH - 2, 2, LENGTH - 2, WIDTH - 2, HEIGHT - 6, LENGTH - 2, OCHRUM_PILLAR, OCHRUM_PILLAR, false);
+
+
+			this.placeBlock(level, POLISHED_CUT_OCHRUM, 16, 1, 1, bbox);
+			this.generateBox(level, bbox, 16, 2, 1, 16, HEIGHT - 6, 1, OCHRUM_PILLAR, OCHRUM_PILLAR, false);
+			this.placeBlock(level, POLISHED_CUT_OCHRUM, 20, 1, 1, bbox);
+			this.generateBox(level, bbox, 20, 2, 1, 20, HEIGHT - 6, 1, OCHRUM_PILLAR, OCHRUM_PILLAR, false);
+
+			//door
 			this.generateBox(level, bbox, 17, 1, 0, 19, 3, 0, CAVE_AIR, CAVE_AIR, false);
+
+			//chests
+			if(random.nextBoolean()) {
+				this.createChest(level, bbox, random, 2, 1, 11, LOOT_TABLE);
+			}
 		}
 	}
 
@@ -265,6 +308,13 @@ public class BossLairPieces {
 
 		public BossRoomPiece(StructurePieceSerializationContext context, CompoundTag nbt) {
 			super(BOSS_ROOM_TYPE, context, nbt);
+		}
+
+		@Override
+		public void postProcess(WorldGenLevel level, StructureFeatureManager manager, ChunkGenerator chunk, Random random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
+			super.postProcess(level, manager, chunk, random, bbox, chunkPos, blockPos);
+
 		}
 
 		@Nullable
