@@ -10,8 +10,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
@@ -250,30 +252,35 @@ public class BossLairPieces {
 								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			//outline
 			this.generateBox(level, bbox, 0, 0, 0, WIDTH - 1, HEIGHT - 1, LENGTH - 1, STONE, CAVE_AIR, false);
-			this.generateBox(level, bbox, 2, 1, LENGTH - 2, WIDTH - 3, HEIGHT - 6, LENGTH - 2, BRICKS, BRICKS, false);
-			this.generateBox(level, bbox, 2, 1, 1, 15, HEIGHT - 6, 1, BRICKS, BRICKS, false);
-			this.generateBox(level, bbox, 21, 1, 1, WIDTH - 3, HEIGHT - 6, 1, BRICKS, BRICKS, false);
-			this.generateBox(level, bbox, 1, 1, 2, 1, HEIGHT - 6, LENGTH - 3, BRICKS, BRICKS, false);
-			this.generateBox(level, bbox, WIDTH - 2, 1, 2, WIDTH - 2, HEIGHT - 6, LENGTH - 3, BRICKS, BRICKS, false);
+			this.generateBox(level, bbox, 2, 1, LENGTH - 2, WIDTH - 3, 6, LENGTH - 2, BRICKS, BRICKS, false);
+			this.generateBox(level, bbox, 2, 1, 1, 15, 7, 1, BRICKS, BRICKS, false);
+			this.generateBox(level, bbox, 21, 1, 1, WIDTH - 3, 7, 1, BRICKS, BRICKS, false);
+			this.generateBox(level, bbox, 1, 1, 2, 1, 7, LENGTH - 3, BRICKS, BRICKS, false);
+			this.generateBox(level, bbox, WIDTH - 2, 1, 2, WIDTH - 2, 7, LENGTH - 3, BRICKS, BRICKS, false);
 
 			//floor
 			this.generateBox(level, bbox, 1, 0, 1, WIDTH - 2, 0, LENGTH - 2, POLISHED_CUT_DRIPSTONE, POLISHED_CUT_DRIPSTONE, false);
 
 			//vertical pillars
 			this.placeBlock(level, POLISHED_CUT_OCHRUM, 1, 1, 1, bbox);
-			this.generateBox(level, bbox, 1, 2, 1, 1, HEIGHT - 6, 1, OCHRUM_PILLAR, OCHRUM_PILLAR, false);
+			this.generateBox(level, bbox, 1, 2, 1, 1, 7, 1, OCHRUM_PILLAR, OCHRUM_PILLAR, false);
 			this.placeBlock(level, POLISHED_CUT_OCHRUM, 1, 1, LENGTH - 2, bbox);
-			this.generateBox(level, bbox, 1, 2, LENGTH - 2, 1, HEIGHT - 6, LENGTH - 2, OCHRUM_PILLAR, OCHRUM_PILLAR, false);
+			this.generateBox(level, bbox, 1, 2, LENGTH - 2, 1, 7, LENGTH - 2, OCHRUM_PILLAR, OCHRUM_PILLAR, false);
 			this.placeBlock(level, POLISHED_CUT_OCHRUM, WIDTH - 2, 1, 1, bbox);
-			this.generateBox(level, bbox, WIDTH - 2, 2, 1, WIDTH - 2, HEIGHT - 6, 1, OCHRUM_PILLAR, OCHRUM_PILLAR, false);
+			this.generateBox(level, bbox, WIDTH - 2, 2, 1, WIDTH - 2, 7, 1, OCHRUM_PILLAR, OCHRUM_PILLAR, false);
 			this.placeBlock(level, POLISHED_CUT_OCHRUM, WIDTH - 2, 1, LENGTH - 2, bbox);
-			this.generateBox(level, bbox, WIDTH - 2, 2, LENGTH - 2, WIDTH - 2, HEIGHT - 6, LENGTH - 2, OCHRUM_PILLAR, OCHRUM_PILLAR, false);
-
+			this.generateBox(level, bbox, WIDTH - 2, 2, LENGTH - 2, WIDTH - 2, 7, LENGTH - 2, OCHRUM_PILLAR, OCHRUM_PILLAR, false);
 
 			this.placeBlock(level, POLISHED_CUT_OCHRUM, 16, 1, 1, bbox);
-			this.generateBox(level, bbox, 16, 2, 1, 16, HEIGHT - 6, 1, OCHRUM_PILLAR, OCHRUM_PILLAR, false);
+			this.generateBox(level, bbox, 16, 2, 1, 16, 7, 1, OCHRUM_PILLAR, OCHRUM_PILLAR, false);
 			this.placeBlock(level, POLISHED_CUT_OCHRUM, 20, 1, 1, bbox);
-			this.generateBox(level, bbox, 20, 2, 1, 20, HEIGHT - 6, 1, OCHRUM_PILLAR, OCHRUM_PILLAR, false);
+			this.generateBox(level, bbox, 20, 2, 1, 20, 7, 1, OCHRUM_PILLAR, OCHRUM_PILLAR, false);
+
+			//horizontal pillars
+			this.generateBox(level, bbox, 2, 7, 1, WIDTH - 3, 7, 1, POLISHED_CUT_OCHRUM, POLISHED_CUT_OCHRUM, false);
+			this.generateBox(level, bbox, 2, 7, LENGTH - 2, WIDTH - 3, 7, LENGTH - 2, POLISHED_CUT_OCHRUM, POLISHED_CUT_OCHRUM, false);
+			this.generateBox(level, bbox, 1, 7, 2, 1, 7, LENGTH - 3, POLISHED_CUT_OCHRUM, POLISHED_CUT_OCHRUM, false);
+			this.generateBox(level, bbox, WIDTH - 2, 7, 2, WIDTH - 2, 7, LENGTH - 3, POLISHED_CUT_OCHRUM, POLISHED_CUT_OCHRUM, false);
 
 			//door
 			this.generateBox(level, bbox, 17, 1, 0, 19, 3, 0, CAVE_AIR, CAVE_AIR, false);
@@ -286,12 +293,55 @@ public class BossLairPieces {
 	}
 
 	public static final class BoilerRoomPiece extends AbstractEarRoomPiece {
+		private static final BlockState CAST_IRON_HULL = RegistryObject.create(new ResourceLocation("createdeco", "cast_iron_hull"), ForgeRegistries.BLOCKS).get().defaultBlockState()
+				.setValue(BlockStateProperties.FACING, Direction.DOWN);
+		private static final BlockState INDUSTRIAL_IRON_BLOCK = RegistryObject.create(new ResourceLocation("create", "industrial_iron_block"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		private static final BlockState FLUID_PIPE_VERTICAL, FLUID_PIPE_CORNER, FLUID_PIPE_HORIZONTAL;
+
+		static {
+			Block fluidPipe = RegistryObject.create(new ResourceLocation("create", "fluid_pipe"), ForgeRegistries.BLOCKS).get();
+			BlockState initialFluidPipe = fluidPipe.defaultBlockState()
+					.setValue(BlockStateProperties.WEST, false).setValue(BlockStateProperties.EAST, false);
+			FLUID_PIPE_VERTICAL = initialFluidPipe
+					.setValue(BlockStateProperties.NORTH, false).setValue(BlockStateProperties.SOUTH, false)
+					.setValue(BlockStateProperties.UP, true).setValue(BlockStateProperties.DOWN, true);
+			FLUID_PIPE_CORNER = initialFluidPipe
+					.setValue(BlockStateProperties.NORTH, false).setValue(BlockStateProperties.SOUTH, true)
+					.setValue(BlockStateProperties.UP, false).setValue(BlockStateProperties.DOWN, true);
+			FLUID_PIPE_HORIZONTAL = initialFluidPipe
+					.setValue(BlockStateProperties.NORTH, true).setValue(BlockStateProperties.SOUTH, true)
+					.setValue(BlockStateProperties.UP, false).setValue(BlockStateProperties.DOWN, false);
+		}
+
 		public BoilerRoomPiece(int depth, BoundingBox bbox, Direction direction) {
 			super(BOILER_ROOM_TYPE, depth, bbox, direction);
 		}
 
 		public BoilerRoomPiece(StructurePieceSerializationContext context, CompoundTag nbt) {
 			super(BOILER_ROOM_TYPE, context, nbt);
+		}
+
+		@Override
+		public void postProcess(WorldGenLevel level, StructureFeatureManager manager, ChunkGenerator chunk, Random random,
+								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
+			super.postProcess(level, manager, chunk, random, bbox, chunkPos, blockPos);
+
+			//Boilers
+			this.createBoiler(level, bbox, 13, 6 + random.nextInt(3));
+			this.createBoiler(level, bbox, 17, 6 + random.nextInt(3));
+		}
+
+		private void createBoiler(WorldGenLevel level, BoundingBox bbox, int x, int z) {
+			this.placeBlock(level, CAST_IRON_HULL, x, 1, z, bbox);
+			this.placeBlock(level, CAST_IRON_HULL, x, 2, z, bbox);
+			this.placeBlock(level, CAST_IRON_HULL, x, 3, z, bbox);
+			this.placeBlock(level, INDUSTRIAL_IRON_BLOCK, x, 4, z, bbox);
+			this.placeBlock(level, FLUID_PIPE_VERTICAL, x, 5, z, bbox);
+			this.placeBlock(level, FLUID_PIPE_VERTICAL, x, 6, z, bbox);
+			this.placeBlock(level, FLUID_PIPE_CORNER, x, 7, z, bbox);
+			for(int dz = 1; dz < z - 1; ++dz) {
+				this.placeBlock(level, FLUID_PIPE_HORIZONTAL, x, 7, z - dz, bbox);
+			}
 		}
 
 		@Nullable

@@ -160,6 +160,7 @@ dependencies {
     implementation fg.deobf('curse.maven:atlaslib-463826:4567244')
     implementation fg.deobf("curse.maven:create-328085:4550986")
     implementation fg.deobf("curse.maven:createaddition-439890:4683727")
+    runtimeOnly fg.deobf("curse.maven:createdeco-509285:4554163")
     compileOnly fg.deobf("com.tterrag.registrate:Registrate:MC1.18.2-1.1.3")
     compileOnly fg.deobf("curse.maven:embeddium-908741:4949961")
     compileOnly fg.deobf("curse.maven:embeddiumplus-931925:4958315")
