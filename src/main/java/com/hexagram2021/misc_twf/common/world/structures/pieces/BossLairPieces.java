@@ -296,21 +296,38 @@ public class BossLairPieces {
 		private static final BlockState CAST_IRON_HULL = RegistryObject.create(new ResourceLocation("createdeco", "cast_iron_hull"), ForgeRegistries.BLOCKS).get().defaultBlockState()
 				.setValue(BlockStateProperties.FACING, Direction.DOWN);
 		private static final BlockState INDUSTRIAL_IRON_BLOCK = RegistryObject.create(new ResourceLocation("create", "industrial_iron_block"), ForgeRegistries.BLOCKS).get().defaultBlockState();
-		private static final BlockState FLUID_PIPE_VERTICAL, FLUID_PIPE_CORNER, FLUID_PIPE_HORIZONTAL;
+		private static final BlockState FLUID_PIPE_VERTICAL, FLUID_PIPE_CORNER, FLUID_PIPE_HORIZONTAL, FLUID_PIPE_HORIZONTAL_2;
+		private static final BlockState FLUID_PIPE_CORNER_1, FLUID_PIPE_CORNER_2;
+		private static final BlockState FLUID_PIPE_T_CROSS_1, FLUID_PIPE_T_CROSS_2, FLUID_PIPE_T_CROSS_3, FLUID_PIPE_T_CROSS_4, FLUID_PIPE_X_CROSS;
 
 		static {
 			Block fluidPipe = RegistryObject.create(new ResourceLocation("create", "fluid_pipe"), ForgeRegistries.BLOCKS).get();
 			BlockState initialFluidPipe = fluidPipe.defaultBlockState()
-					.setValue(BlockStateProperties.WEST, false).setValue(BlockStateProperties.EAST, false);
-			FLUID_PIPE_VERTICAL = initialFluidPipe
+					.setValue(BlockStateProperties.UP, false).setValue(BlockStateProperties.DOWN, false)
 					.setValue(BlockStateProperties.NORTH, false).setValue(BlockStateProperties.SOUTH, false)
-					.setValue(BlockStateProperties.UP, true).setValue(BlockStateProperties.DOWN, true);
-			FLUID_PIPE_CORNER = initialFluidPipe
-					.setValue(BlockStateProperties.NORTH, false).setValue(BlockStateProperties.SOUTH, true)
-					.setValue(BlockStateProperties.UP, false).setValue(BlockStateProperties.DOWN, true);
-			FLUID_PIPE_HORIZONTAL = initialFluidPipe
+					.setValue(BlockStateProperties.WEST, false).setValue(BlockStateProperties.EAST, false);
+			FLUID_PIPE_VERTICAL = initialFluidPipe.setValue(BlockStateProperties.UP, true).setValue(BlockStateProperties.DOWN, true);
+			FLUID_PIPE_CORNER = initialFluidPipe.setValue(BlockStateProperties.DOWN, true).setValue(BlockStateProperties.SOUTH, true);
+			FLUID_PIPE_HORIZONTAL = initialFluidPipe.setValue(BlockStateProperties.NORTH, true).setValue(BlockStateProperties.SOUTH, true);
+			FLUID_PIPE_HORIZONTAL_2 = initialFluidPipe.setValue(BlockStateProperties.WEST, true).setValue(BlockStateProperties.EAST, true);
+			FLUID_PIPE_CORNER_1 = initialFluidPipe.setValue(BlockStateProperties.DOWN, true).setValue(BlockStateProperties.SOUTH, true).setValue(BlockStateProperties.EAST, true);
+			FLUID_PIPE_CORNER_2 = initialFluidPipe.setValue(BlockStateProperties.DOWN, true).setValue(BlockStateProperties.SOUTH, true).setValue(BlockStateProperties.WEST, true);
+			FLUID_PIPE_T_CROSS_1 = initialFluidPipe
+					.setValue(BlockStateProperties.DOWN, true).setValue(BlockStateProperties.SOUTH, true)
+					.setValue(BlockStateProperties.WEST, true).setValue(BlockStateProperties.EAST, true);
+			FLUID_PIPE_T_CROSS_2 = initialFluidPipe
+					.setValue(BlockStateProperties.DOWN, true).setValue(BlockStateProperties.NORTH, true)
+					.setValue(BlockStateProperties.SOUTH, true).setValue(BlockStateProperties.EAST, true);
+			FLUID_PIPE_T_CROSS_3 = initialFluidPipe
+					.setValue(BlockStateProperties.DOWN, true).setValue(BlockStateProperties.NORTH, true)
+					.setValue(BlockStateProperties.WEST, true).setValue(BlockStateProperties.EAST, true);
+			FLUID_PIPE_T_CROSS_4 = initialFluidPipe
+					.setValue(BlockStateProperties.DOWN, true).setValue(BlockStateProperties.NORTH, true)
+					.setValue(BlockStateProperties.SOUTH, true).setValue(BlockStateProperties.WEST, true);
+			FLUID_PIPE_X_CROSS = initialFluidPipe
+					.setValue(BlockStateProperties.DOWN, true)
 					.setValue(BlockStateProperties.NORTH, true).setValue(BlockStateProperties.SOUTH, true)
-					.setValue(BlockStateProperties.UP, false).setValue(BlockStateProperties.DOWN, false);
+					.setValue(BlockStateProperties.WEST, true).setValue(BlockStateProperties.EAST, true);
 		}
 
 		public BoilerRoomPiece(int depth, BoundingBox bbox, Direction direction) {
@@ -327,20 +344,65 @@ public class BossLairPieces {
 			super.postProcess(level, manager, chunk, random, bbox, chunkPos, blockPos);
 
 			//Boilers
-			this.createBoiler(level, bbox, 13, 6 + random.nextInt(3));
-			this.createBoiler(level, bbox, 17, 6 + random.nextInt(3));
+			this.createBoiler(level, bbox, 13, 6 + random.nextInt(3), true);
+			this.createBoiler(level, bbox, 17, 6 + random.nextInt(3), true);
+
+			this.createBoiler(level, bbox, 4, 4, false);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 4, 7, 2, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 4, 7, 3, bbox);
+			this.placeBlock(level, FLUID_PIPE_T_CROSS_2, 4, 7, 4, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 4, 7, 5, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 4, 7, 6, bbox);
+			this.placeBlock(level, FLUID_PIPE_T_CROSS_2, 4, 7, 7, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 4, 7, 8, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 4, 7, 9, bbox);
+			this.createBoiler(level, bbox, 4, 10, false);
+			this.placeBlock(level, FLUID_PIPE_CORNER_1, 4, 7, 10, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL_2, 5, 7, 4, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL_2, 5, 7, 7, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL_2, 5, 7, 10, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL_2, 6, 7, 4, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL_2, 6, 7, 7, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL_2, 6, 7, 10, bbox);
+			this.placeBlock(level, FLUID_PIPE_T_CROSS_3, 7, 7, 4, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 7, 7, 5, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 7, 7, 6, bbox);
+			this.createBoiler(level, bbox, 7, 7, false);
+			this.placeBlock(level, FLUID_PIPE_X_CROSS, 7, 7, 7, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 7, 7, 8, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 7, 7, 9, bbox);
+			this.placeBlock(level, FLUID_PIPE_T_CROSS_1, 7, 7, 10, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL_2, 8, 7, 4, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL_2, 8, 7, 7, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL_2, 8, 7, 10, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL_2, 9, 7, 4, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL_2, 9, 7, 7, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL_2, 9, 7, 10, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 10, 7, 2, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 10, 7, 3, bbox);
+			this.createBoiler(level, bbox, 10, 4, false);
+			this.placeBlock(level, FLUID_PIPE_T_CROSS_4, 10, 7, 4, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 10, 7, 5, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 10, 7, 6, bbox);
+			this.placeBlock(level, FLUID_PIPE_T_CROSS_4, 10, 7, 7, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 10, 7, 8, bbox);
+			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 10, 7, 9, bbox);
+			this.createBoiler(level, bbox, 10, 10, false);
+			this.placeBlock(level, FLUID_PIPE_CORNER_2, 10, 7, 10, bbox);
 		}
 
-		private void createBoiler(WorldGenLevel level, BoundingBox bbox, int x, int z) {
+		private void createBoiler(WorldGenLevel level, BoundingBox bbox, int x, int z, boolean connect) {
 			this.placeBlock(level, CAST_IRON_HULL, x, 1, z, bbox);
 			this.placeBlock(level, CAST_IRON_HULL, x, 2, z, bbox);
 			this.placeBlock(level, CAST_IRON_HULL, x, 3, z, bbox);
 			this.placeBlock(level, INDUSTRIAL_IRON_BLOCK, x, 4, z, bbox);
 			this.placeBlock(level, FLUID_PIPE_VERTICAL, x, 5, z, bbox);
 			this.placeBlock(level, FLUID_PIPE_VERTICAL, x, 6, z, bbox);
-			this.placeBlock(level, FLUID_PIPE_CORNER, x, 7, z, bbox);
-			for(int dz = 1; dz < z - 1; ++dz) {
-				this.placeBlock(level, FLUID_PIPE_HORIZONTAL, x, 7, z - dz, bbox);
+			if(connect) {
+				this.placeBlock(level, FLUID_PIPE_CORNER, x, 7, z, bbox);
+				for (int dz = 1; dz < z - 1; ++dz) {
+					this.placeBlock(level, FLUID_PIPE_HORIZONTAL, x, 7, z - dz, bbox);
+				}
 			}
 		}
 
