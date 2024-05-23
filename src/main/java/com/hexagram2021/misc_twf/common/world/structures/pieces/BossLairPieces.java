@@ -5,7 +5,7 @@ import com.hexagram2021.misc_twf.SurviveInTheWinterFrontier;
 import com.hexagram2021.misc_twf.common.register.MISCTWFFluids;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.StructureFeatureManager;
@@ -33,7 +33,7 @@ public class BossLairPieces {
 	@FunctionalInterface
 	private interface PieceFactory<T extends AbstractBossLairPiece> {
 		@Nullable
-		T createPiece(StructurePieceAccessor pieces, int x, int y, int z, Direction direction, int depth);
+		T createPiece(StructurePieceAccessor pieces, int x, int y, int z, long seed, Direction direction, int depth);
 	}
 
 	private static sealed abstract class AbstractBossLairPiece extends StructurePiece permits HallPiece, AbstractEarRoomPiece, StaircasePiece, WallPiece {
@@ -119,7 +119,7 @@ public class BossLairPieces {
 		private StructurePiece generateAndAddPiece(StartPiece startPiece, StructurePieceAccessor pieces, PieceFactory<? extends AbstractBossLairPiece> factory,
 												   int x, int y, int z, Direction direction, int genDepth) {
 			if (Math.abs(x - startPiece.getBoundingBox().minX()) <= 112 && Math.abs(z - startPiece.getBoundingBox().minZ()) <= 112 && genDepth < 50) {
-				AbstractBossLairPiece newPiece = factory.createPiece(pieces, x, y, z, direction, genDepth);
+				AbstractBossLairPiece newPiece = factory.createPiece(pieces, x, y, z, startPiece.seed++, direction, genDepth);
 				if(newPiece != null) {
 					pieces.addPiece(newPiece);
 					startPiece.pendingChildren.add(newPiece);
@@ -181,7 +181,7 @@ public class BossLairPieces {
 		}
 
 		@Nullable
-		public static HallPiece createPiece(StructurePieceAccessor pieces, int x, int y, int z, Direction direction, int depth) {
+		public static HallPiece createPiece(StructurePieceAccessor pieces, int x, int y, int z, long seed, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new HallPiece(depth, boundingbox, direction) : null;
 		}
@@ -189,16 +189,25 @@ public class BossLairPieces {
 
 	public static final class StartPiece extends HallPiece {
 		public final List<StructurePiece> pendingChildren = Lists.newArrayList();
+		public long seed;
 
 		public StartPiece(Random random, int x, int z) {
-			this(x, z, getRandomHorizontalDirection(random));
+			this(x, z, random.nextLong(), getRandomHorizontalDirection(random));
 		}
-		private StartPiece(int x, int z, Direction direction) {
+		private StartPiece(int x, int z, long seed, Direction direction) {
 			super(START_TYPE, 0, makeBoundingBox(x, 5, z, direction, WIDTH, HEIGHT, LENGTH), direction);
+			this.seed = seed;
 		}
 
 		public StartPiece(StructurePieceSerializationContext context, CompoundTag nbt) {
 			super(START_TYPE, context, nbt);
+			this.seed = nbt.getLong("Seed");
+		}
+
+		@Override
+		protected void addAdditionalSaveData(StructurePieceSerializationContext context, CompoundTag nbt) {
+			super.addAdditionalSaveData(context, nbt);
+			nbt.putLong("Seed", this.seed);
 		}
 
 		@Override
@@ -224,6 +233,9 @@ public class BossLairPieces {
 		protected static final BlockState POLISHED_CUT_OCHRUM = RegistryObject.create(new ResourceLocation("create", "polished_cut_ochrum"), ForgeRegistries.BLOCKS).get().defaultBlockState();
 		protected static final BlockState OCHRUM_PILLAR = RegistryObject.create(new ResourceLocation("create", "ochrum_pillar"), ForgeRegistries.BLOCKS).get().defaultBlockState();
 
+		protected static final BlockState FLESH = RegistryObject.create(new ResourceLocation("biomancy", "flesh"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		protected static final BlockState FLESH_SLAB = RegistryObject.create(new ResourceLocation("biomancy", "flesh_slab"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+
 		protected static final int WIDTH = 37;
 		protected static final int HEIGHT = 14;
 		protected static final int LENGTH = 15;
@@ -232,13 +244,76 @@ public class BossLairPieces {
 		protected static final int OFF_Y = 1;
 		protected static final int OFF_Z = 0;
 
-		protected AbstractEarRoomPiece(StructurePieceType type, int depth, BoundingBox bbox, Direction direction) {
+		protected static final int PDF_LENGTH = 11;
+		protected final byte[][] pdf = new byte[PDF_LENGTH][PDF_LENGTH];
+
+		private static void addGaussian(double[][] destination, double mu1, double mu2, double sig1, double sig2, double cov) {
+			double det = sig1 * sig2 - cov * cov;
+			for(int i = 0; i < PDF_LENGTH; ++i) {
+				double x = i - mu1;
+				for(int j = 0; j < PDF_LENGTH; ++j) {
+					double y = j - mu2;
+					destination[i][j] += Math.pow(2.0D * Math.PI, -1.0D) * Math.pow(det, -0.5D) * Math.exp(
+							-0.5D * (x * x * sig2 - 2.0D * x * y * cov + y * y * sig1) / det
+					);
+				}
+			}
+		}
+
+		private void setRandomPDF(long seed) {
+			double[][] pdf = new double[PDF_LENGTH][PDF_LENGTH];
+			for(int i = 0; i < PDF_LENGTH; ++i) {
+				for(int j = 0; j < PDF_LENGTH; ++j) {
+					pdf[i][j] = Math.pow(2.0D * Math.PI, -1.0D) / 5.0D * Math.exp(-0.05D * (i * i + j * j));
+				}
+			}
+			Random random = new Random(seed);
+			for(int ignored = 0; ignored < 7; ++ignored) {
+				double sig1 = random.nextDouble() * 5.0D + 3.0D;
+				double sig2 = random.nextDouble() * 5.0D + 3.0D;
+				double bound = Math.pow(sig1 * sig2, 0.5D);
+				addGaussian(
+						pdf,
+						random.nextDouble() * 6.0D + 2.5D, random.nextDouble() * 6.0D + 2.5D,
+						sig1, sig2, (random.nextDouble() * 1.6D - 0.8D) * bound
+				);
+			}
+
+			for(int i = 0; i < PDF_LENGTH; ++i) {
+				for(int j = 0; j < PDF_LENGTH; ++j) {
+					this.pdf[i][j] = (byte)(pdf[i][j] / 0.03D);
+				}
+			}
+		}
+
+		@Override
+		protected void addAdditionalSaveData(StructurePieceSerializationContext context, CompoundTag nbt) {
+			super.addAdditionalSaveData(context, nbt);
+			ListTag pdfList = new ListTag();
+			for(int i = 0; i < PDF_LENGTH; ++i) {
+				pdfList.add(new ByteArrayTag(this.pdf[i]));
+			}
+			nbt.put("PDF", pdfList);
+		}
+
+		protected AbstractEarRoomPiece(StructurePieceType type, int depth, BoundingBox bbox, Direction direction, long seed) {
 			super(type, depth, bbox);
 			this.setOrientation(direction);
+			this.setRandomPDF(seed);
 		}
 
 		protected AbstractEarRoomPiece(StructurePieceType type, @SuppressWarnings("unused") StructurePieceSerializationContext context, CompoundTag nbt) {
 			super(type, nbt);
+
+			if(nbt.contains("PDF", Tag.TAG_LIST)) {
+				ListTag pdfList = nbt.getList("PDF", Tag.TAG_BYTE_ARRAY);
+				for(int i = 0; i < PDF_LENGTH; ++i) {
+					ByteArrayTag byteTags = (ByteArrayTag)pdfList.get(i);
+					for(int j = 0; j < PDF_LENGTH; ++j) {
+						this.pdf[i][j] = byteTags.get(j).getAsByte();
+					}
+				}
+			}
 		}
 
 		@Override
@@ -313,25 +388,25 @@ public class BossLairPieces {
 			FLUID_PIPE_CORNER_1 = initialFluidPipe.setValue(BlockStateProperties.DOWN, true).setValue(BlockStateProperties.SOUTH, true).setValue(BlockStateProperties.EAST, true);
 			FLUID_PIPE_CORNER_2 = initialFluidPipe.setValue(BlockStateProperties.DOWN, true).setValue(BlockStateProperties.SOUTH, true).setValue(BlockStateProperties.WEST, true);
 			FLUID_PIPE_T_CROSS_1 = initialFluidPipe
-					.setValue(BlockStateProperties.DOWN, true).setValue(BlockStateProperties.SOUTH, true)
+					.setValue(BlockStateProperties.SOUTH, true)
 					.setValue(BlockStateProperties.WEST, true).setValue(BlockStateProperties.EAST, true);
 			FLUID_PIPE_T_CROSS_2 = initialFluidPipe
-					.setValue(BlockStateProperties.DOWN, true).setValue(BlockStateProperties.NORTH, true)
-					.setValue(BlockStateProperties.SOUTH, true).setValue(BlockStateProperties.EAST, true);
+					.setValue(BlockStateProperties.NORTH, true).setValue(BlockStateProperties.SOUTH, true)
+					.setValue(BlockStateProperties.EAST, true);
 			FLUID_PIPE_T_CROSS_3 = initialFluidPipe
-					.setValue(BlockStateProperties.DOWN, true).setValue(BlockStateProperties.NORTH, true)
+					.setValue(BlockStateProperties.NORTH, true)
 					.setValue(BlockStateProperties.WEST, true).setValue(BlockStateProperties.EAST, true);
 			FLUID_PIPE_T_CROSS_4 = initialFluidPipe
-					.setValue(BlockStateProperties.DOWN, true).setValue(BlockStateProperties.NORTH, true)
-					.setValue(BlockStateProperties.SOUTH, true).setValue(BlockStateProperties.WEST, true);
+					.setValue(BlockStateProperties.NORTH, true).setValue(BlockStateProperties.SOUTH, true)
+					.setValue(BlockStateProperties.WEST, true);
 			FLUID_PIPE_X_CROSS = initialFluidPipe
 					.setValue(BlockStateProperties.DOWN, true)
 					.setValue(BlockStateProperties.NORTH, true).setValue(BlockStateProperties.SOUTH, true)
 					.setValue(BlockStateProperties.WEST, true).setValue(BlockStateProperties.EAST, true);
 		}
 
-		public BoilerRoomPiece(int depth, BoundingBox bbox, Direction direction) {
-			super(BOILER_ROOM_TYPE, depth, bbox, direction);
+		public BoilerRoomPiece(int depth, BoundingBox bbox, Direction direction, long seed) {
+			super(BOILER_ROOM_TYPE, depth, bbox, direction, seed);
 		}
 
 		public BoilerRoomPiece(StructurePieceSerializationContext context, CompoundTag nbt) {
@@ -350,7 +425,7 @@ public class BossLairPieces {
 			this.createBoiler(level, bbox, 4, 4, false);
 			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 4, 7, 2, bbox);
 			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 4, 7, 3, bbox);
-			this.placeBlock(level, FLUID_PIPE_T_CROSS_2, 4, 7, 4, bbox);
+			this.placeBlock(level, FLUID_PIPE_T_CROSS_2.setValue(BlockStateProperties.DOWN, true), 4, 7, 4, bbox);
 			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 4, 7, 5, bbox);
 			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 4, 7, 6, bbox);
 			this.placeBlock(level, FLUID_PIPE_T_CROSS_2, 4, 7, 7, bbox);
@@ -381,7 +456,7 @@ public class BossLairPieces {
 			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 10, 7, 2, bbox);
 			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 10, 7, 3, bbox);
 			this.createBoiler(level, bbox, 10, 4, false);
-			this.placeBlock(level, FLUID_PIPE_T_CROSS_4, 10, 7, 4, bbox);
+			this.placeBlock(level, FLUID_PIPE_T_CROSS_4.setValue(BlockStateProperties.DOWN, true), 10, 7, 4, bbox);
 			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 10, 7, 5, bbox);
 			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 10, 7, 6, bbox);
 			this.placeBlock(level, FLUID_PIPE_T_CROSS_4, 10, 7, 7, bbox);
@@ -389,6 +464,23 @@ public class BossLairPieces {
 			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 10, 7, 9, bbox);
 			this.createBoiler(level, bbox, 10, 10, false);
 			this.placeBlock(level, FLUID_PIPE_CORNER_2, 10, 7, 10, bbox);
+
+			//Veins
+			for(int i = 0; i < PDF_LENGTH; ++i) {
+				for(int j = 0; j < PDF_LENGTH; ++j) {
+					byte h = this.pdf[i][j];
+					int y = 1;
+					while(h > 0) {
+						if(h == 1) {
+							this.placeBlock(level, FLESH_SLAB, 22 + i, y, 2 + j, bbox);
+							break;
+						}
+						this.placeBlock(level, FLESH, 22 + i, y, 2 + j, bbox);
+						y += 1;
+						h -= 2;
+					}
+				}
+			}
 		}
 
 		private void createBoiler(WorldGenLevel level, BoundingBox bbox, int x, int z, boolean connect) {
@@ -407,15 +499,20 @@ public class BossLairPieces {
 		}
 
 		@Nullable
-		public static BoilerRoomPiece createPiece(StructurePieceAccessor pieces, int x, int y, int z, Direction direction, int depth) {
+		public static BoilerRoomPiece createPiece(StructurePieceAccessor pieces, int x, int y, int z, long seed, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
-			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new BoilerRoomPiece(depth, boundingbox, direction) : null;
+			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new BoilerRoomPiece(depth, boundingbox, direction, seed) : null;
 		}
 	}
 
 	public static final class BossRoomPiece extends AbstractEarRoomPiece {
-		public BossRoomPiece(int depth, BoundingBox bbox, Direction direction) {
-			super(BOSS_ROOM_TYPE, depth, bbox, direction);
+		private static final BlockState EMPTY_CANS = RegistryObject.create(new ResourceLocation("zombie_extreme", "empty_cans"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		private static final BlockState IRON_TABLE = RegistryObject.create(new ResourceLocation("zombie_extreme", "iron_table"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		private static final BlockState WOODEN_CHAIR = RegistryObject.create(new ResourceLocation("zombie_extreme", "wooden_chair"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		private static final BlockState DECOMPOSING_BACKPACK = RegistryObject.create(new ResourceLocation("zombie_extreme", "decomposing_backpack"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+
+		public BossRoomPiece(int depth, BoundingBox bbox, Direction direction, long seed) {
+			super(BOSS_ROOM_TYPE, depth, bbox, direction, seed);
 		}
 
 		public BossRoomPiece(StructurePieceSerializationContext context, CompoundTag nbt) {
@@ -427,12 +524,16 @@ public class BossLairPieces {
 								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			super.postProcess(level, manager, chunk, random, bbox, chunkPos, blockPos);
 
+			//misc
+			this.placeBlock(level, EMPTY_CANS, 2, 1, 4, bbox);
+			this.placeBlock(level, IRON_TABLE, 3, 1, 5, bbox);
+			this.placeBlock(level, IRON_TABLE, 4, 1, 5, bbox);
 		}
 
 		@Nullable
-		public static BossRoomPiece createPiece(StructurePieceAccessor pieces, int x, int y, int z, Direction direction, int depth) {
+		public static BossRoomPiece createPiece(StructurePieceAccessor pieces, int x, int y, int z, long seed, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
-			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new BossRoomPiece(depth, boundingbox, direction) : null;
+			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new BossRoomPiece(depth, boundingbox, direction, seed) : null;
 		}
 	}
 
@@ -482,7 +583,7 @@ public class BossLairPieces {
 		}
 
 		@Nullable
-		public static StaircasePiece createPiece(StructurePieceAccessor pieces, int x, int y, int z, Direction direction, int depth) {
+		public static StaircasePiece createPiece(StructurePieceAccessor pieces, int x, int y, int z, long seed, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new StaircasePiece(depth, boundingbox, direction) : null;
 		}
