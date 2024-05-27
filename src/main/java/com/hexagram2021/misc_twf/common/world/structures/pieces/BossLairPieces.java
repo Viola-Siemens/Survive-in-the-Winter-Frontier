@@ -1,11 +1,13 @@
 package com.hexagram2021.misc_twf.common.world.structures.pieces;
 
 import com.google.common.collect.Lists;
-import com.hexagram2021.misc_twf.SurviveInTheWinterFrontier;
 import com.hexagram2021.misc_twf.common.register.MISCTWFFluids;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.ByteArrayTag;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.StructureFeatureManager;
@@ -14,6 +16,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.StairsShape;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
@@ -27,6 +30,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
+import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 import static com.hexagram2021.misc_twf.common.register.MISCTWFStructurePieceTypes.*;
 
 public class BossLairPieces {
@@ -145,6 +149,9 @@ public class BossLairPieces {
 		protected static final int OFF_Z = 0;
 
 		protected static final BlockState BLOOD = MISCTWFFluids.BLOOD_FLUID.getBlock().defaultBlockState();
+		protected static final BlockState DEAN_BRICKS = RegistryObject.create(new ResourceLocation("createdeco", "dean_bricks"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		protected static final BlockState MOSSY_DEAN_BRICKS = RegistryObject.create(new ResourceLocation("createdeco", "mossy_dean_bricks"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		protected static final BlockState PEBBLES = RegistryObject.create(new ResourceLocation("verdure", "pebbles"), ForgeRegistries.BLOCKS).get().defaultBlockState();
 
 		public HallPiece(int depth, BoundingBox bbox, Direction direction) {
 			this(HALL_TYPE, depth, bbox, direction);
@@ -177,7 +184,21 @@ public class BossLairPieces {
 			this.generateBox(level, bbox, 0, 1, 17, 0, 3, 19, CAVE_AIR, CAVE_AIR, false);
 			this.generateBox(level, bbox, WIDTH - 1, 1, 17, WIDTH - 1, 3, 19, CAVE_AIR, CAVE_AIR, false);
 			this.generateBox(level, bbox, 0, 0, 0, WIDTH - 1, 0, LENGTH - 1, STONE, STONE, false);
-			this.generateBox(level, bbox, 3, 1, 0, WIDTH - 4, 1, LENGTH - 1, BLOOD, BLOOD, false);
+			this.generateBox(level, bbox, 0, 1, 0, 3, 1, LENGTH - 1, DEAN_BRICKS, DEAN_BRICKS, false);
+			this.generateBox(level, bbox, WIDTH - 4, 1, 0, WIDTH - 1, 1, LENGTH - 1, DEAN_BRICKS, DEAN_BRICKS, false);
+			this.generateBox(level, bbox, 4, 1, 0, WIDTH - 5, 1, LENGTH - 1, BLOOD, BLOOD, false);
+			int pebbles = random.nextInt(8) + random.nextInt(4);
+			for(int ignored = 0; ignored < pebbles; ++ignored) {
+				int x = random.nextInt(4) + (random.nextBoolean() ? 0 : WIDTH - 4);
+				int z = random.nextInt(LENGTH);
+				this.placeBlock(level, PEBBLES, x, 2, z, bbox);
+			}
+			int mossy = random.nextInt(4) + random.nextInt(4);
+			for(int ignored = 0; ignored < mossy; ++ignored) {
+				int x = random.nextInt(4) + (random.nextBoolean() ? 0 : WIDTH - 4);
+				int z = random.nextInt(LENGTH);
+				this.placeBlock(level, MOSSY_DEAN_BRICKS, x, 1, z, bbox);
+			}
 		}
 
 		@Nullable
@@ -224,6 +245,21 @@ public class BossLairPieces {
 			this.generateBox(level, bbox, 0, 1, 17, 0, 3, 19, CAVE_AIR, CAVE_AIR, false);
 			this.generateBox(level, bbox, WIDTH - 1, 1, 17, WIDTH - 1, 3, 19, CAVE_AIR, CAVE_AIR, false);
 			this.generateBox(level, bbox, 1, 1, LENGTH - 1, WIDTH - 2, HEIGHT - 2, LENGTH - 1, CAVE_AIR, CAVE_AIR, false);
+			this.generateBox(level, bbox, 0, 1, 0, 3, 1, LENGTH - 1, DEAN_BRICKS, DEAN_BRICKS, false);
+			this.generateBox(level, bbox, WIDTH - 4, 1, 0, WIDTH - 1, 1, LENGTH - 1, DEAN_BRICKS, DEAN_BRICKS, false);
+			this.generateBox(level, bbox, 4, 1, 0, WIDTH - 5, 1, LENGTH - 1, BLOOD, BLOOD, false);
+			int pebbles = random.nextInt(8) + random.nextInt(4);
+			for(int ignored = 0; ignored < pebbles; ++ignored) {
+				int x = random.nextInt(4) + (random.nextBoolean() ? 0 : WIDTH - 4);
+				int z = random.nextInt(LENGTH);
+				this.placeBlock(level, PEBBLES, x, 2, z, bbox);
+			}
+			int mossy = random.nextInt(4) + random.nextInt(4);
+			for(int ignored = 0; ignored < mossy; ++ignored) {
+				int x = random.nextInt(4) + (random.nextBoolean() ? 0 : WIDTH - 4);
+				int z = random.nextInt(LENGTH);
+				this.placeBlock(level, MOSSY_DEAN_BRICKS, x, 1, z, bbox);
+			}
 		}
 	}
 
@@ -235,6 +271,8 @@ public class BossLairPieces {
 
 		protected static final BlockState FLESH = RegistryObject.create(new ResourceLocation("biomancy", "flesh"), ForgeRegistries.BLOCKS).get().defaultBlockState();
 		protected static final BlockState FLESH_SLAB = RegistryObject.create(new ResourceLocation("biomancy", "flesh_slab"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		protected static final BlockState MALIGNANT_FLESH = RegistryObject.create(new ResourceLocation("biomancy", "malignant_flesh"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		protected static final BlockState MALIGNANT_FLESH_SLAB = RegistryObject.create(new ResourceLocation("biomancy", "malignant_flesh_slab"), ForgeRegistries.BLOCKS).get().defaultBlockState();
 
 		protected static final int WIDTH = 37;
 		protected static final int HEIGHT = 14;
@@ -320,7 +358,10 @@ public class BossLairPieces {
 		public void addChildren(StartPiece startPiece, StructurePieceAccessor pieces) {
 		}
 
-		private static final ResourceLocation LOOT_TABLE = new ResourceLocation(SurviveInTheWinterFrontier.MODID, "chests/ear");
+		private static final ResourceLocation LOOT_TABLE_TEACH = new ResourceLocation(MODID, "chests/abyss_lair_teach");
+		private static final ResourceLocation LOOT_TABLE_ORDINARY = new ResourceLocation(MODID, "chests/abyss_lair_ordinary");
+		private static final ResourceLocation LOOT_TABLE_RARE = new ResourceLocation(MODID, "chests/abyss_lair_rare");
+		private static final double CHEST_POSSIBILITY = 0.75D;
 
 		@Override
 		public void postProcess(WorldGenLevel level, StructureFeatureManager manager, ChunkGenerator chunk, Random random,
@@ -361,8 +402,19 @@ public class BossLairPieces {
 			this.generateBox(level, bbox, 17, 1, 0, 19, 3, 0, CAVE_AIR, CAVE_AIR, false);
 
 			//chests
-			if(random.nextBoolean()) {
-				this.createChest(level, bbox, random, 2, 1, 11, LOOT_TABLE);
+			if(random.nextDouble() < CHEST_POSSIBILITY) {
+				this.createChest(level, bbox, random, 2, 1, LENGTH - 3, LOOT_TABLE_TEACH);
+			}
+			if(random.nextDouble() < CHEST_POSSIBILITY) {
+				this.createChest(level, bbox, random, 6, 1, 2, LOOT_TABLE_ORDINARY);
+				this.createChest(level, bbox, random, 7, 1, 2, LOOT_TABLE_ORDINARY);
+			}
+			if(random.nextDouble() < CHEST_POSSIBILITY) {
+				this.createChest(level, bbox, random, 17, 1, LENGTH - 3, LOOT_TABLE_RARE);
+			}
+			if(random.nextDouble() < CHEST_POSSIBILITY) {
+				this.createChest(level, bbox, random, WIDTH - 3, 1, LENGTH - 3, LOOT_TABLE_ORDINARY);
+				this.createChest(level, bbox, random, WIDTH - 3, 1, LENGTH - 4, LOOT_TABLE_ORDINARY);
 			}
 		}
 	}
@@ -371,6 +423,9 @@ public class BossLairPieces {
 		private static final BlockState CAST_IRON_HULL = RegistryObject.create(new ResourceLocation("createdeco", "cast_iron_hull"), ForgeRegistries.BLOCKS).get().defaultBlockState()
 				.setValue(BlockStateProperties.FACING, Direction.DOWN);
 		private static final BlockState INDUSTRIAL_IRON_BLOCK = RegistryObject.create(new ResourceLocation("create", "industrial_iron_block"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		private static final BlockState POLISHED_CUT_DEEPSLATE = RegistryObject.create(new ResourceLocation("create", "polished_cut_deepslate"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		private static final BlockState POLISHED_CUT_DEEPSLATE_STAIRS = RegistryObject.create(new ResourceLocation("create", "polished_cut_deepslate_stairs"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+
 		private static final BlockState FLUID_PIPE_VERTICAL, FLUID_PIPE_CORNER, FLUID_PIPE_HORIZONTAL, FLUID_PIPE_HORIZONTAL_2;
 		private static final BlockState FLUID_PIPE_CORNER_1, FLUID_PIPE_CORNER_2;
 		private static final BlockState FLUID_PIPE_T_CROSS_1, FLUID_PIPE_T_CROSS_2, FLUID_PIPE_T_CROSS_3, FLUID_PIPE_T_CROSS_4, FLUID_PIPE_X_CROSS;
@@ -464,18 +519,22 @@ public class BossLairPieces {
 			this.placeBlock(level, FLUID_PIPE_HORIZONTAL, 10, 7, 9, bbox);
 			this.createBoiler(level, bbox, 10, 10, false);
 			this.placeBlock(level, FLUID_PIPE_CORNER_2, 10, 7, 10, bbox);
+			this.generateBox(level, bbox, 3, 0, 3, 11, 0, 11, POLISHED_CUT_DEEPSLATE, POLISHED_CUT_DEEPSLATE, false);
 
 			//Veins
+			int deadX = random.nextInt(PDF_LENGTH);
+			int deadZ = random.nextInt(PDF_LENGTH);
 			for(int i = 0; i < PDF_LENGTH; ++i) {
 				for(int j = 0; j < PDF_LENGTH; ++j) {
+					double possibility = 1.0D / (1.0D + 0.04D * (Math.pow(deadX - i, 2) + Math.pow(deadZ - j, 2)));
 					byte h = this.pdf[i][j];
 					int y = 1;
 					while(h > 0) {
 						if(h == 1) {
-							this.placeBlock(level, FLESH_SLAB, 22 + i, y, 2 + j, bbox);
+							this.placeBlock(level, random.nextDouble() < possibility ? MALIGNANT_FLESH_SLAB : FLESH_SLAB, 22 + i, y, 2 + j, bbox);
 							break;
 						}
-						this.placeBlock(level, FLESH, 22 + i, y, 2 + j, bbox);
+						this.placeBlock(level, random.nextDouble() < possibility ? MALIGNANT_FLESH : FLESH, 22 + i, y, 2 + j, bbox);
 						y += 1;
 						h -= 2;
 					}
@@ -491,6 +550,15 @@ public class BossLairPieces {
 			this.placeBlock(level, FLUID_PIPE_VERTICAL, x, 5, z, bbox);
 			this.placeBlock(level, FLUID_PIPE_VERTICAL, x, 6, z, bbox);
 			if(connect) {
+				this.placeBlock(level, POLISHED_CUT_DEEPSLATE_STAIRS.setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.EAST), x + 1, 0, z, bbox);
+				this.placeBlock(level, POLISHED_CUT_DEEPSLATE_STAIRS.setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.WEST), x - 1, 0, z, bbox);
+				this.placeBlock(level, POLISHED_CUT_DEEPSLATE_STAIRS.setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH), x, 0, z + 1, bbox);
+				this.placeBlock(level, POLISHED_CUT_DEEPSLATE_STAIRS.setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH), x, 0, z - 1, bbox);
+				this.placeBlock(level, POLISHED_CUT_DEEPSLATE_STAIRS.setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.EAST).setValue(BlockStateProperties.STAIRS_SHAPE, StairsShape.INNER_LEFT), x + 1, 0, z + 1, bbox);
+				this.placeBlock(level, POLISHED_CUT_DEEPSLATE_STAIRS.setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH).setValue(BlockStateProperties.STAIRS_SHAPE, StairsShape.INNER_LEFT), x + 1, 0, z - 1, bbox);
+				this.placeBlock(level, POLISHED_CUT_DEEPSLATE_STAIRS.setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH).setValue(BlockStateProperties.STAIRS_SHAPE, StairsShape.INNER_LEFT), x - 1, 0, z + 1, bbox);
+				this.placeBlock(level, POLISHED_CUT_DEEPSLATE_STAIRS.setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.WEST).setValue(BlockStateProperties.STAIRS_SHAPE, StairsShape.INNER_LEFT), x - 1, 0, z - 1, bbox);
+				this.placeBlock(level, CAST_IRON_HULL, x, 0, z, bbox);
 				this.placeBlock(level, FLUID_PIPE_CORNER, x, 7, z, bbox);
 				for (int dz = 1; dz < z - 1; ++dz) {
 					this.placeBlock(level, FLUID_PIPE_HORIZONTAL, x, 7, z - dz, bbox);
@@ -511,6 +579,8 @@ public class BossLairPieces {
 		private static final BlockState WOODEN_CHAIR = RegistryObject.create(new ResourceLocation("zombie_extreme", "wooden_chair"), ForgeRegistries.BLOCKS).get().defaultBlockState();
 		private static final BlockState DECOMPOSING_BACKPACK = RegistryObject.create(new ResourceLocation("zombie_extreme", "decomposing_backpack"), ForgeRegistries.BLOCKS).get().defaultBlockState();
 
+		private static final BlockState PRIMORDIAL_CRADLE = RegistryObject.create(new ResourceLocation("biomancy", "primordial_cradle"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+
 		public BossRoomPiece(int depth, BoundingBox bbox, Direction direction, long seed) {
 			super(BOSS_ROOM_TYPE, depth, bbox, direction, seed);
 		}
@@ -528,6 +598,34 @@ public class BossLairPieces {
 			this.placeBlock(level, EMPTY_CANS, 2, 1, 4, bbox);
 			this.placeBlock(level, IRON_TABLE, 3, 1, 5, bbox);
 			this.placeBlock(level, IRON_TABLE, 4, 1, 5, bbox);
+
+			//Veins
+			double x0d = 0, z0d = 0;
+			double mass = 0;
+			int deadX = random.nextInt(PDF_LENGTH);
+			int deadZ = random.nextInt(PDF_LENGTH);
+			for(int i = 0; i < PDF_LENGTH; ++i) {
+				for(int j = 0; j < PDF_LENGTH; ++j) {
+					double possibility = 1.0D / (1.0D + 0.05D * (Math.pow(deadX - i, 2) + Math.pow(deadZ - j, 2)));
+					byte h = this.pdf[i][j];
+					mass += h;
+					x0d += h * (i + 0.5D);
+					z0d += h * (j + 0.5D);
+					int y = 1;
+					while(h > 0) {
+						if(h == 1) {
+							this.placeBlock(level, random.nextDouble() < possibility ? MALIGNANT_FLESH_SLAB : FLESH_SLAB, 16 + i, y, 2 + j, bbox);
+							break;
+						}
+						this.placeBlock(level, random.nextDouble() < possibility ? MALIGNANT_FLESH : FLESH, 16 + i, y, 2 + j, bbox);
+						y += 1;
+						h -= 2;
+					}
+				}
+			}
+			int x0 = (int) (x0d / mass);
+			int z0 = (int) (z0d / mass);
+			this.placeBlock(level, PRIMORDIAL_CRADLE, 16 + x0, this.pdf[x0][z0] / 2 + 1, 2 + z0, bbox);
 		}
 
 		@Nullable
@@ -545,6 +643,9 @@ public class BossLairPieces {
 		private static final int OFF_X = 7;
 		private static final int OFF_Y = 1;
 		private static final int OFF_Z = 0;
+
+		private static final BlockState DEAN_BRICKS = RegistryObject.create(new ResourceLocation("createdeco", "dean_bricks"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		private static final BlockState DEAN_BRICKS_SLAB = RegistryObject.create(new ResourceLocation("createdeco", "mossy_dean_bricks_slab"), ForgeRegistries.BLOCKS).get().defaultBlockState();
 
 		public StaircasePiece(int depth, BoundingBox bbox, Direction direction) {
 			super(STAIRCASE_TYPE, depth, bbox);
@@ -574,7 +675,14 @@ public class BossLairPieces {
 				for(int z = 0; z < LENGTH; ++z) {
 					int dz = (z + 1) / 2;
 					this.placeBlock(level, STONE, x, dz, z, bbox);
-					for (int y = dz + 1; y < HEIGHT - (LENGTH / 2) + dz - 1; ++y) {
+					BlockState floor;
+					if(x >= 4 && x <= WIDTH - 5) {
+						floor = CAVE_AIR;
+					} else {
+						floor = (z & 1) == 0 ? DEAN_BRICKS : DEAN_BRICKS_SLAB;
+					}
+					this.placeBlock(level, floor, x, dz + 1, z, bbox);
+					for (int y = dz + 2; y < HEIGHT - (LENGTH / 2) + dz - 1; ++y) {
 						this.placeBlock(level, CAVE_AIR, x, y, z, bbox);
 					}
 					this.placeBlock(level, STONE, x, HEIGHT - (LENGTH / 2) + dz - 1, z, bbox);
