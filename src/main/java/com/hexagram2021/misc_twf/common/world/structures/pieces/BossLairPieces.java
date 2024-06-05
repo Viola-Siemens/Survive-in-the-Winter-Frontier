@@ -598,6 +598,8 @@ public class BossLairPieces {
 			this.placeBlock(level, EMPTY_CANS, 2, 1, 4, bbox);
 			this.placeBlock(level, IRON_TABLE, 3, 1, 5, bbox);
 			this.placeBlock(level, IRON_TABLE, 4, 1, 5, bbox);
+			this.placeBlock(level, WOODEN_CHAIR, 2, 1, 11, bbox);
+			this.placeBlock(level, DECOMPOSING_BACKPACK, 5, 1, 8, bbox);
 
 			//Veins
 			double x0d = 0, z0d = 0;
@@ -645,7 +647,7 @@ public class BossLairPieces {
 		private static final int OFF_Z = 0;
 
 		private static final BlockState DEAN_BRICKS = RegistryObject.create(new ResourceLocation("createdeco", "dean_bricks"), ForgeRegistries.BLOCKS).get().defaultBlockState();
-		private static final BlockState DEAN_BRICKS_SLAB = RegistryObject.create(new ResourceLocation("createdeco", "mossy_dean_bricks_slab"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		private static final BlockState DEAN_BRICKS_SLAB = RegistryObject.create(new ResourceLocation("createdeco", "dean_bricks_slab"), ForgeRegistries.BLOCKS).get().defaultBlockState();
 
 		public StaircasePiece(int depth, BoundingBox bbox, Direction direction) {
 			super(STAIRCASE_TYPE, depth, bbox);
