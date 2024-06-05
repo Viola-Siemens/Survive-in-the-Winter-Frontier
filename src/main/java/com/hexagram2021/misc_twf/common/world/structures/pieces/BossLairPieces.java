@@ -10,10 +10,13 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.StairsShape;
@@ -589,6 +592,8 @@ public class BossLairPieces {
 			super(BOSS_ROOM_TYPE, context, nbt);
 		}
 
+		private static final ResourceLocation LOOT_TABLE_BACKPACK = new ResourceLocation(MODID, "chests/backpack");
+
 		@Override
 		public void postProcess(WorldGenLevel level, StructureFeatureManager manager, ChunkGenerator chunk, Random random,
 								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
@@ -599,7 +604,7 @@ public class BossLairPieces {
 			this.placeBlock(level, IRON_TABLE, 3, 1, 5, bbox);
 			this.placeBlock(level, IRON_TABLE, 4, 1, 5, bbox);
 			this.placeBlock(level, WOODEN_CHAIR, 2, 1, 11, bbox);
-			this.placeBlock(level, DECOMPOSING_BACKPACK, 5, 1, 8, bbox);
+			this.createBackpack(level, bbox, random, 5, 1, 8, LOOT_TABLE_BACKPACK);
 
 			//Veins
 			double x0d = 0, z0d = 0;
@@ -634,6 +639,30 @@ public class BossLairPieces {
 		public static BossRoomPiece createPiece(StructurePieceAccessor pieces, int x, int y, int z, long seed, Direction direction, int depth) {
 			BoundingBox boundingbox = BoundingBox.orientBox(x, y, z, -OFF_X, -OFF_Y, -OFF_Z, WIDTH, HEIGHT, LENGTH, direction);
 			return isOkBox(boundingbox) && pieces.findCollisionPiece(boundingbox) == null ? new BossRoomPiece(depth, boundingbox, direction, seed) : null;
+		}
+
+		@SuppressWarnings({"UnusedReturnValue", "SameParameterValue"})
+		private boolean createBackpack(WorldGenLevel level, BoundingBox bbox, Random random, int x, int y, int z, ResourceLocation lootTable) {
+			return this.createBackpack(level, bbox, random, this.getWorldPos(x, y, z), lootTable, null);
+		}
+
+		@SuppressWarnings("SameParameterValue")
+		private boolean createBackpack(ServerLevelAccessor level, BoundingBox bbox, Random random, BlockPos blockPos,
+									   ResourceLocation lootTable, @Nullable BlockState blockState) {
+			if (bbox.isInside(blockPos) && !level.getBlockState(blockPos).is(DECOMPOSING_BACKPACK.getBlock())) {
+				if (blockState == null) {
+					blockState = reorient(level, blockPos, DECOMPOSING_BACKPACK);
+				}
+
+				level.setBlock(blockPos, blockState, Block.UPDATE_CLIENTS);
+				BlockEntity blockentity = level.getBlockEntity(blockPos);
+				if (blockentity instanceof RandomizableContainerBlockEntity container) {
+					container.setLootTable(lootTable, random.nextLong());
+				}
+
+				return true;
+			}
+			return false;
 		}
 	}
 
