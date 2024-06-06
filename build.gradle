@@ -191,6 +191,7 @@ jar {
                 'FMLCorePluginContainsFMLMod': 'true'
         ])
     }
+    from('LICENSE')
 }
 
 jar.finalizedBy('reobfJar')
