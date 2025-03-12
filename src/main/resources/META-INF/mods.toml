@@ -80,3 +80,9 @@ A minecraft mod for modpack "The Winter Frontier"
     versionRange="[0.2.0,)"
     ordering="NONE"
     side="BOTH"
+[[dependencies.misc_twf]]
+    modId="mixinextras"
+    mandatory=true
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"

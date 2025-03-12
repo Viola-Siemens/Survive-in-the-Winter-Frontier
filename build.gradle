@@ -152,7 +152,8 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.18.2-40.3.0'
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    implementation annotationProcessor('io.github.llamalad7:mixinextras-common:0.4.1')
+    compileOnly annotationProcessor('io.github.llamalad7:mixinextras-common:0.4.1')
+    implementation "io.github.llamalad7:mixinextras-forge:0.4.1"
 
     implementation fg.deobf("mezz.jei:jei-1.18.2:9.7.1.255")
     implementation fg.deobf("be.florens:expandability-forge:6.0.0")
