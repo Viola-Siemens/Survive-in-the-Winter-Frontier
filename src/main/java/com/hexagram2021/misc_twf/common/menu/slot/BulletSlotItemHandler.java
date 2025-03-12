@@ -1,7 +1,7 @@
 package com.hexagram2021.misc_twf.common.menu.slot;
 
 import com.hexagram2021.misc_twf.common.util.IAmmoBackpack;
-import com.tac.guns.item.IAmmo;
+import com.tacz.guns.api.item.IAmmo;
 import com.tiviacz.travelersbackpack.capability.CapabilityUtils;
 import com.tiviacz.travelersbackpack.inventory.ITravelersBackpackContainer;
 import com.tiviacz.travelersbackpack.util.Reference;

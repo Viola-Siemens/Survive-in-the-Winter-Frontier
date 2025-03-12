@@ -1,4 +1,4 @@
-package com.hexagram2021.misc_twf.mixin;
+package com.hexagram2021.misc_twf.mixin.travelersbackpack;
 
 import com.hexagram2021.misc_twf.client.screen.TacButton;
 import com.tiviacz.travelersbackpack.client.screens.TravelersBackpackScreen;

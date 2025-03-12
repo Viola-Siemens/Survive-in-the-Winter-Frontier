@@ -10,17 +10,19 @@
     "FireChargeItemMixin",
     "FlintAndSteelItemMixin",
     "GoatEntityMixin",
-    "GunMixin",
     "InfectionEventHandlerMixin",
     "MonsterMixin",
-    "ReloadTrackerMixin",
-    "TravelersBackpackBlockEntityMixin",
-    "TravelersBackpackContainerMixin"
+    "tacz.AbstractGunItemMixin",
+    "tacz.GunAnimationStateContextMixin",
+    "tacz.GunHudOverlayMixin",
+    "tacz.ModernKineticGunScriptAPIMixin",
+    "travelersbackpack.TravelersBackpackBlockEntityMixin",
+    "travelersbackpack.TravelersBackpackContainerMixin"
   ],
   "minVersion": "0.8",
   "client": [
     "DarknessMixin",
     "LightTextureMixin",
-    "TravelersBackpackScreenMixin"
+    "travelersbackpack.TravelersBackpackScreenMixin"
   ]
 }

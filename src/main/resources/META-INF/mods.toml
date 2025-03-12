@@ -27,9 +27,9 @@ A minecraft mod for modpack "The Winter Frontier"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
-    modId="tac"
+    modId="tacz"
     mandatory=true
-    versionRange="[0.3.7,)"
+    versionRange="[1,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]

@@ -1,9 +1,11 @@
-package com.hexagram2021.misc_twf.mixin;
+package com.hexagram2021.misc_twf.mixin.travelersbackpack;
 
 import com.hexagram2021.misc_twf.common.util.IAmmoBackpack;
-import com.tiviacz.travelersbackpack.inventory.TravelersBackpackContainer;
+import com.llamalad7.mixinextras.sugar.Local;
+import com.tiviacz.travelersbackpack.blockentity.TravelersBackpackBlockEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -11,9 +13,10 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(TravelersBackpackContainer.class)
-public abstract class TravelersBackpackContainerMixin implements IAmmoBackpack {
+@Mixin(TravelersBackpackBlockEntity.class)
+public abstract class TravelersBackpackBlockEntityMixin implements IAmmoBackpack {
 	@Shadow(remap = false)
 	protected abstract ItemStackHandler createHandler(int size, boolean isInventory);
 
@@ -34,6 +37,11 @@ public abstract class TravelersBackpackContainerMixin implements IAmmoBackpack {
 		if(compound.contains("AmmoInventory", Tag.TAG_COMPOUND)) {
 			this.misc_twf$ammoInventory.deserializeNBT(compound.getCompound("AmmoInventory"));
 		}
+	}
+
+	@Inject(method = "transferToItemStack", at = @At(value = "INVOKE", target = "Lcom/tiviacz/travelersbackpack/blockentity/TravelersBackpackBlockEntity;saveTier(Lnet/minecraft/nbt/CompoundTag;)V", shift = At.Shift.BEFORE), remap = false)
+	public void misc_twf$saveTacToItemStack(ItemStack stack, CallbackInfoReturnable<ItemStack> cir, @Local CompoundTag compound) {
+		this.saveAmmo(compound);
 	}
 
 	@Override

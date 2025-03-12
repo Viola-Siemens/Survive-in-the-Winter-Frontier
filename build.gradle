@@ -17,7 +17,7 @@ plugins {
 }
 apply plugin: 'org.spongepowered.mixin'
 
-version = '1.2.4'
+version = '1.2.5'
 group = 'com.hexagram2021.misc_twf'
 archivesBaseName = 'misc_twf'
 
@@ -149,9 +149,10 @@ repositories {
 dependencies {
     implementation('cpw.mods:securejarhandler') { version { strictly '0.9.45' } }
 
-    minecraft 'net.minecraftforge:forge:1.18.2-40.2.10'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.3.0'
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    implementation annotationProcessor('io.github.llamalad7:mixinextras-common:0.4.1')
 
     implementation fg.deobf("mezz.jei:jei-1.18.2:9.7.1.255")
     implementation fg.deobf("be.florens:expandability-forge:6.0.0")
@@ -171,7 +172,7 @@ dependencies {
     implementation fg.deobf("curse.maven:hordes-485779:5287529")                //////
     implementation fg.deobf("curse.maven:jade-324717:4575623")                  //////
     runtimeOnly fg.deobf("curse.maven:spark-361579:4505375")
-    implementation fg.deobf("curse.maven:tac-491264:4886929")                   //////
+    implementation fg.deobf("curse.maven:tacz-1028108:6069322-sources-6069332") //////
     implementation fg.deobf("curse.maven:tetrachordlib-980149:5153986")         //////
     implementation fg.deobf("curse.maven:travelersbackpack-321117:5310212")     //////
     runtimeOnly fg.deobf("curse.maven:verdure-577197:4365968")
