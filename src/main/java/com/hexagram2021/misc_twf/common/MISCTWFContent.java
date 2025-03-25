@@ -4,8 +4,10 @@ import com.hexagram2021.misc_twf.common.entity.ZombieAnimalEntity;
 import com.hexagram2021.misc_twf.common.entity.capability.CapabilityAnimal;
 import com.hexagram2021.misc_twf.common.register.*;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -31,10 +33,17 @@ public class MISCTWFContent {
 		MISCTWFMobEffects.init(bus);
 		MISCTWFMenuTypes.init(bus);
 		MISCTWFTravelersBackpackTacOps.init(bus);
+
+		MISCTWFSkills.init(bus);
 	}
 
 	private static void initTags() {
 		MISCTWFItemTags.init();
+	}
+
+	@SubscribeEvent
+	public static void registerAttributes(RegistryEvent.Register<Attribute> event) {
+		MISCTWFAttributes.init(event.getRegistry()::register);
 	}
 
 	@SubscribeEvent
@@ -53,6 +62,13 @@ public class MISCTWFContent {
 		MISCTWFStructurePieceTypes.init();
 		MISCTWFConfiguredStructures.init();
 		MISCTWFStructureSets.init();
+	}
+
+	@SubscribeEvent
+	public static void registerFeatures(RegistryEvent.Register<Feature<?>> event) {
+		MISCTWFFeatures.init(event.getRegistry()::register);
+		MISCTWFConfiguredFeatures.init();
+		MISCTWFPlacedFeatures.init();
 	}
 
 	@SubscribeEvent

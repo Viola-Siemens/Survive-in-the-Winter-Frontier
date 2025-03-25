@@ -6,22 +6,28 @@ buildscript {
         maven { name="sponge"; url 'https://repo.spongepowered.org/repository/maven-public/' }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '[6.0.24,6.2)', changing: true
         classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 
 plugins {
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '5.1.+'
 }
+apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
 version = '1.2.5'
 group = 'com.hexagram2021.misc_twf'
 archivesBaseName = 'misc_twf'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+compileJava {
+    sourceCompatibility = 17
+    targetCompatibility = 17
+}
+java.disableAutoTargetJvm()
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
@@ -170,12 +176,14 @@ dependencies {
     compileOnly fg.deobf("curse.maven:embeddiumplus-931925:4958315")
     runtimeOnly fg.deobf("curse.maven:flywheel-486392:4341461")
     implementation fg.deobf('curse.maven:framework-549225:4613856')             //////
+    implementation fg.deobf("curse.maven:hunger_reworked-847923:4575233")       //////
     implementation fg.deobf("curse.maven:hordes-485779:5287529")                //////
     implementation fg.deobf("curse.maven:jade-324717:4575623")                  //////
     runtimeOnly fg.deobf("curse.maven:spark-361579:4505375")
     implementation fg.deobf("curse.maven:tacz-1028108:6069322-sources-6069332") //////
     implementation fg.deobf("curse.maven:tetrachordlib-980149:5153986")         //////
     implementation fg.deobf("curse.maven:travelersbackpack-321117:5310212")     //////
+    implementation fg.deobf("curse.maven:justlevelingfork-1073400:5677674")     //////
     runtimeOnly fg.deobf("curse.maven:verdure-577197:4365968")
     runtimeOnly fg.deobf("curse.maven:zombie_extreme-392809:4746394")
 }

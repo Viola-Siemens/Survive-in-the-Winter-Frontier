@@ -21,6 +21,12 @@ public class MISCTWFCommonConfig {
 
 	public static final ForgeConfigSpec.BooleanValue ZOMBIE_ANIMALS_CAN_BE_HEALED;
 
+	public static final ForgeConfigSpec.IntValue POSSIBILITY_FALL_DESTROY_EGG;
+	public static final ForgeConfigSpec.IntValue POSSIBILITY_STEP_DESTROY_EGG;
+
+	public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> STRONG_STOMACH_SKILL_LEVELS;
+	public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> GUN_MASTERY_SKILL_LEVELS;
+
 	static {
 		BUILDER.push("misc_twf-common-config");
 			MILK_INTERVAL = BUILDER.comment("The cool down for cows and goats to produce milk (in seconds).").defineInRange("MILK_INTERVAL", 60, 0, 120000);
@@ -34,6 +40,12 @@ public class MISCTWFCommonConfig {
 			WAYFARER_ARMOR_EFFECTS = BUILDER.comment("When a player wears the entire suit of wayfarer armor, which effects will be applied to this player.").defineList("WAYFARER_ARMOR_EFFECTS", List.of("cold_sweat:ice_resistance"), o -> o instanceof String str && ResourceLocation.isValidResourceLocation(str));
 
 			ZOMBIE_ANIMALS_CAN_BE_HEALED = BUILDER.comment("If true, players can use golden apples to heal zombie animals").define("ZOMBIE_ANIMALS_CAN_BE_HEALED", true);
+
+			POSSIBILITY_FALL_DESTROY_EGG = BUILDER.comment("Possibility (in percentage) of monster egg crashes when player falls on it.").defineInRange("POSSIBILITY_FALL_DESTROY_EGG", 75, 0, 100);
+			POSSIBILITY_STEP_DESTROY_EGG = BUILDER.comment("Possibility (in percentage) of monster egg crashes when player steps on it.").defineInRange("POSSIBILITY_STEP_DESTROY_EGG", 40, 0, 100);
+
+			STRONG_STOMACH_SKILL_LEVELS = BUILDER.comment("Strong stomach passive levels. Don't modify the length of the array!").defineList("STRONG_STOMACH_SKILL_LEVELS", List.of(6, 10, 14, 18, 23, 27, 31, 36, 41, 48), o -> o instanceof Integer i && i > 0);
+			GUN_MASTERY_SKILL_LEVELS = BUILDER.comment("Gun mastery passive levels. Don't modify the length of the array!").defineList("GUN_MASTERY_SKILL_LEVELS", List.of(6, 10, 14, 18, 23, 27, 31, 36, 41, 48), o -> o instanceof Integer i && i > 0);
 		BUILDER.pop();
 
 		SPEC = BUILDER.build();

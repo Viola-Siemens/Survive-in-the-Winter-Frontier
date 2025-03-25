@@ -13,6 +13,7 @@
     "InfectionEventHandlerMixin",
     "MonsterMixin",
     "tacz.AbstractGunItemMixin",
+    "tacz.EntityKineticBulletMixin",
     "tacz.GunAnimationStateContextMixin",
     "tacz.GunHudOverlayMixin",
     "tacz.ModernKineticGunScriptAPIMixin",

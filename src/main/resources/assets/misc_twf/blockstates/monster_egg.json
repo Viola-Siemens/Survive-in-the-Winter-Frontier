@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "waterlogged=true": [
+      {
+        "model": "misc_twf:block/monster_egg"
+      }
+    ],
+    "waterlogged=false": [
+      {
+        "model": "misc_twf:block/monster_egg"
+      }
+    ]
+  }
+}

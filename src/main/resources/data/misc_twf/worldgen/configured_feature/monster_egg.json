@@ -1,0 +1,27 @@
+{
+  "type": "misc_twf:monster_egg",
+  "config": {
+    "entries": [
+      {
+        "type": "minecraft:zombie",
+        "weight": 6
+      },
+      {
+        "type": "zombie_extreme:night_hunter",
+        "weight": 5
+      },
+      {
+        "type": "zombie_extreme:infected_juggernaut",
+        "weight": 2
+      },
+      {
+        "type": "zombie_extreme:infected_hazmat",
+        "weight": 2
+      },
+      {
+        "type": "zombie_extreme:patient_zero",
+        "weight": 1
+      }
+    ]
+  }
+}

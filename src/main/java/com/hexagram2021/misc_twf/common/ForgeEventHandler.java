@@ -10,12 +10,10 @@ import com.hexagram2021.misc_twf.common.entity.capability.IPoopingAnimal;
 import com.hexagram2021.misc_twf.common.item.AbyssVirusVaccine;
 import com.hexagram2021.misc_twf.common.item.IEnergyItem;
 import com.hexagram2021.misc_twf.common.item.capability.ItemStackEnergyHandler;
-import com.hexagram2021.misc_twf.common.register.MISCTWFEntityTags;
-import com.hexagram2021.misc_twf.common.register.MISCTWFFluidTags;
-import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
-import com.hexagram2021.misc_twf.common.register.MISCTWFMobEffects;
+import com.hexagram2021.misc_twf.common.register.*;
 import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -27,16 +25,21 @@ import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.animal.goat.GoatAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingConversionEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
@@ -141,6 +144,17 @@ public class ForgeEventHandler {
 		if(event.getEntityLiving().getType().getCategory().equals(MobCategory.MONSTER) &&
 				MISCTWFSavedData.denyMonsterSpawn(GlobalPos.of(event.getEntityLiving().level.dimension(), event.getEntityLiving().blockPosition().above()))) {
 			event.setResult(Event.Result.DENY);
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	@SubscribeEvent
+	public static void biomeModification(BiomeLoadingEvent event) {
+		if(event.getName() != null) {
+			ResourceKey<Biome> biome = ResourceKey.create(ForgeRegistries.Keys.BIOMES, event.getName());
+			if (BiomeDictionary.hasType(biome, BiomeDictionary.Type.OVERWORLD)) {
+				event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MISCTWFPlacedFeatures.MONSTER_EGG);
+			}
 		}
 	}
 }

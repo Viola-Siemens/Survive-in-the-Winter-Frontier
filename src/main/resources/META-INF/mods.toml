@@ -27,15 +27,15 @@ A minecraft mod for modpack "The Winter Frontier"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
-    modId="tacz"
-    mandatory=true
-    versionRange="[1,)"
-    ordering="NONE"
-    side="BOTH"
-[[dependencies.misc_twf]]
     modId="createaddition"
     mandatory=true
     versionRange="[1.18.2-1.0.0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.misc_twf]]
+    modId="curios"
+    mandatory=true
+    versionRange="[1.18.2-5.0.9.1,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
@@ -51,27 +51,39 @@ A minecraft mod for modpack "The Winter Frontier"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
-    modId="travelersbackpack"
+    modId="hunger_reworked_reforged"
     mandatory=true
-    versionRange="[1.18.2-7.1.41,)"
-    ordering="NONE"
-    side="BOTH"
-[[dependencies.misc_twf]]
-    modId="curios"
-    mandatory=true
-    versionRange="[1.18.2-5.0.9.1,)"
-    ordering="NONE"
-    side="BOTH"
-[[dependencies.misc_twf]]
-    modId="tetrachordlib"
-    mandatory=true
-    versionRange="[1.18,1.19)"
+    versionRange="[1,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
     modId="jade"
     mandatory=true
     versionRange="[5.2.0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.misc_twf]]
+    modId="justlevelingfork"
+    mandatory=true
+    versionRange="[1,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.misc_twf]]
+    modId="tacz"
+    mandatory=true
+    versionRange="[1,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.misc_twf]]
+    modId="travelersbackpack"
+    mandatory=true
+    versionRange="[1.18.2-7.1.41,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.misc_twf]]
+    modId="tetrachordlib"
+    mandatory=true
+    versionRange="[1.18,1.19)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]

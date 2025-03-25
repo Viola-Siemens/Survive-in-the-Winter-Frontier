@@ -98,6 +98,8 @@ public final class MISCTWFBlocks {
 	public static final BlockEntry<Block> BLOODSTAIN = new BlockEntry<>("bloodstain", () -> BlockBehaviour.Properties.copy(REDSTONE_WIRE).sound(SoundType.NETHER_WART).noDrops(), BloodstainBlock::new);
 	public static final BlockEntry<Block> RIBS = new BlockEntry<>("ribs", () -> BlockBehaviour.Properties.copy(REDSTONE_WIRE).sound(SoundType.BONE_BLOCK), RibsBlock::new);
 
+	public static final BlockEntry<MonsterEggBlock> MONSTER_EGG = new BlockEntry<>("monster_egg", () -> BlockBehaviour.Properties.of(Material.EGG, MaterialColor.COLOR_GRAY).strength(0.5F).sound(SoundType.METAL).noOcclusion(), MonsterEggBlock::new);
+
 	private MISCTWFBlocks() {
 	}
 

@@ -1,9 +1,7 @@
 package com.hexagram2021.misc_twf.common.register;
 
 import com.google.common.collect.ImmutableSet;
-import com.hexagram2021.misc_twf.common.block.entity.MoldDetacherBlockEntity;
-import com.hexagram2021.misc_twf.common.block.entity.MutantPotionCauldronBlockEntity;
-import com.hexagram2021.misc_twf.common.block.entity.UltravioletLampBlockEntity;
+import com.hexagram2021.misc_twf.common.block.entity.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -24,6 +22,9 @@ public final class MISCTWFBlockEntities {
 	));
 	public static final RegistryObject<BlockEntityType<MutantPotionCauldronBlockEntity>> MUTANT_POTION_CAULDRON = REGISTER.register("mutant_potion_cauldron", () -> new BlockEntityType<>(
 			MutantPotionCauldronBlockEntity::new, ImmutableSet.of(MISCTWFBlocks.MUTANT_POTION_CAULDRON.get()), null
+	));
+	public static final RegistryObject<BlockEntityType<MonsterEggBlockEntity>> MONSTER_EGG = REGISTER.register("monster_egg", () -> new BlockEntityType<>(
+			MonsterEggBlockEntity::new, ImmutableSet.of(MISCTWFBlocks.MONSTER_EGG.get()), null
 	));
 
 	private MISCTWFBlockEntities() {
