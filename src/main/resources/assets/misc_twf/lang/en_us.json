@@ -73,6 +73,12 @@
   "entity.misc_twf.zombie_sheep": "Zombie Sheep",
   "entity.misc_twf.zombie_wolf": "Zombie Wolf",
 
+  "passive.misc_twf.strong_stomach": "Strong Stomach",
+  "passive.misc_twf.gun_mastery": "Gun Mastery",
+
+  "passive.misc_twf.strong_stomach.description": "Increases the capability of your stomach",
+  "passive.misc_twf.gun_mastery.description": "Increases the gun damage you cause",
+
   "effect.misc_twf.fragile": "Fragile",
 
   "container.misc_twf.ultraviolet_lamp": "Ultraviolet Lamp",

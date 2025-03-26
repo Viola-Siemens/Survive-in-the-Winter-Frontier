@@ -73,6 +73,12 @@
   "entity.misc_twf.zombie_sheep": "僵尸绵羊",
   "entity.misc_twf.zombie_wolf": "僵尸狼",
 
+  "passive.misc_twf.strong_stomach": "铁胃",
+  "passive.misc_twf.gun_mastery": "枪械精通",
+
+  "passive.misc_twf.strong_stomach.description": "增加你的胃容量",
+  "passive.misc_twf.gun_mastery.description": "增加你造成的枪械伤害",
+
   "effect.misc_twf.fragile": "脆弱",
 
   "container.misc_twf.ultraviolet_lamp": "强紫外线照射灯",
