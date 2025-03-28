@@ -7,6 +7,7 @@ import com.seniors.justlevelingfork.registry.RegistrySkills;
 import com.seniors.justlevelingfork.registry.aptitude.Aptitude;
 import com.seniors.justlevelingfork.registry.passive.Passive;
 import com.seniors.justlevelingfork.registry.skills.Skill;
+import net.mcbbs.uid1525632.hungerreworkedreforged.init.AttributeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -23,9 +24,9 @@ public final class MISCTWFSkills {
 			"strong_stomach",
 			RegistryAptitudes.CONSTITUTION.get(),
 			"textures/skill/constitution/strong_stomach.png",
-			MISCTWFAttributes.EXTRA_STOMACH,
+			AttributeRegistration.EXTRA_STOMACH,
 			"7203a4bc-d7a1-4d23-a904-214b59cca000",
-			20,
+			20.0D,
 			MISCTWFCommonConfig.STRONG_STOMACH_SKILL_LEVELS.get().stream().mapToInt(i -> i).toArray()
 	));
 	public static final RegistryObject<Passive> GUN_MASTERY = PASSIVES.register("gun_mastery", () -> createPassive(
@@ -34,7 +35,7 @@ public final class MISCTWFSkills {
 			"textures/skill/strength/gun_mastery.png",
 			MISCTWFAttributes.GUN_MASTERY,
 			"7203a4bc-d7a1-4d23-a904-214b59cca001",
-			50.0,
+			50.0D,
 			MISCTWFCommonConfig.GUN_MASTERY_SKILL_LEVELS.get().stream().mapToInt(i -> i).toArray()
 	));
 
