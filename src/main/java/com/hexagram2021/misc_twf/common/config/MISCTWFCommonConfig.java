@@ -44,8 +44,8 @@ public class MISCTWFCommonConfig {
 			POSSIBILITY_FALL_DESTROY_EGG = BUILDER.comment("Possibility (in percentage) of monster egg crashes when player falls on it.").defineInRange("POSSIBILITY_FALL_DESTROY_EGG", 75, 0, 100);
 			POSSIBILITY_STEP_DESTROY_EGG = BUILDER.comment("Possibility (in percentage) of monster egg crashes when player steps on it.").defineInRange("POSSIBILITY_STEP_DESTROY_EGG", 40, 0, 100);
 
-			STRONG_STOMACH_SKILL_LEVELS = BUILDER.comment("Strong stomach passive levels. Don't modify the length of the array!").defineList("STRONG_STOMACH_SKILL_LEVELS", List.of(6, 10, 14, 18, 23, 27, 31, 36, 41, 48), o -> o instanceof Integer i && i > 0);
-			GUN_MASTERY_SKILL_LEVELS = BUILDER.comment("Gun mastery passive levels. Don't modify the length of the array!").defineList("GUN_MASTERY_SKILL_LEVELS", List.of(6, 10, 14, 18, 23, 27, 31, 36, 41, 48), o -> o instanceof Integer i && i > 0);
+			STRONG_STOMACH_SKILL_LEVELS = BUILDER.comment("Strong stomach passive levels. Don't modify the length of the array!").defineList("STRONG_STOMACH_SKILL_LEVELS", List.of(6, 10, 14, 17, 19, 22, 25, 28, 31, 32), o -> o instanceof Integer i && i > 0);
+			GUN_MASTERY_SKILL_LEVELS = BUILDER.comment("Gun mastery passive levels. Don't modify the length of the array!").defineList("GUN_MASTERY_SKILL_LEVELS", List.of(6, 10, 14, 17, 19, 22, 25, 28, 31, 32), o -> o instanceof Integer i && i > 0);
 		BUILDER.pop();
 
 		SPEC = BUILDER.build();

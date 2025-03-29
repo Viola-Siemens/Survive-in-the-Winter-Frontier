@@ -4,6 +4,7 @@ import com.hexagram2021.misc_twf.common.entity.ZombieAnimalEntity;
 import com.hexagram2021.misc_twf.common.entity.capability.CapabilityAnimal;
 import com.hexagram2021.misc_twf.common.register.*;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.alchemy.Potion;
@@ -12,6 +13,7 @@ import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -86,5 +88,10 @@ public class MISCTWFContent {
 		event.put(MISCTWFEntities.ZOMBIE_RABBIT.get(), ZombieAnimalEntity.createAttributes(3.0D, 0.3D).build());
 		event.put(MISCTWFEntities.ZOMBIE_SHEEP.get(), ZombieAnimalEntity.createAttributes(8.0D, 0.23D).build());
 		event.put(MISCTWFEntities.ZOMBIE_WOLF.get(), ZombieAnimalEntity.createAttributes(8.0D, 0.3D).add(Attributes.ATTACK_DAMAGE, 2.0D).build());
+	}
+
+	@SubscribeEvent
+	public static void onModifyDefaultAttributes(EntityAttributeModificationEvent event) {
+		event.add(EntityType.PLAYER, MISCTWFAttributes.GUN_MASTERY, 0.0);
 	}
 }
