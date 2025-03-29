@@ -11,6 +11,7 @@
     "FlintAndSteelItemMixin",
     "GoatEntityMixin",
     "InfectionEventHandlerMixin",
+    "LivingEntityMixin",
     "MonsterMixin",
     "tacz.AbstractGunItemMixin",
     "tacz.EntityKineticBulletMixin",
