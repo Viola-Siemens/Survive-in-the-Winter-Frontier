@@ -1,0 +1,22 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "misc_twf:block/dead_sheep"
+		},
+		"facing=east": {
+			"model": "misc_twf:block/dead_sheep",
+			"y": 90,
+			"uvlock": false
+		},
+		"facing=south": {
+			"model": "misc_twf:block/dead_sheep",
+			"y": 180,
+			"uvlock": false
+		},
+		"facing=west": {
+			"model": "misc_twf:block/dead_sheep",
+			"y": 270,
+			"uvlock": false
+		}
+	}
+}

@@ -28,6 +28,16 @@
   "block.misc_twf.ribs": "Ribs",
   "block.misc_twf.blood": "Blood",
 
+  "block.misc_twf.dead_chicken": "Dead Chicken",
+  "block.misc_twf.dead_cow": "Dead Cow",
+  "block.misc_twf.dead_goat": "Dead Goat",
+  "block.misc_twf.dead_horse": "Dead Horse",
+  "block.misc_twf.dead_pig": "Dead Pig",
+  "block.misc_twf.dead_polarbear": "Dead Polar Bear",
+  "block.misc_twf.dead_rabbit": "Dead Rabbit",
+  "block.misc_twf.dead_sheep": "Dead Sheep",
+  "block.misc_twf.dead_wolf": "Dead Wolf",
+
   "item.misc_twf.yarn": "Yarn",
   "item.misc_twf.gauze": "Gauze",
   "item.misc_twf.glass_rod": "Glass Rod",

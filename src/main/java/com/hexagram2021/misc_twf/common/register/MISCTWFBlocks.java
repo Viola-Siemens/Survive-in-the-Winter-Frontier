@@ -1,12 +1,12 @@
 package com.hexagram2021.misc_twf.common.register;
 
+import com.google.common.collect.ImmutableList;
 import com.hexagram2021.misc_twf.SurviveInTheWinterFrontier;
 import com.hexagram2021.misc_twf.common.block.*;
 import com.hexagram2021.misc_twf.common.infrastructure.compat.ModCreateCompat;
+import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
@@ -103,8 +103,135 @@ public final class MISCTWFBlocks {
 	private MISCTWFBlocks() {
 	}
 
+	public static final class DeadAnimals {
+		public static final BlockEntry<DeadAnimalBlock> DEAD_CHICKEN = new BlockEntry<>(
+				"dead_chicken",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				props -> new DeadAnimalBlock(ImmutableList.of(
+						new ItemStack(Items.BONE),
+						new ItemStack(Items.BONE),
+						new ItemStack(Items.CHICKEN),
+						new ItemStack(Items.FEATHER),
+						new ItemStack(Items.FEATHER)
+				), 3, props)
+		);
+		public static final BlockEntry<DeadAnimalBlock> DEAD_COW = new BlockEntry<>(
+				"dead_cow",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				props -> new DeadAnimalBlock(ImmutableList.of(
+						new ItemStack(Items.BEEF),
+						new ItemStack(Items.BEEF),
+						new ItemStack(Items.BEEF),
+						new ItemStack(Items.BONE),
+						new ItemStack(Items.BONE),
+						new ItemStack(Items.BONE),
+						new ItemStack(Items.LEATHER)
+				), 5, props)
+		);
+		public static final BlockEntry<DeadAnimalBlock> DEAD_GOAT = new BlockEntry<>(
+				"dead_goat",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				props -> new DeadAnimalBlock(Util.make(() -> {
+					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
+					Item rawGoat = ForgeRegistries.ITEMS.getValue(new ResourceLocation("delightful", "raw_goat"));
+					Item goatFur = ForgeRegistries.ITEMS.getValue(new ResourceLocation("cold_sweat", "goat_fur"));
+					if(rawGoat != null) {
+						builder.add(new ItemStack(rawGoat), new ItemStack(rawGoat));
+					}
+					if(goatFur != null) {
+						builder.add(new ItemStack(goatFur), new ItemStack(goatFur));
+					}
+					builder.add(new ItemStack(Items.BONE), new ItemStack(Items.BONE));
+					return builder.build();
+				}), 8, props)
+		);
+		public static final BlockEntry<DeadAnimalBlock> DEAD_HORSE = new BlockEntry<>(
+				"dead_horse",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				props -> new DeadAnimalBlock(Util.make(() -> {
+					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
+					Item rawHorse = ForgeRegistries.ITEMS.getValue(new ResourceLocation("kubejs", "sheng_horsemeat"));
+					if(rawHorse != null) {
+						builder.add(new ItemStack(rawHorse), new ItemStack(rawHorse));
+					}
+					builder.add(new ItemStack(Items.BONE), new ItemStack(Items.BONE), new ItemStack(Items.LEATHER));
+					return builder.build();
+				}), 5, props)
+		);
+		public static final BlockEntry<DeadAnimalBlock> DEAD_PIG = new BlockEntry<>(
+				"dead_pig",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				props -> new DeadAnimalBlock(ImmutableList.of(
+						new ItemStack(Items.BONE),
+						new ItemStack(Items.BONE),
+						new ItemStack(Items.LEATHER),
+						new ItemStack(Items.PORKCHOP),
+						new ItemStack(Items.PORKCHOP),
+						new ItemStack(Items.PORKCHOP)
+				), 5, props)
+		);
+		public static final BlockEntry<DeadAnimalBlock> DEAD_POLARBEAR = new BlockEntry<>(
+				"dead_polarbear",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				props -> new DeadAnimalBlock(Util.make(() -> {
+					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
+					Item polarBear = ForgeRegistries.ITEMS.getValue(new ResourceLocation("kubejs", "polar_bear"));
+					Item rawBear = ForgeRegistries.ITEMS.getValue(new ResourceLocation("kubejs", "sheng_bearmeat"));
+					if(polarBear != null) {
+						builder.add(new ItemStack(polarBear), new ItemStack(polarBear));
+					}
+					if(rawBear != null) {
+						builder.add(new ItemStack(rawBear), new ItemStack(rawBear), new ItemStack(rawBear), new ItemStack(rawBear));
+					}
+					builder.add(new ItemStack(Items.BONE), new ItemStack(Items.BONE));
+					return builder.build();
+				}), 10, props)
+		);
+		public static final BlockEntry<DeadAnimalBlock> DEAD_RABBIT = new BlockEntry<>(
+				"dead_rabbit",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				props -> new DeadAnimalBlock(ImmutableList.of(
+						new ItemStack(Items.RABBIT),
+						new ItemStack(Items.RABBIT_FOOT),
+						new ItemStack(Items.RABBIT_FOOT),
+						new ItemStack(Items.RABBIT_HIDE)
+				), 3, props)
+		);
+		public static final BlockEntry<DeadAnimalBlock> DEAD_SHEEP = new BlockEntry<>(
+				"dead_sheep",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				props -> new DeadAnimalBlock(Util.make(() -> {
+					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
+					builder.add(new ItemStack(Items.BONE), new ItemStack(Items.BONE), new ItemStack(Items.MUTTON), new ItemStack(Items.MUTTON));
+					Item rawGigot = ForgeRegistries.ITEMS.getValue(new ResourceLocation("kubejs", "sheng_yangtui"));
+					if(rawGigot != null) {
+						builder.add(new ItemStack(rawGigot), new ItemStack(rawGigot));
+					}
+					return builder.build();
+				}), 5, props)
+		);
+		public static final BlockEntry<DeadAnimalBlock> DEAD_WOLF = new BlockEntry<>(
+				"dead_wolf",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				props -> new DeadAnimalBlock(Util.make(() -> {
+					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
+					Item rawWolf = ForgeRegistries.ITEMS.getValue(new ResourceLocation("kubejs", "sheng_wolfmeat"));
+					if(rawWolf != null) {
+						builder.add(new ItemStack(rawWolf), new ItemStack(rawWolf, 2));
+					}
+					builder.add(new ItemStack(Items.BONE), new ItemStack(Items.BONE));
+					return builder.build();
+				}), 4, props)
+		);
+
+		public static void init() {
+		}
+	}
+
 	public static void init(IEventBus bus) {
 		REGISTER.register(bus);
+
+		DeadAnimals.init();
 	}
 
 	public static final class BlockEntry<T extends Block> implements Supplier<T>, ItemLike {

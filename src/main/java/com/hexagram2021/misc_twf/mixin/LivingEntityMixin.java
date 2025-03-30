@@ -1,8 +1,14 @@
 package com.hexagram2021.misc_twf.mixin;
 
+import com.hexagram2021.misc_twf.common.register.MISCTWFBlocks;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,6 +35,36 @@ public class LivingEntityMixin {
 					}
 				});
 			}
+		}
+	}
+
+	@WrapOperation(method = "dropAllDeathLoot", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;dropFromLootTable(Lnet/minecraft/world/damagesource/DamageSource;Z)V"))
+	protected void misc_twf$replaceLootTable(LivingEntity instance, DamageSource damageSource, boolean hurtByPlayer, Operation<Void> original) {
+		EntityType<?> entityType = instance.getType();
+		Item loot = null;
+		if(entityType == EntityType.CHICKEN) {
+			loot = MISCTWFBlocks.DeadAnimals.DEAD_CHICKEN.asItem();
+		} else if(entityType == EntityType.COW) {
+			loot = MISCTWFBlocks.DeadAnimals.DEAD_COW.asItem();
+		} else if(entityType == EntityType.GOAT) {
+			loot = MISCTWFBlocks.DeadAnimals.DEAD_GOAT.asItem();
+		} else if(entityType == EntityType.HORSE) {
+			loot = MISCTWFBlocks.DeadAnimals.DEAD_HORSE.asItem();
+		} else if(entityType == EntityType.PIG) {
+			loot = MISCTWFBlocks.DeadAnimals.DEAD_PIG.asItem();
+		} else if(entityType == EntityType.POLAR_BEAR) {
+			loot = MISCTWFBlocks.DeadAnimals.DEAD_POLARBEAR.asItem();
+		} else if(entityType == EntityType.RABBIT) {
+			loot = MISCTWFBlocks.DeadAnimals.DEAD_RABBIT.asItem();
+		} else if(entityType == EntityType.SHEEP) {
+			loot = MISCTWFBlocks.DeadAnimals.DEAD_SHEEP.asItem();
+		} else if(entityType == EntityType.WOLF) {
+			loot = MISCTWFBlocks.DeadAnimals.DEAD_WOLF.asItem();
+		}
+		if(loot == null) {
+			original.call(instance, damageSource, hurtByPlayer);
+		} else {
+			instance.spawnAtLocation(loot);
 		}
 	}
 }

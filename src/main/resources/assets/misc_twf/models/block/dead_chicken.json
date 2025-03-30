@@ -1,0 +1,131 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"particle": "misc_twf:block/dead_particle",
+		"dead_chicken": "misc_twf:block/dead_chicken"
+	},
+	"elements": [
+		{
+			"name": "body",
+			"from": [6, 1, 2],
+			"to": [12, 7, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 5, 4.5]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [7, 0, 10, 3], "texture": "#dead_chicken"},
+				"east": {"cullface": "east", "uv": [0, 3, 4, 6], "texture": "#dead_chicken"},
+				"south": {"cullface": "south", "uv": [0, 6, 3, 9], "texture": "#dead_chicken"},
+				"west": {"cullface": "west", "uv": [0, 0, 4, 3], "texture": "#dead_chicken"},
+				"up": {"cullface": "up", "uv": [7, 4, 4, 0], "rotation": 180, "texture": "#dead_chicken"},
+				"down": {"cullface": "down", "uv": [7, 4, 4, 8], "rotation": 180, "texture": "#dead_chicken"}
+			}
+		},
+		{
+			"name": "wingL",
+			"from": [6, 0, 3],
+			"to": [10, 1, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 5, 4.5]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [10.5, 9.5, 12.5, 10], "texture": "#dead_chicken"},
+				"east": {"cullface": "east", "uv": [10, 2.5, 13, 3], "texture": "#dead_chicken"},
+				"south": {"cullface": "south", "uv": [10.5, 9, 12.5, 9.5], "texture": "#dead_chicken"},
+				"west": {"cullface": "west", "uv": [10, 2, 13, 2.5], "texture": "#dead_chicken"},
+				"up": {"cullface": "up", "uv": [9, 6, 7, 3], "rotation": 180, "texture": "#dead_chicken"},
+				"down": {"cullface": "down", "uv": [9, 6, 7, 9], "rotation": 180, "texture": "#dead_chicken"}
+			}
+		},
+		{
+			"name": "wingR",
+			"from": [6, 7, 3],
+			"to": [10, 8, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 5, 4.5]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [10.5, 10.5, 12.5, 11], "texture": "#dead_chicken"},
+				"east": {"cullface": "east", "uv": [10.5, 8.5, 13.5, 9], "texture": "#dead_chicken"},
+				"south": {"cullface": "south", "uv": [10.5, 10, 12.5, 10.5], "texture": "#dead_chicken"},
+				"west": {"cullface": "west", "uv": [10.5, 8, 13.5, 8.5], "texture": "#dead_chicken"},
+				"up": {"cullface": "up", "uv": [5, 11, 3, 8], "rotation": 180, "texture": "#dead_chicken"},
+				"down": {"cullface": "down", "uv": [7, 8, 5, 11], "rotation": 180, "texture": "#dead_chicken"}
+			}
+		},
+		{
+			"name": "head",
+			"from": [2, 2, 9],
+			"to": [8, 6, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 5, 4.5]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [9, 3, 12, 5], "texture": "#dead_chicken"},
+				"east": {"cullface": "east", "uv": [9, 8, 10.5, 10], "texture": "#dead_chicken"},
+				"south": {"cullface": "south", "uv": [0, 9, 3, 11], "texture": "#dead_chicken"},
+				"west": {"cullface": "west", "uv": [7, 9, 8.5, 11], "texture": "#dead_chicken"},
+				"up": {"cullface": "up", "uv": [12, 6.5, 9, 5], "rotation": 180, "texture": "#dead_chicken"},
+				"down": {"cullface": "down", "uv": [12, 6.5, 9, 8], "rotation": 180, "texture": "#dead_chicken"}
+			}
+		},
+		{
+			"name": "beak",
+			"from": [4, 2, 12],
+			"to": [6, 6, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 5, 4.5]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [8.5, 10, 9.5, 12], "texture": "#dead_chicken"},
+				"east": {"cullface": "east", "uv": [9.5, 10, 10.5, 12], "texture": "#dead_chicken"},
+				"south": {"cullface": "south", "uv": [3, 6, 4, 8], "texture": "#dead_chicken"},
+				"west": {"cullface": "west", "uv": [10, 0, 11, 2], "texture": "#dead_chicken"},
+				"up": {"cullface": "up", "uv": [1, 12, 0, 11], "rotation": 180, "texture": "#dead_chicken"},
+				"down": {"cullface": "down", "uv": [12, 0, 11, 1], "rotation": 180, "texture": "#dead_chicken"}
+			}
+		},
+		{
+			"name": "comb",
+			"from": [6, 3, 11],
+			"to": [8, 5, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 5, 4.5]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [2, 11, 3, 12], "texture": "#dead_chicken"},
+				"east": {"cullface": "east", "uv": [3, 11, 4, 12], "texture": "#dead_chicken"},
+				"south": {"cullface": "south", "uv": [1, 11, 2, 12], "texture": "#dead_chicken"},
+				"west": {"cullface": "west", "uv": [11, 1, 12, 2], "texture": "#dead_chicken"},
+				"up": {"cullface": "up", "uv": [5, 12, 4, 11], "rotation": 180, "texture": "#dead_chicken"},
+				"down": {"cullface": "down", "uv": [6, 11, 5, 12], "rotation": 180, "texture": "#dead_chicken"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [73.25, 0, 0],
+			"translation": [0, 6, 0]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [73.25, 0, 0],
+			"translation": [0, 6, 0]
+		},
+		"firstperson_righthand": {
+			"rotation": [33.75, 0, 0],
+			"translation": [0, 5, 0]
+		},
+		"firstperson_lefthand": {
+			"rotation": [33.75, 0, 0],
+			"translation": [0, 5, 0]
+		},
+		"ground": {
+			"translation": [0, 4.5, 0]
+		},
+		"gui": {
+			"rotation": [7.37, -87.74, -85.68],
+			"translation": [0.5, 0, 0]
+		},
+		"fixed": {
+			"rotation": [-159.03, 83.26, 67.91],
+			"translation": [0, 0, -6.75]
+		}
+	},
+	"groups": [
+		{
+			"name": "group",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": [0, 1, 2, 3, 4, 5]
+		}
+	]
+}

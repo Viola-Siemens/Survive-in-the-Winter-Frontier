@@ -1,0 +1,148 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"texture_size": [64, 64],
+	"textures": {
+		"particle": "misc_twf:block/dead_particle",
+		"dead_pig": "misc_twf:block/dead_pig"
+	},
+	"elements": [
+		{
+			"name": "main",
+			"from": [4, 6.3514, -0.60876],
+			"to": [12, 14.3514, 7.39124],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4.625, 5.40533]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [0, 6, 2, 8], "texture": "#dead_pig"},
+				"east": {"cullface": "east", "uv": [2, 6, 4, 8], "texture": "#dead_pig"},
+				"south": {"cullface": "south", "uv": [4, 6, 6, 8], "texture": "#dead_pig"},
+				"west": {"cullface": "west", "uv": [6, 6, 8, 8], "texture": "#dead_pig"},
+				"up": {"cullface": "up", "uv": [9.5, 2, 7.5, 0], "texture": "#dead_pig"},
+				"down": {"cullface": "down", "uv": [9.5, 2, 7.5, 4], "texture": "#dead_pig"}
+			}
+		},
+		{
+			"name": "mouth",
+			"from": [6, 7.3514, -1.60876],
+			"to": [10, 10.3514, -0.60876],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4.625, 5.40533]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [9.5, 4, 10.5, 4.75], "texture": "#dead_pig"},
+				"east": {"cullface": "east", "uv": [6.5, 9.5, 6.75, 10.25], "texture": "#dead_pig"},
+				"south": {"cullface": "south", "uv": [9.5, 6, 10.5, 6.75], "texture": "#dead_pig"},
+				"west": {"cullface": "west", "uv": [6.75, 9.5, 7, 10.25], "texture": "#dead_pig"},
+				"up": {"cullface": "up", "uv": [9, 7.75, 8, 7.5], "texture": "#dead_pig"},
+				"down": {"cullface": "down", "uv": [9, 7.75, 8, 8], "texture": "#dead_pig"}
+			}
+		},
+		{
+			"name": "body",
+			"from": [3, 2, 1],
+			"to": [13, 10, 17],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4.625, 5.40533]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [5, 0, 7.5, 2], "texture": "#dead_pig"},
+				"east": {"cullface": "east", "uv": [0, 4, 4, 6], "texture": "#dead_pig"},
+				"south": {"cullface": "south", "uv": [5, 2, 7.5, 4], "texture": "#dead_pig"},
+				"west": {"cullface": "west", "uv": [4, 4, 8, 6], "texture": "#dead_pig"},
+				"up": {"cullface": "up", "uv": [2.5, 4, 0, 0], "texture": "#dead_pig"},
+				"down": {"cullface": "down", "uv": [5, 0, 2.5, 4], "texture": "#dead_pig"}
+			}
+		},
+		{
+			"name": "leg0",
+			"from": [2, 0, 2],
+			"to": [6, 4, 8],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4.625, 5.40533]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [9, 7.5, 10, 8.5], "texture": "#dead_pig"},
+				"east": {"cullface": "east", "uv": [0, 8, 1.5, 9], "texture": "#dead_pig"},
+				"south": {"cullface": "south", "uv": [8.5, 9, 9.5, 10], "texture": "#dead_pig"},
+				"west": {"cullface": "west", "uv": [1.5, 8, 3, 9], "texture": "#dead_pig"},
+				"up": {"cullface": "up", "uv": [4, 9.5, 3, 8], "texture": "#dead_pig"},
+				"down": {"cullface": "down", "uv": [5, 8, 4, 9.5], "texture": "#dead_pig"}
+			}
+		},
+		{
+			"name": "leg1",
+			"from": [2, 0, 10],
+			"to": [6, 4, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4.625, 5.40533]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [9.5, 0, 10.5, 1], "texture": "#dead_pig"},
+				"east": {"cullface": "east", "uv": [8, 4, 9.5, 5], "texture": "#dead_pig"},
+				"south": {"cullface": "south", "uv": [9.5, 1, 10.5, 2], "texture": "#dead_pig"},
+				"west": {"cullface": "west", "uv": [5, 8, 6.5, 9], "texture": "#dead_pig"},
+				"up": {"cullface": "up", "uv": [9, 6.5, 8, 5], "texture": "#dead_pig"},
+				"down": {"cullface": "down", "uv": [7.5, 8, 6.5, 9.5], "texture": "#dead_pig"}
+			}
+		},
+		{
+			"name": "leg2",
+			"from": [10, 0, 2],
+			"to": [14, 4, 8],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4.625, 5.40533]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [9.5, 2, 10.5, 3], "texture": "#dead_pig"},
+				"east": {"cullface": "east", "uv": [8, 6.5, 9.5, 7.5], "texture": "#dead_pig"},
+				"south": {"cullface": "south", "uv": [3, 9.5, 4, 10.5], "texture": "#dead_pig"},
+				"west": {"cullface": "west", "uv": [7.5, 8, 9, 9], "texture": "#dead_pig"},
+				"up": {"cullface": "up", "uv": [1, 10.5, 0, 9], "texture": "#dead_pig"},
+				"down": {"cullface": "down", "uv": [2, 9, 1, 10.5], "texture": "#dead_pig"}
+			}
+		},
+		{
+			"name": "leg3",
+			"from": [10, 0, 10],
+			"to": [14, 4, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4.625, 5.40533]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [9.5, 3, 10.5, 4], "texture": "#dead_pig"},
+				"east": {"cullface": "east", "uv": [5, 9, 6.5, 10], "texture": "#dead_pig"},
+				"south": {"cullface": "south", "uv": [4, 9.5, 5, 10.5], "texture": "#dead_pig"},
+				"west": {"cullface": "west", "uv": [9, 5, 10.5, 6], "texture": "#dead_pig"},
+				"up": {"cullface": "up", "uv": [3, 10.5, 2, 9], "texture": "#dead_pig"},
+				"down": {"cullface": "down", "uv": [8.5, 9, 7.5, 10.5], "texture": "#dead_pig"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [-151.26, 85.06, 138.38],
+			"translation": [0, 2.5, 0]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [-151.26, 85.06, 138.38],
+			"translation": [0, 2.5, 0]
+		},
+		"ground": {
+			"translation": [0, 3.25, 0]
+		},
+		"gui": {
+			"rotation": [24.5, 86.75, 0]
+		},
+		"fixed": {
+			"rotation": [86.89, -62.54, 124.59]
+		}
+	},
+	"groups": [
+		{
+			"name": "dead_pig",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": [
+				{
+					"name": "head",
+					"origin": [8, 8, 8],
+					"color": 0,
+					"children": [0, 1]
+				},
+				2,
+				3,
+				4,
+				5,
+				6
+			]
+		}
+	]
+}

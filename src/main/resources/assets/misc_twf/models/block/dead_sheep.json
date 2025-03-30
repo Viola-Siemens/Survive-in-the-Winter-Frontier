@@ -1,0 +1,149 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"texture_size": [64, 64],
+	"textures": {
+		"particle": "misc_twf:block/dead_particle",
+		"dead_sheep": "misc_twf:block/dead_sheep"
+	},
+	"elements": [
+		{
+			"name": "main",
+			"from": [5, 2.7302, -0.2698],
+			"to": [11, 10.7302, 5.7302],
+			"rotation": {"angle": -45, "axis": "x", "origin": [8, 4, 3.7302]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [4, 1.5, 5.5, 3.5], "texture": "#dead_sheep"},
+				"east": {"cullface": "east", "uv": [4, 3.5, 5.5, 5.5], "texture": "#dead_sheep"},
+				"south": {"cullface": "south", "uv": [0, 5.5, 1.5, 7.5], "texture": "#dead_sheep"},
+				"west": {"cullface": "west", "uv": [1.5, 5.5, 3, 7.5], "texture": "#dead_sheep"},
+				"up": {"cullface": "up", "uv": [10, 4.5, 8.5, 3], "texture": "#dead_sheep"},
+				"down": {"cullface": "down", "uv": [8.5, 9, 7, 10.5], "texture": "#dead_sheep"}
+			}
+		},
+		{
+			"name": "main",
+			"from": [4, 0, 0],
+			"to": [12, 6, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4, 3.7302]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [5.5, 1.5, 7.5, 3], "texture": "#dead_sheep"},
+				"east": {"cullface": "east", "uv": [0, 4, 4, 5.5], "texture": "#dead_sheep"},
+				"south": {"cullface": "south", "uv": [3, 5.5, 5, 7], "texture": "#dead_sheep"},
+				"west": {"cullface": "west", "uv": [4, 0, 8, 1.5], "texture": "#dead_sheep"},
+				"up": {"cullface": "up", "uv": [2, 4, 0, 0], "texture": "#dead_sheep"},
+				"down": {"cullface": "down", "uv": [4, 0, 2, 4], "texture": "#dead_sheep"}
+			}
+		},
+		{
+			"name": "leg0",
+			"from": [1, 1.89256, -1.02681],
+			"to": [5, 5.89256, 10.97319],
+			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 4, 3.7302]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [8.5, 9, 9.5, 10], "texture": "#dead_sheep"},
+				"east": {"cullface": "east", "uv": [5.5, 3, 8.5, 4], "texture": "#dead_sheep"},
+				"south": {"cullface": "south", "uv": [0, 9.5, 1, 10.5], "texture": "#dead_sheep"},
+				"west": {"cullface": "west", "uv": [5.5, 4, 8.5, 5], "texture": "#dead_sheep"},
+				"up": {"cullface": "up", "uv": [6, 8.5, 5, 5.5], "texture": "#dead_sheep"},
+				"down": {"cullface": "down", "uv": [7, 5, 6, 8], "texture": "#dead_sheep"}
+			}
+		},
+		{
+			"name": "leg1",
+			"from": [0, 4.50875, 2.89337],
+			"to": [4, 8.50875, 14.89337],
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [8, 4, 3.7302]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [1, 9.5, 2, 10.5], "texture": "#dead_sheep"},
+				"east": {"cullface": "east", "uv": [7, 5, 10, 6], "texture": "#dead_sheep"},
+				"south": {"cullface": "south", "uv": [2, 9.5, 3, 10.5], "texture": "#dead_sheep"},
+				"west": {"cullface": "west", "uv": [7, 6, 10, 7], "texture": "#dead_sheep"},
+				"up": {"cullface": "up", "uv": [4, 10, 3, 7], "texture": "#dead_sheep"},
+				"down": {"cullface": "down", "uv": [5, 7, 4, 10], "texture": "#dead_sheep"}
+			}
+		},
+		{
+			"name": "leg2",
+			"from": [11, 1.89256, -1.02681],
+			"to": [15, 5.89256, 10.97319],
+			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 4, 3.7302]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [9.5, 9, 10.5, 10], "texture": "#dead_sheep"},
+				"east": {"cullface": "east", "uv": [7, 7, 10, 8], "texture": "#dead_sheep"},
+				"south": {"cullface": "south", "uv": [10, 0, 11, 1], "texture": "#dead_sheep"},
+				"west": {"cullface": "west", "uv": [0, 7.5, 3, 8.5], "texture": "#dead_sheep"},
+				"up": {"cullface": "up", "uv": [9, 3, 8, 0], "texture": "#dead_sheep"},
+				"down": {"cullface": "down", "uv": [7, 8, 6, 11], "texture": "#dead_sheep"}
+			}
+		},
+		{
+			"name": "leg3",
+			"from": [12, 4.50875, 2.89337],
+			"to": [16, 8.50875, 14.89337],
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [8, 4, 3.7302]},
+			"faces": {
+				"north": {"cullface": "north", "uv": [10, 1, 11, 2], "texture": "#dead_sheep"},
+				"east": {"cullface": "east", "uv": [7, 8, 10, 9], "texture": "#dead_sheep"},
+				"south": {"cullface": "south", "uv": [10, 2, 11, 3], "texture": "#dead_sheep"},
+				"west": {"cullface": "west", "uv": [0, 8.5, 3, 9.5], "texture": "#dead_sheep"},
+				"up": {"cullface": "up", "uv": [6, 11.5, 5, 8.5], "texture": "#dead_sheep"},
+				"down": {"cullface": "down", "uv": [10, 0, 9, 3], "texture": "#dead_sheep"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [41, 0, 0],
+			"translation": [-5, 0, 2.75]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [41, 0, 0],
+			"translation": [-5, 0, 2.75]
+		},
+		"firstperson_righthand": {
+			"translation": [0, 3.75, 0]
+		},
+		"firstperson_lefthand": {
+			"translation": [0, 3.75, 0]
+		},
+		"ground": {
+			"translation": [0, 1.75, 0]
+		},
+		"gui": {
+			"rotation": [-138, 48, -180],
+			"translation": [0, 3.75, 0]
+		},
+		"fixed": {
+			"rotation": [-79, 0, 0],
+			"translation": [0, 0, -5.75]
+		}
+	},
+	"groups": [
+		{
+			"name": "dead_sheep",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": [
+				{
+					"name": "head",
+					"origin": [8, 8, 8],
+					"color": 0,
+					"children": [0]
+				},
+				{
+					"name": "body",
+					"origin": [8, 8, 8],
+					"color": 0,
+					"children": [1]
+				},
+				{
+					"name": "leg",
+					"origin": [8, 8, 8],
+					"color": 0,
+					"children": [2, 3, 4, 5]
+				}
+			]
+		}
+	]
+}

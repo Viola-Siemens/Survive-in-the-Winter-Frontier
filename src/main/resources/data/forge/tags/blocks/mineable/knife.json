@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "misc_twf:dead_chicken",
+    "misc_twf:dead_cow",
+    "misc_twf:dead_goat",
+    "misc_twf:dead_horse",
+    "misc_twf:dead_pig",
+    "misc_twf:dead_polarbear",
+    "misc_twf:dead_rabbit",
+    "misc_twf:dead_sheep",
+    "misc_twf:dead_wolf"
+  ]
+}

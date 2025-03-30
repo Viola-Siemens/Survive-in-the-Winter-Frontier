@@ -26,6 +26,19 @@ public final class MISCTWFBlockEntities {
 	public static final RegistryObject<BlockEntityType<MonsterEggBlockEntity>> MONSTER_EGG = REGISTER.register("monster_egg", () -> new BlockEntityType<>(
 			MonsterEggBlockEntity::new, ImmutableSet.of(MISCTWFBlocks.MONSTER_EGG.get()), null
 	));
+	public static final RegistryObject<BlockEntityType<DeadAnimalBlockEntity>> DEAD_ANIMAL = REGISTER.register("dead_animal", () -> new BlockEntityType<>(
+			DeadAnimalBlockEntity::new, ImmutableSet.of(
+					MISCTWFBlocks.DeadAnimals.DEAD_CHICKEN.get(),
+					MISCTWFBlocks.DeadAnimals.DEAD_COW.get(),
+					MISCTWFBlocks.DeadAnimals.DEAD_GOAT.get(),
+					MISCTWFBlocks.DeadAnimals.DEAD_HORSE.get(),
+					MISCTWFBlocks.DeadAnimals.DEAD_PIG.get(),
+					MISCTWFBlocks.DeadAnimals.DEAD_POLARBEAR.get(),
+					MISCTWFBlocks.DeadAnimals.DEAD_RABBIT.get(),
+					MISCTWFBlocks.DeadAnimals.DEAD_SHEEP.get(),
+					MISCTWFBlocks.DeadAnimals.DEAD_WOLF.get()
+			), null
+	));
 
 	private MISCTWFBlockEntities() {
 	}
