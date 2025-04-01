@@ -1,13 +1,18 @@
 package com.hexagram2021.misc_twf.common.block;
 
+import com.google.common.collect.Lists;
 import com.hexagram2021.misc_twf.common.block.entity.DeadAnimalBlockEntity;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -100,12 +105,45 @@ public class DeadAnimalBlock extends BaseEntityBlock {
 
 	@Override
 	public List<ItemStack> getDrops(BlockState blockState, LootContext.Builder builder) {
+		Entity entity = builder.getOptionalParameter(LootContextParams.THIS_ENTITY);
 		ItemStack tool = builder.getOptionalParameter(LootContextParams.TOOL);
 		BlockEntity blockEntity = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
-		if(tool != null && tool.is(KNIVES) && blockEntity instanceof DeadAnimalBlockEntity deadAnimalBlockEntity) {
-			return deadAnimalBlockEntity.loots();
+		if(entity != null & tool != null && tool.is(KNIVES) && blockEntity instanceof DeadAnimalBlockEntity deadAnimalBlockEntity) {
+			List<ItemStack> list = Lists.newArrayList();
+			int i = 0;
+			int cnt = 0;
+			List<ItemStack> originLoots = deadAnimalBlockEntity.loots();
+			double possibility = Math.tanh(EnchantmentHelper.getItemEnchantmentLevel(Enchantments.MOB_LOOTING, tool) / 10.0D);
+			while(i < originLoots.size()) {
+				list.add(originLoots.get(i).copy());
+				if(entity.level.random.nextDouble() >= possibility || cnt >= 256) {
+					i += 1;
+					cnt = 0;
+				} else {
+					cnt += 1;
+				}
+			}
+			return list;
 		}
 		return super.getDrops(blockState, builder);
+	}
+
+	@Override
+	public void setPlacedBy(Level level, BlockPos blockPos, BlockState blockState, @Nullable LivingEntity livingEntity, ItemStack itemStack) {
+		super.setPlacedBy(level, blockPos, blockState, livingEntity, itemStack);
+		if(level.getBlockEntity(blockPos) instanceof DeadAnimalBlockEntity deadAnimalBlockEntity) {
+			CompoundTag nbt = itemStack.getTag();
+			if(nbt != null) {
+				if(nbt.contains(DeadAnimalBlockEntity.TAG_LOOTS, Tag.TAG_LIST)) {
+					deadAnimalBlockEntity.setLoots(
+							nbt.getList(DeadAnimalBlockEntity.TAG_LOOTS, Tag.TAG_COMPOUND).stream().map(tag -> ItemStack.of((CompoundTag)tag)).toList()
+					);
+				}
+				if(nbt.contains(DeadAnimalBlockEntity.TAG_AGE, Tag.TAG_ANY_NUMERIC)) {
+					deadAnimalBlockEntity.setAge(nbt.getInt(DeadAnimalBlockEntity.TAG_AGE));
+				}
+			}
+		}
 	}
 
 	public int rottenFlesh() {

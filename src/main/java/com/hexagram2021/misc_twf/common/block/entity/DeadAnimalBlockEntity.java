@@ -16,11 +16,12 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.compress.utils.Lists;
 
+import java.util.Collection;
 import java.util.List;
 
 public class DeadAnimalBlockEntity extends BlockEntity {
-	private static final String TAG_LOOTS = "Loots";
-	private static final String TAG_AGE = "Age";
+	public static final String TAG_LOOTS = "Loots";
+	public static final String TAG_AGE = "Age";
 
 	private final List<ItemStack> loots;
 	private int age;
@@ -82,7 +83,7 @@ public class DeadAnimalBlockEntity extends BlockEntity {
 		}
 
 		int index = level.getRandom().nextInt(this.loots.size());
-		ItemStack ret = this.loots.get(index);
+		ItemStack ret = this.loots.get(index).copy();
 		if(!simulated) {
 			this.loots.remove(index);
 			if(this.loots.isEmpty()) {
@@ -95,5 +96,13 @@ public class DeadAnimalBlockEntity extends BlockEntity {
 
 	public List<ItemStack> loots() {
 		return this.loots;
+	}
+	public void setLoots(Collection<ItemStack> loots) {
+		this.loots.clear();
+		this.loots.addAll(loots);
+	}
+
+	public void setAge(int age) {
+		this.age = age;
 	}
 }

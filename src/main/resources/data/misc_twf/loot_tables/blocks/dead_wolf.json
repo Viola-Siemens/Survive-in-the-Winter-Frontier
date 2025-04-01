@@ -11,6 +11,30 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
+                {
+                  "source": "Loots",
+                  "target": "Loots",
+                  "op": "replace"
+                }
+              ]
+            },
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
+                {
+                  "source": "Age",
+                  "target": "Age",
+                  "op": "replace"
+                }
+              ]
+            }
+          ],
           "name": "misc_twf:dead_wolf"
         }
       ],
