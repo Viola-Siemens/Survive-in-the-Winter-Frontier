@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common.register;
 
+import com.hexagram2021.misc_twf.common.menu.MoldWorkbenchMenu;
 import com.hexagram2021.misc_twf.common.menu.TravelersBackpackBlockEntityTacMenu;
 import com.hexagram2021.misc_twf.common.menu.TravelersBackpackItemTacMenu;
 import com.hexagram2021.misc_twf.common.menu.UltravioletLampMenu;
@@ -23,6 +24,9 @@ public final class MISCTWFMenuTypes {
 	);
 	public static final RegistryObject<MenuType<TravelersBackpackItemTacMenu>> TRAVELERS_BACKPACK_ITEM_TAC_SLOT_MENU = REGISTER.register(
 			"travelers_backpack_item_tac_slot", () -> IForgeMenuType.create(TravelersBackpackItemTacMenu::new)
+	);
+	public static final RegistryObject<MenuType<MoldWorkbenchMenu>> MOLD_WORKBENCH_MENU = REGISTER.register(
+			"mold_workbench", () -> new MenuType<>(MoldWorkbenchMenu::new)
 	);
 
 	private MISCTWFMenuTypes() {

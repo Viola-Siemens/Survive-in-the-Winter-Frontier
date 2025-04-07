@@ -27,6 +27,7 @@
   "block.misc_twf.bloodstain": "血迹",
   "block.misc_twf.ribs": "肋骨骨架",
   "block.misc_twf.blood": "血液",
+  "block.misc_twf.monster_egg": "怪物蛋",
 
   "block.misc_twf.dead_chicken": "鸡的尸体",
   "block.misc_twf.dead_cow": "牛的尸体",
@@ -92,6 +93,7 @@
   "effect.misc_twf.fragile": "脆弱",
 
   "container.misc_twf.ultraviolet_lamp": "强紫外线照射灯",
+  "container.misc_twf.mold_workbench": "模具加工台",
 
   "jade.misc_twf.producemilk.time": "产奶冷却：%d秒",
   "jade.misc_twf.poop.time": "排便冷却：%d秒",

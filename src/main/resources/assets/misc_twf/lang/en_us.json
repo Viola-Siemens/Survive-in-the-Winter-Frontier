@@ -27,6 +27,7 @@
   "block.misc_twf.bloodstain": "Bloodstain",
   "block.misc_twf.ribs": "Ribs",
   "block.misc_twf.blood": "Blood",
+  "block.misc_twf.monster_egg": "Monster Egg",
 
   "block.misc_twf.dead_chicken": "Dead Chicken",
   "block.misc_twf.dead_cow": "Dead Cow",
@@ -92,6 +93,7 @@
   "effect.misc_twf.fragile": "Fragile",
 
   "container.misc_twf.ultraviolet_lamp": "Ultraviolet Lamp",
+  "container.misc_twf.mold_workbench": "Mold Workbench",
 
   "jade.misc_twf.producemilk.time": "Produce Milk CD: %ds",
   "jade.misc_twf.poop.time": "Poop CD: %ds",

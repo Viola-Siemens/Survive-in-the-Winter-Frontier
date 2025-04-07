@@ -1,6 +1,7 @@
 package com.hexagram2021.misc_twf.common.register;
 
 import com.hexagram2021.misc_twf.common.recipe.MoldDetacherRecipe;
+import com.hexagram2021.misc_twf.common.recipe.MoldWorkbenchRecipe;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
@@ -16,6 +17,7 @@ public final class MISCTWFRecipeTypes {
 	private static final DeferredRegister<RecipeType<?>> REGISTER = DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, MODID);
 
 	public static final RegistryObject<RecipeType<MoldDetacherRecipe>> MOLD_DETACHER = register("mold_detach");
+	public static final RegistryObject<RecipeType<MoldWorkbenchRecipe>> MOLD_WORKBENCH = register("mold_workbench");
 
 	private MISCTWFRecipeTypes() {
 	}

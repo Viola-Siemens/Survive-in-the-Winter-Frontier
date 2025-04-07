@@ -46,6 +46,12 @@ public final class MISCTWFBlocks {
 			.simpleItem()
 			.register();
 
+	public static final BlockEntry<MoldWorkbenchBlock> MOLD_WORKBENCH = new BlockEntry<>(
+			"mold_workbench",
+			() -> BlockBehaviour.Properties.of(Material.WOOD).strength(2.0F).color(MaterialColor.WOOD),
+			MoldWorkbenchBlock::new
+	);
+
 	public static final BlockEntry<Block> MECHANICAL_ENCLOSURE = new BlockEntry<>(
 			"mechanical_enclosure",
 			() -> BlockBehaviour.Properties.of(Material.STONE).strength(2.0F).color(MaterialColor.TERRACOTTA_BLACK),
@@ -224,7 +230,13 @@ public final class MISCTWFBlocks {
 				}), 4, props)
 		);
 
-		public static void init() {
+		private static void init() {
+		}
+	}
+
+	public static final class Decorations {
+
+		private static void init() {
 		}
 	}
 
@@ -232,6 +244,7 @@ public final class MISCTWFBlocks {
 		REGISTER.register(bus);
 
 		DeadAnimals.init();
+		Decorations.init();
 	}
 
 	public static final class BlockEntry<T extends Block> implements Supplier<T>, ItemLike {

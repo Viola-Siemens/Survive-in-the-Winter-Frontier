@@ -2,6 +2,7 @@ package com.hexagram2021.misc_twf.common.register;
 
 import com.hexagram2021.misc_twf.common.recipe.BackpackTacUpgradeRecipe;
 import com.hexagram2021.misc_twf.common.recipe.MoldDetacherRecipe;
+import com.hexagram2021.misc_twf.common.recipe.MoldWorkbenchRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -15,6 +16,7 @@ public final class MISCTWFRecipeSerializers {
 
 	public static final RegistryObject<RecipeSerializer<BackpackTacUpgradeRecipe>> BACKPACK_TAC_UPGRADE = REGISTER.register("backpack_tac_upgrade", BackpackTacUpgradeRecipe.Serializer::new);
 	public static final RegistryObject<RecipeSerializer<MoldDetacherRecipe>> MOLD_DETACHER = REGISTER.register("mold_detach", MoldDetacherRecipe.Serializer::new);
+	public static final RegistryObject<RecipeSerializer<MoldWorkbenchRecipe>> MOLD_WORKBENCH = REGISTER.register("mold_workbench", MoldWorkbenchRecipe.Serializer::new);
 
 	private MISCTWFRecipeSerializers() {
 	}
