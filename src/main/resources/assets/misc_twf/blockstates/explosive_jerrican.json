@@ -1,0 +1,57 @@
+{
+  "variants": {
+    "orientation=down_east": {
+      "model": "misc_twf:block/explosive_jerrican",
+      "x": 90,
+      "y": 90
+    },
+    "orientation=down_north": {
+      "model": "misc_twf:block/explosive_jerrican",
+      "x": 90
+    },
+    "orientation=down_south": {
+      "model": "misc_twf:block/explosive_jerrican",
+      "x": 90,
+      "y": 180
+    },
+    "orientation=down_west": {
+      "model": "misc_twf:block/explosive_jerrican",
+      "x": 90,
+      "y": 270
+    },
+    "orientation=east_up": {
+      "model": "misc_twf:block/explosive_jerrican",
+      "y": 90
+    },
+    "orientation=north_up": {
+      "model": "misc_twf:block/explosive_jerrican"
+    },
+    "orientation=south_up": {
+      "model": "misc_twf:block/explosive_jerrican",
+      "y": 180
+    },
+    "orientation=up_east": {
+      "model": "misc_twf:block/explosive_jerrican",
+      "x": 270,
+      "y": 270
+    },
+    "orientation=up_north": {
+      "model": "misc_twf:block/explosive_jerrican",
+      "x": 270,
+      "y": 180
+    },
+    "orientation=up_south": {
+      "model": "misc_twf:block/explosive_jerrican",
+      "x": 270
+    },
+    "orientation=up_west": {
+      "model": "misc_twf:block/explosive_jerrican",
+      "x": 270,
+      "y": 90
+    },
+    "orientation=west_up": {
+      "model": "misc_twf:block/explosive_jerrican",
+      "y": 270
+    }
+  }
+}

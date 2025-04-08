@@ -235,6 +235,26 @@ public final class MISCTWFBlocks {
 	}
 
 	public static final class Decorations {
+		public static final BlockEntry<TrashBagBlock> WHITE_TRASH_BAG = new BlockEntry<>(
+				"white_trash_bag",
+				() -> BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_WHITE).strength(0.1F).sound(SoundType.CROP).noOcclusion(),
+				TrashBagBlock::new
+		);
+		public static final BlockEntry<ExplosiveJerricanBlock> EXPLOSIVE_JERRICAN = new BlockEntry<>(
+				"explosive_jerrican",
+				() -> BlockBehaviour.Properties.of(Material.METAL, MaterialColor.TERRACOTTA_RED).strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion(),
+				ExplosiveJerricanBlock::new
+		);
+		public static final BlockEntry<SickbedBlock> SICKBED = new BlockEntry<>(
+				"sickbed",
+				() -> BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLUE).strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion(),
+				SickbedBlock::new
+		);
+		public static final BlockEntry<SickbedBlock> SICKBED_WITH_BODY = new BlockEntry<>(
+				"sickbed_with_body",
+				() -> BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLUE).strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion(),
+				SickbedBlock::new
+		);
 
 		private static void init() {
 		}

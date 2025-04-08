@@ -97,6 +97,7 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 
 	public MoldWorkbenchBlock(Properties props) {
 		super(props);
+		this.registerDefaultState(this.stateDefinition.any().setValue(PART, MoldWorkbenchPart.BOTTOM).setValue(FACING, Direction.NORTH));
 	}
 
 	@Override
@@ -208,7 +209,7 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 
 	@Override
 	public PushReaction getPistonPushReaction(BlockState blockState) {
-		return PushReaction.DESTROY;
+		return PushReaction.BLOCK;
 	}
 
 	@Override

@@ -39,6 +39,11 @@
   "block.misc_twf.dead_sheep": "Dead Sheep",
   "block.misc_twf.dead_wolf": "Dead Wolf",
 
+  "block.misc_twf.white_trash_bag": "White Trash Bag",
+  "block.misc_twf.explosive_jerrican": "Explosive Jerrican",
+  "block.misc_twf.sickbed": "Sickbed",
+  "block.misc_twf.sickbed_with_body": "Sickbed with Body",
+
   "item.misc_twf.yarn": "Yarn",
   "item.misc_twf.gauze": "Gauze",
   "item.misc_twf.glass_rod": "Glass Rod",

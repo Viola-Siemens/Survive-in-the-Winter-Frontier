@@ -39,6 +39,11 @@
   "block.misc_twf.dead_sheep": "羊的尸体",
   "block.misc_twf.dead_wolf": "狼的尸体",
 
+  "block.misc_twf.white_trash_bag": "白色垃圾袋",
+  "block.misc_twf.explosive_jerrican": "易爆油桶",
+  "block.misc_twf.sickbed": "病床",
+  "block.misc_twf.sickbed_with_body": "躺着尸体的病床",
+
   "item.misc_twf.yarn": "纱线",
   "item.misc_twf.gauze": "纱布",
   "item.misc_twf.glass_rod": "玻璃棒",
