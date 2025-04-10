@@ -43,6 +43,10 @@
   "block.misc_twf.explosive_jerrican": "Explosive Jerrican",
   "block.misc_twf.sickbed": "Sickbed",
   "block.misc_twf.sickbed_with_body": "Sickbed with Body",
+  "block.misc_twf.body_disembowelled": "Corpse",
+  "block.misc_twf.body_half": "Corpse",
+  "block.misc_twf.body_orga": "Corpse",
+  "block.misc_twf.body_skeleton": "Corpse",
 
   "item.misc_twf.yarn": "Yarn",
   "item.misc_twf.gauze": "Gauze",

@@ -1,0 +1,22 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "misc_twf:block/body_skeleton"
+		},
+		"facing=east": {
+			"model": "misc_twf:block/body_skeleton",
+			"y": 90,
+			"uvlock": false
+		},
+		"facing=south": {
+			"model": "misc_twf:block/body_skeleton",
+			"y": 180,
+			"uvlock": false
+		},
+		"facing=west": {
+			"model": "misc_twf:block/body_skeleton",
+			"y": 270,
+			"uvlock": false
+		}
+	}
+}

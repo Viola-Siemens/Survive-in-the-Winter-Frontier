@@ -255,6 +255,26 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLUE).strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion(),
 				SickbedBlock::new
 		);
+		public static final BlockEntry<BodyBlock> BODY_DISEMBOWELLED = new BlockEntry<>(
+				"body_disembowelled",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				props -> new BodyBlock(6, 12, props)
+		);
+		public static final BlockEntry<BodyBlock> BODY_HALF = new BlockEntry<>(
+				"body_half",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				props -> new BodyBlock(6, 7, props)
+		);
+		public static final BlockEntry<BodyBlock> BODY_ORGA = new BlockEntry<>(
+				"body_orga",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				props -> new BodyBlock(6, 12, props)
+		);
+		public static final BlockEntry<BodyBlock> BODY_SKELETON = new BlockEntry<>(
+				"body_skeleton",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).sound(SoundType.BONE_BLOCK).noOcclusion(),
+				props -> new BodyBlock(6, 14, props)
+		);
 
 		private static void init() {
 		}

@@ -8,7 +8,7 @@ modId="misc_twf"
 version="${file.jarVersion}"
 displayName="Survive in the Winter Frontier"
 logoFile="logo.png"
-credits="Liu Dongyu"
+credits="Liu Dongyu, Wu meng"
 authors="Hexagram"
 description='''
 A minecraft mod for modpack "The Winter Frontier"
