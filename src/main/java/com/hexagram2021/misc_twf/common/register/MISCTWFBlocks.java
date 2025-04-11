@@ -275,6 +275,16 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).sound(SoundType.BONE_BLOCK).noOcclusion(),
 				props -> new BodyBlock(6, 14, props)
 		);
+		public static final BlockEntry<IVStandBlock> IV_STAND = new BlockEntry<>(
+				"iv_stand",
+				() -> BlockBehaviour.Properties.copy(IRON_BARS),
+				IVStandBlock::new
+		);
+		public static final BlockEntry<IVStandBlock> IV_STAND_EMPTY = new BlockEntry<>(
+				"iv_stand_empty",
+				() -> BlockBehaviour.Properties.copy(IRON_BARS),
+				IVStandBlock::new
+		);
 
 		private static void init() {
 		}

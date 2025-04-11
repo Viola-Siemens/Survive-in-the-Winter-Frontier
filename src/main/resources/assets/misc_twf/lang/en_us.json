@@ -47,6 +47,8 @@
   "block.misc_twf.body_half": "Corpse",
   "block.misc_twf.body_orga": "Corpse",
   "block.misc_twf.body_skeleton": "Corpse",
+  "block.misc_twf.iv_stand": "IV Stand",
+  "block.misc_twf.iv_stand_empty": "Empty IV Stand",
 
   "item.misc_twf.yarn": "Yarn",
   "item.misc_twf.gauze": "Gauze",

@@ -1,0 +1,20 @@
+{
+	"variants": {
+		"half=lower,axis=x": {
+			"model": "misc_twf:block/iv_stand_empty_lower"
+		},
+		"half=lower,axis=z": {
+			"model": "misc_twf:block/iv_stand_empty_lower",
+			"y": 90,
+			"uvlock": false
+		},
+		"half=upper,axis=x": {
+			"model": "misc_twf:block/iv_stand_empty_upper"
+		},
+		"half=upper,axis=z": {
+			"model": "misc_twf:block/iv_stand_empty_upper",
+			"y": 90,
+			"uvlock": false
+		}
+	}
+}

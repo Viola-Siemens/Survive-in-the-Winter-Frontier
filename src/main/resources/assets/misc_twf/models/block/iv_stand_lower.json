@@ -1,0 +1,46 @@
+{
+  "parent": "minecraft:block/block",
+	"texture_size": [32, 32],
+	"textures": {
+		"particle": "misc_twf:block/iv_stand",
+		"stand": "misc_twf:block/iv_stand"
+	},
+	"elements": [
+		{
+			"from": [7.5, 0, 2],
+			"to": [8.5, 1, 14],
+			"faces": {
+				"north": {"uv": [8, 6, 8.5, 6.5], "texture": "#stand"},
+				"east": {"uv": [2, 6, 8, 6.5], "texture": "#stand"},
+				"south": {"uv": [14.5, 6, 15, 6.5], "texture": "#stand"},
+				"west": {"uv": [8.5, 6, 14.5, 6.5], "texture": "#stand"},
+				"up": {"uv": [8.5, 6, 8, 0], "texture": "#stand"},
+				"down": {"uv": [9, 0, 8.5, 6], "texture": "#stand"}
+			}
+		},
+		{
+			"from": [2, 0, 7.5],
+			"to": [14, 1, 8.5],
+			"faces": {
+				"north": {"uv": [2.5, 7, 8.5, 7.5], "texture": "#stand"},
+				"east": {"uv": [2, 7, 2.5, 7.5], "texture": "#stand"},
+				"south": {"uv": [9, 7, 15, 7.5], "texture": "#stand"},
+				"west": {"uv": [8.5, 7, 9, 7.5], "texture": "#stand"},
+				"up": {"uv": [8.5, 7, 2.5, 6.5], "texture": "#stand"},
+				"down": {"uv": [14.5, 6.5, 8.5, 7], "texture": "#stand"}
+			}
+		},
+		{
+			"from": [7.5, 1, 7.5],
+			"to": [8.5, 16, 8.5],
+			"faces": {
+				"north": {"uv": [0.5, 8.5, 1, 16], "texture": "#stand"},
+				"east": {"uv": [0, 8.5, 0.5, 16], "texture": "#stand"},
+				"south": {"uv": [1.5, 8.5, 2, 16], "texture": "#stand"},
+				"west": {"uv": [1, 8.5, 1.5, 16], "texture": "#stand"},
+				"up": {"uv": [1, 8.5, 0.5, 8], "texture": "#stand"},
+				"down": {"uv": [1.5, 8, 1, 8.5], "texture": "#stand"}
+			}
+		}
+	]
+}

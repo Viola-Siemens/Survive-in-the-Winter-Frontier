@@ -47,6 +47,8 @@
   "block.misc_twf.body_half": "尸体",
   "block.misc_twf.body_orga": "尸体",
   "block.misc_twf.body_skeleton": "尸体",
+  "block.misc_twf.iv_stand": "输液架",
+  "block.misc_twf.iv_stand_empty": "空的输液架",
 
   "item.misc_twf.yarn": "纱线",
   "item.misc_twf.gauze": "纱布",
