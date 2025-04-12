@@ -1,0 +1,100 @@
+{
+	"parent": "minecraft:block/block",
+	"texture_size": [32, 32],
+	"textures": {
+		"particle": "misc_twf:block/trash_dump",
+		"trash_dump": "misc_twf:block/trash_dump"
+	},
+	"elements": [
+		{
+			"from": [7.5, 0, 0.5],
+			"to": [14.5, 7, 7.5],
+			"faces": {
+				"north": {"uv": [3.5, 3.5, 7, 7], "texture": "#trash_dump"},
+				"east": {"uv": [0, 3.5, 3.5, 7], "texture": "#trash_dump"},
+				"south": {"uv": [10.5, 3.5, 14, 7], "texture": "#trash_dump"},
+				"west": {"uv": [7, 3.5, 10.5, 7], "texture": "#trash_dump"},
+				"up": {"uv": [7, 3.5, 3.5, 0], "texture": "#trash_dump"},
+				"down": {"uv": [10.5, 0, 7, 3.5], "texture": "#trash_dump"}
+			}
+		},
+		{
+			"from": [5.47083, 2, 3.55553],
+			"to": [6.47083, 3, 5.55553],
+			"rotation": {"angle": -22.5, "axis": "y", "origin": [7.5, 4.875, 8.5]},
+			"faces": {
+				"north": {"uv": [7, 14, 7.5, 14.5], "texture": "#trash_dump"},
+				"east": {"uv": [6, 14, 7, 14.5], "texture": "#trash_dump"},
+				"south": {"uv": [8.5, 14, 9, 14.5], "texture": "#trash_dump"},
+				"west": {"uv": [7.5, 14, 8.5, 14.5], "texture": "#trash_dump"},
+				"up": {"uv": [7.5, 14, 7, 13], "texture": "#trash_dump"},
+				"down": {"uv": [8, 13, 7.5, 14], "texture": "#trash_dump"}
+			}
+		},
+		{
+			"from": [9.5, 7.79129, 3.75142],
+			"to": [12.5, 9.79129, 6.75142],
+			"rotation": {"angle": -22.5, "axis": "x", "origin": [7.5, 4.875, 8.5]},
+			"faces": {
+				"north": {"uv": [1.5, 14.5, 3, 15.5], "texture": "#trash_dump"},
+				"east": {"uv": [0, 14.5, 1.5, 15.5], "texture": "#trash_dump"},
+				"south": {"uv": [4.5, 14.5, 6, 15.5], "texture": "#trash_dump"},
+				"west": {"uv": [3, 14.5, 4.5, 15.5], "texture": "#trash_dump"},
+				"up": {"uv": [3, 14.5, 1.5, 13], "texture": "#trash_dump"},
+				"down": {"uv": [4.5, 13, 3, 14.5], "texture": "#trash_dump"}
+			}
+		},
+		{
+			"from": [10.5, 6.12099, 11.41917],
+			"to": [13.5, 8.12099, 14.41917],
+			"rotation": {"angle": 22.5, "axis": "y", "origin": [13.70164, 4.875, 12.1353]},
+			"faces": {
+				"north": {"uv": [3, 14.5, 1.5, 15.5], "texture": "#trash_dump"},
+				"east": {"uv": [4.5, 14.5, 3, 15.5], "texture": "#trash_dump"},
+				"south": {"uv": [6, 14.5, 4.5, 15.5], "texture": "#trash_dump"},
+				"west": {"uv": [1.5, 14.5, 0, 15.5], "texture": "#trash_dump"},
+				"up": {"uv": [1.5, 14.5, 3, 13], "texture": "#trash_dump"},
+				"down": {"uv": [3, 13, 4.5, 14.5], "texture": "#trash_dump"}
+			}
+		},
+		{
+			"from": [14.72198, 2, 11.91149],
+			"to": [15.72198, 3, 13.91149],
+			"rotation": {"angle": 45, "axis": "y", "origin": [13.70164, 4.875, 12.1353]},
+			"faces": {
+				"north": {"uv": [7.5, 14, 7, 14.5], "texture": "#trash_dump"},
+				"east": {"uv": [8.5, 14, 7.5, 14.5], "texture": "#trash_dump"},
+				"south": {"uv": [9, 14, 8.5, 14.5], "texture": "#trash_dump"},
+				"west": {"uv": [7, 14, 6, 14.5], "texture": "#trash_dump"},
+				"up": {"uv": [7, 14, 7.5, 13], "texture": "#trash_dump"},
+				"down": {"uv": [7.5, 13, 8, 14], "texture": "#trash_dump"}
+			}
+		},
+		{
+			"from": [8.5, 0, 8.5],
+			"to": [15.5, 7, 15.5],
+			"rotation": {"angle": 22.5, "axis": "y", "origin": [13.70164, 4.875, 12.1353]},
+			"faces": {
+				"north": {"uv": [7, 3.5, 3.5, 7], "texture": "#trash_dump"},
+				"east": {"uv": [10.5, 3.5, 7, 7], "texture": "#trash_dump"},
+				"south": {"uv": [14, 3.5, 10.5, 7], "texture": "#trash_dump"},
+				"west": {"uv": [3.5, 3.5, 0, 7], "texture": "#trash_dump"},
+				"up": {"uv": [3.5, 3.5, 7, 0], "texture": "#trash_dump"},
+				"down": {"uv": [7, 0, 10.5, 3.5], "texture": "#trash_dump"}
+			}
+		},
+		{
+			"from": [1, 0, 8],
+			"to": [7, 4, 16],
+			"rotation": {"angle": 22.5, "axis": "y", "origin": [4, 2, 12]},
+			"faces": {
+				"north": {"uv": [4, 11, 7, 13], "texture": "#trash_dump"},
+				"east": {"uv": [0, 11, 4, 13], "texture": "#trash_dump"},
+				"south": {"uv": [11, 11, 14, 13], "texture": "#trash_dump"},
+				"west": {"uv": [7, 11, 11, 13], "texture": "#trash_dump"},
+				"up": {"uv": [7, 11, 4, 7], "texture": "#trash_dump"},
+				"down": {"uv": [10, 7, 7, 11], "texture": "#trash_dump"}
+			}
+		}
+	]
+}

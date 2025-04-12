@@ -1,6 +1,12 @@
 {
   "replace": false,
   "values": [
-    "misc_twf:mold_detacher"
+    "misc_twf:mold_detacher",
+    "misc_twf:explosive_jerrican",
+    "misc_twf:sickbed",
+    "misc_twf:sickbed_with_body",
+    "misc_twf:iv_stand",
+    "misc_twf:iv_stand_empty",
+    "misc_twf:trash_can"
   ]
 }

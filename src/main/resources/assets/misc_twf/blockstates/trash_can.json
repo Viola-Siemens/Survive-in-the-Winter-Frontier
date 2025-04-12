@@ -1,0 +1,25 @@
+{
+	"variants": {
+		"facing=down": {
+			"model": "misc_twf:block/trash_can"
+		},
+		"facing=north": {
+			"model": "misc_twf:block/trash_can_fallen",
+			"y": 90,
+			"uvlock": false
+		},
+		"facing=east": {
+			"model": "misc_twf:block/trash_can_fallen",
+			"y": 180,
+			"uvlock": false
+		},
+		"facing=south": {
+			"model": "misc_twf:block/trash_can_fallen",
+			"y": 270,
+			"uvlock": false
+		},
+		"facing=west": {
+			"model": "misc_twf:block/trash_can_fallen"
+		}
+	}
+}

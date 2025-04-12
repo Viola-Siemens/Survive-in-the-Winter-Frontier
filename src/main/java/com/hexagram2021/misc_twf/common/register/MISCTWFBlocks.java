@@ -240,19 +240,29 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_WHITE).strength(0.1F).sound(SoundType.CROP).noOcclusion(),
 				TrashBagBlock::new
 		);
+		public static final BlockEntry<TinyTrashBagBlock> TINY_TRASH_BAG = new BlockEntry<>(
+				"tiny_trash_bag",
+				() -> BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_GRAY).strength(0.1F).sound(SoundType.CROP).noOcclusion(),
+				TinyTrashBagBlock::new
+		);
+		public static final BlockEntry<TrashDumpBlock> TRASH_DUMP = new BlockEntry<>(
+				"trash_dump",
+				() -> BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_GRAY).strength(0.1F).sound(SoundType.CROP).noOcclusion(),
+				TrashDumpBlock::new
+		);
 		public static final BlockEntry<ExplosiveJerricanBlock> EXPLOSIVE_JERRICAN = new BlockEntry<>(
 				"explosive_jerrican",
-				() -> BlockBehaviour.Properties.of(Material.METAL, MaterialColor.TERRACOTTA_RED).strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion(),
+				() -> BlockBehaviour.Properties.of(Material.METAL, MaterialColor.TERRACOTTA_RED).strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion(),
 				ExplosiveJerricanBlock::new
 		);
 		public static final BlockEntry<SickbedBlock> SICKBED = new BlockEntry<>(
 				"sickbed",
-				() -> BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLUE).strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion(),
+				() -> BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLUE).strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion(),
 				SickbedBlock::new
 		);
 		public static final BlockEntry<SickbedBlock> SICKBED_WITH_BODY = new BlockEntry<>(
 				"sickbed_with_body",
-				() -> BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLUE).strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion(),
+				() -> BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLUE).strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion(),
 				SickbedBlock::new
 		);
 		public static final BlockEntry<BodyBlock> BODY_DISEMBOWELLED = new BlockEntry<>(
@@ -265,10 +275,20 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
 				props -> new BodyBlock(6, 7, props)
 		);
+		public static final BlockEntry<BodyBlock> BODY_HEADLESS = new BlockEntry<>(
+				"body_headless",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				props -> new BodyBlock(6, 10, props)
+		);
 		public static final BlockEntry<BodyBlock> BODY_ORGA = new BlockEntry<>(
 				"body_orga",
 				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
 				props -> new BodyBlock(6, 12, props)
+		);
+		public static final BlockEntry<BodyBlock> BODY_SIT = new BlockEntry<>(
+				"body_sit",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				props -> new BodyBlock(6, 8, props)
 		);
 		public static final BlockEntry<BodyBlock> BODY_SKELETON = new BlockEntry<>(
 				"body_skeleton",
@@ -284,6 +304,11 @@ public final class MISCTWFBlocks {
 				"iv_stand_empty",
 				() -> BlockBehaviour.Properties.copy(IRON_BARS),
 				IVStandBlock::new
+		);
+		public static final BlockEntry<TrashCanBlock> TRASH_CAN = new BlockEntry<>(
+				"trash_can",
+				() -> BlockBehaviour.Properties.copy(IRON_BARS),
+				TrashCanBlock::new
 		);
 
 		private static void init() {
