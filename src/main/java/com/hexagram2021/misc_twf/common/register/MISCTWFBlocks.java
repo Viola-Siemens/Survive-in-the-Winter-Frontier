@@ -280,6 +280,11 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
 				props -> new BodyBlock(6, 10, props)
 		);
+		public static final BlockEntry<NailedBodyBlock> BODY_NAILED = new BlockEntry<>(
+				"body_nailed",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				NailedBodyBlock::new
+		);
 		public static final BlockEntry<BodyBlock> BODY_ORGA = new BlockEntry<>(
 				"body_orga",
 				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
@@ -309,6 +314,11 @@ public final class MISCTWFBlocks {
 				"trash_can",
 				() -> BlockBehaviour.Properties.copy(IRON_BARS),
 				TrashCanBlock::new
+		);
+		public static final BlockEntry<WheelchairBlock> WHEELCHAIR = new BlockEntry<>(
+				"wheelchair",
+				() -> BlockBehaviour.Properties.copy(IRON_BARS),
+				WheelchairBlock::new
 		);
 
 		private static void init() {
