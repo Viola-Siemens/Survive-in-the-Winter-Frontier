@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        },
+        {
+          "block": "misc_twf:iv_stand_empty",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "half": "lower"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "misc_twf:iv_stand_empty"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

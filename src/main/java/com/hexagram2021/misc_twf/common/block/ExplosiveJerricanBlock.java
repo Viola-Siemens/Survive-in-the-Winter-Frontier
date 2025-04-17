@@ -2,65 +2,79 @@ package com.hexagram2021.misc_twf.common.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.FrontAndTop;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
+
+import javax.annotation.Nullable;
 
 @SuppressWarnings("deprecation")
-public class ExplosiveJerricanBlock extends Block {
-	protected static final VoxelShape X_SHAPE = Block.box(0, 2, 2, 22, 14, 14);
-	protected static final VoxelShape Y_SHAPE = Block.box(2, 0, 2, 14, 22, 14);
-	protected static final VoxelShape Z_SHAPE = Block.box(2, 2, 0, 14, 14, 22);
-	protected static final VoxelShape X_SHAPE_INV = Block.box(-6, 2, 2, 16, 14, 14);
-	protected static final VoxelShape Z_SHAPE_INV = Block.box(2, 2, -6, 14, 14, 16);
-
-	public static final EnumProperty<FrontAndTop> ORIENTATION = BlockStateProperties.ORIENTATION;
-
+public class ExplosiveJerricanBlock extends JerricanBlock {
 	public ExplosiveJerricanBlock(Properties props) {
 		super(props);
-		this.registerDefaultState(this.stateDefinition.any().setValue(ORIENTATION, FrontAndTop.NORTH_UP));
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState blockState, BlockGetter level, BlockPos blockPos, CollisionContext context) {
-		Direction top = blockState.getValue(ORIENTATION).top();
-		return switch (top) {
-			case DOWN, UP -> Y_SHAPE;
-			case NORTH -> Z_SHAPE_INV;
-			case SOUTH -> Z_SHAPE;
-			case WEST -> X_SHAPE_INV;
-			case EAST -> X_SHAPE;
-		};
+	public void onCaughtFire(BlockState blockState, Level level, BlockPos blockPos, @Nullable Direction face, @Nullable LivingEntity sourceMob) {
+		if (!level.isClientSide) {
+			Vec3 position = Vec3.atCenterOf(blockPos);
+			level.explode(sourceMob, position.x, position.y, position.z, 5.0F, Explosion.BlockInteraction.BREAK);
+		}
 	}
 
 	@Override
-	public BlockState rotate(BlockState blockState, Rotation rotation) {
-		return blockState.setValue(ORIENTATION, rotation.rotation().rotate(blockState.getValue(ORIENTATION)));
+	public void wasExploded(Level level, BlockPos blockPos, Explosion explosion) {
+		if (!level.isClientSide) {
+			this.onCaughtFire(level.getBlockState(blockPos), level, blockPos, null, explosion.getSourceMob());
+		}
 	}
 
 	@Override
-	public BlockState mirror(BlockState blockState, Mirror mirror) {
-		return blockState.setValue(ORIENTATION, mirror.rotation().rotate(blockState.getValue(ORIENTATION)));
+	public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult result) {
+		ItemStack itemStack = player.getItemInHand(hand);
+		if(itemStack.is(Items.FLINT_AND_STEEL) || itemStack.is(Items.FIRE_CHARGE)) {
+			this.onCaughtFire(blockState, level, blockPos, result.getDirection(), player);
+			level.setBlock(blockPos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE);
+			if (!player.isCreative()) {
+				if (itemStack.is(Items.FLINT_AND_STEEL)) {
+					itemStack.hurtAndBreak(1, player, player1 -> player1.broadcastBreakEvent(hand));
+				} else {
+					itemStack.shrink(1);
+				}
+			}
+			player.awardStat(Stats.ITEM_USED.get(itemStack.getItem()));
+			return InteractionResult.sidedSuccess(level.isClientSide);
+		}
+		return super.use(blockState, level, blockPos, player, hand, result);
 	}
 
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		Direction front = context.getNearestLookingDirection().getOpposite();
-		Direction top = front.getAxis() == Direction.Axis.Y ? context.getHorizontalDirection().getOpposite() : Direction.UP;
-		return this.defaultBlockState().setValue(ORIENTATION, FrontAndTop.fromFrontAndTop(front, top));
+	public void onProjectileHit(Level level, BlockState blockState, BlockHitResult result, Projectile projectile) {
+		if (!level.isClientSide) {
+			BlockPos blockpos = result.getBlockPos();
+			Entity entity = projectile.getOwner();
+			if (projectile.isOnFire() && projectile.mayInteract(level, blockpos)) {
+				this.onCaughtFire(blockState, level, blockpos, null, entity instanceof LivingEntity living ? living : null);
+				level.removeBlock(blockpos, false);
+			}
+		}
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(ORIENTATION);
+	public boolean dropFromExplosion(Explosion explosion) {
+		return false;
 	}
 }

@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "misc_twf:block/sandbag"
+      },
+      {
+        "model": "misc_twf:block/sandbag",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/sandbag",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/sandbag",
+        "y": 270
+      }
+    ]
+  }
+}

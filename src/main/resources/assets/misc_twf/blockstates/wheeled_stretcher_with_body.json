@@ -1,0 +1,40 @@
+{
+	"variants": {
+		"half=lower,facing=north": {
+			"model": "misc_twf:block/wheeled_stretcher_with_body"
+		},
+		"half=lower,facing=east": {
+			"model": "misc_twf:block/wheeled_stretcher_with_body",
+			"y": 90,
+			"uvlock": false
+		},
+		"half=lower,facing=south": {
+			"model": "misc_twf:block/wheeled_stretcher_with_body",
+			"y": 180,
+			"uvlock": false
+		},
+		"half=lower,facing=west": {
+			"model": "misc_twf:block/wheeled_stretcher_with_body",
+			"y": 270,
+			"uvlock": false
+		},
+		"half=upper,facing=north": {
+			"model": "misc_twf:block/wheeled_stretcher_upper"
+		},
+		"half=upper,facing=east": {
+			"model": "misc_twf:block/wheeled_stretcher_upper",
+			"y": 90,
+			"uvlock": false
+		},
+		"half=upper,facing=south": {
+			"model": "misc_twf:block/wheeled_stretcher_upper",
+			"y": 180,
+			"uvlock": false
+		},
+		"half=upper,facing=west": {
+			"model": "misc_twf:block/wheeled_stretcher_upper",
+			"y": 270,
+			"uvlock": false
+		}
+	}
+}

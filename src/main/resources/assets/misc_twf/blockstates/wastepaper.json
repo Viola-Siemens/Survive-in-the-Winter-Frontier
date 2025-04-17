@@ -1,0 +1,66 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "misc_twf:block/wastepaper1"
+      },
+      {
+        "model": "misc_twf:block/wastepaper1",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/wastepaper1",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/wastepaper1",
+        "y": 270
+      },
+      {
+        "model": "misc_twf:block/wastepaper2"
+      },
+      {
+        "model": "misc_twf:block/wastepaper2",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/wastepaper2",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/wastepaper2",
+        "y": 270
+      },
+      {
+        "model": "misc_twf:block/wastepaper3"
+      },
+      {
+        "model": "misc_twf:block/wastepaper3",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/wastepaper3",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/wastepaper3",
+        "y": 270
+      },
+      {
+        "model": "misc_twf:block/wastepaper4"
+      },
+      {
+        "model": "misc_twf:block/wastepaper4",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/wastepaper4",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/wastepaper4",
+        "y": 270
+      }
+    ]
+  }
+}

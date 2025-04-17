@@ -1,0 +1,22 @@
+{
+	"parent": "minecraft:block/block",
+	"texture_size": [64, 64],
+	"textures": {
+		"particle": "misc_twf:block/jerrican",
+		"jerrican": "misc_twf:block/jerrican"
+	},
+	"elements": [
+		{
+			"from": [2, 0, 2],
+			"to": [14, 22, 14],
+			"faces": {
+				"north": {"uv": [3, 3, 6, 8.5], "texture": "#jerrican"},
+				"east": {"uv": [0, 3, 3, 8.5], "texture": "#jerrican"},
+				"south": {"uv": [9, 3, 12, 8.5], "texture": "#jerrican"},
+				"west": {"uv": [6, 3, 9, 8.5], "texture": "#jerrican"},
+				"up": {"uv": [6, 3, 3, 0], "texture": "#jerrican"},
+				"down": {"uv": [9, 0, 6, 3], "texture": "#jerrican"}
+			}
+		}
+	]
+}

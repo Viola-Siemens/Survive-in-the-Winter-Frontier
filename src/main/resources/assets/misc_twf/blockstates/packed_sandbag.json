@@ -1,0 +1,12 @@
+{
+	"variants": {
+		"axis=x": {
+			"model": "misc_twf:block/packed_sandbag"
+		},
+		"axis=z": {
+			"model": "misc_twf:block/packed_sandbag",
+			"y": 90,
+			"uvlock": false
+		}
+	}
+}

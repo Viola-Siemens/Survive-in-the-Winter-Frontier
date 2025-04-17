@@ -1,0 +1,23 @@
+{
+	"parent": "block/block",
+	"texture_size": [32, 32],
+	"textures": {
+		"particle": "misc_twf:block/sandbag",
+		"sandbag": "misc_twf:block/sandbag"
+	},
+	"elements": [
+		{
+			"from": [4, 0, 2.5],
+			"to": [10, 3, 11.5],
+			"rotation": {"angle": 22.5, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [4.5, 4.5, 7.5, 6], "texture": "#sandbag"},
+				"east": {"uv": [0, 4.5, 4.5, 6], "texture": "#sandbag"},
+				"south": {"uv": [12, 4.5, 15, 6], "texture": "#sandbag"},
+				"west": {"uv": [7.5, 4.5, 12, 6], "texture": "#sandbag"},
+				"up": {"uv": [7.5, 4.5, 4.5, 0], "texture": "#sandbag"},
+				"down": {"uv": [10.5, 0, 7.5, 4.5], "texture": "#sandbag"}
+			}
+		}
+	]
+}

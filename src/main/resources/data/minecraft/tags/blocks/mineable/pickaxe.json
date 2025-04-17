@@ -7,6 +7,9 @@
     "misc_twf:sickbed_with_body",
     "misc_twf:iv_stand",
     "misc_twf:iv_stand_empty",
-    "misc_twf:trash_can"
+    "misc_twf:trash_can",
+    "misc_twf:wheelchair",
+    "misc_twf:wheeled_stretcher",
+    "misc_twf:wheeled_stretcher_with_body"
   ]
 }

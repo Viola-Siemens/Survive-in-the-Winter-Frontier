@@ -250,6 +250,11 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_GRAY).strength(0.1F).sound(SoundType.CROP).noOcclusion(),
 				TrashDumpBlock::new
 		);
+		public static final BlockEntry<JerricanBlock> JERRICAN = new BlockEntry<>(
+				"jerrican",
+				() -> BlockBehaviour.Properties.of(Material.METAL, MaterialColor.TERRACOTTA_RED).strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion(),
+				JerricanBlock::new
+		);
 		public static final BlockEntry<ExplosiveJerricanBlock> EXPLOSIVE_JERRICAN = new BlockEntry<>(
 				"explosive_jerrican",
 				() -> BlockBehaviour.Properties.of(Material.METAL, MaterialColor.TERRACOTTA_RED).strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion(),
@@ -300,6 +305,11 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).sound(SoundType.BONE_BLOCK).noOcclusion(),
 				props -> new BodyBlock(6, 14, props)
 		);
+		public static final BlockEntry<BodyBlock> BODY_BAG = new BlockEntry<>(
+				"body_bag",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).sound(SoundType.CROP).noOcclusion(),
+				props -> new BodyBlock(6, 8, props)
+		);
 		public static final BlockEntry<IVStandBlock> IV_STAND = new BlockEntry<>(
 				"iv_stand",
 				() -> BlockBehaviour.Properties.copy(IRON_BARS),
@@ -319,6 +329,31 @@ public final class MISCTWFBlocks {
 				"wheelchair",
 				() -> BlockBehaviour.Properties.copy(IRON_BARS),
 				WheelchairBlock::new
+		);
+		public static final BlockEntry<PackedSandbagBlock> PACKED_SANDBAG = new BlockEntry<>(
+				"packed_sandbag",
+				() -> BlockBehaviour.Properties.of(Material.SAND).strength(5.0F, 6.0F).noOcclusion(),
+				PackedSandbagBlock::new
+		);
+		public static final BlockEntry<SandbagBlock> SANDBAG = new BlockEntry<>(
+				"sandbag",
+				() -> BlockBehaviour.Properties.of(Material.SAND).strength(5.0F, 6.0F).noOcclusion(),
+				SandbagBlock::new
+		);
+		public static final BlockEntry<WheeledStretcherBlock> WHEELED_STRETCHER = new BlockEntry<>(
+				"wheeled_stretcher",
+				() -> BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLUE).strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion(),
+				WheeledStretcherBlock::new
+		);
+		public static final BlockEntry<WheeledStretcherBlock> WHEELED_STRETCHER_WITH_BODY = new BlockEntry<>(
+				"wheeled_stretcher_with_body",
+				() -> BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLUE).strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion(),
+				WheeledStretcherBlock::new
+		);
+		public static final BlockEntry<WastepaperBlock> WASTE_PAPER = new BlockEntry<>(
+				"wastepaper",
+				() -> BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_WHITE).strength(0.1F).sound(SoundType.CROP).noCollission(),
+				WastepaperBlock::new
 		);
 
 		private static void init() {
