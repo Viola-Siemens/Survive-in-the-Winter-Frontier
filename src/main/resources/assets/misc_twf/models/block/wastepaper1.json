@@ -1,15 +1,17 @@
 {
 	"parent": "minecraft:block/block",
 	"texture_size": [64, 64],
+	"ambientocclusion": false,
 	"textures": {
 		"particle": "misc_twf:block/wastepaper",
 		"texture": "misc_twf:block/wastepaper"
 	},
 	"elements": [
 		{
-			"from": [6, 0.1, 1.25],
-			"to": [14, 0.1, 12.25],
+			"from": [6, 0.05, 1.25],
+			"to": [14, 0.05, 12.25],
 			"rotation": {"angle": -22.5, "axis": "y", "origin": [10, 0.1, 6.75]},
+			"shade": false,
 			"faces": {
 				"north": {"uv": [2.75, 5.5, 4.75, 5.5], "texture": "#texture"},
 				"east": {"uv": [0, 5.5, 2.75, 5.5], "texture": "#texture"},
