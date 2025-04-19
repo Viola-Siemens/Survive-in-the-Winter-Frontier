@@ -10,7 +10,6 @@
 			"name": "body",
 			"from": [6, 1, 2],
 			"to": [12, 7, 10],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 5, 4.5]},
 			"faces": {
 				"north": {"cullface": "north", "uv": [7, 0, 10, 3], "texture": "#dead_chicken"},
 				"east": {"cullface": "east", "uv": [0, 3, 4, 6], "texture": "#dead_chicken"},
@@ -24,7 +23,6 @@
 			"name": "wingL",
 			"from": [6, 0, 3],
 			"to": [10, 1, 9],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 5, 4.5]},
 			"faces": {
 				"north": {"cullface": "north", "uv": [10.5, 9.5, 12.5, 10], "texture": "#dead_chicken"},
 				"east": {"cullface": "east", "uv": [10, 2.5, 13, 3], "texture": "#dead_chicken"},
@@ -38,7 +36,6 @@
 			"name": "wingR",
 			"from": [6, 7, 3],
 			"to": [10, 8, 9],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 5, 4.5]},
 			"faces": {
 				"north": {"cullface": "north", "uv": [10.5, 10.5, 12.5, 11], "texture": "#dead_chicken"},
 				"east": {"cullface": "east", "uv": [10.5, 8.5, 13.5, 9], "texture": "#dead_chicken"},
@@ -52,7 +49,6 @@
 			"name": "head",
 			"from": [2, 2, 9],
 			"to": [8, 6, 12],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 5, 4.5]},
 			"faces": {
 				"north": {"cullface": "north", "uv": [9, 3, 12, 5], "texture": "#dead_chicken"},
 				"east": {"cullface": "east", "uv": [9, 8, 10.5, 10], "texture": "#dead_chicken"},
@@ -66,7 +62,6 @@
 			"name": "beak",
 			"from": [4, 2, 12],
 			"to": [6, 6, 14],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 5, 4.5]},
 			"faces": {
 				"north": {"cullface": "north", "uv": [8.5, 10, 9.5, 12], "texture": "#dead_chicken"},
 				"east": {"cullface": "east", "uv": [9.5, 10, 10.5, 12], "texture": "#dead_chicken"},
@@ -80,7 +75,6 @@
 			"name": "comb",
 			"from": [6, 3, 11],
 			"to": [8, 5, 13],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 5, 4.5]},
 			"faces": {
 				"north": {"cullface": "north", "uv": [2, 11, 3, 12], "texture": "#dead_chicken"},
 				"east": {"cullface": "east", "uv": [3, 11, 4, 12], "texture": "#dead_chicken"},

@@ -2,6 +2,7 @@ package com.hexagram2021.misc_twf.client;
 
 import com.hexagram2021.misc_twf.client.model.*;
 import com.hexagram2021.misc_twf.client.renderer.*;
+import com.hexagram2021.misc_twf.client.screen.MoldWorkbenchScreen;
 import com.hexagram2021.misc_twf.client.screen.TravelersBackpackTacScreen;
 import com.hexagram2021.misc_twf.client.screen.UltravioletLampScreen;
 import com.hexagram2021.misc_twf.common.infrastructure.compat.ModCreateCompat;
@@ -72,5 +73,6 @@ public class ModClientEventHandler {
 		MenuScreens.register(MISCTWFMenuTypes.ULTRAVIOLET_LAMP_MENU.get(), UltravioletLampScreen::new);
 		MenuScreens.register(MISCTWFMenuTypes.TRAVELERS_BACKPACK_BLOCK_ENTITY_TAC_SLOT_MENU.get(), TravelersBackpackTacScreen::new);
 		MenuScreens.register(MISCTWFMenuTypes.TRAVELERS_BACKPACK_ITEM_TAC_SLOT_MENU.get(), TravelersBackpackTacScreen::new);
+		MenuScreens.register(MISCTWFMenuTypes.MOLD_WORKBENCH_MENU.get(), MoldWorkbenchScreen::new);
 	}
 }

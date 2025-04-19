@@ -9,7 +9,6 @@
 		{
 			"from": [0, 0, 6],
 			"to": [22, 9, 16],
-			"rotation": {"angle": 0, "axis": "x", "origin": [11, 5, 11]},
 			"faces": {
 				"north": {"cullface": "north", "uv": [8, 8, 10.5, 13.5], "rotation": 90, "texture": "#dead_horse"},
 				"east": {"cullface": "east", "uv": [13.5, 13.5, 16, 16], "rotation": 270, "texture": "#dead_horse"},

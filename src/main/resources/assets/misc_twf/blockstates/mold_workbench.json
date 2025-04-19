@@ -1,0 +1,94 @@
+{
+  "variants": {
+    "facing=north,part=left_up": {
+      "model": "misc_twf:block/mold_workbench_left_up"
+    },
+    "facing=north,part=up": {
+      "model": "misc_twf:block/mold_workbench_up"
+    },
+    "facing=north,part=right_up": {
+      "model": "misc_twf:block/mold_workbench_right_up"
+    },
+    "facing=north,part=left_bottom": {
+      "model": "misc_twf:block/mold_workbench_left_bottom"
+    },
+    "facing=north,part=bottom": {
+      "model": "misc_twf:block/mold_workbench_bottom"
+    },
+    "facing=north,part=right_bottom": {
+      "model": "misc_twf:block/mold_workbench_right_bottom"
+    },
+    "facing=east,part=left_up": {
+      "model": "misc_twf:block/mold_workbench_left_up",
+      "y": 90
+    },
+    "facing=east,part=up": {
+      "model": "misc_twf:block/mold_workbench_up",
+      "y": 90
+    },
+    "facing=east,part=right_up": {
+      "model": "misc_twf:block/mold_workbench_right_up",
+      "y": 90
+    },
+    "facing=east,part=left_bottom": {
+      "model": "misc_twf:block/mold_workbench_left_bottom",
+      "y": 90
+    },
+    "facing=east,part=bottom": {
+      "model": "misc_twf:block/mold_workbench_bottom",
+      "y": 90
+    },
+    "facing=east,part=right_bottom": {
+      "model": "misc_twf:block/mold_workbench_right_bottom",
+      "y": 90
+    },
+    "facing=south,part=left_up": {
+      "model": "misc_twf:block/mold_workbench_left_up",
+      "y": 180
+    },
+    "facing=south,part=up": {
+      "model": "misc_twf:block/mold_workbench_up",
+      "y": 180
+    },
+    "facing=south,part=right_up": {
+      "model": "misc_twf:block/mold_workbench_right_up",
+      "y": 180
+    },
+    "facing=south,part=left_bottom": {
+      "model": "misc_twf:block/mold_workbench_left_bottom",
+      "y": 180
+    },
+    "facing=south,part=bottom": {
+      "model": "misc_twf:block/mold_workbench_bottom",
+      "y": 180
+    },
+    "facing=south,part=right_bottom": {
+      "model": "misc_twf:block/mold_workbench_right_bottom",
+      "y": 180
+    },
+    "facing=west,part=left_up": {
+      "model": "misc_twf:block/mold_workbench_left_up",
+      "y": 270
+    },
+    "facing=west,part=up": {
+      "model": "misc_twf:block/mold_workbench_up",
+      "y": 270
+    },
+    "facing=west,part=right_up": {
+      "model": "misc_twf:block/mold_workbench_right_up",
+      "y": 270
+    },
+    "facing=west,part=left_bottom": {
+      "model": "misc_twf:block/mold_workbench_left_bottom",
+      "y": 270
+    },
+    "facing=west,part=bottom": {
+      "model": "misc_twf:block/mold_workbench_bottom",
+      "y": 270
+    },
+    "facing=west,part=right_bottom": {
+      "model": "misc_twf:block/mold_workbench_right_bottom",
+      "y": 270
+    }
+  }
+}

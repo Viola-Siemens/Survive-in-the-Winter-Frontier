@@ -66,7 +66,6 @@
 			"name": "main",
 			"from": [3.21567, 0.7315, 5.00841],
 			"to": [13.21567, 6.7315, 10.00841],
-			"rotation": {"angle": 0, "axis": "y", "origin": [7.80771, 3.7315, 7.42684]},
 			"faces": {
 				"north": {"cullface": "north", "uv": [1.5, 0, 3, 2.5], "rotation": 270, "texture": "#dead_rabbit"},
 				"east": {"cullface": "east", "uv": [4, 3.75, 2.5, 2.5], "rotation": 270, "texture": "#dead_rabbit"},

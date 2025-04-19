@@ -21,25 +21,31 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 	private static final int USE_ROW_SLOT_START = 29;
 	private static final int USE_ROW_SLOT_END = 38;
 	private final Container container;
-	private final ContainerData data;
 	private final DataSlot selectedRecipeIndex = DataSlot.standalone();
 	protected final Level level;
 	private final Slot inputSlot;
 	private ItemStack input = ItemStack.EMPTY;
 	private final List<MoldWorkbenchRecipe> recipes = Lists.newArrayList();
+	Runnable slotUpdateListener;
 
 	public MoldWorkbenchMenu(int id, Inventory inventory) {
-		this(id, inventory, new SimpleContainer(MoldWorkbenchBlockEntity.NUM_SLOTS), new SimpleContainerData(MoldWorkbenchBlockEntity.NUM_DATA_VALUES));
+		this(id, inventory, new SimpleContainer(MoldWorkbenchBlockEntity.NUM_SLOTS));
 	}
-	public MoldWorkbenchMenu(int id, Inventory inventory, Container container, ContainerData containerData) {
+	public MoldWorkbenchMenu(int id, Inventory inventory, Container container) {
 		super(MISCTWFMenuTypes.MOLD_WORKBENCH_MENU.get(), id);
 		checkContainerSize(container, MoldWorkbenchBlockEntity.NUM_SLOTS);
-		checkContainerDataCount(containerData, MoldWorkbenchBlockEntity.NUM_DATA_VALUES);
 		this.container = container;
-		this.data = containerData;
 		this.level = inventory.player.level;
+		this.slotUpdateListener = () -> {
+		};
 
-		this.inputSlot = this.addSlot(new Slot(container, MoldWorkbenchBlockEntity.SLOT_INPUT, 20, 33));
+		this.inputSlot = this.addSlot(new Slot(container, MoldWorkbenchBlockEntity.SLOT_INPUT, 20, 33) {
+			@Override
+			public void setChanged() {
+				super.setChanged();
+				MoldWorkbenchMenu.this.slotUpdateListener.run();
+			}
+		});
 		this.addSlot(new Slot(container, MoldWorkbenchBlockEntity.SLOT_RESULT, 143, 33) {
 			@Override
 			public boolean mayPlace(ItemStack itemStack) {
@@ -55,7 +61,22 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 		for(int i = 0; i < 9; ++i) {
 			this.addSlot(new Slot(inventory, i, 8 + i * 18, 142));
 		}
-		this.addDataSlots(containerData);
+	}
+
+	public int getSelectedRecipeIndex() {
+		return this.selectedRecipeIndex.get();
+	}
+
+	public List<MoldWorkbenchRecipe> getRecipes() {
+		return this.recipes;
+	}
+
+	public int getNumRecipes() {
+		return this.recipes.size();
+	}
+
+	public boolean hasInputItem() {
+		return this.inputSlot.hasItem() && !this.recipes.isEmpty();
 	}
 
 	@Override
@@ -153,5 +174,9 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 
 	protected boolean canWorkOn(ItemStack itemStack) {
 		return this.level.getRecipeManager().getRecipeFor(MISCTWFRecipeTypes.MOLD_WORKBENCH.get(), new SimpleContainer(itemStack), this.level).isPresent();
+	}
+
+	public void registerUpdateListener(Runnable runnable) {
+		this.slotUpdateListener = runnable;
 	}
 }

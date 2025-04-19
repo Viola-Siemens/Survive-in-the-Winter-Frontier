@@ -16,7 +16,6 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
-import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
@@ -46,30 +45,6 @@ public class MoldWorkbenchBlockEntity extends BaseContainerBlockEntity implement
 	@Nullable
 	private ResourceLocation recipeUsed = null;
 
-	protected final ContainerData dataAccess = new ContainerData() {
-		@Override
-		public int get(int index) {
-			return switch (index) {
-				case 0 -> MoldWorkbenchBlockEntity.this.workProgress;
-				case 1 -> MoldWorkbenchBlockEntity.this.workTotalTime;
-				default -> 0;
-			};
-		}
-
-		@Override
-		public void set(int index, int value) {
-			switch (index) {
-				case 0 -> MoldWorkbenchBlockEntity.this.workProgress = value;
-				case 1 -> MoldWorkbenchBlockEntity.this.workTotalTime = value;
-			}
-		}
-
-		@Override
-		public int getCount() {
-			return NUM_DATA_VALUES;
-		}
-	};
-
 	public MoldWorkbenchBlockEntity(BlockPos blockPos, BlockState blockState) {
 		super(MISCTWFBlockEntities.MOLD_WORKBENCH.get(), blockPos, blockState);
 		this.items = NonNullList.withSize(NUM_SLOTS, ItemStack.EMPTY);
@@ -82,7 +57,7 @@ public class MoldWorkbenchBlockEntity extends BaseContainerBlockEntity implement
 
 	@Override
 	protected MoldWorkbenchMenu createMenu(int id, Inventory inventory) {
-		return new MoldWorkbenchMenu(id, inventory, this, this.dataAccess);
+		return new MoldWorkbenchMenu(id, inventory, this);
 	}
 
 	@Override
