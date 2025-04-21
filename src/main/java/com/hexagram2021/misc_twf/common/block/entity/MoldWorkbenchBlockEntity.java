@@ -36,7 +36,6 @@ public class MoldWorkbenchBlockEntity extends BaseContainerBlockEntity implement
 	private static final int[] SLOTS_FOR_UP = new int[]{0};
 	private static final int[] SLOTS_FOR_DOWN = new int[]{1};
 	private static final int[] SLOTS_FOR_SIDES = new int[]{0, 1};
-	public static final int NUM_DATA_VALUES = 2;
 	public static final int NUM_SLOTS = 2;
 
 	protected NonNullList<ItemStack> items;

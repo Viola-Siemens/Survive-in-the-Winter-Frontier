@@ -265,6 +265,11 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLUE).strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion(),
 				SickbedBlock::new
 		);
+		public static final BlockEntry<SickbedBlock> SICKBED_WITH_BLOOD = new BlockEntry<>(
+				"sickbed_with_blood",
+				() -> BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLUE).strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion(),
+				SickbedBlock::new
+		);
 		public static final BlockEntry<SickbedBlock> SICKBED_WITH_BODY = new BlockEntry<>(
 				"sickbed_with_body",
 				() -> BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLUE).strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion(),
