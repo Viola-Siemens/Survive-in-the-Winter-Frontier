@@ -6,6 +6,7 @@
   "itemGroup.misc_twf": "Survive in the Winter Frontier",
 
   "block.misc_twf.mold_detacher": "Mold Detacher",
+  "block.misc_twf.mold_workbench": "Mold Workbench",
   "block.misc_twf.ultraviolet_lamp": "Ultraviolet Lamp",
   "block.misc_twf.mechanical_enclosure": "Mechanical Enclosure",
   "block.misc_twf.mutant_potion_cauldron": "Mutant Potion Cauldron",
@@ -97,6 +98,7 @@
   "item.misc_twf.travelers_backpack_tac_slot": "Traveler's Backpack TaC Slot",
   "item.misc_twf.animal_poop": "Animal Poop",
   "item.misc_twf.blood_bucket": "Blood Bucket",
+  "item.misc_twf.clay_mold": "Clay Mold",
 
   "item.misc_twf.energy.stored": "Energy: (%d / %d)",
   "item.misc_twf.has_tac_slot": "Available to store TaC ammo",

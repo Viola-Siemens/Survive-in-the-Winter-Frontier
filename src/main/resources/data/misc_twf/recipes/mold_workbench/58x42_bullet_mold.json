@@ -1,0 +1,10 @@
+{
+  "type": "misc_twf:mold_workbench",
+  "ingredient": {
+    "item": "misc_twf:clay_mold"
+  },
+  "result": {
+    "item": "misc_twf:58x42_bullet_mold"
+  },
+  "working_time": 40
+}

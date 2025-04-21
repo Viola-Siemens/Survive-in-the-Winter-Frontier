@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "misc_twf:item/45acp_bullet_mold"
+  }
+}

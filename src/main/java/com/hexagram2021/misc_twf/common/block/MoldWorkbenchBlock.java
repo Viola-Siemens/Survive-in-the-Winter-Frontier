@@ -225,7 +225,7 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 	@SuppressWarnings("unchecked")
 	@Override @Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-		if(blockEntityType == MISCTWFBlockEntities.MOLD_WORKBENCH.get()) {
+		if(blockEntityType == MISCTWFBlockEntities.MOLD_WORKBENCH.get() && !level.isClientSide) {
 			BlockEntityTicker<MoldWorkbenchBlockEntity> ticker = MoldWorkbenchBlockEntity::serverTick;
 			return (BlockEntityTicker<T>)ticker;
 		}

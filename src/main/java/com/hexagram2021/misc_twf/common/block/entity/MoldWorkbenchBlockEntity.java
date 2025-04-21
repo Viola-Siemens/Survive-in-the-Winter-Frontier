@@ -16,6 +16,7 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
@@ -37,12 +38,41 @@ public class MoldWorkbenchBlockEntity extends BaseContainerBlockEntity implement
 	private static final int[] SLOTS_FOR_DOWN = new int[]{1};
 	private static final int[] SLOTS_FOR_SIDES = new int[]{0, 1};
 	public static final int NUM_SLOTS = 2;
+	public static final int DATA_SLOTS = 2;
 
 	protected NonNullList<ItemStack> items;
 	int workProgress;
 	int workTotalTime;
 	@Nullable
 	private ResourceLocation recipeUsed = null;
+
+	private final ContainerData dataAccess = new ContainerData() {
+		public int get(int index) {
+			switch (index) {
+				case 0 -> {
+					return MoldWorkbenchBlockEntity.this.workProgress;
+				}
+				case 1 -> {
+					return MoldWorkbenchBlockEntity.this.workTotalTime;
+				}
+				default -> {
+					return 0;
+				}
+			}
+		}
+
+		public void set(int index, int value) {
+			switch (index) {
+				case 0 -> MoldWorkbenchBlockEntity.this.workProgress = value;
+				case 1 -> MoldWorkbenchBlockEntity.this.workTotalTime = value;
+			}
+
+		}
+
+		public int getCount() {
+			return MoldWorkbenchBlockEntity.DATA_SLOTS;
+		}
+	};
 
 	public MoldWorkbenchBlockEntity(BlockPos blockPos, BlockState blockState) {
 		super(MISCTWFBlockEntities.MOLD_WORKBENCH.get(), blockPos, blockState);
@@ -56,7 +86,7 @@ public class MoldWorkbenchBlockEntity extends BaseContainerBlockEntity implement
 
 	@Override
 	protected MoldWorkbenchMenu createMenu(int id, Inventory inventory) {
-		return new MoldWorkbenchMenu(id, inventory, this);
+		return new MoldWorkbenchMenu(id, inventory, this, this.dataAccess);
 	}
 
 	@Override
@@ -87,14 +117,19 @@ public class MoldWorkbenchBlockEntity extends BaseContainerBlockEntity implement
 			if(blockEntity.recipeUsed != null) {
 				ItemStack result = blockEntity.getItem(SLOT_RESULT);
 				Recipe<?> recipe = level.getRecipeManager().byKey(blockEntity.recipeUsed).orElse(null);
-				if(recipe != null && (result.isEmpty() || ItemStack.isSameItemSameTags(result, recipe.getResultItem()))) {
+				boolean resultEmpty = result.isEmpty();
+				if(recipe != null && (resultEmpty || ItemStack.isSameItemSameTags(result, recipe.getResultItem()))) {
 					blockEntity.workProgress += 1;
 					if (blockEntity.workProgress < blockEntity.workTotalTime) {
 						return;
 					}
 					if (recipe instanceof MoldWorkbenchRecipe moldWorkbenchRecipe && moldWorkbenchRecipe.matches(blockEntity, level)) {
 						blockEntity.getItem(SLOT_INPUT).shrink(1);
-						blockEntity.setItem(SLOT_RESULT, moldWorkbenchRecipe.assemble(blockEntity));
+						if(resultEmpty) {
+							blockEntity.setItem(SLOT_RESULT, moldWorkbenchRecipe.assemble(blockEntity));
+						} else {
+							blockEntity.getItem(SLOT_RESULT).grow(1);
+						}
 					}
 				}
 				blockEntity.recipeUsed = null;

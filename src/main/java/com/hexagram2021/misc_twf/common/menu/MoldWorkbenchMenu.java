@@ -21,6 +21,7 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 	private static final int USE_ROW_SLOT_START = 29;
 	private static final int USE_ROW_SLOT_END = 38;
 	private final Container container;
+	private final ContainerData containerData;
 	private final DataSlot selectedRecipeIndex = DataSlot.standalone();
 	protected final Level level;
 	private final Slot inputSlot;
@@ -29,12 +30,14 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 	Runnable slotUpdateListener;
 
 	public MoldWorkbenchMenu(int id, Inventory inventory) {
-		this(id, inventory, new SimpleContainer(MoldWorkbenchBlockEntity.NUM_SLOTS));
+		this(id, inventory, new SimpleContainer(MoldWorkbenchBlockEntity.NUM_SLOTS), new SimpleContainerData(MoldWorkbenchBlockEntity.DATA_SLOTS));
 	}
-	public MoldWorkbenchMenu(int id, Inventory inventory, Container container) {
+	public MoldWorkbenchMenu(int id, Inventory inventory, Container container, ContainerData containerData) {
 		super(MISCTWFMenuTypes.MOLD_WORKBENCH_MENU.get(), id);
 		checkContainerSize(container, MoldWorkbenchBlockEntity.NUM_SLOTS);
+		checkContainerDataCount(containerData, MoldWorkbenchBlockEntity.DATA_SLOTS);
 		this.container = container;
+		this.containerData = containerData;
 		this.level = inventory.player.level;
 		this.slotUpdateListener = () -> {
 		};
@@ -43,6 +46,7 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 			@Override
 			public void setChanged() {
 				super.setChanged();
+				MoldWorkbenchMenu.this.slotsChanged(MoldWorkbenchMenu.this.container);
 				MoldWorkbenchMenu.this.slotUpdateListener.run();
 			}
 		});
@@ -100,6 +104,7 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 
 	@Override
 	public void slotsChanged(Container container) {
+		super.slotsChanged(container);
 		ItemStack inputItem = this.inputSlot.getItem();
 		if (!inputItem.is(this.input.getItem())) {
 			this.input = inputItem.copy();
@@ -178,5 +183,11 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 
 	public void registerUpdateListener(Runnable runnable) {
 		this.slotUpdateListener = runnable;
+	}
+
+	public static final int PROGRESS_BAR_LENGTH = 18;
+	public int getWorkingProgress() {
+		int totalTime = this.containerData.get(1);
+		return totalTime == 0 ? 0 : this.containerData.get(0) * PROGRESS_BAR_LENGTH / totalTime;
 	}
 }

@@ -91,13 +91,15 @@ public class MoldWorkbenchScreen extends AbstractContainerScreen<MoldWorkbenchMe
 			int buttonY = this.imageHeight;
 			if (i == this.menu.getSelectedRecipeIndex()) {
 				buttonY += RECIPES_IMAGE_SIZE_HEIGHT;
+				int progress = this.menu.getWorkingProgress();
+				this.blit(transform, renderX - 1, renderY + 16, RECIPES_IMAGE_SIZE_WIDTH, this.imageHeight + 1, progress, 1);
+				this.blit(transform, renderX + progress - 1, renderY + 16, RECIPES_IMAGE_SIZE_WIDTH + progress, this.imageHeight, MoldWorkbenchMenu.PROGRESS_BAR_LENGTH - progress, 1);
 			} else if (x >= renderX && y >= renderY && x < renderX + RECIPES_IMAGE_SIZE_WIDTH && y < renderY + RECIPES_IMAGE_SIZE_HEIGHT) {
 				buttonY += RECIPES_IMAGE_SIZE_HEIGHT * 2;
 			}
 
 			this.blit(transform, renderX, renderY - 1, 0, buttonY, RECIPES_IMAGE_SIZE_WIDTH, RECIPES_IMAGE_SIZE_HEIGHT);
 		}
-
 	}
 
 	private void renderRecipes(int recipeX, int recipeY, int endIndex) {

@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common.register;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.hexagram2021.misc_twf.SurviveInTheWinterFrontier;
 import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
@@ -18,6 +19,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -132,6 +134,34 @@ public final class MISCTWFItems {
 			}
 	);
 
+	public static final class Molds {
+		public static final ItemEntry<Item> CLAY_MOLD = ItemEntry.register("clay_mold", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP)));
+
+		private static final List<String> NAMES = ImmutableList.of(
+				"12g_bullet_mold",
+				"30_06_bullet_mold",
+				"308_bullet_mold",
+				"338_bullet_mold",
+				"45acp_bullet_mold",
+				"50ae_bullet_mold",
+				"50bmg_bullet_mold",
+				"556x45_bullet_mold",
+				"57x28_bullet_mold",
+				"58x42_bullet_mold",
+				"68x51fury_bullet_mold",
+				"762x39_bullet_mold",
+				"762x54_bullet_mold",
+				"9mm_bullet_mold"
+		);
+
+		private Molds() {
+		}
+
+		public static void init() {
+			NAMES.forEach(name -> ItemEntry.register(name, () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))));
+		}
+	}
+
 	private MISCTWFItems() {
 	}
 
@@ -139,6 +169,7 @@ public final class MISCTWFItems {
 
 	public static void init(IEventBus bus) {
 		Materials.init();
+		Molds.init();
 
 		REGISTER.register(bus);
 
