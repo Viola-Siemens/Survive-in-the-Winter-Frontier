@@ -190,6 +190,9 @@ public class MoldWorkbenchBlockEntity extends BaseContainerBlockEntity implement
 		if (itemStack.getCount() > this.getMaxStackSize()) {
 			itemStack.setCount(this.getMaxStackSize());
 		}
+		if(index == SLOT_INPUT) {
+			this.setChanged();
+		}
 	}
 
 	@Override

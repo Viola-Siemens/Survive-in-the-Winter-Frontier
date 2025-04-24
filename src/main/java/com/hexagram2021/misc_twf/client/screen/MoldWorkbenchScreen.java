@@ -59,7 +59,7 @@ public class MoldWorkbenchScreen extends AbstractContainerScreen<MoldWorkbenchMe
 		int recipeY = this.topPos + RECIPES_Y;
 		int endIndex = this.startIndex + RECIPES_COLUMNS * RECIPES_ROWS;
 		this.renderButtons(transform, x, y, recipeX, recipeY, endIndex);
-		this.renderRecipes(recipeX, recipeY, endIndex);
+		this.renderRecipes(transform, recipeX, recipeY, endIndex);
 	}
 
 	@Override
@@ -91,9 +91,6 @@ public class MoldWorkbenchScreen extends AbstractContainerScreen<MoldWorkbenchMe
 			int buttonY = this.imageHeight;
 			if (i == this.menu.getSelectedRecipeIndex()) {
 				buttonY += RECIPES_IMAGE_SIZE_HEIGHT;
-				int progress = this.menu.getWorkingProgress();
-				this.blit(transform, renderX - 1, renderY + 16, RECIPES_IMAGE_SIZE_WIDTH, this.imageHeight + 1, progress, 1);
-				this.blit(transform, renderX + progress - 1, renderY + 16, RECIPES_IMAGE_SIZE_WIDTH + progress, this.imageHeight, MoldWorkbenchMenu.PROGRESS_BAR_LENGTH - progress, 1);
 			} else if (x >= renderX && y >= renderY && x < renderX + RECIPES_IMAGE_SIZE_WIDTH && y < renderY + RECIPES_IMAGE_SIZE_HEIGHT) {
 				buttonY += RECIPES_IMAGE_SIZE_HEIGHT * 2;
 			}
@@ -102,7 +99,7 @@ public class MoldWorkbenchScreen extends AbstractContainerScreen<MoldWorkbenchMe
 		}
 	}
 
-	private void renderRecipes(int recipeX, int recipeY, int endIndex) {
+	private void renderRecipes(PoseStack transform, int recipeX, int recipeY, int endIndex) {
 		List<MoldWorkbenchRecipe> $$3 = this.menu.getRecipes();
 
 		for(int i = this.startIndex; i < endIndex && i < this.menu.getNumRecipes(); ++i) {
@@ -111,6 +108,14 @@ public class MoldWorkbenchScreen extends AbstractContainerScreen<MoldWorkbenchMe
 			int renderY = recipeY + index / RECIPES_COLUMNS * RECIPES_IMAGE_SIZE_HEIGHT + 2;
 			assert this.minecraft != null;
 			this.minecraft.getItemRenderer().renderAndDecorateItem($$3.get(i).getResultItem(), renderX, renderY);
+			if(i == this.menu.getSelectedRecipeIndex()) {
+				RenderSystem.setShader(GameRenderer::getPositionTexShader);
+				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+				RenderSystem.setShaderTexture(0, BG_LOCATION);
+				int progress = this.menu.getWorkingProgress();
+				this.blit(transform, renderX - 1, renderY + 15, RECIPES_IMAGE_SIZE_WIDTH, this.imageHeight + 1, progress, 1);
+				this.blit(transform, renderX + progress - 1, renderY + 15, RECIPES_IMAGE_SIZE_WIDTH + progress, this.imageHeight, MoldWorkbenchMenu.PROGRESS_BAR_LENGTH - progress, 1);
+			}
 		}
 	}
 

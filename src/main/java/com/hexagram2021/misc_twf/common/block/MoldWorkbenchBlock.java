@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -40,6 +41,7 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 	private static final Map<Direction, Map<MoldWorkbenchPart, VoxelShape>> SHAPE_BY_PART = Util.make(() -> {
 		Map<Direction, Map<MoldWorkbenchPart, VoxelShape>> ret = Maps.newEnumMap(Direction.class);
 		VoxelShape baseBlock = Shapes.block();
+		VoxelShape halfBlock = Block.box(0.0D, 8.0D, 0.0D, 16.0D, 16.0D, 16.0D);
 		ret.put(Direction.NORTH, Util.make(() -> {
 			Map<MoldWorkbenchPart, VoxelShape> north = Maps.newEnumMap(MoldWorkbenchPart.class);
 			VoxelShape baseUpBottomShape = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D);
@@ -47,10 +49,10 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 			VoxelShape baseUpShape = Shapes.or(baseUpBottomShape, baseUpBackShape);
 			north.put(MoldWorkbenchPart.LEFT_UP, Shapes.or(baseUpShape, Block.box(2.0D, 2.0D, 2.0D, 14.0D, 6.0D, 14.0)));
 			north.put(MoldWorkbenchPart.UP, baseUpBackShape);
-			north.put(MoldWorkbenchPart.RIGHT_UP, Shapes.or(baseUpShape, Block.box(10.0D, 2.0D, 2.0D, 16.0D, 7.0D, 8.0)));
-			north.put(MoldWorkbenchPart.LEFT_BOTTOM, baseBlock);
-			north.put(MoldWorkbenchPart.BOTTOM, baseBlock);
-			north.put(MoldWorkbenchPart.RIGHT_BOTTOM, baseBlock);
+			north.put(MoldWorkbenchPart.RIGHT_UP, Shapes.or(baseUpShape, Block.box(0.0D, 2.0D, 8.0D, 6.0D, 7.0D, 14.0D)));
+			north.put(MoldWorkbenchPart.LEFT_BOTTOM, Shapes.join(baseBlock, Shapes.or(Block.box(0.0D, 0.0D, 0.0D, 12.0D, 8.0D, 16.0D), Block.box(12.0D, 0.0D, 4.0D, 16.0D, 8.0D, 12.0D)), BooleanOp.ONLY_FIRST));
+			north.put(MoldWorkbenchPart.BOTTOM, halfBlock);
+			north.put(MoldWorkbenchPart.RIGHT_BOTTOM, Shapes.join(baseBlock, Shapes.or(Block.box(4.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.box(0.0D, 0.0D, 4.0D, 4.0D, 8.0D, 12.0D)), BooleanOp.ONLY_FIRST));
 			return north;
 		}));
 		ret.put(Direction.SOUTH, Util.make(() -> {
@@ -60,10 +62,10 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 			VoxelShape baseUpShape = Shapes.or(baseUpBottomShape, baseUpBackShape);
 			north.put(MoldWorkbenchPart.LEFT_UP, Shapes.or(baseUpShape, Block.box(2.0D, 2.0D, 2.0D, 14.0D, 6.0D, 14.0)));
 			north.put(MoldWorkbenchPart.UP, baseUpBackShape);
-			north.put(MoldWorkbenchPart.RIGHT_UP, Shapes.or(baseUpShape, Block.box(0.0D, 2.0D, 8.0D, 6.0D, 7.0D, 14.0D)));
-			north.put(MoldWorkbenchPart.LEFT_BOTTOM, baseBlock);
-			north.put(MoldWorkbenchPart.BOTTOM, baseBlock);
-			north.put(MoldWorkbenchPart.RIGHT_BOTTOM, baseBlock);
+			north.put(MoldWorkbenchPart.RIGHT_UP, Shapes.or(baseUpShape, Block.box(10.0D, 2.0D, 2.0D, 16.0D, 7.0D, 8.0)));
+			north.put(MoldWorkbenchPart.LEFT_BOTTOM, Shapes.join(baseBlock, Shapes.or(Block.box(4.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.box(0.0D, 0.0D, 4.0D, 4.0D, 8.0D, 12.0D)), BooleanOp.ONLY_FIRST));
+			north.put(MoldWorkbenchPart.BOTTOM, halfBlock);
+			north.put(MoldWorkbenchPart.RIGHT_BOTTOM, Shapes.join(baseBlock, Shapes.or(Block.box(0.0D, 0.0D, 0.0D, 12.0D, 8.0D, 16.0D), Block.box(12.0D, 0.0D, 4.0D, 16.0D, 8.0D, 12.0D)), BooleanOp.ONLY_FIRST));
 			return north;
 		}));
 		ret.put(Direction.WEST, Util.make(() -> {
@@ -74,9 +76,9 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 			north.put(MoldWorkbenchPart.LEFT_UP, Shapes.or(baseUpShape, Block.box(2.0D, 2.0D, 2.0D, 14.0D, 6.0D, 14.0)));
 			north.put(MoldWorkbenchPart.UP, baseUpBackShape);
 			north.put(MoldWorkbenchPart.RIGHT_UP, Shapes.or(baseUpShape, Block.box(8.0D, 2.0D, 10.0D, 14.0D, 7.0D, 16.0)));
-			north.put(MoldWorkbenchPart.LEFT_BOTTOM, baseBlock);
-			north.put(MoldWorkbenchPart.BOTTOM, baseBlock);
-			north.put(MoldWorkbenchPart.RIGHT_BOTTOM, baseBlock);
+			north.put(MoldWorkbenchPart.LEFT_BOTTOM, Shapes.join(baseBlock, Shapes.or(Block.box(0.0D, 0.0D, 4.0D, 16.0D, 8.0D, 16.0D), Block.box(4.0D, 0.0D, 0.0D, 12.0D, 8.0D, 4.0D)), BooleanOp.ONLY_FIRST));
+			north.put(MoldWorkbenchPart.BOTTOM, halfBlock);
+			north.put(MoldWorkbenchPart.RIGHT_BOTTOM, Shapes.join(baseBlock, Shapes.or(Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 12.0D), Block.box(4.0D, 0.0D, 12.0D, 12.0D, 8.0D, 16.0D)), BooleanOp.ONLY_FIRST));
 			return north;
 		}));
 		ret.put(Direction.EAST, Util.make(() -> {
@@ -87,9 +89,9 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 			north.put(MoldWorkbenchPart.LEFT_UP, Shapes.or(baseUpShape, Block.box(2.0D, 2.0D, 2.0D, 14.0D, 6.0D, 14.0)));
 			north.put(MoldWorkbenchPart.UP, baseUpBackShape);
 			north.put(MoldWorkbenchPart.RIGHT_UP, Shapes.or(baseUpShape, Block.box(2.0D, 2.0D, 0.0D, 8.0D, 7.0D, 6.0)));
-			north.put(MoldWorkbenchPart.LEFT_BOTTOM, baseBlock);
-			north.put(MoldWorkbenchPart.BOTTOM, baseBlock);
-			north.put(MoldWorkbenchPart.RIGHT_BOTTOM, baseBlock);
+			north.put(MoldWorkbenchPart.LEFT_BOTTOM, Shapes.join(baseBlock, Shapes.or(Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 12.0D), Block.box(4.0D, 0.0D, 12.0D, 12.0D, 8.0D, 16.0D)), BooleanOp.ONLY_FIRST));
+			north.put(MoldWorkbenchPart.BOTTOM, halfBlock);
+			north.put(MoldWorkbenchPart.RIGHT_BOTTOM, Shapes.join(baseBlock, Shapes.or(Block.box(0.0D, 0.0D, 4.0D, 16.0D, 8.0D, 16.0D), Block.box(4.0D, 0.0D, 0.0D, 12.0D, 8.0D, 4.0D)), BooleanOp.ONLY_FIRST));
 			return north;
 		}));
 		return ret;
@@ -104,6 +106,17 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 	public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult result) {
 		if (level.isClientSide) {
 			return InteractionResult.SUCCESS;
+		}
+		MoldWorkbenchPart part = blockState.getValue(PART);
+		Direction facing = blockState.getValue(FACING);
+		BlockPos left = blockPos.relative(facing.getClockWise());
+		BlockPos right = blockPos.relative(facing.getCounterClockWise());
+		switch (part) {
+			case LEFT_UP -> blockPos = right.below();
+			case UP -> blockPos = blockPos.below();
+			case RIGHT_UP -> blockPos = left.below();
+			case LEFT_BOTTOM -> blockPos = right;
+			case RIGHT_BOTTOM -> blockPos = left;
 		}
 		if(level.getBlockEntity(blockPos) instanceof MoldWorkbenchBlockEntity moldWorkbench) {
 			player.openMenu(moldWorkbench);
@@ -217,9 +230,12 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 		builder.add(FACING, PART);
 	}
 
-	@Override
+	@Override @Nullable
 	public MoldWorkbenchBlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-		return new MoldWorkbenchBlockEntity(blockPos, blockState);
+		if(blockState.getValue(PART) == MoldWorkbenchPart.BOTTOM) {
+			return new MoldWorkbenchBlockEntity(blockPos, blockState);
+		}
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
