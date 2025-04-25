@@ -58,6 +58,7 @@ public class ModClientEventHandler {
 	}
 
 	private static void registerRenderLayers() {
+		ItemBlockRenderTypes.setRenderLayer(MISCTWFBlocks.MOLD_DETACHER.get(), RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(MISCTWFBlocks.ULTRAVIOLET_LAMP.get(), RenderType.translucent());
 		ItemBlockRenderTypes.setRenderLayer(MISCTWFBlocks.INTESTINE.get(), RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(MISCTWFBlocks.BLOODSTAIN.get(), RenderType.cutout());

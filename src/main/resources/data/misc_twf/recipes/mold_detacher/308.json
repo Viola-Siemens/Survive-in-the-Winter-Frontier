@@ -1,0 +1,15 @@
+{
+  "type": "misc_twf:mold_detach",
+  "ingredient": {
+    "item": "misc_twf:308_bullet_mold_completed"
+  },
+  "results": [
+    {
+      "item": "tacz:ammo",
+      "nbt": {"AmmoId": "tacz:308"}
+    },
+    {
+      "item": "misc_twf:308_bullet_mold"
+    }
+  ]
+}
