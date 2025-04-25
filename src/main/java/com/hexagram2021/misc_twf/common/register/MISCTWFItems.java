@@ -159,6 +159,7 @@ public final class MISCTWFItems {
 
 		public static void init() {
 			NAMES.forEach(name -> ItemEntry.register(name, () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))));
+			NAMES.forEach(name -> ItemEntry.register(name + "_completed", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))));
 		}
 	}
 
