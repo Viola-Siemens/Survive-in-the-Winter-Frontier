@@ -17,6 +17,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -123,6 +125,27 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 			//player.awardStat
 		}
 		return InteractionResult.CONSUME;
+	}
+
+	@Override
+	public BlockState updateShape(BlockState blockState, Direction direction, BlockState neighbor, LevelAccessor level, BlockPos blockPos, BlockPos neighborPos) {
+		MoldWorkbenchPart part = blockState.getValue(PART);
+		Direction facing = blockState.getValue(FACING);
+		Direction right = facing.getCounterClockWise();
+		Direction.Axis axis = direction.getAxis();
+		MoldWorkbenchPart target;
+		if(axis == Direction.Axis.Y) {
+			target = part.moveVertical(direction.getStepY());
+		} else if(axis == right.getAxis()) {
+			int move = (direction.getStepX() + direction.getStepZ()) * (right.getStepX() + right.getStepZ());
+			target = part.moveHorizontal(move);
+		} else {
+			target = null;
+		}
+		if(target != null) {
+			return neighbor.is(this) && neighbor.getValue(PART) == target ? blockState.setValue(FACING, neighbor.getValue(FACING)) : Blocks.AIR.defaultBlockState();
+		}
+		return super.updateShape(blockState, direction, neighbor, level, blockPos, neighborPos);
 	}
 
 	@Override
@@ -263,6 +286,14 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 			level.blockUpdated(blockPos, Blocks.AIR);
 			blockState.updateNeighbourShapes(level, blockPos, Block.UPDATE_ALL);
 		}
+	}
+
+	@Override
+	public boolean canSurvive(BlockState blockState, LevelReader level, BlockPos blockPos) {
+		BlockPos blockpos = blockPos.below();
+		BlockState below = level.getBlockState(blockpos);
+		MoldWorkbenchPart part = below.hasProperty(PART) ? below.getValue(PART) : null;
+		return blockState.getValue(PART).canSurviveOn(part);
 	}
 
 	@Override

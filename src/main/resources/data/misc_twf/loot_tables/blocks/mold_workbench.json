@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        },
+        {
+          "block": "misc_twf:mold_workbench",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "part": "bottom"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "misc_twf:mold_workbench"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

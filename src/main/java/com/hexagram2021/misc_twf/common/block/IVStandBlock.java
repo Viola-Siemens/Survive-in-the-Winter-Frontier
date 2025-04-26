@@ -58,7 +58,7 @@ public class IVStandBlock extends Block {
 	@Override
 	public BlockState updateShape(BlockState blockState, Direction direction, BlockState neighbor, LevelAccessor level, BlockPos blockPos, BlockPos neighborPos) {
 		DoubleBlockHalf half = blockState.getValue(HALF);
-		if (direction.getAxis() == Direction.Axis.Y && half == DoubleBlockHalf.LOWER == (direction == Direction.UP)) {
+		if (direction.getAxis() == Direction.Axis.Y && (half == DoubleBlockHalf.LOWER) == (direction == Direction.UP)) {
 			return neighbor.is(this) && neighbor.getValue(HALF) != half ? blockState.setValue(AXIS, neighbor.getValue(AXIS)) : Blocks.AIR.defaultBlockState();
 		}
 		return half == DoubleBlockHalf.LOWER && direction == Direction.DOWN && !blockState.canSurvive(level, blockPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(blockState, direction, neighbor, level, blockPos, neighborPos);
