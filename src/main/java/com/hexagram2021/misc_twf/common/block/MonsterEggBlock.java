@@ -86,28 +86,28 @@ public class MonsterEggBlock extends BaseEntityBlock {
 	public void fallOn(Level level, BlockState blockState, BlockPos pos, Entity entity, float fallDistance) {
 		super.fallOn(level, blockState, pos, entity, fallDistance);
 		if (fallDistance > 1 && level.random.nextInt() < MISCTWFCommonConfig.POSSIBILITY_FALL_DESTROY_EGG.get()) {
-			destroyEgg(level, pos, entity);
+			this.destroyEgg(level, pos, entity);
 		}
 	}
 
 	@Override
 	public void stepOn(Level level, BlockPos pos, BlockState blockState, Entity entity) {
 		if (level.random.nextInt() < MISCTWFCommonConfig.POSSIBILITY_STEP_DESTROY_EGG.get()) {
-			destroyEgg(level, pos, entity);
+			this.destroyEgg(level, pos, entity);
 		}
 	}
 
 	@Override
 	public void entityInside(BlockState blockState, Level level, BlockPos pos, Entity entity) {
 		if (level.random.nextInt() < MISCTWFCommonConfig.POSSIBILITY_STEP_DESTROY_EGG.get()) {
-			destroyEgg(level, pos, entity);
+			this.destroyEgg(level, pos, entity);
 		}
 	}
 
 	@Override
 	public void playerDestroy(Level level, Player player, BlockPos pos, BlockState blockState, @Nullable BlockEntity blockEntity, ItemStack stack) {
 		super.playerDestroy(level, player, pos, blockState, blockEntity, stack);
-		destroyEgg(level, pos, player);
+		this.destroyEgg(level, pos, player);
 	}
 
 	private void destroyEgg(Level level, BlockPos pos, Entity entity) {
