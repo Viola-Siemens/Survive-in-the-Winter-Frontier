@@ -51,6 +51,11 @@ public final class MISCTWFBlocks {
 			() -> BlockBehaviour.Properties.of(Material.WOOD).strength(2.0F).color(MaterialColor.WOOD),
 			MoldWorkbenchBlock::new
 	);
+	public static final BlockEntry<RecoveryFurnaceBlock> RECOVERY_FURNACE = new BlockEntry<>(
+			"recovery_furnace",
+			() -> BlockBehaviour.Properties.of(Material.STONE).strength(5.0F, 6.0F).color(MaterialColor.TERRACOTTA_RED),
+			RecoveryFurnaceBlock::new
+	);
 
 	public static final BlockEntry<Block> MECHANICAL_ENCLOSURE = new BlockEntry<>(
 			"mechanical_enclosure",

@@ -20,6 +20,9 @@ public final class MISCTWFBlockEntities {
 	public static final RegistryObject<BlockEntityType<MoldDetacherBlockEntity>> MOLD_DETACHER = REGISTER.register("mold_detacher", () -> new BlockEntityType<>(
 			MoldDetacherBlockEntity::new, ImmutableSet.of(MISCTWFBlocks.MOLD_DETACHER.get()), null
 	));
+	public static final RegistryObject<BlockEntityType<RecoveryFurnaceBlockEntity>> RECOVERY_FURNACE = REGISTER.register("recovery_furnace", () -> new BlockEntityType<>(
+			RecoveryFurnaceBlockEntity::new, ImmutableSet.of(MISCTWFBlocks.RECOVERY_FURNACE.get()), null
+	));
 	public static final RegistryObject<BlockEntityType<MoldWorkbenchBlockEntity>> MOLD_WORKBENCH = REGISTER.register("mold_workbench", () -> new BlockEntityType<>(
 			MoldWorkbenchBlockEntity::new, ImmutableSet.of(MISCTWFBlocks.MOLD_WORKBENCH.get()), null
 	));

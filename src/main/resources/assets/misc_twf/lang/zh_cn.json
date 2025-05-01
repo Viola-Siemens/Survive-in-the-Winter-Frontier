@@ -7,6 +7,7 @@
 
   "block.misc_twf.mold_detacher": "模具分离器",
   "block.misc_twf.mold_workbench": "模具加工台",
+  "block.misc_twf.recovery_furnace": "回收炉",
   "block.misc_twf.ultraviolet_lamp": "强紫外线照射灯",
   "block.misc_twf.mechanical_enclosure": "机械外壳",
   "block.misc_twf.mutant_potion_cauldron": "装变异药品的炼药锅",
@@ -150,6 +151,9 @@
 
   "container.misc_twf.ultraviolet_lamp": "强紫外线照射灯",
   "container.misc_twf.mold_workbench": "模具加工台",
+  "container.misc_twf.recovery_furnace": "回收炉",
+
+  "gui.recipebook.toggleRecipes.misc_twf.recoverable": "仅显示可回收",
 
   "jade.misc_twf.producemilk.time": "产奶冷却：%d秒",
   "jade.misc_twf.poop.time": "排便冷却：%d秒",

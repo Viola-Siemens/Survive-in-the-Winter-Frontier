@@ -47,6 +47,7 @@ public class MoldWorkbenchBlockEntity extends BaseContainerBlockEntity implement
 	private ResourceLocation recipeUsed = null;
 
 	private final ContainerData dataAccess = new ContainerData() {
+		@Override
 		public int get(int index) {
 			switch (index) {
 				case 0 -> {
@@ -61,6 +62,7 @@ public class MoldWorkbenchBlockEntity extends BaseContainerBlockEntity implement
 			}
 		}
 
+		@Override
 		public void set(int index, int value) {
 			switch (index) {
 				case 0 -> MoldWorkbenchBlockEntity.this.workProgress = value;
@@ -69,6 +71,7 @@ public class MoldWorkbenchBlockEntity extends BaseContainerBlockEntity implement
 
 		}
 
+		@Override
 		public int getCount() {
 			return MoldWorkbenchBlockEntity.DATA_SLOTS;
 		}

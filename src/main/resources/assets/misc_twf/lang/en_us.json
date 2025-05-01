@@ -7,6 +7,7 @@
 
   "block.misc_twf.mold_detacher": "Mold Detacher",
   "block.misc_twf.mold_workbench": "Mold Workbench",
+  "block.misc_twf.recovery_furnace": "Recovery Furnace",
   "block.misc_twf.ultraviolet_lamp": "Ultraviolet Lamp",
   "block.misc_twf.mechanical_enclosure": "Mechanical Enclosure",
   "block.misc_twf.mutant_potion_cauldron": "Mutant Potion Cauldron",
@@ -150,6 +151,9 @@
 
   "container.misc_twf.ultraviolet_lamp": "Ultraviolet Lamp",
   "container.misc_twf.mold_workbench": "Mold Workbench",
+  "container.misc_twf.recovery_furnace": "Recovery Furnace",
+
+  "gui.recipebook.toggleRecipes.misc_twf.recoverable": "Showing Recoverable",
 
   "jade.misc_twf.producemilk.time": "Produce Milk CD: %ds",
   "jade.misc_twf.poop.time": "Poop CD: %ds",
