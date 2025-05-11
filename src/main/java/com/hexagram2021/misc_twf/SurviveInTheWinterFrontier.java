@@ -7,6 +7,7 @@ import com.hexagram2021.misc_twf.common.network.IMISCTWFPacket;
 import com.hexagram2021.misc_twf.common.network.ServerboundOpenTacBackpackPacket;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
 import com.hexagram2021.misc_twf.common.register.MISCTWFRecipeBookTypes;
+import com.hexagram2021.misc_twf.common.register.MISCTWFRecipeTypes;
 import com.hexagram2021.misc_twf.common.util.MISCTWFLogger;
 import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
 import net.minecraft.network.FriendlyByteBuf;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.InterModComms;
@@ -57,6 +59,7 @@ public class SurviveInTheWinterFrontier {
 		bus.addListener(this::setup);
 		bus.addListener(this::enqueueIMC);
 		MinecraftForge.EVENT_BUS.addListener(this::serverStarted);
+		MinecraftForge.EVENT_BUS.addListener(this::onTagsUpdate);
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
@@ -86,6 +89,16 @@ public class SurviveInTheWinterFrontier {
 		if(!world.isClientSide) {
 			MISCTWFSavedData worldData = world.getDataStorage().computeIfAbsent(MISCTWFSavedData::new, MISCTWFSavedData::new, MISCTWFSavedData.SAVED_DATA_NAME);
 			MISCTWFSavedData.setInstance(worldData);
+		}
+	}
+
+	private void onTagsUpdate(final TagsUpdatedEvent event) {
+		if (event.getUpdateCause() == TagsUpdatedEvent.UpdateCause.SERVER_DATA_LOAD) {
+			com.tacz.guns.resource.CommonAssetsManager instance = com.tacz.guns.resource.CommonAssetsManager.getInstance();
+			if (instance != null && instance.recipeManager != null) {
+				instance.recipeManager.getAllRecipesFor(MISCTWFRecipeTypes.RECOVERY_FURNACE.get())
+						.forEach(recipe -> recipe.ingredient().init());
+			}
 		}
 	}
 

@@ -6,10 +6,12 @@ import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockStateProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -35,6 +37,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 @SuppressWarnings("deprecation")
 public class RecoveryFurnaceBlock extends HorizontalDirectionalBlock implements EntityBlock {
@@ -60,6 +63,7 @@ public class RecoveryFurnaceBlock extends HorizontalDirectionalBlock implements 
 		}
 		if(level.getBlockEntity(blockPos) instanceof RecoveryFurnaceBlockEntity recoveryFurnace) {
 			player.openMenu(recoveryFurnace);
+			PiglinAi.angerNearbyPiglins(player, true);
 		}
 		return InteractionResult.CONSUME;
 	}
@@ -169,7 +173,11 @@ public class RecoveryFurnaceBlock extends HorizontalDirectionalBlock implements 
 	@SuppressWarnings("unchecked")
 	@Override @Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-		if(blockEntityType == MISCTWFBlockEntities.MOLD_WORKBENCH.get() && !level.isClientSide) {
+		if(blockEntityType == MISCTWFBlockEntities.RECOVERY_FURNACE.get()) {
+			if(level.isClientSide) {
+				BlockEntityTicker<RecoveryFurnaceBlockEntity> ticker = RecoveryFurnaceBlockEntity::clientTick;
+				return (BlockEntityTicker<T>)ticker;
+			}
 			BlockEntityTicker<RecoveryFurnaceBlockEntity> ticker = RecoveryFurnaceBlockEntity::serverTick;
 			return (BlockEntityTicker<T>)ticker;
 		}
@@ -205,6 +213,21 @@ public class RecoveryFurnaceBlock extends HorizontalDirectionalBlock implements 
 			case FRONT -> blockPos.relative(facing.getOpposite());
 		};
 		return Mth.getSeed(main.getX(), main.getY(), main.getZ());
+	}
+
+	@Override
+	public void tick(BlockState blockState, ServerLevel level, BlockPos blockPos, Random random) {
+		RecoveryFurnacePart part = blockState.getValue(PART);
+		Direction facing = blockState.getValue(FACING);
+		BlockPos back = blockPos.relative(facing.getOpposite());
+		switch (part) {
+			case FRONT -> blockPos = back;
+			case TOP -> blockPos = blockPos.below();
+		}
+		BlockEntity blockentity = level.getBlockEntity(blockPos);
+		if (blockentity instanceof RecoveryFurnaceBlockEntity recoveryFurnaceBlockEntity) {
+			recoveryFurnaceBlockEntity.recheckOpen();
+		}
 	}
 
 	@Override

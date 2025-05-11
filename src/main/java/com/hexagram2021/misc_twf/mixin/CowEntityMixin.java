@@ -29,30 +29,30 @@ public abstract class CowEntityMixin extends Animal implements IProduceMilk {
 	@Override
 	public void aiStep() {
 		super.aiStep();
-		int milkCD = this.getMilkCoolDown();
+		int milkCD = this.misc_twf$getMilkCoolDown();
 		if(milkCD > 0) {
-			this.setMilkCoolDown(milkCD - 1);
+			this.misc_twf$setMilkCoolDown(milkCD - 1);
 		}
 	}
 
 	@Inject(method = "mobInteract", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;playSound(Lnet/minecraft/sounds/SoundEvent;FF)V", shift = At.Shift.BEFORE), cancellable = true)
 	public void misc_twf$checkMilkCoolDown(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
-		if(!this.isAvailableToProduceMilk()) {
+		if(!this.misc_twf$isAvailableToProduceMilk()) {
 			cir.setReturnValue(InteractionResult.sidedSuccess(this.level.isClientSide));
 			cir.cancel();
 			return;
 		}
 
-		this.setMilkCoolDown(MISCTWFCommonConfig.MILK_INTERVAL.get() * 20);
+		this.misc_twf$setMilkCoolDown(MISCTWFCommonConfig.MILK_INTERVAL.get() * 20);
 	}
 
 	@Override
-	public int getMilkCoolDown() {
+	public int misc_twf$getMilkCoolDown() {
 		return this.getEntityData().get(DATA_COW_MILK_COOL_DOWN);
 	}
 
 	@Override
-	public void setMilkCoolDown(int delay) {
+	public void misc_twf$setMilkCoolDown(int delay) {
 		this.getEntityData().set(DATA_COW_MILK_COOL_DOWN, delay);
 	}
 }

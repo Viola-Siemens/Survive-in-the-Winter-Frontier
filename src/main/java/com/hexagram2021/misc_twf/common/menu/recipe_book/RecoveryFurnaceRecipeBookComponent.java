@@ -47,7 +47,7 @@ public class RecoveryFurnaceRecipeBookComponent extends RecipeBookComponent {
 				Slot slot = slots.get(i + RecoveryFurnaceBlockEntity.SLOT_RESULT_START);
 				this.ghostRecipe.addIngredient(Ingredient.of(results.get(i)), slot.x, slot.y);
 			}
-			Ingredient ingredient = recoveryFurnaceRecipe.ingredient();
+			Ingredient ingredient = Ingredient.of(recoveryFurnaceRecipe.ingredient().getResult());
 			Slot fuelSlot = slots.get(RecoveryFurnaceBlockEntity.SLOT_FUEL);
 			if (fuelSlot.getItem().isEmpty()) {
 				if (this.fuels == null) {

@@ -35,7 +35,7 @@ public enum MobProduceMilkProvider implements IEntityComponentProvider, IServerD
 	@Override
 	public void appendServerData(CompoundTag compoundTag, ServerPlayer serverPlayer, Level level, Entity entity, boolean b) {
 		if(entity instanceof IProduceMilk produceMilk) {
-			int time = produceMilk.getMilkCoolDown();
+			int time = produceMilk.misc_twf$getMilkCoolDown();
 			if(time > 0) {
 				compoundTag.putInt(MILK_CD, time);
 			}

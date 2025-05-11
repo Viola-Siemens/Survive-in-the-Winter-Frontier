@@ -24,31 +24,31 @@ public class GoatEntityMixin implements IProduceMilk {
 	public void checkMilkCoolDown(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
 		Goat current = (Goat)(Object)this;
 
-		if(!this.isAvailableToProduceMilk()) {
+		if(!this.misc_twf$isAvailableToProduceMilk()) {
 			cir.setReturnValue(InteractionResult.sidedSuccess(current.level.isClientSide));
 			cir.cancel();
 			return;
 		}
 
-		this.setMilkCoolDown(MISCTWFCommonConfig.MILK_INTERVAL.get() * 20);
+		this.misc_twf$setMilkCoolDown(MISCTWFCommonConfig.MILK_INTERVAL.get() * 20);
 	}
 
 	@Inject(method = "aiStep", at = @At(value = "TAIL"))
 	public void misc_twf$countDownMilkCoolDown(CallbackInfo ci) {
-		int milkCD = this.getMilkCoolDown();
+		int milkCD = this.misc_twf$getMilkCoolDown();
 		if(milkCD > 0) {
-			this.setMilkCoolDown(milkCD - 1);
+			this.misc_twf$setMilkCoolDown(milkCD - 1);
 		}
 	}
 
 	@Override
-	public int getMilkCoolDown() {
+	public int misc_twf$getMilkCoolDown() {
 		Goat current = (Goat)(Object)this;
 		return current.getEntityData().get(DATA_GOAT_MILK_COOL_DOWN);
 	}
 
 	@Override
-	public void setMilkCoolDown(int delay) {
+	public void misc_twf$setMilkCoolDown(int delay) {
 		Goat current = (Goat)(Object)this;
 		current.getEntityData().set(DATA_GOAT_MILK_COOL_DOWN, delay);
 	}

@@ -16,10 +16,10 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 
 public class MoldWorkbenchMenu extends AbstractContainerMenu {
-	private static final int INV_SLOT_START = 2;
-	private static final int INV_SLOT_END = 29;
-	private static final int USE_ROW_SLOT_START = 29;
-	private static final int USE_ROW_SLOT_END = 38;
+	public static final int INV_SLOT_START = 2;
+	public static final int INV_SLOT_END = 29;
+	public static final int USE_ROW_SLOT_START = 29;
+	public static final int USE_ROW_SLOT_END = 38;
 	private final Container container;
 	private final ContainerData containerData;
 	private final DataSlot selectedRecipeIndex = DataSlot.standalone();

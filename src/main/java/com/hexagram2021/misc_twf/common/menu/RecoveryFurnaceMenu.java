@@ -17,10 +17,10 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeHooks;
 
 public class RecoveryFurnaceMenu extends RecipeBookMenu<Container> {
-	private static final int INV_SLOT_START = 6;
-	private static final int INV_SLOT_END = 33;
-	private static final int USE_ROW_SLOT_START = 33;
-	private static final int USE_ROW_SLOT_END = 42;
+	public static final int INV_SLOT_START = 6;
+	public static final int INV_SLOT_END = 33;
+	public static final int USE_ROW_SLOT_START = 33;
+	public static final int USE_ROW_SLOT_END = 42;
 	private final Container container;
 	private final ContainerData containerData;
 	protected final Level level;
@@ -35,6 +35,7 @@ public class RecoveryFurnaceMenu extends RecipeBookMenu<Container> {
 		checkContainerDataCount(containerData, RecoveryFurnaceBlockEntity.DATA_SLOTS);
 		this.container = container;
 		this.containerData = containerData;
+		container.startOpen(inventory.player);
 		this.level = inventory.player.level;
 		this.slotUpdateListener = () -> {
 		};
@@ -67,6 +68,10 @@ public class RecoveryFurnaceMenu extends RecipeBookMenu<Container> {
 
 	protected boolean isFuel(ItemStack itemStack) {
 		return ForgeHooks.getBurnTime(itemStack, MISCTWFRecipeTypes.RECOVERY_FURNACE.get()) > 0;
+	}
+
+	public Container getContainer() {
+		return this.container;
 	}
 
 	@Override
@@ -182,6 +187,12 @@ public class RecoveryFurnaceMenu extends RecipeBookMenu<Container> {
 
 	public boolean isLit() {
 		return this.containerData.get(RecoveryFurnaceBlockEntity.DATA_LIT_TIME) > 0;
+	}
+
+	@Override
+	public void removed(Player player) {
+		super.removed(player);
+		this.container.stopOpen(player);
 	}
 
 	@Override

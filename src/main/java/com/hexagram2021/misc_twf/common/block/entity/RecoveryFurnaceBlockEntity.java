@@ -1,6 +1,7 @@
 package com.hexagram2021.misc_twf.common.block.entity;
 
 import com.google.common.collect.Lists;
+import com.hexagram2021.misc_twf.common.block.RecoveryFurnaceBlock;
 import com.hexagram2021.misc_twf.common.menu.RecoveryFurnaceMenu;
 import com.hexagram2021.misc_twf.common.recipe.RecoveryFurnaceRecipe;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
@@ -10,12 +11,16 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
@@ -32,6 +37,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
+import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeHooks;
@@ -66,6 +72,29 @@ public class RecoveryFurnaceBlockEntity extends BaseContainerBlockEntity impleme
 	int recoveringProgress;
 	int recoveringTotalTime;
 	private final Object2IntOpenHashMap<ResourceLocation> recipesUsed = new Object2IntOpenHashMap<>();
+
+	private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
+		@Override
+		protected void onOpen(Level level, BlockPos blockPos, BlockState blockState) {
+			RecoveryFurnaceBlockEntity.this.playSound(blockState, SoundEvents.BARREL_OPEN);
+			RecoveryFurnaceBlockEntity.this.updateBlockState(blockState, true);
+		}
+
+		@Override
+		protected void onClose(Level level, BlockPos blockPos, BlockState blockState) {
+			RecoveryFurnaceBlockEntity.this.playSound(blockState, SoundEvents.BARREL_CLOSE);
+			RecoveryFurnaceBlockEntity.this.updateBlockState(blockState, false);
+		}
+
+		@Override
+		protected void openerCountChanged(Level level, BlockPos blockPos, BlockState blockState, int before, int after) {
+		}
+
+		@Override
+		protected boolean isOwnContainer(Player player) {
+			return player.containerMenu instanceof RecoveryFurnaceMenu menu && menu.getContainer() == RecoveryFurnaceBlockEntity.this;
+		}
+	};
 
 	protected final ContainerData dataAccess = new ContainerData() {
 		@Override
@@ -134,6 +163,10 @@ public class RecoveryFurnaceBlockEntity extends BaseContainerBlockEntity impleme
 
 	private boolean isLit() {
 		return this.litTime > 0;
+	}
+
+	public static void clientTick(Level level, BlockPos blockPos, BlockState blockState, RecoveryFurnaceBlockEntity blockEntity) {
+
 	}
 
 	public static void serverTick(Level level, BlockPos blockPos, BlockState blockState, RecoveryFurnaceBlockEntity blockEntity) {
@@ -256,7 +289,7 @@ public class RecoveryFurnaceBlockEntity extends BaseContainerBlockEntity impleme
 					Block.popResource(level, this.worldPosition, new ItemStack(result.getItem(), count));
 				}
 			}
-			input.shrink(1);
+			input.shrink(recipe.ingredient().getResult().getCount());
 			return true;
 		}
 		return false;
@@ -321,11 +354,17 @@ public class RecoveryFurnaceBlockEntity extends BaseContainerBlockEntity impleme
 
 	@Override
 	public void setItem(int index, ItemStack itemStack) {
+		ItemStack itemstack = this.items.get(index);
+		boolean flag = !itemStack.isEmpty() && itemStack.sameItem(itemstack) && ItemStack.tagMatches(itemStack, itemstack);
 		this.items.set(index, itemStack);
 		if (itemStack.getCount() > this.getMaxStackSize()) {
 			itemStack.setCount(this.getMaxStackSize());
 		}
-		if(index == SLOT_INPUT) {
+
+		if (index == SLOT_INPUT && !flag) {
+			assert this.level != null;
+			this.recoveringTotalTime = getTotalCookTime(this.level, this);
+			this.recoveringProgress = 0;
 			this.setChanged();
 		}
 	}
@@ -394,6 +433,43 @@ public class RecoveryFurnaceBlockEntity extends BaseContainerBlockEntity impleme
 		}
 
 		ExperienceOrb.award(level, position, i);
+	}
+
+	@Override
+	public void startOpen(Player player) {
+		if (!this.remove && !player.isSpectator()) {
+			assert this.level != null;
+			this.openersCounter.incrementOpeners(player, this.level, this.getBlockPos(), this.getBlockState());
+		}
+	}
+
+	@Override
+	public void stopOpen(Player player) {
+		if (!this.remove && !player.isSpectator()) {
+			assert this.level != null;
+			this.openersCounter.decrementOpeners(player, this.level, this.getBlockPos(), this.getBlockState());
+		}
+	}
+
+	public void recheckOpen() {
+		if (!this.remove) {
+			assert this.level != null;
+			this.openersCounter.recheckOpeners(this.level, this.getBlockPos(), this.getBlockState());
+		}
+	}
+
+	void updateBlockState(BlockState blockState, boolean value) {
+		assert this.level != null;
+		this.level.setBlock(this.getBlockPos(), blockState.setValue(RecoveryFurnaceBlock.OPEN, value), 3);
+	}
+
+	void playSound(BlockState blockState, SoundEvent soundEvent) {
+		Vec3i vec3i = blockState.getValue(RecoveryFurnaceBlock.FACING).getNormal();
+		double d0 = (double)this.worldPosition.getX() + 0.5D + (double)vec3i.getX() / 2.0D;
+		double d1 = (double)this.worldPosition.getY() + 0.5D + (double)vec3i.getY() / 2.0D;
+		double d2 = (double)this.worldPosition.getZ() + 0.5D + (double)vec3i.getZ() / 2.0D;
+		assert this.level != null;
+		this.level.playSound(null, d0, d1, d2, soundEvent, SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
 	}
 
 	// Forge start
