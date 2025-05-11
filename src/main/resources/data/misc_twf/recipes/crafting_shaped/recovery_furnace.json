@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:basalt"
+    },
+    "f": {
+      "item": "minecraft:blast_furnace"
+    },
+    "l": {
+      "item": "minecraft:lava_bucket"
+    },
+    "b": {
+      "item": "create:basin"
+    }
+  },
+  "pattern": [
+    " # ",
+    " fl",
+    "#b#"
+  ],
+  "result": {
+    "item": "misc_twf:recovery_furnace"
+  }
+}
