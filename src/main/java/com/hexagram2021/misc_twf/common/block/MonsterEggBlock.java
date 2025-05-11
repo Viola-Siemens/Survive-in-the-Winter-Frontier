@@ -107,20 +107,27 @@ public class MonsterEggBlock extends BaseEntityBlock {
 	@Override
 	public void playerDestroy(Level level, Player player, BlockPos pos, BlockState blockState, @Nullable BlockEntity blockEntity, ItemStack stack) {
 		super.playerDestroy(level, player, pos, blockState, blockEntity, stack);
-		this.destroyEgg(level, pos, player);
+		if(blockEntity instanceof MonsterEggBlockEntity monsterEggBlockEntity) {
+			this.destroyEgg(level, pos, monsterEggBlockEntity);
+			level.playSound(null, pos, SoundEvents.TURTLE_EGG_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
+		}
 	}
 
 	private void destroyEgg(Level level, BlockPos pos, Entity entity) {
 		if (!level.isClientSide) {
 			if(level.getBlockEntity(pos) instanceof MonsterEggBlockEntity monsterEggBlockEntity) {
-				Entity monster = monsterEggBlockEntity.createMonster(level);
-				if (monster != null) {
-					monster.setPosRaw(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-					level.addFreshEntity(monster);
-				}
+				this.destroyEgg(level, pos, monsterEggBlockEntity);
 			}
 			level.playSound(null, pos, SoundEvents.TURTLE_EGG_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
 			level.destroyBlock(pos, false, entity);
+		}
+	}
+
+	private void destroyEgg(Level level, BlockPos pos, MonsterEggBlockEntity monsterEggBlockEntity) {
+		Entity monster = monsterEggBlockEntity.createMonster(level);
+		if (monster != null) {
+			monster.setPosRaw(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+			level.addFreshEntity(monster);
 		}
 	}
 
