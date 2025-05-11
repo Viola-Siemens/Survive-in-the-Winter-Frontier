@@ -12,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Vec3i;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -49,6 +50,7 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Random;
 
 public class RecoveryFurnaceBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeHolder, StackedContentsCompatible {
 	public static final int SLOT_INPUT = 0;
@@ -64,7 +66,7 @@ public class RecoveryFurnaceBlockEntity extends BaseContainerBlockEntity impleme
 
 	private static final int[] SLOTS_FOR_UP = new int[]{0, 1};
 	private static final int[] SLOTS_FOR_DOWN = new int[]{5, 4, 3, 2};
-	private static final int[] SLOTS_FOR_SIDES = new int[]{1, 2, 3, 4, 5};
+	private static final int[] SLOTS_FOR_SIDES = new int[]{1, 2, 3, 4, 5, 0};
 
 	protected NonNullList<ItemStack> items;
 	int litTime;
@@ -166,7 +168,37 @@ public class RecoveryFurnaceBlockEntity extends BaseContainerBlockEntity impleme
 	}
 
 	public static void clientTick(Level level, BlockPos blockPos, BlockState blockState, RecoveryFurnaceBlockEntity blockEntity) {
-
+		Random random = level.getRandom();
+		if(blockState.getValue(RecoveryFurnaceBlock.LIT)) {
+			double x = blockPos.getX() + 0.5D;
+			double y = blockPos.getY() + 0.5D;
+			double z = blockPos.getZ() + 0.5D;
+			if(blockState.getValue(RecoveryFurnaceBlock.OPEN)) {
+				Direction direction = blockState.getValue(RecoveryFurnaceBlock.FACING).getClockWise();
+				if (random.nextInt() < 20) {
+					level.addParticle(
+							ParticleTypes.CAMPFIRE_SIGNAL_SMOKE,
+							x + direction.getStepX() + (random.nextDouble() - 0.5D) / 2.0D,
+							y + (random.nextDouble() - 0.5D) / 2.0D,
+							z + direction.getStepZ() + (random.nextDouble() - 0.5D) / 2.0D,
+							0.0D, 0.0078125D, 0.0D
+					);
+				}
+			} else {
+				if (random.nextInt() < 10) {
+					level.addParticle(
+							ParticleTypes.CAMPFIRE_COSY_SMOKE,
+							x + (random.nextDouble() - 0.5D) / 2.0D,
+							y + 2.0625D + (random.nextDouble() - 0.5D) / 2.0D,
+							z + (random.nextDouble() - 0.5D) / 2.0D,
+							0.0D, 0.0078125D, 0.0D
+					);
+				}
+			}
+			if(random.nextInt() < 10) {
+				level.playLocalSound(x, y, z, SoundEvents.BLASTFURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+			}
+		}
 	}
 
 	public static void serverTick(Level level, BlockPos blockPos, BlockState blockState, RecoveryFurnaceBlockEntity blockEntity) {
@@ -218,6 +250,8 @@ public class RecoveryFurnaceBlockEntity extends BaseContainerBlockEntity impleme
 
 		if (lit != blockEntity.isLit()) {
 			changed = true;
+			blockState = blockState.setValue(RecoveryFurnaceBlock.LIT, blockEntity.isLit());
+			level.setBlock(blockPos, blockState, Block.UPDATE_ALL);
 		}
 
 		if (changed) {

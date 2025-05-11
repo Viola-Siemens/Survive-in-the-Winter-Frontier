@@ -43,10 +43,11 @@ import java.util.Random;
 public class RecoveryFurnaceBlock extends HorizontalDirectionalBlock implements EntityBlock {
 	public static final EnumProperty<RecoveryFurnacePart> PART = MISCTWFBlockStateProperties.RECOVERY_FURNACE_PART;
 	public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
+	public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
 	public RecoveryFurnaceBlock(Properties props) {
 		super(props);
-		this.registerDefaultState(this.stateDefinition.any().setValue(PART, RecoveryFurnacePart.BOTTOM).setValue(OPEN, false).setValue(FACING, Direction.NORTH));
+		this.registerDefaultState(this.stateDefinition.any().setValue(PART, RecoveryFurnacePart.BOTTOM).setValue(OPEN, false).setValue(LIT, false).setValue(FACING, Direction.NORTH));
 	}
 
 	@Override
@@ -83,7 +84,7 @@ public class RecoveryFurnaceBlock extends HorizontalDirectionalBlock implements 
 			target = null;
 		}
 		if(target != null) {
-			return neighbor.is(this) && neighbor.getValue(PART) == target ? blockState.setValue(FACING, neighbor.getValue(FACING)).setValue(OPEN, neighbor.getValue(OPEN)) : Blocks.AIR.defaultBlockState();
+			return neighbor.is(this) && neighbor.getValue(PART) == target ? blockState.setValue(FACING, neighbor.getValue(FACING)).setValue(OPEN, neighbor.getValue(OPEN)).setValue(LIT, neighbor.getValue(LIT)) : Blocks.AIR.defaultBlockState();
 		}
 		return super.updateShape(blockState, direction, neighbor, level, blockPos, neighborPos);
 	}
@@ -159,7 +160,7 @@ public class RecoveryFurnaceBlock extends HorizontalDirectionalBlock implements 
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(FACING, PART, OPEN);
+		builder.add(FACING, PART, OPEN, LIT);
 	}
 
 	@Override @Nullable
