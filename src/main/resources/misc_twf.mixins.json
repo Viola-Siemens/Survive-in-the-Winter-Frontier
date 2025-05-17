@@ -14,6 +14,7 @@
     "LivingEntityMixin",
     "MonsterMixin",
     "RecipeManagerMixin",
+    "kubejs.RecipeEventJSMixin",
     "tacz.AbstractGunItemMixin",
     "tacz.EntityKineticBulletMixin",
     "tacz.GunAnimationStateContextMixin",

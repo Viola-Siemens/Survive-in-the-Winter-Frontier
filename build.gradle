@@ -180,6 +180,7 @@ dependencies {
     implementation fg.deobf("curse.maven:hunger_reworked-847923:6358923")       //////
     implementation fg.deobf("curse.maven:hordes-485779:5287529")                //////
     implementation fg.deobf("curse.maven:jade-324717:4575623")                  //////
+    compileOnly fg.deobf("curse.maven:kubejs-238086:4377177")
     runtimeOnly fg.deobf("curse.maven:spark-361579:4505375")
     implementation fg.deobf("curse.maven:tacz-1028108:6069322-sources-6069332") //////
     implementation fg.deobf("curse.maven:tetrachordlib-980149:5153986")         //////
