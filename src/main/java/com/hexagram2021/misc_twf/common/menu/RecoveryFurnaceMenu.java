@@ -41,14 +41,15 @@ public class RecoveryFurnaceMenu extends RecipeBookMenu<Container> {
 		};
 
 		this.addSlot(new Slot(container, RecoveryFurnaceBlockEntity.SLOT_INPUT, 33, 17));
-		this.addSlot(new Slot(container, RecoveryFurnaceBlockEntity.SLOT_FUEL, 33, 53) {
+		this.addSlot(new Slot(container, RecoveryFurnaceBlockEntity.SLOT_FUEL, 33, 52) {
 			@Override
 			public boolean mayPlace(ItemStack itemStack) {
 				return RecoveryFurnaceMenu.this.isFuel(itemStack);
 			}
 		});
 		for(int i = RecoveryFurnaceBlockEntity.SLOT_RESULT_START; i < RecoveryFurnaceBlockEntity.SLOT_RESULT_END; ++i) {
-			this.addSlot(new RecoveryFurnaceResultSlot(inventory.player, container, i, 53 + 18 * i, 35));
+			int index = i - RecoveryFurnaceBlockEntity.SLOT_RESULT_START;
+			this.addSlot(new RecoveryFurnaceResultSlot(inventory.player, container, i, 115 + 18 * (index % 2), 26 + 18 * (index / 2)));
 		}
 
 		for(int i = 0; i < 3; ++i) {
@@ -182,7 +183,7 @@ public class RecoveryFurnaceMenu extends RecipeBookMenu<Container> {
 			duration = 200;
 		}
 
-		return this.containerData.get(RecoveryFurnaceBlockEntity.DATA_LIT_TIME) * 13 / duration;
+		return this.containerData.get(RecoveryFurnaceBlockEntity.DATA_LIT_TIME) * 16 / duration;
 	}
 
 	public boolean isLit() {

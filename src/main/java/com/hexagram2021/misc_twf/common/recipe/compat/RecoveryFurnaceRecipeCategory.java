@@ -10,12 +10,13 @@ import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
+import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import mezz.jei.plugins.vanilla.cooking.FurnaceVariantCategory;
+import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
@@ -27,27 +28,30 @@ import java.util.List;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
-public class RecoveryFurnaceRecipeCategory extends FurnaceVariantCategory<RecoveryFurnaceRecipe> {
+public class RecoveryFurnaceRecipeCategory implements IRecipeCategory<RecoveryFurnaceRecipe> {
 	public static final ResourceLocation UID = new ResourceLocation(MODID, "recovery_furnace");
 	public static final ResourceLocation TEXTURE = new ResourceLocation(MODID, "textures/gui/jei/recovery_furnace.png");
 
-	public static final int width = 128;
+	public static final int width = 118;
 	public static final int height = 54;
 
+	protected final IDrawableStatic staticFlame;
+	protected final IDrawableAnimated animatedFlame;
 	private final IDrawable background;
 	private final int regularCookTime;
 	private final IDrawable icon;
 	private final LoadingCache<Integer, IDrawableAnimated> cachedArrows;
 
 	public RecoveryFurnaceRecipeCategory(IGuiHelper guiHelper) {
-		super(guiHelper);
+		this.staticFlame = guiHelper.createDrawable(TEXTURE, 118, 0, 15, 15);
+		this.animatedFlame = guiHelper.createAnimatedDrawable(this.staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true);
 		this.background = guiHelper.createDrawable(TEXTURE, 0, 0, width, height);
 		this.regularCookTime = RecoveryFurnaceRecipe.Serializer.DEFAULT_RECOVERING_TIME;
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(MISCTWFBlocks.RECOVERY_FURNACE.get()));
 		this.cachedArrows = CacheBuilder.newBuilder().maximumSize(25L).build(new CacheLoader<>() {
 			@Override
 			public IDrawableAnimated load(Integer cookTime) {
-				return guiHelper.drawableBuilder(TEXTURE, 128, 14, 24, 17).buildAnimated(cookTime, IDrawableAnimated.StartDirection.LEFT, false);
+				return guiHelper.drawableBuilder(TEXTURE, 118, 15, 24, 17).buildAnimated(cookTime, IDrawableAnimated.StartDirection.LEFT, false);
 			}
 		});
 	}
@@ -63,9 +67,9 @@ public class RecoveryFurnaceRecipeCategory extends FurnaceVariantCategory<Recove
 
 	@Override
 	public void draw(RecoveryFurnaceRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack poseStack, double mouseX, double mouseY) {
-		this.animatedFlame.draw(poseStack, 1, 20);
+		this.animatedFlame.draw(poseStack, 30, 19);
 		IDrawableAnimated arrow = this.getArrow(recipe);
-		arrow.draw(poseStack, 24, 18);
+		arrow.draw(poseStack, 52, 18);
 		this.drawExperience(recipe, poseStack);
 		this.drawCookTime(recipe, poseStack);
 	}
@@ -118,7 +122,7 @@ public class RecoveryFurnaceRecipeCategory extends FurnaceVariantCategory<Recove
 		builder.addSlot(RecipeIngredientRole.INPUT, 1, 1).addItemStack(recipe.ingredient().getResult());
 		List<ItemStack> outputs = recipe.results();
 		for(int i = 0; i < outputs.size(); ++i) {
-			builder.addSlot(RecipeIngredientRole.OUTPUT, 57 + 18 * i, 19).addItemStack(outputs.get(i));
+			builder.addSlot(RecipeIngredientRole.OUTPUT, 83 + 18 * (i % 2), 10 + 18 * (i / 2)).addItemStack(outputs.get(i));
 		}
 	}
 

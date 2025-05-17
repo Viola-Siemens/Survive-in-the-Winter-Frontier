@@ -98,6 +98,6 @@ public class JEIHelper implements IModPlugin {
 
 	@Override
 	public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-		registration.addRecipeClickArea(RecoveryFurnaceScreen.class, 55, 32, 28, 23, MISCTWFJEIRecipeTypes.RECOVERY_FURNACE, RecipeTypes.FUELING);
+		registration.addRecipeClickArea(RecoveryFurnaceScreen.class, 83, 32, 28, 23, MISCTWFJEIRecipeTypes.RECOVERY_FURNACE, RecipeTypes.FUELING);
 	}
 }
