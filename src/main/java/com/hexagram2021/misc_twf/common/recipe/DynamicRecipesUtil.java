@@ -39,6 +39,9 @@ public final class DynamicRecipesUtil {
 			if(recipe instanceof GunSmithTableRecipe gunSmithTableRecipe) {
 				RawGunTableResult raw = ((GunSmithTableResultAccess)gunSmithTableRecipe.getResult()).misc_twf$getResult();
 				ResourceLocation newId = new ResourceLocation(MODID, "recovery_furnace/" + id.getPath());
+				if (origins != null && origins.containsKey(newId)) {
+					return;
+				}
 				if(raw == null) {
 					return;
 				}
@@ -93,5 +96,8 @@ public final class DynamicRecipesUtil {
 		}
 		recipesAccessor.misc_twf$setRecipes(recipesBuilder.build());
 		recipesAccessor.misc_twf$setByName(fullBuilder.build());
+	}
+
+	private DynamicRecipesUtil() {
 	}
 }

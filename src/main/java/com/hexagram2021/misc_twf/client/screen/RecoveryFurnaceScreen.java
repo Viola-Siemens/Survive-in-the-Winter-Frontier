@@ -72,7 +72,7 @@ public class RecoveryFurnaceScreen extends AbstractContainerScreen<RecoveryFurna
 		this.blit(transform, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
 		if (this.menu.isLit()) {
 			int progress = this.menu.getLitProgress();
-			this.blit(transform, this.leftPos + 62, this.topPos + 48 - progress, 176, 15 - progress, 15, progress + 1);
+			this.blit(transform, this.leftPos + 62, this.topPos + 50 - progress, 176, 15 - progress, 15, progress + 1);
 		}
 
 		this.blit(transform, this.leftPos + 84, this.topPos + 34, 176, 15, this.menu.getBurnProgress() + 1, 16);
