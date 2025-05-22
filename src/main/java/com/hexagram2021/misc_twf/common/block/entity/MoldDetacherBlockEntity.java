@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common.block.entity;
 
+import com.hexagram2021.misc_twf.common.block.MoldDetacherBlock;
 import com.hexagram2021.misc_twf.common.recipe.MoldDetacherRecipe;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlocks;
@@ -134,6 +135,8 @@ public class MoldDetacherBlockEntity extends KineticBlockEntity implements Conta
 		if(this.level.isClientSide) {
 			return;
 		}
+		BlockState blockState = this.getBlockState();
+		boolean triggered = blockState.getValue(MoldDetacherBlock.TRIGGERED);
 		if(this.isSpeedRequirementFulfilled()) {
 			if(this.canDetach()) {
 				this.remainingTime -= Math.abs(this.getSpeed());
@@ -144,6 +147,11 @@ public class MoldDetacherBlockEntity extends KineticBlockEntity implements Conta
 			} else {
 				this.remainingTime = MAX_REMAINING_TIME;
 			}
+			if(!triggered) {
+				this.level.setBlock(this.getBlockPos(), blockState.setValue(MoldDetacherBlock.TRIGGERED, true), Block.UPDATE_ALL);
+			}
+		} else if(triggered) {
+			this.level.setBlock(this.getBlockPos(), blockState.setValue(MoldDetacherBlock.TRIGGERED, false), Block.UPDATE_ALL);
 		}
 	}
 

@@ -1,0 +1,6 @@
+{
+  "parent": "misc_twf:block/mold_detacher",
+  "textures": {
+    "wheel": "misc_twf:block/mold_detacher_wheel_static"
+  }
+}

@@ -1,18 +1,33 @@
 {
   "variants": {
-    "facing=east": {
+    "facing=east,triggered=false": {
+      "model": "misc_twf:block/mold_detacher_static",
+      "y": 90
+    },
+    "facing=south,triggered=false": {
+      "model": "misc_twf:block/mold_detacher_static",
+      "y": 180
+    },
+    "facing=west,triggered=false": {
+      "model": "misc_twf:block/mold_detacher_static",
+      "y": 270
+    },
+    "facing=north,triggered=false": {
+      "model": "misc_twf:block/mold_detacher_static"
+    },
+    "facing=east,triggered=true": {
       "model": "misc_twf:block/mold_detacher",
       "y": 90
     },
-    "facing=south": {
+    "facing=south,triggered=true": {
       "model": "misc_twf:block/mold_detacher",
       "y": 180
     },
-    "facing=west": {
+    "facing=west,triggered=true": {
       "model": "misc_twf:block/mold_detacher",
       "y": 270
     },
-    "facing=north": {
+    "facing=north,triggered=true": {
       "model": "misc_twf:block/mold_detacher"
     }
   }
