@@ -14,6 +14,7 @@ import net.minecraft.util.random.WeightedEntry;
 import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -42,14 +43,26 @@ public class MonsterEggBlockEntity extends BlockEntity {
 		this.entries = entries;
 	}
 
-	@Override
-	public void load(CompoundTag nbt) {
-		super.load(nbt);
+	public void fromItem(ItemStack itemStack) {
+		CompoundTag nbt = itemStack.getTag();
+		if(nbt == null) {
+			return;
+		}
+		this.loadInner(nbt);
+	}
+
+	private void loadInner(CompoundTag nbt) {
 		if(nbt.contains("Entries", Tag.TAG_LIST)) {
 			this.setEntries(WeightedRandomList.create(
 					MonsterEggEntry.CODEC.listOf().parse(NbtOps.INSTANCE, nbt.getList("Entries", Tag.TAG_COMPOUND)).getOrThrow(false, MISCTWFLogger::error)
 			));
 		}
+	}
+
+	@Override
+	public void load(CompoundTag nbt) {
+		super.load(nbt);
+		this.loadInner(nbt);
 	}
 
 	@Override

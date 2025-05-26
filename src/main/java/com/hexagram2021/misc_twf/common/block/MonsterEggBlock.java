@@ -2,11 +2,13 @@ package com.hexagram2021.misc_twf.common.block;
 
 import com.hexagram2021.misc_twf.common.block.entity.MonsterEggBlockEntity;
 import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
+import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -128,6 +130,13 @@ public class MonsterEggBlock extends BaseEntityBlock {
 		if (monster != null) {
 			monster.setPosRaw(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
 			level.addFreshEntity(monster);
+		}
+	}
+
+	@Override
+	public void setPlacedBy(Level level, BlockPos blockPos, BlockState blockState, @Nullable LivingEntity livingEntity, ItemStack itemStack) {
+		if(!level.isClientSide) {
+			level.getBlockEntity(blockPos, MISCTWFBlockEntities.MONSTER_EGG.get()).ifPresent(blockEntity -> blockEntity.fromItem(itemStack));
 		}
 	}
 

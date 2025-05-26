@@ -2,7 +2,11 @@ package com.hexagram2021.misc_twf.common.block;
 
 import com.hexagram2021.misc_twf.common.ModVanillaCompat;
 import com.hexagram2021.misc_twf.common.block.entity.MutantPotionCauldronBlockEntity;
+import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
+import net.darkhax.gamestages.GameStageHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -14,6 +18,8 @@ import net.minecraft.world.level.block.AbstractCauldronBlock;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.UUID;
 
 @SuppressWarnings("deprecation")
 public class MutantPotionCauldronBlock extends AbstractCauldronBlock implements EntityBlock {
@@ -39,8 +45,15 @@ public class MutantPotionCauldronBlock extends AbstractCauldronBlock implements 
 				return;
 			}
 			if(entity instanceof ItemEntity itemEntity) {
-				BlockEntity blockEntity = level.getBlockEntity(blockPos);
-				if(blockEntity instanceof MutantPotionCauldronBlockEntity mutantPotionCauldronBlockEntity) {
+				UUID throwerUuid = itemEntity.getThrower();
+				if(throwerUuid == null || !(level instanceof ServerLevel serverLevel)) {
+					return;
+				}
+				Entity thrower = serverLevel.getEntity(throwerUuid);
+				if(!(thrower instanceof ServerPlayer serverPlayer) || !GameStageHelper.hasStage(serverPlayer, "vaccination")) {
+					return;
+				}
+				serverLevel.getBlockEntity(blockPos, MISCTWFBlockEntities.MUTANT_POTION_CAULDRON.get()).ifPresent(mutantPotionCauldronBlockEntity -> {
 					ItemStack itemStack = itemEntity.getItem();
 					int flag = MutantPotionCauldronBlockEntity.getFlag(itemEntity.getItem());
 					if(!mutantPotionCauldronBlockEntity.containsFlag(flag)) {
@@ -52,7 +65,7 @@ public class MutantPotionCauldronBlock extends AbstractCauldronBlock implements 
 						}
 						mutantPotionCauldronBlockEntity.appendFlag(flag);
 					}
-				}
+				});
 			}
 		}
 	}
