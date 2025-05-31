@@ -9,6 +9,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -80,7 +81,9 @@ public class MoldWorkbenchScreen extends AbstractContainerScreen<MoldWorkbenchMe
 				}
 			}
 		}
-
+		if (this.menu.mechanicalArmSlot == this.hoveredSlot && !this.hoveredSlot.hasItem()) {
+			this.renderTooltip(transform, new TranslatableComponent("container.misc_twf.mold_workbench.tooltip.mechanical_arm_slot"), x, y);
+		}
 	}
 
 	private void renderButtons(PoseStack transform, int x, int y, int recipeX, int recipeY, int endIndex) {

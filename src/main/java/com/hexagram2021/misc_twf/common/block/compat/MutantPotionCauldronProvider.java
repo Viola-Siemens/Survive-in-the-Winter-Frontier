@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common.block.compat;
 
+import com.hexagram2021.misc_twf.common.block.MutantPotionCauldronBlock;
 import com.hexagram2021.misc_twf.common.block.entity.MutantPotionCauldronBlockEntity;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
 import mcp.mobius.waila.api.BlockAccessor;
@@ -43,7 +44,9 @@ public enum MutantPotionCauldronProvider implements IComponentProvider, IServerD
 			if(blockAccessor.getServerData().contains(TAG_FLAG, Tag.TAG_INT)) {
 				mutantPotionCauldronBlockEntity.setFlag(blockAccessor.getServerData().getInt(TAG_FLAG));
 			}
-			if(mutantPotionCauldronBlockEntity.isComplete()) {
+			if(!MutantPotionCauldronBlock.hasStageToCovert(blockAccessor.getPlayer())) {
+				iTooltip.add(new TranslatableComponent("jade.misc_twf.mutant_potion_cauldron.stage_required"));
+			} else if(mutantPotionCauldronBlockEntity.isComplete()) {
 				iTooltip.add(new TranslatableComponent("jade.misc_twf.mutant_potion_cauldron.need_rod"));
 				iTooltip.add(makeList(helper, MISCTWFItems.Materials.GLASS_ROD));
 			} else {

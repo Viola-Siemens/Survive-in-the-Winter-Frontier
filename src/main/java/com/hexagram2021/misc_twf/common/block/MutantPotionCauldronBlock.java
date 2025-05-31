@@ -12,6 +12,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AbstractCauldronBlock;
@@ -50,7 +51,7 @@ public class MutantPotionCauldronBlock extends AbstractCauldronBlock implements 
 					return;
 				}
 				Entity thrower = serverLevel.getEntity(throwerUuid);
-				if(!(thrower instanceof ServerPlayer serverPlayer) || !GameStageHelper.hasStage(serverPlayer, "vaccination")) {
+				if(!(thrower instanceof ServerPlayer serverPlayer) || !hasStageToCovert(serverPlayer)) {
 					return;
 				}
 				serverLevel.getBlockEntity(blockPos, MISCTWFBlockEntities.MUTANT_POTION_CAULDRON.get()).ifPresent(mutantPotionCauldronBlockEntity -> {
@@ -80,5 +81,10 @@ public class MutantPotionCauldronBlock extends AbstractCauldronBlock implements 
 	@Override
 	public MutantPotionCauldronBlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
 		return new MutantPotionCauldronBlockEntity(blockPos, blockState);
+	}
+
+	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
+	public static boolean hasStageToCovert(Player player) {
+		return GameStageHelper.hasStage(player, "vaccination");
 	}
 }

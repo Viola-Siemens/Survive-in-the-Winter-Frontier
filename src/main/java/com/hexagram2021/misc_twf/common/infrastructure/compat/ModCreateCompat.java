@@ -14,5 +14,6 @@ public class ModCreateCompat {
 
 	public static void register() {
 		HELPER.forComponents(MISCTWFBlocks.MOLD_DETACHER).addStoryBoard("mold_detacher", Scenes::moldDetacher);
+		HELPER.forComponents(MISCTWFBlocks.MOLD_WORKBENCH).addStoryBoard("mold_workbench", Scenes::moldWorkbench);
 	}
 }

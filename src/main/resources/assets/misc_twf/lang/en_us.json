@@ -153,11 +153,13 @@
   "container.misc_twf.ultraviolet_lamp": "Ultraviolet Lamp",
   "container.misc_twf.mold_workbench": "Mold Workbench",
   "container.misc_twf.recovery_furnace": "Recovery Furnace",
+  "container.misc_twf.mold_workbench.tooltip.mechanical_arm_slot": "Put a mechanical arm here to enable auto-crafting.",
 
   "gui.recipebook.toggleRecipes.misc_twf.recoverable": "Showing Recoverable",
 
   "jade.misc_twf.producemilk.time": "Produce Milk CD: %ds",
   "jade.misc_twf.poop.time": "Poop CD: %ds",
+  "jade.misc_twf.mutant_potion_cauldron.stage_required": "You need to unlock stage \"vaccination\" to use this cauldron.",
   "jade.misc_twf.mutant_potion_cauldron.need_rod": "Glass rod is needed to mix it up.",
   "jade.misc_twf.mutant_potion_cauldron.need_material": "The following materials are needed:",
 
@@ -168,8 +170,11 @@
 
   "misc_twf.ponder.mold_detacher.header": "Using mold detachers",
   "misc_twf.ponder.shared.mold_detacher": "Mold detacher can automatically detach ammo from mold.",
-  "misc_twf.ponder.shared.power_side": "Mold detacher starts working when it receives rotational force from power side.",
+  "misc_twf.ponder.shared.power_side": "The block starts working when it receives rotational force from power side.",
   "misc_twf.ponder.shared.input_funnel": "Funnels or hoppers should be added to any horizontal side except power side to input materials and output products.",
+  "misc_twf.ponder.mold_workbench.header": "Using mold workbenches",
+  "misc_twf.ponder.shared.mold_workbench_default": "Mold workbench can be used to produce bullet molds from clay molds.",
+  "misc_twf.ponder.shared.mold_workbench_armed": "With mechanical arm installed, when and rotational force is received, mold workbench automatically batch process bullet molds according to the selected recipe.",
 
   "subtitles.entity.misc_twf.zombie_chicken.ambient": "Zombie Chicken clucks",
   "subtitles.entity.misc_twf.zombie_chicken.hurt": "Zombie Chicken hurts",

@@ -153,11 +153,13 @@
   "container.misc_twf.ultraviolet_lamp": "强紫外线照射灯",
   "container.misc_twf.mold_workbench": "模具加工台",
   "container.misc_twf.recovery_furnace": "回收炉",
+  "container.misc_twf.mold_workbench.tooltip.mechanical_arm_slot": "放置动力臂以启用自动合成。",
 
   "gui.recipebook.toggleRecipes.misc_twf.recoverable": "仅显示可回收",
 
   "jade.misc_twf.producemilk.time": "产奶冷却：%d秒",
   "jade.misc_twf.poop.time": "排便冷却：%d秒",
+  "jade.misc_twf.mutant_potion_cauldron.stage_required": "你需要解锁阶段“vaccination”才能使用这个炼药锅。",
   "jade.misc_twf.mutant_potion_cauldron.need_rod": "需要使用玻璃板搅拌药剂。",
   "jade.misc_twf.mutant_potion_cauldron.need_material": "需要以下药剂原材料：",
 
@@ -168,8 +170,11 @@
 
   "misc_twf.ponder.mold_detacher.header": "使用模具分离器",
   "misc_twf.ponder.shared.mold_detacher": "模具分离器可以自动将弹药从模具上剥离出来，实现子弹生产自动化。",
-  "misc_twf.ponder.shared.power_side": "模具分离器在动力侧接收到旋转应力时将会开始工作。",
+  "misc_twf.ponder.shared.power_side": "元件在动力侧接收到旋转应力时将会开始工作。",
   "misc_twf.ponder.shared.input_funnel": "除动力侧外的其它水平侧应该添加通道或漏斗来输入原料和输出产物。",
+  "misc_twf.ponder.mold_workbench.header": "使用模具加工台",
+  "misc_twf.ponder.shared.mold_workbench_default": "玩家可以使用模具加工台，手动将粘土模具加工成相应的子弹模具。",
+  "misc_twf.ponder.shared.mold_workbench_armed": "安装动力臂并接入旋转应力后，模具加工台可以根据选择的配方自动批量加工子弹模具。",
 
   "subtitles.entity.misc_twf.zombie_chicken.ambient": "僵尸鸡：咯咯叫",
   "subtitles.entity.misc_twf.zombie_chicken.hurt": "僵尸鸡：受伤",

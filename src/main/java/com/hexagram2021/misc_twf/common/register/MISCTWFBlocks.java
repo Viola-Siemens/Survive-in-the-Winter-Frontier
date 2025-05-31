@@ -45,12 +45,13 @@ public final class MISCTWFBlocks {
 			.properties(properties -> properties.strength(2.0F).sound(SoundType.WOOD).noOcclusion())
 			.simpleItem()
 			.register();
+	public static final com.tterrag.registrate.util.entry.BlockEntry<MoldWorkbenchBlock> MOLD_WORKBENCH = ModCreateCompat.REGISTRATE
+			.block("mold_workbench", MoldWorkbenchBlock::new)
+			.initialProperties(Material.WOOD)
+			.properties(properties -> properties.strength(2.0F).sound(SoundType.WOOD))
+			.simpleItem()
+			.register();
 
-	public static final BlockEntry<MoldWorkbenchBlock> MOLD_WORKBENCH = new BlockEntry<>(
-			"mold_workbench",
-			() -> BlockBehaviour.Properties.of(Material.WOOD).strength(2.0F).color(MaterialColor.WOOD),
-			MoldWorkbenchBlock::new
-	);
 	public static final BlockEntry<RecoveryFurnaceBlock> RECOVERY_FURNACE = new BlockEntry<>(
 			"recovery_furnace",
 			() -> BlockBehaviour.Properties.of(Material.STONE).strength(5.0F, 6.0F).color(MaterialColor.TERRACOTTA_RED),

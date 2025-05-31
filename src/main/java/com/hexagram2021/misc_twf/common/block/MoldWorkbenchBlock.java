@@ -5,10 +5,14 @@ import com.hexagram2021.misc_twf.common.block.entity.MoldWorkbenchBlockEntity;
 import com.hexagram2021.misc_twf.common.block.properties.MoldWorkbenchPart;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockStateProperties;
+import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
+import com.simibubi.create.foundation.block.IBE;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,12 +23,14 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.PathComputationType;
@@ -38,8 +44,9 @@ import javax.annotation.Nullable;
 import java.util.Map;
 
 @SuppressWarnings("deprecation")
-public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements EntityBlock {
+public class MoldWorkbenchBlock extends HorizontalKineticBlock implements IBE<MoldWorkbenchBlockEntity> {
 	public static final EnumProperty<MoldWorkbenchPart> PART = MISCTWFBlockStateProperties.MOLD_WORKBENCH_PART;
+	public static final BooleanProperty ARMED = MISCTWFBlockStateProperties.ARMED;
 	private static final Map<Direction, Map<MoldWorkbenchPart, VoxelShape>> SHAPE_BY_PART = Util.make(() -> {
 		Map<Direction, Map<MoldWorkbenchPart, VoxelShape>> ret = Maps.newEnumMap(Direction.class);
 		VoxelShape baseBlock = Shapes.block();
@@ -101,7 +108,7 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 
 	public MoldWorkbenchBlock(Properties props) {
 		super(props);
-		this.registerDefaultState(this.stateDefinition.any().setValue(PART, MoldWorkbenchPart.BOTTOM).setValue(FACING, Direction.NORTH));
+		this.registerDefaultState(this.stateDefinition.any().setValue(PART, MoldWorkbenchPart.BOTTOM).setValue(ARMED, false).setValue(HORIZONTAL_FACING, Direction.NORTH));
 	}
 
 	@Override
@@ -110,7 +117,7 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 			return InteractionResult.SUCCESS;
 		}
 		MoldWorkbenchPart part = blockState.getValue(PART);
-		Direction facing = blockState.getValue(FACING);
+		Direction facing = blockState.getValue(HORIZONTAL_FACING);
 		BlockPos left = blockPos.relative(facing.getClockWise());
 		BlockPos right = blockPos.relative(facing.getCounterClockWise());
 		switch (part) {
@@ -130,7 +137,7 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 	@Override
 	public BlockState updateShape(BlockState blockState, Direction direction, BlockState neighbor, LevelAccessor level, BlockPos blockPos, BlockPos neighborPos) {
 		MoldWorkbenchPart part = blockState.getValue(PART);
-		Direction facing = blockState.getValue(FACING);
+		Direction facing = blockState.getValue(HORIZONTAL_FACING);
 		Direction right = facing.getCounterClockWise();
 		Direction.Axis axis = direction.getAxis();
 		MoldWorkbenchPart target;
@@ -143,7 +150,10 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 			target = null;
 		}
 		if(target != null) {
-			return neighbor.is(this) && neighbor.getValue(PART) == target ? blockState.setValue(FACING, neighbor.getValue(FACING)) : Blocks.AIR.defaultBlockState();
+			return neighbor.is(this) && neighbor.getValue(PART) == target ?
+					blockState.setValue(ARMED, neighbor.getValue(ARMED))
+							.setValue(HORIZONTAL_FACING, neighbor.getValue(HORIZONTAL_FACING)) :
+					Blocks.AIR.defaultBlockState();
 		}
 		return super.updateShape(blockState, direction, neighbor, level, blockPos, neighborPos);
 	}
@@ -152,7 +162,7 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 	public void playerWillDestroy(Level level, BlockPos blockPos, BlockState blockState, Player player) {
 		if (!level.isClientSide && player.isCreative()) {
 			MoldWorkbenchPart part = blockState.getValue(PART);
-			Direction facing = blockState.getValue(FACING);
+			Direction facing = blockState.getValue(HORIZONTAL_FACING);
 			BlockPos left = blockPos.relative(facing.getClockWise());
 			BlockPos right = blockPos.relative(facing.getCounterClockWise());
 			BlockPos leftLeft = blockPos.relative(facing.getClockWise(), 2);
@@ -233,14 +243,19 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 				level.getBlockState(up).canBeReplaced(context) && level.getWorldBorder().isWithinBounds(up) &&
 				level.getBlockState(leftUp).canBeReplaced(context) && level.getWorldBorder().isWithinBounds(leftUp) &&
 				level.getBlockState(rightUp).canBeReplaced(context) && level.getWorldBorder().isWithinBounds(rightUp)) {
-			return this.defaultBlockState().setValue(FACING, direction);
+			return this.defaultBlockState().setValue(HORIZONTAL_FACING, direction);
 		}
+		return null;
+	}
+
+	@Override @Nullable
+	public Direction getPreferredHorizontalFacing(BlockPlaceContext context) {
 		return null;
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState blockState, BlockGetter level, BlockPos blockPos, CollisionContext context) {
-		return SHAPE_BY_PART.get(blockState.getValue(FACING)).get(blockState.getValue(PART));
+		return SHAPE_BY_PART.get(blockState.getValue(HORIZONTAL_FACING)).get(blockState.getValue(PART));
 	}
 
 	@Override
@@ -249,33 +264,32 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 	}
 
 	@Override
+	public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState newState, boolean v) {
+		if (!blockState.is(newState.getBlock())) {
+			BlockEntity blockentity = level.getBlockEntity(blockPos);
+			if (blockentity instanceof MoldWorkbenchBlockEntity moldWorkbenchBlockEntity) {
+				if (level instanceof ServerLevel) {
+					Containers.dropContents(level, blockPos, moldWorkbenchBlockEntity);
+				}
+
+				level.updateNeighbourForOutputSignal(blockPos, this);
+			}
+
+			super.onRemove(blockState, level, blockPos, newState, v);
+		}
+	}
+
+	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(FACING, PART);
-	}
-
-	@Override @Nullable
-	public MoldWorkbenchBlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-		if(blockState.getValue(PART) == MoldWorkbenchPart.BOTTOM) {
-			return new MoldWorkbenchBlockEntity(blockPos, blockState);
-		}
-		return null;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override @Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-		if(blockEntityType == MISCTWFBlockEntities.MOLD_WORKBENCH.get() && !level.isClientSide) {
-			BlockEntityTicker<MoldWorkbenchBlockEntity> ticker = MoldWorkbenchBlockEntity::serverTick;
-			return (BlockEntityTicker<T>)ticker;
-		}
-		return null;
+		super.createBlockStateDefinition(builder);
+		builder.add(ARMED, PART);
 	}
 
 	@Override
 	public void setPlacedBy(Level level, BlockPos blockPos, BlockState blockState, @Nullable LivingEntity livingEntity, ItemStack itemStack) {
 		super.setPlacedBy(level, blockPos, blockState, livingEntity, itemStack);
 		if (!level.isClientSide) {
-			Direction facing = blockState.getValue(FACING);
+			Direction facing = blockState.getValue(HORIZONTAL_FACING);
 			BlockPos left = blockPos.relative(facing.getClockWise());
 			BlockPos right = blockPos.relative(facing.getCounterClockWise());
 			level.setBlock(left, blockState.setValue(PART, MoldWorkbenchPart.LEFT_BOTTOM), Block.UPDATE_ALL);
@@ -285,6 +299,12 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 			level.setBlock(right.above(), blockState.setValue(PART, MoldWorkbenchPart.RIGHT_UP), Block.UPDATE_ALL);
 			level.blockUpdated(blockPos, Blocks.AIR);
 			blockState.updateNeighbourShapes(level, blockPos, Block.UPDATE_ALL);
+		}
+		if (itemStack.hasCustomHoverName()) {
+			BlockEntity blockentity = level.getBlockEntity(blockPos);
+			if (blockentity instanceof MoldWorkbenchBlockEntity moldWorkbenchBlockEntity) {
+				moldWorkbenchBlockEntity.setCustomName(itemStack.getHoverName());
+			}
 		}
 	}
 
@@ -298,7 +318,7 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 
 	@Override
 	public long getSeed(BlockState blockState, BlockPos blockPos) {
-		Direction facing = blockState.getValue(FACING);
+		Direction facing = blockState.getValue(HORIZONTAL_FACING);
 		BlockPos main = switch (blockState.getValue(PART)) {
 			case LEFT_UP -> blockPos.relative(facing.getCounterClockWise()).below();
 			case UP -> blockPos.below();
@@ -313,5 +333,30 @@ public class MoldWorkbenchBlock extends HorizontalDirectionalBlock implements En
 	@Override
 	public boolean isPathfindable(BlockState blockState, BlockGetter level, BlockPos blockPos, PathComputationType type) {
 		return false;
+	}
+
+	@Override
+	public Class<MoldWorkbenchBlockEntity> getBlockEntityClass() {
+		return MoldWorkbenchBlockEntity.class;
+	}
+
+	@Override
+	public BlockEntityType<? extends MoldWorkbenchBlockEntity> getBlockEntityType() {
+		return MISCTWFBlockEntities.MOLD_WORKBENCH.get();
+	}
+
+	@Override
+	public Direction.Axis getRotationAxis(BlockState blockState) {
+		return blockState.getValue(HORIZONTAL_FACING).getClockWise().getAxis();
+	}
+
+	@Override
+	public SpeedLevel getMinimumRequiredSpeedLevel() {
+		return SpeedLevel.SLOW;
+	}
+
+	@Override
+	public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
+		return state.getValue(ARMED) && face == state.getValue(HORIZONTAL_FACING).getClockWise();
 	}
 }

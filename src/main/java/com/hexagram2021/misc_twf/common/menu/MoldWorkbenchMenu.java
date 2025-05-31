@@ -5,6 +5,7 @@ import com.hexagram2021.misc_twf.common.block.entity.MoldWorkbenchBlockEntity;
 import com.hexagram2021.misc_twf.common.recipe.MoldWorkbenchRecipe;
 import com.hexagram2021.misc_twf.common.register.MISCTWFMenuTypes;
 import com.hexagram2021.misc_twf.common.register.MISCTWFRecipeTypes;
+import com.simibubi.create.AllBlocks;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -16,15 +17,16 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 
 public class MoldWorkbenchMenu extends AbstractContainerMenu {
-	public static final int INV_SLOT_START = 2;
-	public static final int INV_SLOT_END = 29;
-	public static final int USE_ROW_SLOT_START = 29;
-	public static final int USE_ROW_SLOT_END = 38;
+	public static final int INV_SLOT_START = 3;
+	public static final int INV_SLOT_END = 30;
+	public static final int USE_ROW_SLOT_START = 30;
+	public static final int USE_ROW_SLOT_END = 39;
+	public static final int DATA_RECIPE_INDEX = 2;
 	private final Container container;
 	private final ContainerData containerData;
-	private final DataSlot selectedRecipeIndex = DataSlot.standalone();
 	protected final Level level;
 	private final Slot inputSlot;
+	public final Slot mechanicalArmSlot;
 	private ItemStack input = ItemStack.EMPTY;
 	private final List<MoldWorkbenchRecipe> recipes = Lists.newArrayList();
 	Runnable slotUpdateListener;
@@ -56,6 +58,20 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 				return false;
 			}
 		});
+		this.mechanicalArmSlot = this.addSlot(new Slot(container, MoldWorkbenchBlockEntity.SLOT_MECHANICAL_ARM, 147, 8) {
+			@Override
+			public boolean mayPlace(ItemStack itemStack) {
+				return AllBlocks.MECHANICAL_ARM.isIn(itemStack);
+			}
+
+			@Override
+			public void setChanged() {
+				super.setChanged();
+				if(this.container instanceof MoldWorkbenchBlockEntity moldWorkbenchBlockEntity) {
+					moldWorkbenchBlockEntity.mechanicalArmSlotChange(AllBlocks.MECHANICAL_ARM.isIn(this.getItem()));
+				}
+			}
+		});
 
 		for(int i = 0; i < 3; ++i) {
 			for(int j = 0; j < 9; ++j) {
@@ -66,10 +82,15 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 			this.addSlot(new Slot(inventory, i, 8 + i * 18, 142));
 		}
 		this.addDataSlots(containerData);
+
+		ItemStack input = container.getItem(MoldWorkbenchBlockEntity.SLOT_INPUT);
+		if(!input.isEmpty()) {
+			this.setupAllWorkbenchRecipes(container, input);
+		}
 	}
 
 	public int getSelectedRecipeIndex() {
-		return this.selectedRecipeIndex.get();
+		return this.containerData.get(DATA_RECIPE_INDEX);
 	}
 
 	public List<MoldWorkbenchRecipe> getRecipes() {
@@ -92,7 +113,7 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 	@Override
 	public boolean clickMenuButton(Player player, int index) {
 		if (this.isValidRecipeIndex(index)) {
-			this.selectedRecipeIndex.set(index);
+			this.containerData.set(DATA_RECIPE_INDEX, index);
 			this.setupResultSlot();
 		}
 
@@ -114,8 +135,13 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 	}
 
 	private void setupRecipeList(Container container, ItemStack itemStack) {
+		this.containerData.set(DATA_RECIPE_INDEX, -1);
+		this.setupAllWorkbenchRecipes(container, itemStack);
+		this.broadcastChanges();
+	}
+
+	private void setupAllWorkbenchRecipes(Container container, ItemStack itemStack) {
 		this.recipes.clear();
-		this.selectedRecipeIndex.set(-1);
 		if (!itemStack.isEmpty()) {
 			this.recipes.addAll(this.level.getRecipeManager().getRecipesFor(MISCTWFRecipeTypes.MOLD_WORKBENCH.get(), container, this.level));
 		}
@@ -123,11 +149,10 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 
 	void setupResultSlot() {
 		if(this.container instanceof MoldWorkbenchBlockEntity moldWorkbenchBlockEntity) {
-			MoldWorkbenchRecipe recipe = this.recipes.get(this.selectedRecipeIndex.get());
+			MoldWorkbenchRecipe recipe = this.recipes.get(this.containerData.get(DATA_RECIPE_INDEX));
 			moldWorkbenchBlockEntity.setRecipeUsed(recipe);
 			moldWorkbenchBlockEntity.startWorking(recipe.workingTime());
 		}
-
 		this.broadcastChanges();
 	}
 
@@ -145,12 +170,16 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 				}
 
 				slot.onQuickCraft(slotItem, ret);
-			} else if(index == MoldWorkbenchBlockEntity.SLOT_INPUT) {
+			} else if(index == MoldWorkbenchBlockEntity.SLOT_INPUT || index == MoldWorkbenchBlockEntity.SLOT_MECHANICAL_ARM) {
 				if (!this.moveItemStackTo(slotItem, INV_SLOT_START, USE_ROW_SLOT_END, false)) {
 					return ItemStack.EMPTY;
 				}
 			} else if(this.canWorkOn(slotItem)) {
 				if (!this.moveItemStackTo(slotItem, MoldWorkbenchBlockEntity.SLOT_INPUT, MoldWorkbenchBlockEntity.SLOT_INPUT + 1, false)) {
+					return ItemStack.EMPTY;
+				}
+			} else if(this.mechanicalArmSlot.mayPlace(slotItem)) {
+				if (!this.moveItemStackTo(slotItem, MoldWorkbenchBlockEntity.SLOT_MECHANICAL_ARM, MoldWorkbenchBlockEntity.SLOT_MECHANICAL_ARM + 1, false)) {
 					return ItemStack.EMPTY;
 				}
 			} else if(index >= INV_SLOT_START && index < INV_SLOT_END) {
