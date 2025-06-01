@@ -81,7 +81,7 @@ public final class Scenes {
 		scene.overlay.showText(160)
 				.attachKeyFrame()
 				.sharedText("input_funnel")
-				.pointAt(util.vector.topOf(detacher.below()));
+				.pointAt(util.vector.centerOf(detacher.west()));
 		scene.idle(160);
 	}
 }

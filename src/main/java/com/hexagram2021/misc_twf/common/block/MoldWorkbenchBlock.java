@@ -5,8 +5,11 @@ import com.hexagram2021.misc_twf.common.block.entity.MoldWorkbenchBlockEntity;
 import com.hexagram2021.misc_twf.common.block.properties.MoldWorkbenchPart;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockStateProperties;
+import com.simibubi.create.content.decoration.bracket.BracketedBlockEntityBehaviour;
+import com.simibubi.create.content.equipment.wrench.IWrenchableWithBracket;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
 import com.simibubi.create.foundation.block.IBE;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -42,9 +45,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 import java.util.Map;
+import java.util.Optional;
 
 @SuppressWarnings("deprecation")
-public class MoldWorkbenchBlock extends HorizontalKineticBlock implements IBE<MoldWorkbenchBlockEntity> {
+public class MoldWorkbenchBlock extends HorizontalKineticBlock implements IBE<MoldWorkbenchBlockEntity>, IWrenchableWithBracket {
 	public static final EnumProperty<MoldWorkbenchPart> PART = MISCTWFBlockStateProperties.MOLD_WORKBENCH_PART;
 	public static final BooleanProperty ARMED = MISCTWFBlockStateProperties.ARMED;
 	private static final Map<Direction, Map<MoldWorkbenchPart, VoxelShape>> SHAPE_BY_PART = Util.make(() -> {
@@ -357,6 +361,25 @@ public class MoldWorkbenchBlock extends HorizontalKineticBlock implements IBE<Mo
 
 	@Override
 	public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
-		return state.getValue(ARMED) && face == state.getValue(HORIZONTAL_FACING).getClockWise();
+		return state.getValue(ARMED) && face.getAxis() == state.getValue(HORIZONTAL_FACING).getClockWise().getAxis();
+	}
+
+	@Override
+	public Optional<ItemStack> removeBracket(BlockGetter world, BlockPos pos, boolean inOnReplacedContext) {
+		BracketedBlockEntityBehaviour behaviour = BlockEntityBehaviour.get(world, pos, BracketedBlockEntityBehaviour.TYPE);
+		if (behaviour == null) {
+			return Optional.empty();
+		} else {
+			BlockState bracket = behaviour.removeBracket(inOnReplacedContext);
+			return bracket == null ? Optional.empty() : Optional.of(new ItemStack(bracket.getBlock()));
+		}
+	}
+
+	@Override @Nullable
+	public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+		return switch(blockState.getValue(PART)) {
+			case BOTTOM, LEFT_BOTTOM -> IBE.super.newBlockEntity(blockPos, blockState);
+			default -> null;
+		};
 	}
 }

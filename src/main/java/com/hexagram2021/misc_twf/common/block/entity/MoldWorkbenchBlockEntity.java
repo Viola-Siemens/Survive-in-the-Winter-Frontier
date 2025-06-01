@@ -1,11 +1,17 @@
 package com.hexagram2021.misc_twf.common.block.entity;
 
 import com.hexagram2021.misc_twf.common.block.MoldWorkbenchBlock;
+import com.hexagram2021.misc_twf.common.block.properties.MoldWorkbenchPart;
 import com.hexagram2021.misc_twf.common.menu.MoldWorkbenchMenu;
 import com.hexagram2021.misc_twf.common.recipe.MoldWorkbenchRecipe;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlocks;
+import com.simibubi.create.content.contraptions.ITransformableBlockEntity;
+import com.simibubi.create.content.contraptions.StructureTransform;
+import com.simibubi.create.content.decoration.bracket.BracketedBlockEntityBehaviour;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.simibubi.create.content.kinetics.simpleRelays.AbstractSimpleShaftBlock;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -33,9 +39,10 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 @SuppressWarnings("Convert2MethodRef")
-public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Container, MenuProvider, Nameable, WorldlyContainer, StackedContentsCompatible {
+public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Container, MenuProvider, Nameable, WorldlyContainer, StackedContentsCompatible, ITransformableBlockEntity {
 	public static final int SLOT_INPUT = 0;
 	public static final int SLOT_RESULT = 1;
 	public static final int SLOT_MECHANICAL_ARM = 2;
@@ -152,6 +159,9 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 	@Override
 	public void tick() {
 		super.tick();
+		if(this.getBlockState().getValue(MoldWorkbenchBlock.PART) != MoldWorkbenchPart.BOTTOM) {
+			return;
+		}
 		assert this.level != null;
 		if(this.workTotalTime > 0) {
 			ResourceLocation recipeUsed = this.recipeUsed;
@@ -176,6 +186,7 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 				}
 				if(this.isSpeedRequirementFulfilled() && !input.isEmpty()) {
 					this.workProgress = 0;
+					this.setChanged();
 					return;
 				}
 				this.recipeIndex = -1;
@@ -183,6 +194,23 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 			}
 			this.workProgress = this.workTotalTime = 0;
 			this.setChanged();
+		}
+	}
+
+	@Override
+	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+		behaviours.add(new BracketedBlockEntityBehaviour(this, state -> {
+			Block block = state.getBlock();
+			return block instanceof AbstractSimpleShaftBlock || block instanceof MoldWorkbenchBlock;
+		}));
+		super.addBehaviours(behaviours);
+	}
+
+	@Override
+	public void transform(StructureTransform transform) {
+		BracketedBlockEntityBehaviour bracketBehaviour = this.getBehaviour(BracketedBlockEntityBehaviour.TYPE);
+		if (bracketBehaviour != null) {
+			bracketBehaviour.transformBracket(transform);
 		}
 	}
 
