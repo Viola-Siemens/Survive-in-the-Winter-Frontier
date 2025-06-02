@@ -1,0 +1,22 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "misc_twf:block/m4a1_carbine",
+			"y": 270,
+			"uvlock": false
+		},
+		"facing=east": {
+			"model": "misc_twf:block/m4a1_carbine"
+		},
+		"facing=south": {
+			"model": "misc_twf:block/m4a1_carbine",
+			"y": 90,
+			"uvlock": false
+		},
+		"facing=west": {
+			"model": "misc_twf:block/m4a1_carbine",
+			"y": 180,
+			"uvlock": false
+		}
+	}
+}

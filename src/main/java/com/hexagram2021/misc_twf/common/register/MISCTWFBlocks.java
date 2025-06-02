@@ -366,6 +366,11 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_WHITE).strength(0.1F).sound(SoundType.CROP).noCollission(),
 				WastepaperBlock::new
 		);
+		public static final BlockEntry<M4A1CarbineBlock> M4A1_CARBINE = new BlockEntry<>(
+				"m4a1_carbine",
+				() -> BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_LIGHT_GRAY).strength(0.1F).sound(SoundType.METAL).noOcclusion(),
+				M4A1CarbineBlock::new
+		);
 
 		private static void init() {
 		}
