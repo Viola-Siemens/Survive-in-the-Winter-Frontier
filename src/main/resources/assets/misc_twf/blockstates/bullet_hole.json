@@ -1,0 +1,62 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "misc_twf:block/wall_bullet_hole"
+		},
+		"facing=east": {
+			"model": "misc_twf:block/wall_bullet_hole",
+			"y": 90,
+			"uvlock": false
+		},
+		"facing=south": {
+			"model": "misc_twf:block/wall_bullet_hole",
+			"y": 180,
+			"uvlock": false
+		},
+		"facing=west": {
+			"model": "misc_twf:block/wall_bullet_hole",
+			"y": 270,
+			"uvlock": false
+		},
+		"facing=up": [
+			{
+				"model": "misc_twf:block/ground_bullet_hole"
+			},
+			{
+				"model": "misc_twf:block/ground_bullet_hole",
+				"y": 90,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ground_bullet_hole",
+				"y": 180,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ground_bullet_hole",
+				"y": 270,
+				"uvlock": false
+			}
+		],
+		"facing=down": [
+			{
+				"model": "misc_twf:block/ceil_bullet_hole"
+			},
+			{
+				"model": "misc_twf:block/ceil_bullet_hole",
+				"y": 90,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ceil_bullet_hole",
+				"y": 180,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ceil_bullet_hole",
+				"y": 270,
+				"uvlock": false
+			}
+		]
+	}
+}

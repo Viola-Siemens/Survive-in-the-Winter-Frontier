@@ -8,9 +8,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+@SuppressWarnings("deprecation")
 public class M4A1CarbineBlock extends HorizontalDirectionalBlock {
 	protected static final VoxelShape X_SHAPE = Block.box(-1, 0, 5, 17, 2, 11);
 	protected static final VoxelShape Z_SHAPE = Block.box(5, 0, -1, 11, 2, 17);
@@ -20,7 +22,6 @@ public class M4A1CarbineBlock extends HorizontalDirectionalBlock {
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getShape(BlockState blockState, BlockGetter level, BlockPos blockPos, CollisionContext context) {
 		return switch (blockState.getValue(FACING)) {
@@ -37,5 +38,10 @@ public class M4A1CarbineBlock extends HorizontalDirectionalBlock {
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(FACING);
+	}
+
+	@Override
+	public PushReaction getPistonPushReaction(BlockState blockState) {
+		return PushReaction.DESTROY;
 	}
 }

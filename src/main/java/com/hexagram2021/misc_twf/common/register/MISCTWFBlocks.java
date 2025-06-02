@@ -371,6 +371,11 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_LIGHT_GRAY).strength(0.1F).sound(SoundType.METAL).noOcclusion(),
 				M4A1CarbineBlock::new
 		);
+		public static final BlockEntry<BulletHoleBlock> BULLET_HOLE = new BlockEntry<>(
+				"bullet_hole",
+				() -> BlockBehaviour.Properties.of(Material.DECORATION).instabreak().sound(SoundType.METAL).noCollission(),
+				BulletHoleBlock::new
+		);
 
 		private static void init() {
 		}
