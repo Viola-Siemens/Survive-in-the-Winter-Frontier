@@ -1,0 +1,22 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "misc_twf:block/ammunition_box",
+			"y": 270
+		},
+		"facing=east": {
+			"model": "misc_twf:block/ammunition_box",
+			"uvlock": false
+		},
+		"facing=south": {
+			"model": "misc_twf:block/ammunition_box",
+			"y": 90,
+			"uvlock": false
+		},
+		"facing=west": {
+			"model": "misc_twf:block/ammunition_box",
+			"y": 180,
+			"uvlock": false
+		}
+	}
+}

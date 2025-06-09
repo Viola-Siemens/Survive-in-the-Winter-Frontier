@@ -12,6 +12,11 @@
     "misc_twf:trash_can",
     "misc_twf:wheelchair",
     "misc_twf:wheeled_stretcher",
-    "misc_twf:wheeled_stretcher_with_body"
+    "misc_twf:wheeled_stretcher_with_body",
+    "misc_twf:microscope",
+    "misc_twf:surveillance_camera",
+    "misc_twf:distribution_box",
+    "misc_twf:ammunition_box",
+    "misc_twf:stacked_ammunition_box"
   ]
 }

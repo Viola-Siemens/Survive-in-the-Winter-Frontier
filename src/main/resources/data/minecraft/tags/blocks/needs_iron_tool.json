@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "misc_twf:surveillance_camera",
+    "misc_twf:distribution_box",
+    "misc_twf:stacked_ammunition_box"
+  ]
+}

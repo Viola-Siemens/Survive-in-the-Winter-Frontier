@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "misc_twf:block/magazine_556"
+      },
+      {
+        "model": "misc_twf:block/magazine_556",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/magazine_556",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/magazine_556",
+        "y": 270
+      }
+    ]
+  }
+}

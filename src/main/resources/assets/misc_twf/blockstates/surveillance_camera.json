@@ -1,0 +1,22 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "misc_twf:block/surveillance_camera"
+		},
+		"facing=east": {
+			"model": "misc_twf:block/surveillance_camera",
+			"y": 90,
+			"uvlock": false
+		},
+		"facing=south": {
+			"model": "misc_twf:block/surveillance_camera",
+			"y": 180,
+			"uvlock": false
+		},
+		"facing=west": {
+			"model": "misc_twf:block/surveillance_camera",
+			"y": 270,
+			"uvlock": false
+		}
+	}
+}
