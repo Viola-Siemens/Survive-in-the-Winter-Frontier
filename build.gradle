@@ -21,7 +21,7 @@ version = '1.2.6'
 group = 'com.hexagram2021.misc_twf'
 archivesBaseName = 'misc_twf'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 compileJava {
     sourceCompatibility = 17
@@ -38,6 +38,8 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run/client')
+            //Important: Remove if you a not using JetBrains Runtime (JBR)
+            //jvmArg("-XX:+AllowEnhancedClassRedefinition")
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'mixin.env.remapRefMap', 'true'

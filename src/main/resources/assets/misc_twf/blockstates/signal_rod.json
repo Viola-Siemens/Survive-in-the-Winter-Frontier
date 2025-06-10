@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "misc_twf:block/signal_rod"
+      },
+      {
+        "model": "misc_twf:block/signal_rod",
+        "y": 90
+      },
+      {
+        "model": "misc_twf:block/signal_rod",
+        "y": 180
+      },
+      {
+        "model": "misc_twf:block/signal_rod",
+        "y": 270
+      }
+    ]
+  }
+}

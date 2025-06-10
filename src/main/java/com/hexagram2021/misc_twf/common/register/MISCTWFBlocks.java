@@ -296,8 +296,18 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
 				props -> new BodyBlock(6, 10, props)
 		);
+		public static final BlockEntry<BodyBlock> BODY_HEADLESS_SOLDIER = new BlockEntry<>(
+				"body_headless_soldier",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				props -> new BodyBlock(6, 10, props)
+		);
 		public static final BlockEntry<NailedBodyBlock> BODY_NAILED = new BlockEntry<>(
 				"body_nailed",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				NailedBodyBlock::new
+		);
+		public static final BlockEntry<NailedBodyBlock> BODY_NAILED_SOLDIER = new BlockEntry<>(
+				"body_nailed_soldier",
 				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
 				NailedBodyBlock::new
 		);
@@ -306,8 +316,23 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
 				props -> new BodyBlock(6, 12, props)
 		);
+		public static final BlockEntry<BodyBlock> BODY_ORGA_HAZMAT_SUIT = new BlockEntry<>(
+				"body_orga_hazmat_suit",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				props -> new BodyBlock(6, 12, props)
+		);
 		public static final BlockEntry<BodyBlock> BODY_SIT = new BlockEntry<>(
 				"body_sit",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				props -> new BodyBlock(6, 8, props)
+		);
+		public static final BlockEntry<BodyBlock> BODY_SIT_SOLDIER = new BlockEntry<>(
+				"body_sit_soldier",
+				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
+				props -> new BodyBlock(6, 8, props)
+		);
+		public static final BlockEntry<BodyBlock> BODY_SIT_RESEARCHER = new BlockEntry<>(
+				"body_sit_researcher",
 				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
 				props -> new BodyBlock(6, 8, props)
 		);
@@ -375,6 +400,43 @@ public final class MISCTWFBlocks {
 				"bullet_hole",
 				() -> BlockBehaviour.Properties.of(Material.DECORATION).instabreak().sound(SoundType.METAL).noCollission(),
 				BulletHoleBlock::new
+		);
+		public static final BlockEntry<SignalRodBlock> SIGNAL_ROD = new BlockEntry<>(
+				"signal_rod",
+				() -> BlockBehaviour.Properties.copy(SOUL_TORCH).noOcclusion(),
+				SignalRodBlock::new
+		);
+		public static final BlockEntry<MicroscopeBlock> MICROSCOPE = new BlockEntry<>(
+				"microscope",
+				() -> BlockBehaviour.Properties.copy(IRON_BLOCK).noOcclusion(),
+				MicroscopeBlock::new
+		);
+		public static final BlockEntry<SurveillanceCameraBlock> SURVEILLANCE_CAMERA = new BlockEntry<>(
+				"surveillance_camera",
+				() -> BlockBehaviour.Properties.copy(IRON_BLOCK).noOcclusion(),
+				SurveillanceCameraBlock::new
+		);
+		public static final BlockEntry<DistributionBoxBlock> DISTRIBUTION_BOX = new BlockEntry<>(
+				"distribution_box",
+				() -> BlockBehaviour.Properties.copy(IRON_BLOCK).noOcclusion(),
+				DistributionBoxBlock::new
+		);
+		public static final BlockEntry<AmmunitionBoxBlock> AMMUNITION_BOX = new BlockEntry<>(
+				"ammunition_box",
+				() -> BlockBehaviour.Properties.of(Material.BAMBOO, MaterialColor.GRASS)
+						.strength(1.0F, 1.0F)
+						.sound(SoundType.BAMBOO).noOcclusion(),
+				AmmunitionBoxBlock::new
+		);
+		public static final BlockEntry<StackedAmmunitionBoxBlock> STACKED_AMMUNITION_BOX = new BlockEntry<>(
+				"stacked_ammunition_box",
+				() -> BlockBehaviour.Properties.copy(AMMUNITION_BOX.get()).noOcclusion(),
+				StackedAmmunitionBoxBlock::new
+		);
+		public static final BlockEntry<SignalRodBlock> MAGAZINE_556 = new BlockEntry<>(
+				"magazine_556",
+				() -> BlockBehaviour.Properties.copy(SOUL_TORCH).noOcclusion().lightLevel((state) -> 0),
+				SignalRodBlock::new
 		);
 
 		private static void init() {
