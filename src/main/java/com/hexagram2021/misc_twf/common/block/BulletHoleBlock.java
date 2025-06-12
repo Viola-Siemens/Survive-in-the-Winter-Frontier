@@ -1,16 +1,24 @@
 package com.hexagram2021.misc_twf.common.block;
 
+import com.hexagram2021.misc_twf.common.register.MISCTWFBlockStateProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.PushReaction;
@@ -22,6 +30,7 @@ import javax.annotation.Nullable;
 
 @SuppressWarnings("deprecation")
 public class BulletHoleBlock extends DirectionalBlock implements SimpleWaterloggedBlock {
+	public static final IntegerProperty HOLES = MISCTWFBlockStateProperties.HOLES;
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
 	private static final VoxelShape NORTH_AABB = Block.box(5, 5, 15, 11, 11, 16);
@@ -33,7 +42,7 @@ public class BulletHoleBlock extends DirectionalBlock implements SimpleWaterlogg
 
 	public BulletHoleBlock(Properties props) {
 		super(props);
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(HOLES, 1).setValue(WATERLOGGED, false));
 	}
 
 	@Override
@@ -64,11 +73,34 @@ public class BulletHoleBlock extends DirectionalBlock implements SimpleWaterlogg
 		return direction == blockState.getValue(FACING).getOpposite() && !blockState.canSurvive(level, blockPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(blockState, direction, neighbor, level, blockPos, neighborPos);
 	}
 
+	private void decreaseEggs(Level level, BlockPos pos, BlockState blockState) {
+		level.playSound(null, pos, SoundEvents.DEEPSLATE_STEP, SoundSource.BLOCKS, 0.7F, 0.9F + level.random.nextFloat() * 0.2F);
+		int i = blockState.getValue(HOLES);
+		if (i <= 1) {
+			level.destroyBlock(pos, false);
+		} else {
+			level.setBlock(pos, blockState.setValue(HOLES, i - 1), 2);
+			level.levelEvent(2001, pos, Block.getId(blockState));
+		}
+	}
+
+	@Override
+	public void playerDestroy(Level level, Player player, BlockPos pos, BlockState blockState, @Nullable BlockEntity blockEntity, ItemStack stack) {
+		super.playerDestroy(level, player, pos, blockState, blockEntity, stack);
+		this.decreaseEggs(level, pos, blockState);
+	}
+
+	@Override
+	public boolean canBeReplaced(BlockState blockState, BlockPlaceContext context) {
+		return (!context.isSecondaryUseActive() && context.getItemInHand().is(this.asItem()) && blockState.getValue(HOLES) < 3) || super.canBeReplaced(blockState, context);
+	}
+
 	@Override @Nullable
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		LevelAccessor levelaccessor = context.getLevel();
 		BlockPos blockpos = context.getClickedPos();
-		return this.defaultBlockState().setValue(WATERLOGGED, levelaccessor.getFluidState(blockpos).getType() == Fluids.WATER).setValue(FACING, context.getClickedFace());
+		BlockState blockstate = context.getLevel().getBlockState(context.getClickedPos());
+		return (blockstate.is(this) ? blockstate.setValue(HOLES, Math.min(3, blockstate.getValue(HOLES) + 1)) : this.defaultBlockState()).setValue(WATERLOGGED, levelaccessor.getFluidState(blockpos).getType() == Fluids.WATER).setValue(FACING, context.getClickedFace());
 	}
 
 	@Override
@@ -88,7 +120,7 @@ public class BulletHoleBlock extends DirectionalBlock implements SimpleWaterlogg
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(WATERLOGGED, FACING);
+		builder.add(WATERLOGGED, FACING, HOLES);
 	}
 
 	@Override

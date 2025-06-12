@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "tacz:modern_kinetic_gun",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "minecraft:set_nbt",
+              "tag": "{GunId:\"m4a1\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "misc_twf:blocks/m4a1_carbine_alternative",
+          "weight": 7
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

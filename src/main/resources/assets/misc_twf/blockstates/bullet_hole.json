@@ -1,24 +1,54 @@
 {
 	"variants": {
-		"facing=north": {
-			"model": "misc_twf:block/wall_bullet_hole"
-		},
-		"facing=east": {
-			"model": "misc_twf:block/wall_bullet_hole",
-			"y": 90,
-			"uvlock": false
-		},
-		"facing=south": {
-			"model": "misc_twf:block/wall_bullet_hole",
-			"y": 180,
-			"uvlock": false
-		},
-		"facing=west": {
-			"model": "misc_twf:block/wall_bullet_hole",
-			"y": 270,
-			"uvlock": false
-		},
-		"facing=up": [
+		"facing=north,holes=1": [
+			{
+				"model": "misc_twf:block/wall_bullet_hole"
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole",
+				"x": 180,
+				"y": 180,
+				"uvlock": false
+			}
+		],
+		"facing=east,holes=1": [
+			{
+				"model": "misc_twf:block/wall_bullet_hole",
+				"y": 90,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole",
+				"x": 180,
+				"y": 270,
+				"uvlock": false
+			}
+		],
+		"facing=south,holes=1": [
+			{
+				"model": "misc_twf:block/wall_bullet_hole",
+				"y": 180
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole",
+				"x": 180,
+				"uvlock": false
+			}
+		],
+		"facing=west,holes=1": [
+			{
+				"model": "misc_twf:block/wall_bullet_hole",
+				"y": 270,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole",
+				"x": 180,
+				"y": 90,
+				"uvlock": false
+			}
+		],
+		"facing=up,holes=1": [
 			{
 				"model": "misc_twf:block/ground_bullet_hole"
 			},
@@ -38,7 +68,7 @@
 				"uvlock": false
 			}
 		],
-		"facing=down": [
+		"facing=down,holes=1": [
 			{
 				"model": "misc_twf:block/ceil_bullet_hole"
 			},
@@ -54,6 +84,334 @@
 			},
 			{
 				"model": "misc_twf:block/ceil_bullet_hole",
+				"y": 270,
+				"uvlock": false
+			}
+		],
+		"facing=north,holes=2": [
+			{
+				"model": "misc_twf:block/wall_bullet_hole_2_1"
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_2_1",
+				"x": 180,
+				"y": 180,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_2_2"
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_2_2",
+				"x": 180,
+				"y": 180,
+				"uvlock": false
+			}
+		],
+		"facing=east,holes=2": [
+			{
+				"model": "misc_twf:block/wall_bullet_hole_2_1",
+				"y": 90,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_2_1",
+				"x": 180,
+				"y": 270,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_2_2",
+				"y": 90,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_2_2",
+				"x": 180,
+				"y": 270,
+				"uvlock": false
+			}
+		],
+		"facing=south,holes=2": [
+			{
+				"model": "misc_twf:block/wall_bullet_hole_2_1",
+				"y": 180
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_2_1",
+				"x": 180,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_2_2",
+				"y": 180
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_2_2",
+				"x": 180,
+				"uvlock": false
+			}
+		],
+		"facing=west,holes=2": [
+			{
+				"model": "misc_twf:block/wall_bullet_hole_2_1",
+				"y": 270,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_2_1",
+				"x": 180,
+				"y": 90,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_2_2",
+				"y": 270,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_2_2",
+				"x": 180,
+				"y": 90,
+				"uvlock": false
+			}
+		],
+		"facing=up,holes=2": [
+			{
+				"model": "misc_twf:block/ground_bullet_hole_2_1"
+			},
+			{
+				"model": "misc_twf:block/ground_bullet_hole_2_1",
+				"y": 90,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ground_bullet_hole_2_1",
+				"y": 180,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ground_bullet_hole_2_1",
+				"y": 270,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ground_bullet_hole_2_2"
+			},
+			{
+				"model": "misc_twf:block/ground_bullet_hole_2_2",
+				"y": 90,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ground_bullet_hole_2_2",
+				"y": 180,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ground_bullet_hole_2_2",
+				"y": 270,
+				"uvlock": false
+			}
+		],
+		"facing=down,holes=2": [
+			{
+				"model": "misc_twf:block/ceil_bullet_hole_2_1"
+			},
+			{
+				"model": "misc_twf:block/ceil_bullet_hole_2_1",
+				"y": 90,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ceil_bullet_hole_2_1",
+				"y": 180,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ceil_bullet_hole_2_1",
+				"y": 270,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ceil_bullet_hole_2_2"
+			},
+			{
+				"model": "misc_twf:block/ceil_bullet_hole_2_2",
+				"y": 90,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ceil_bullet_hole_2_2",
+				"y": 180,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ceil_bullet_hole_2_2",
+				"y": 270,
+				"uvlock": false
+			}
+		],
+		"facing=north,holes=3": [
+			{
+				"model": "misc_twf:block/wall_bullet_hole_3_1"
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_3_1",
+				"x": 180,
+				"y": 180,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_3_2"
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_3_2",
+				"x": 180,
+				"y": 180,
+				"uvlock": false
+			}
+		],
+		"facing=east,holes=3": [
+			{
+				"model": "misc_twf:block/wall_bullet_hole_3_1",
+				"y": 90,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_3_1",
+				"x": 180,
+				"y": 270,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_3_2",
+				"y": 90,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_3_2",
+				"x": 180,
+				"y": 270,
+				"uvlock": false
+			}
+		],
+		"facing=south,holes=3": [
+			{
+				"model": "misc_twf:block/wall_bullet_hole_3_1",
+				"y": 180
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_3_1",
+				"x": 180,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_3_2",
+				"y": 180
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_3_2",
+				"x": 180,
+				"uvlock": false
+			}
+		],
+		"facing=west,holes=3": [
+			{
+				"model": "misc_twf:block/wall_bullet_hole_3_1",
+				"y": 270,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_3_1",
+				"x": 180,
+				"y": 90,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_3_2",
+				"y": 270,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/wall_bullet_hole_3_2",
+				"x": 180,
+				"y": 90,
+				"uvlock": false
+			}
+		],
+		"facing=up,holes=3": [
+			{
+				"model": "misc_twf:block/ground_bullet_hole_3_1"
+			},
+			{
+				"model": "misc_twf:block/ground_bullet_hole_3_1",
+				"y": 90,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ground_bullet_hole_3_1",
+				"y": 180,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ground_bullet_hole_3_1",
+				"y": 270,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ground_bullet_hole_3_2"
+			},
+			{
+				"model": "misc_twf:block/ground_bullet_hole_3_2",
+				"y": 90,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ground_bullet_hole_3_2",
+				"y": 180,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ground_bullet_hole_3_2",
+				"y": 270,
+				"uvlock": false
+			}
+		],
+		"facing=down,holes=3": [
+			{
+				"model": "misc_twf:block/ceil_bullet_hole_3_1"
+			},
+			{
+				"model": "misc_twf:block/ceil_bullet_hole_3_1",
+				"y": 90,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ceil_bullet_hole_3_1",
+				"y": 180,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ceil_bullet_hole_3_1",
+				"y": 270,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ceil_bullet_hole_3_2"
+			},
+			{
+				"model": "misc_twf:block/ceil_bullet_hole_3_2",
+				"y": 90,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ceil_bullet_hole_3_2",
+				"y": 180,
+				"uvlock": false
+			},
+			{
+				"model": "misc_twf:block/ceil_bullet_hole_3_2",
 				"y": 270,
 				"uvlock": false
 			}
