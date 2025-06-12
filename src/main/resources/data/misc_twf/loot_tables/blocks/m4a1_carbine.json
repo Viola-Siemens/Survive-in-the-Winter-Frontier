@@ -16,13 +16,13 @@
           "functions": [
             {
               "function": "minecraft:set_nbt",
-              "tag": "{GunId:\"m4a1\"}"
+              "tag": "{GunId:\"tacz:m4a1\"}"
             }
           ]
         },
         {
           "type": "minecraft:loot_table",
-          "value": "misc_twf:blocks/m4a1_carbine_alternative",
+          "name": "misc_twf:blocks/m4a1_carbine_alternative",
           "weight": 7
         }
       ],

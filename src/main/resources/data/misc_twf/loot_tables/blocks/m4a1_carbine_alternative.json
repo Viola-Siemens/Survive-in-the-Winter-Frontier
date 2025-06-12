@@ -15,7 +15,7 @@
           "functions": [
             {
               "function": "minecraft:set_nbt",
-              "tag": "{AmmoId:\"5556x45\"}"
+              "tag": "{AmmoId:\"tacz:556x45\"}"
             },
             {
               "function": "minecraft:set_count",
