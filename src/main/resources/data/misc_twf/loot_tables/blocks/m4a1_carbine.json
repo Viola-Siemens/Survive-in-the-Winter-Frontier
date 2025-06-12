@@ -16,7 +16,7 @@
           "functions": [
             {
               "function": "minecraft:set_nbt",
-              "tag": "{GunId:\"tacz:m4a1\"}"
+              "tag": "{GunId:\"tacz:m4a1\",HasBulletInBarrel:0b,GunFireMode:\"AUTO\",GunCurrentAmmoCount:0}"
             }
           ]
         },
