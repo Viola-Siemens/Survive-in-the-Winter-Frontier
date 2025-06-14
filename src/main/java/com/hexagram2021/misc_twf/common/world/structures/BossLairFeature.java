@@ -15,10 +15,9 @@ import java.util.List;
 
 public class BossLairFeature extends StructureFeature<NoneFeatureConfiguration> {
 	public BossLairFeature(Codec<NoneFeatureConfiguration> codec) {
-		super(codec, PieceGeneratorSupplier.simple(PieceGeneratorSupplier.checkForBiomeOnTop(Heightmap.Types.OCEAN_FLOOR_WG), BossLairFeature::doNotGeneratePieces));
+		super(codec, PieceGeneratorSupplier.simple(PieceGeneratorSupplier.checkForBiomeOnTop(Heightmap.Types.OCEAN_FLOOR_WG), BossLairFeature::generatePieces));
 	}
 
-	@SuppressWarnings("unused")
 	private static void generatePieces(StructurePiecesBuilder builder, PieceGenerator.Context<NoneFeatureConfiguration> context) {
 		BossLairPieces.StartPiece startPiece = new BossLairPieces.StartPiece(context.random(), context.chunkPos().getBlockX(2), context.chunkPos().getBlockZ(2));
 		builder.addPiece(startPiece);
@@ -30,6 +29,7 @@ public class BossLairFeature extends StructureFeature<NoneFeatureConfiguration> 
 			piece.addChildren(startPiece, builder, context.random());
 		}
 	}
+	@SuppressWarnings("unused")
 	private static void doNotGeneratePieces(StructurePiecesBuilder builder, PieceGenerator.Context<NoneFeatureConfiguration> context) {
 	}
 
