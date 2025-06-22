@@ -1,10 +1,15 @@
 package com.hexagram2021.misc_twf.mixin.tacz;
 
 import com.hexagram2021.misc_twf.common.util.IAmmoBackpack;
+import com.scarasol.sona.init.SonaMobEffects;
+import com.tacz.guns.api.entity.IGunOperator;
 import com.tacz.guns.api.item.IAmmo;
 import com.tacz.guns.item.ModernKineticGunScriptAPI;
+import com.tacz.guns.resource.pojo.data.gun.BulletData;
+import com.tacz.guns.resource.pojo.data.gun.GunData;
 import com.tiviacz.travelersbackpack.capability.CapabilityUtils;
 import com.tiviacz.travelersbackpack.capability.ITravelersBackpack;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -89,6 +94,13 @@ public class ModernKineticGunScriptAPIMixin {
 					return;
 				}
 			}
+		}
+	}
+
+	@Inject(method = "lambda$shootOnce$0", at = @At(value = "INVOKE", target = "Lcom/tacz/guns/sound/SoundManager;sendSoundToNearby(Lnet/minecraft/world/entity/LivingEntity;ILnet/minecraft/resources/ResourceLocation;Lnet/minecraft/resources/ResourceLocation;Ljava/lang/String;FF)V"))
+	private void misc_twf$soundAttract(boolean consumeAmmo, GunData gunData, int bulletAmount, BulletData bulletData, IGunOperator gunOperator, float processedSpeed, float finalInaccuracy, int soundDistance, boolean useSilenceSound, CallbackInfoReturnable<Boolean> cir) {
+		if (gunOperator instanceof LivingEntity livingEntity) {
+			livingEntity.addEffect(new MobEffectInstance(SonaMobEffects.EXPOSURE.get(), 10, useSilenceSound ? 0 : 3, true, false));
 		}
 	}
 }
