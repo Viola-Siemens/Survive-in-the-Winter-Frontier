@@ -13,6 +13,8 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import software.bernie.example.client.renderer.tile.FertilizerTileRenderer;
+import software.bernie.example.registry.TileRegistry;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
@@ -43,6 +45,7 @@ public class ModClientEventHandler {
 		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_RABBIT.get(), ZombieRabbitRenderer::new);
 		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_SHEEP.get(), ZombieSheepRenderer::new);
 		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_WOLF.get(), ZombieWolfRenderer::new);
+		event.registerBlockEntityRenderer(MISCTWFBlockEntities.MONSTER_EGG.get(), MonsterEggRenderer::new);
 	}
 
 	@SubscribeEvent
@@ -75,4 +78,5 @@ public class ModClientEventHandler {
 		MenuScreens.register(MISCTWFMenuTypes.MOLD_WORKBENCH_MENU.get(), MoldWorkbenchScreen::new);
 		MenuScreens.register(MISCTWFMenuTypes.RECOVERY_FURNACE.get(), RecoveryFurnaceScreen::new);
 	}
+
 }

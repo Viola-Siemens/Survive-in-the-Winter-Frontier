@@ -4,6 +4,7 @@ import com.hexagram2021.misc_twf.common.MISCTWFContent;
 import com.hexagram2021.misc_twf.common.ModVanillaCompat;
 import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
 import com.hexagram2021.misc_twf.common.network.IMISCTWFPacket;
+import com.hexagram2021.misc_twf.common.network.MonsterEggAnimationPacket;
 import com.hexagram2021.misc_twf.common.network.ServerboundOpenTacBackpackPacket;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
 import com.hexagram2021.misc_twf.common.register.MISCTWFRecipeBookTypes;
@@ -72,6 +73,7 @@ public class SurviveInTheWinterFrontier {
 
 	private void setup(final FMLCommonSetupEvent event) {
 		registerMessage(ServerboundOpenTacBackpackPacket.class, ServerboundOpenTacBackpackPacket::new);
+		registerMessage(MonsterEggAnimationPacket.class, MonsterEggAnimationPacket::new);
 		event.enqueueWork(() -> {
 			ModVanillaCompat.init();
 			MISCTWFRecipeBookTypes.init();

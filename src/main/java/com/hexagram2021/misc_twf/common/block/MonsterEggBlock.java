@@ -21,6 +21,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -44,8 +46,8 @@ public class MonsterEggBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	public RenderShape getRenderShape(BlockState blockState) {
-		return RenderShape.MODEL;
+	public RenderShape getRenderShape(BlockState state) {
+		return RenderShape.ENTITYBLOCK_ANIMATED;
 	}
 
 	@Override @Nullable
@@ -115,7 +117,7 @@ public class MonsterEggBlock extends BaseEntityBlock {
 		}
 	}
 
-	private void destroyEgg(Level level, BlockPos pos, Entity entity) {
+	public void destroyEgg(Level level, BlockPos pos, Entity entity) {
 		if (!level.isClientSide) {
 			if(level.getBlockEntity(pos) instanceof MonsterEggBlockEntity monsterEggBlockEntity) {
 				this.destroyEgg(level, pos, monsterEggBlockEntity);
@@ -148,5 +150,16 @@ public class MonsterEggBlock extends BaseEntityBlock {
 	@Override @Nullable
 	public MonsterEggBlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
 		return new MonsterEggBlockEntity(blockPos, blockState);
+	}
+
+	@Override
+	@org.jetbrains.annotations.Nullable
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
+		return createMonsterEggTicker(level, blockEntityType, MISCTWFBlockEntities.MONSTER_EGG.get());
+	}
+
+	@org.jetbrains.annotations.Nullable
+	protected static <T extends BlockEntity> BlockEntityTicker<T> createMonsterEggTicker(Level level, BlockEntityType<T> blockEntityType1, BlockEntityType<? extends MonsterEggBlockEntity> blockEntityType2) {
+		return level.isClientSide ? null : createTickerHelper(blockEntityType1, blockEntityType2, MonsterEggBlockEntity::serverTick);
 	}
 }
