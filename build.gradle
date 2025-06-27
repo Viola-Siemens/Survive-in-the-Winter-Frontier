@@ -17,7 +17,7 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '1.2.7'
+version = '1.2.8'
 group = 'com.hexagram2021.misc_twf'
 archivesBaseName = 'misc_twf'
 

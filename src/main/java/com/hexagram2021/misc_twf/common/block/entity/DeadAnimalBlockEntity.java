@@ -1,6 +1,7 @@
 package com.hexagram2021.misc_twf.common.block.entity;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.hexagram2021.misc_twf.common.block.DeadAnimalBlock;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -14,7 +15,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.apache.commons.compress.utils.Lists;
 
 import java.util.Collection;
 import java.util.List;
