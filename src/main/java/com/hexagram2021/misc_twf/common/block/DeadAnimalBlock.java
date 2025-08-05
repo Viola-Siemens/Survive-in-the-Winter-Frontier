@@ -33,17 +33,18 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.Supplier;
 
 @SuppressWarnings("deprecation")
 public class DeadAnimalBlock extends BaseEntityBlock {
-	private final List<ItemStack> loots;
+	private final Supplier<List<ItemStack>> lootsSupplier;
 	private final int rottenFlesh;
 
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-	public DeadAnimalBlock(List<ItemStack> loots, int rottenFlesh, Properties props) {
+	public DeadAnimalBlock(Supplier<List<ItemStack>> lootsSupplier, int rottenFlesh, Properties props) {
 		super(props);
-		this.loots = loots;
+		this.lootsSupplier = lootsSupplier;
 		this.rottenFlesh = rottenFlesh;
 	}
 
@@ -95,7 +96,7 @@ public class DeadAnimalBlock extends BaseEntityBlock {
 
 	@Override
 	public DeadAnimalBlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-		return new DeadAnimalBlockEntity(blockPos, blockState, loots);
+		return new DeadAnimalBlockEntity(blockPos, blockState, this.lootsSupplier.get());
 	}
 
 	@Override @Nullable
