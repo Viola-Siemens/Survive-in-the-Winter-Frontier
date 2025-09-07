@@ -3,6 +3,7 @@ package com.hexagram2021.misc_twf.common.config;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MISCTWFCommonConfig {
@@ -27,6 +28,8 @@ public class MISCTWFCommonConfig {
 	public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> STRONG_STOMACH_SKILL_LEVELS;
 	public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> GUN_MASTERY_SKILL_LEVELS;
 
+	public static final ForgeConfigSpec.ConfigValue<List<? extends String>> TACZ_WHITELIST;
+
 	static {
 		BUILDER.push("misc_twf-common-config");
 			MILK_INTERVAL = BUILDER.comment("The cool down for cows and goats to produce milk (in seconds).").defineInRange("MILK_INTERVAL", 60, 0, 120000);
@@ -46,6 +49,13 @@ public class MISCTWFCommonConfig {
 
 			STRONG_STOMACH_SKILL_LEVELS = BUILDER.comment("Strong stomach passive levels. Don't modify the length of the array!").defineList("STRONG_STOMACH_SKILL_LEVELS", List.of(6, 10, 14, 17, 19, 22, 25, 28, 31, 32), o -> o instanceof Integer i && i > 0);
 			GUN_MASTERY_SKILL_LEVELS = BUILDER.comment("Gun mastery passive levels. Don't modify the length of the array!").defineList("GUN_MASTERY_SKILL_LEVELS", List.of(6, 10, 14, 17, 19, 22, 25, 28, 31, 32), o -> o instanceof Integer i && i > 0);
+		BUILDER.pop();
+
+		BUILDER.push("tacz-compat-config");
+		TACZ_WHITELIST = BUILDER.comment("""
+                The gun id will not attract mobs.
+                Format: "tacz:ai_awp" ("" required)
+                """).defineList("GUN_WHITELIST", new ArrayList<>(), o -> true);
 		BUILDER.pop();
 
 		SPEC = BUILDER.build();
