@@ -4,16 +4,6 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "misc_twf.refmap.json",
   "mixins": [
-    "AbstractFurnaceBlockEntityMixin",
-    "CowEntityMixin",
-    "EntityMixin",
-    "FireChargeItemMixin",
-    "FlintAndSteelItemMixin",
-    "GoatEntityMixin",
-    "InfectionEventHandlerMixin",
-    "LivingEntityMixin",
-    "MonsterMixin",
-    "RecipeManagerMixin",
     "kubejs.RecipeEventJSMixin",
     "tacz.AbstractGunItemMixin",
     "tacz.EntityKineticBulletMixin",
@@ -23,14 +13,30 @@
     "tacz.ModernKineticGunScriptAPIMixin",
     "tacz.RawGunTableResultAccess",
     "travelersbackpack.TravelersBackpackBlockEntityMixin",
-    "travelersbackpack.TravelersBackpackContainerMixin"
+    "travelersbackpack.TravelersBackpackContainerMixin",
+    "vanilla.AbstractFurnaceBlockEntityMixin",
+    "vanilla.items.FireChargeItemMixin",
+    "vanilla.items.FlintAndSteelItemMixin",
+    "hordes.InfectionEventHandlerMixin",
+    "vanilla.RecipeManagerMixin",
+    "vanilla.entities.AbstractHorseEntityMixin",
+    "vanilla.entities.AnimalEntityMixin",
+    "vanilla.entities.ChickenEntityMixin",
+    "vanilla.entities.CowEntityMixin",
+    "vanilla.entities.EntityMixin",
+    "vanilla.entities.GoatEntityMixin",
+    "vanilla.entities.LivingEntityMixin",
+    "vanilla.entities.MonsterMixin",
+    "vanilla.entities.ParrotEntityMixin",
+    "vanilla.entities.SheepEntityMixin",
+    "vanilla.entities.ai.GoatAiMixin"
   ],
   "minVersion": "0.8",
   "client": [
-    "DarknessMixin",
-    "LightTextureMixin",
-    "RecipeBookCategoriesMixin",
-    "RecipeButtonMixin",
-    "travelersbackpack.TravelersBackpackScreenMixin"
+    "travelersbackpack.TravelersBackpackScreenMixin",
+    "embeddiumplus.DarknessMixin",
+    "vanilla.LightTextureMixin",
+    "vanilla.RecipeBookCategoriesMixin",
+    "vanilla.RecipeButtonMixin"
   ]
 }

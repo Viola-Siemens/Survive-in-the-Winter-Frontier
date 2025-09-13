@@ -30,6 +30,7 @@
   "block.misc_twf.ribs": "肋骨骨架",
   "block.misc_twf.blood": "血液",
   "block.misc_twf.monster_egg": "怪物蛋",
+  "block.misc_twf.winter_wheat": "冬小麦",
 
   "block.misc_twf.dead_chicken": "鸡的尸体",
   "block.misc_twf.dead_cow": "牛的尸体",
@@ -113,6 +114,8 @@
   "item.misc_twf.uv_led": "紫外LED灯",
   "item.misc_twf.travelers_backpack_tac_slot": "旅行背包永恒枪械工坊子弹槽",
   "item.misc_twf.animal_poop": "动物粪便",
+  "item.misc_twf.winter_wheat": "冬小麦",
+  "item.misc_twf.winter_wheat_seeds": "冬小麦种子",
   "item.misc_twf.blood_bucket": "血桶",
   "item.misc_twf.clay_mold": "粘土模具",
   "item.misc_twf.12g_bullet_mold": "§912 号口径霰弹模具",

@@ -1,4 +1,4 @@
-package com.hexagram2021.misc_twf.mixin;
+package com.hexagram2021.misc_twf.mixin.vanilla;
 
 import com.hexagram2021.misc_twf.client.IHasItemIcons;
 import net.minecraft.client.RecipeBookCategories;

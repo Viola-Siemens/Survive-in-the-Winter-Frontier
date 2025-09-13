@@ -1,4 +1,4 @@
-package com.hexagram2021.misc_twf.mixin;
+package com.hexagram2021.misc_twf.mixin.vanilla.entities;
 
 import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
 import com.hexagram2021.misc_twf.common.entity.IProduceMilk;

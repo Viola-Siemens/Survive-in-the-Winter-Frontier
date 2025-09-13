@@ -147,6 +147,8 @@ public class ModVanillaCompat {
 
 		//Composter
 		ComposterBlock.COMPOSTABLES.put(MISCTWFItems.Materials.ANIMAL_POOP.get(), 1.0F);
+		ComposterBlock.COMPOSTABLES.put(MISCTWFItems.Materials.WINTER_WHEAT.get(), 0.65F);
+		ComposterBlock.COMPOSTABLES.put(MISCTWFItems.Materials.WINTER_WHEAT_SEEDS.get(), 0.3F);
 
 		//Dispenser
 		DispenserBlock.registerBehavior(MISCTWFItems.Materials.ANIMAL_POOP.get(), DispenserBlock.DISPENSER_REGISTRY.getOrDefault(Items.BONE_MEAL, DispenseItemBehavior.NOOP));

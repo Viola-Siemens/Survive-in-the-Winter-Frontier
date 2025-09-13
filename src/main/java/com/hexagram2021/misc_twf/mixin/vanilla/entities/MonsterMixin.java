@@ -1,4 +1,4 @@
-package com.hexagram2021.misc_twf.mixin;
+package com.hexagram2021.misc_twf.mixin.vanilla.entities;
 
 import com.hexagram2021.misc_twf.common.block.UltravioletLampBlock;
 import com.hexagram2021.misc_twf.common.entity.IAvoidBlockMonster;
@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MonsterMixin extends PathfinderMob implements IAvoidBlockMonster {
 	@Unique
 	@SuppressWarnings("NotNullFieldNotInitialized")
-	private AvoidBlockGoal<UltravioletLampBlock> avoidBlockGoal;
+	private AvoidBlockGoal<UltravioletLampBlock> misc_twf$avoidBlockGoal;
 
 	protected MonsterMixin(EntityType<? extends PathfinderMob> type, Level level) {
 		super(type, level);
@@ -26,12 +26,12 @@ public abstract class MonsterMixin extends PathfinderMob implements IAvoidBlockM
 
 	@Inject(method = "<init>", at = @At(value = "TAIL"))
 	protected void misc_twf$addAvoidBlockGoal(EntityType<? extends Monster> type, Level level, CallbackInfo ci) {
-		this.avoidBlockGoal = new AvoidBlockGoal<>(this, MISCTWFBlocks.ULTRAVIOLET_LAMP.get(), 24.0F, 1.0D, 1.2D);
-		this.goalSelector.addGoal(0, this.avoidBlockGoal);
+		this.misc_twf$avoidBlockGoal = new AvoidBlockGoal<>(this, MISCTWFBlocks.ULTRAVIOLET_LAMP.get(), 24.0F, 1.0D, 1.2D);
+		this.goalSelector.addGoal(0, this.misc_twf$avoidBlockGoal);
 	}
 
 	@Override
-	public AvoidBlockGoal<UltravioletLampBlock> getAvoidBlockGoal() {
-		return this.avoidBlockGoal;
+	public AvoidBlockGoal<UltravioletLampBlock> misc_twf$getAvoidBlockGoal() {
+		return this.misc_twf$avoidBlockGoal;
 	}
 }

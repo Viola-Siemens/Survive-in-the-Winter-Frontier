@@ -1,4 +1,4 @@
-package com.hexagram2021.misc_twf.mixin;
+package com.hexagram2021.misc_twf.mixin.embeddiumplus;
 
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
 import me.srrapero720.embeddiumplus.features.true_darkness.Darkness;

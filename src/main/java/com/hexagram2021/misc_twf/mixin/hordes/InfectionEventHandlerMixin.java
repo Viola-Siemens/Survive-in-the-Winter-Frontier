@@ -1,4 +1,4 @@
-package com.hexagram2021.misc_twf.mixin;
+package com.hexagram2021.misc_twf.mixin.hordes;
 
 import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
 import net.minecraft.world.entity.LivingEntity;

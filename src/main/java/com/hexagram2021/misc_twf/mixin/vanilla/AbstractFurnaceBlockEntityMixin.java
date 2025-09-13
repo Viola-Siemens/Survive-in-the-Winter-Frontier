@@ -1,4 +1,4 @@
-package com.hexagram2021.misc_twf.mixin;
+package com.hexagram2021.misc_twf.mixin.vanilla;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;

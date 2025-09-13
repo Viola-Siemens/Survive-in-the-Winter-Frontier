@@ -1,4 +1,4 @@
-package com.hexagram2021.misc_twf.mixin;
+package com.hexagram2021.misc_twf.mixin.vanilla;
 
 import com.google.gson.JsonElement;
 import com.hexagram2021.misc_twf.common.recipe.DynamicRecipesUtil;

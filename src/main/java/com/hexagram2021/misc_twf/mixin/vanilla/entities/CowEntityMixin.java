@@ -1,13 +1,18 @@
-package com.hexagram2021.misc_twf.mixin;
+package com.hexagram2021.misc_twf.mixin.vanilla.entities;
 
 import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
 import com.hexagram2021.misc_twf.common.entity.IProduceMilk;
+import com.hexagram2021.misc_twf.common.util.IngredientHack;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Cow;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -44,6 +49,11 @@ public abstract class CowEntityMixin extends Animal implements IProduceMilk {
 		}
 
 		this.misc_twf$setMilkCoolDown(MISCTWFCommonConfig.MILK_INTERVAL.get() * 20);
+	}
+
+	@WrapOperation(method = "registerGoals", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/crafting/Ingredient;of([Lnet/minecraft/world/level/ItemLike;)Lnet/minecraft/world/item/crafting/Ingredient;"))
+	private Ingredient misc_twf$wrapOperation(ItemLike[] items, Operation<Ingredient> original) {
+		return IngredientHack.addWinterWheatToIngredient(items);
 	}
 
 	@Override

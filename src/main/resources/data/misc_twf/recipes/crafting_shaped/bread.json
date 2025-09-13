@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "misc_twf:winter_wheat"
+    }
+  },
+  "result": {
+    "item": "minecraft:bread"
+  }
+}

@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -99,6 +100,13 @@ public final class MISCTWFItems {
 		);
 		public static final ItemEntry<Item> ANIMAL_POOP = ItemEntry.register(
 				"animal_poop", () -> new BoneMealItem(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+
+		public static final ItemEntry<Item> WINTER_WHEAT = ItemEntry.register(
+				"winter_wheat", () -> new Item(new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
+		);
+		public static final ItemEntry<ItemNameBlockItem> WINTER_WHEAT_SEEDS = ItemEntry.register(
+				"winter_wheat_seeds", () -> new ItemNameBlockItem(MISCTWFBlocks.WINTER_WHEAT.get(), new Item.Properties().tab(SurviveInTheWinterFrontier.ITEM_GROUP))
 		);
 
 		private Materials() {

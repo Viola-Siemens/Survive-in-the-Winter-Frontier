@@ -30,6 +30,7 @@
   "block.misc_twf.ribs": "Ribs",
   "block.misc_twf.blood": "Blood",
   "block.misc_twf.monster_egg": "Monster Egg",
+  "block.misc_twf.winter_wheat": "Winter Wheat",
 
   "block.misc_twf.dead_chicken": "Dead Chicken",
   "block.misc_twf.dead_cow": "Dead Cow",
@@ -113,6 +114,8 @@
   "item.misc_twf.uv_led": "UV LED",
   "item.misc_twf.travelers_backpack_tac_slot": "Traveler's Backpack TaC Slot",
   "item.misc_twf.animal_poop": "Animal Poop",
+  "item.misc_twf.winter_wheat": "Winter Wheat",
+  "item.misc_twf.winter_wheat_seeds": "Winter Wheat Seeds",
   "item.misc_twf.blood_bucket": "Blood Bucket",
   "item.misc_twf.clay_mold": "Clay Mold",
   "item.misc_twf.12g_bullet_mold": "§912 Gauge Bullet Mold",

@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -110,6 +111,13 @@ public final class MISCTWFBlocks {
 	public static final BlockEntry<Block> RIBS = new BlockEntry<>("ribs", () -> BlockBehaviour.Properties.copy(REDSTONE_WIRE).sound(SoundType.BONE_BLOCK), RibsBlock::new);
 
 	public static final BlockEntry<MonsterEggBlock> MONSTER_EGG = new BlockEntry<>("monster_egg", () -> BlockBehaviour.Properties.of(Material.EGG, MaterialColor.COLOR_GRAY).strength(0.5F).sound(SoundType.METAL).noOcclusion(), MonsterEggBlock::new);
+
+	public static final BlockEntry<CropBlock> WINTER_WHEAT = new BlockEntry<>("winter_wheat", () -> BlockBehaviour.Properties.copy(WHEAT), props -> new CropBlock(props) {
+		@Override
+		protected ItemLike getBaseSeedId() {
+			return MISCTWFItems.Materials.WINTER_WHEAT;
+		}
+	}, null);
 
 	private MISCTWFBlocks() {
 	}

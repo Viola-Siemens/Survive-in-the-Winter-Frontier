@@ -118,7 +118,7 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 								monster.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200, 0));
 								monster.addEffect(new MobEffectInstance(MISCTWFMobEffects.FRAGILE.get(), 200, 3));
 								if (monster.getTarget() == null && blockPos.closerThan(monster.blockPosition(), 20.0D) && monster instanceof IAvoidBlockMonster avoidBlockMonster) {
-									avoidBlockMonster.getAvoidBlockGoal().blockPos = blockPos;
+									avoidBlockMonster.misc_twf$getAvoidBlockGoal().blockPos = blockPos;
 								}
 							} else {
 								monster.addEffect(new MobEffectInstance(MISCTWFMobEffects.FRAGILE.get(), 200, 2));

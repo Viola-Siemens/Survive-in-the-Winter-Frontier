@@ -1,4 +1,4 @@
-package com.hexagram2021.misc_twf.mixin;
+package com.hexagram2021.misc_twf.mixin.vanilla;
 
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
 import net.minecraft.client.Minecraft;
@@ -26,7 +26,7 @@ public class LightTextureMixin {
 
 	@SuppressWarnings("ConstantConditions")
 	@ModifyConstant(method = "updateLightTexture", constant = @Constant(floatValue = 0.0F, ordinal = 1))
-	public float getNightVisionDeviceBrightness(float constant) {
+	public float misc_twf$getNightVisionDeviceBrightness(float constant) {
 		ICuriosItemHandler handler = CuriosApi.getCuriosHelper().getCuriosHandler(this.minecraft.player).orElse(null);
 		if(handler != null) {
 			Map<String, ICurioStacksHandler> curios = handler.getCurios();

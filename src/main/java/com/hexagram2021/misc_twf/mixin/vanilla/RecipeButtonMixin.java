@@ -1,4 +1,4 @@
-package com.hexagram2021.misc_twf.mixin;
+package com.hexagram2021.misc_twf.mixin.vanilla;
 
 import com.hexagram2021.misc_twf.client.IHasCustomIconRecipe;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
