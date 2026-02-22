@@ -7,6 +7,7 @@ import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItemTags;
 import com.hexagram2021.misc_twf.common.register.MISCTWFMobEffects;
 import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
+import com.mrh0.createaddition.energy.InternalEnergyStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
@@ -31,13 +32,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class UltravioletLampBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, StackedContentsCompatible {
@@ -48,6 +49,9 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 
 	protected NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
 
+	protected final InternalEnergyStorage energy;
+	private LazyOptional<IEnergyStorage> lazyEnergy;
+
 	private int tickEnergyTime = 0;
 
 	public UltravioletLampBlockEntity(BlockPos blockPos, BlockState blockState) {
@@ -55,6 +59,8 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 	}
 	public UltravioletLampBlockEntity(BlockEntityType<UltravioletLampBlockEntity> type, BlockPos blockPos, BlockState blockState) {
 		super(type, blockPos, blockState);
+		this.energy = new InternalEnergyStorage(160, 160, 1);
+		this.lazyEnergy = LazyOptional.of(() -> this.energy);
 	}
 
 	@Override
@@ -71,12 +77,14 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 	public void load(CompoundTag nbt) {
 		super.load(nbt);
 		this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+		this.energy.read(nbt);
 		ContainerHelper.loadAllItems(nbt, this.items);
 	}
 
 	@Override
 	protected void saveAdditional(CompoundTag nbt) {
 		super.saveAdditional(nbt);
+		this.energy.write(nbt);
 		ContainerHelper.saveAllItems(nbt, this.items);
 	}
 
@@ -90,15 +98,20 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 		boolean newLit = false;
 		if(--blockEntity.tickEnergyTime <= 0) {
 			blockEntity.tickEnergyTime = 20;
-			for(ItemStack itemStack: blockEntity.items) {
-				if(!isBattery(itemStack)) {
-					continue;
-				}
-				IEnergyStorage ies = itemStack.getCapability(CapabilityEnergy.ENERGY).orElse(null);
-				if(ies != null && ies.getEnergyStored() > 0) {
-					ies.extractEnergy(1, false);
-					newLit = true;
-					break;
+			if(blockEntity.energy.getEnergyStored() > 0) {
+				blockEntity.energy.extractEnergy(1, false);
+				newLit = true;
+			} else {
+				for (ItemStack itemStack : blockEntity.items) {
+					if (!isBattery(itemStack)) {
+						continue;
+					}
+					IEnergyStorage ies = itemStack.getCapability(CapabilityEnergy.ENERGY).orElse(null);
+					if (ies != null && ies.getEnergyStored() > 0) {
+						ies.extractEnergy(1, false);
+						newLit = true;
+						break;
+					}
 				}
 			}
 			if(lit != newLit) {
@@ -174,7 +187,11 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 		if (this.level.getBlockEntity(this.worldPosition) != this) {
 			return false;
 		} else {
-			return player.distanceToSqr((double)this.worldPosition.getX() + 0.5D, (double)this.worldPosition.getY() + 0.5D, (double)this.worldPosition.getZ() + 0.5D) <= 64.0D;
+			return player.distanceToSqr(
+					this.worldPosition.getX() + 0.5D,
+					this.worldPosition.getY() + 0.5D,
+					this.worldPosition.getZ() + 0.5D
+			) <= 64.0D;
 		}
 	}
 
@@ -215,8 +232,11 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 
 	LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 
-	@Override @NotNull
-	public <T> LazyOptional<T> getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @Nullable Direction facing) {
+	@Override
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
+		if(capability == CapabilityEnergy.ENERGY) {
+			return this.lazyEnergy.cast();
+		}
 		if (!this.remove && facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (facing == Direction.UP) {
 				return this.handlers[0].cast();
@@ -232,6 +252,7 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 	@Override
 	public void invalidateCaps() {
 		super.invalidateCaps();
+		this.lazyEnergy.invalidate();
 		for (LazyOptional<? extends IItemHandler> handler : this.handlers) {
 			handler.invalidate();
 		}
@@ -240,6 +261,7 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 	@Override
 	public void reviveCaps() {
 		super.reviveCaps();
+		this.lazyEnergy = LazyOptional.of(() -> new InternalEnergyStorage(160, 160, 1));
 		this.handlers = net.minecraftforge.items.wrapper.SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 	}
 }
