@@ -4,22 +4,20 @@ import com.google.common.collect.ImmutableList;
 import com.hexagram2021.misc_twf.SurviveInTheWinterFrontier;
 import com.hexagram2021.misc_twf.common.block.*;
 import com.hexagram2021.misc_twf.common.infrastructure.compat.ModCreateCompat;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.CropBlock;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.SlabType;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraft.world.level.material.MapColor;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
@@ -28,26 +26,33 @@ import java.util.function.Supplier;
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 import static net.minecraft.world.level.block.Blocks.*;
 
+/**
+ * 方块注册器，负责注册模组中的所有方块喵~
+ * <p>
+ * 包含紫外线灯、回收熔炉、尸体方块、装饰方块等各类方块的注册喵~
+ *
+ * @author liudongyu
+ */
 @SuppressWarnings("unused")
 public final class MISCTWFBlocks {
-	private static final DeferredRegister<Block> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
+	private static final DeferredRegister<Block> REGISTER = DeferredRegister.create(Registries.BLOCK, MODID);
 
 	public static final BlockEntry<UltravioletLampBlock> ULTRAVIOLET_LAMP = new BlockEntry<>(
 			"ultraviolet_lamp",
-			() -> BlockBehaviour.Properties.of(Material.DECORATION).instabreak()
+			() -> BlockBehaviour.Properties.of().instabreak()
 					.lightLevel(blockState -> blockState.getValue(UltravioletLampBlock.LIT) ? 15 : 0).sound(SoundType.METAL).noOcclusion(),
 			UltravioletLampBlock::new
 	);
 
 	public static final com.tterrag.registrate.util.entry.BlockEntry<MoldDetacherBlock> MOLD_DETACHER = ModCreateCompat.REGISTRATE
 			.block("mold_detacher", MoldDetacherBlock::new)
-			.initialProperties(Material.WOOD, MaterialColor.PODZOL)
+			.initialProperties(() -> PODZOL)
 			.properties(properties -> properties.strength(2.0F).sound(SoundType.WOOD).noOcclusion())
 			.simpleItem()
 			.register();
 	public static final com.tterrag.registrate.util.entry.BlockEntry<MoldWorkbenchBlock> MOLD_WORKBENCH = ModCreateCompat.REGISTRATE
 			.block("mold_workbench", MoldWorkbenchBlock::new)
-			.initialProperties(Material.WOOD)
+			.initialProperties(() -> OAK_PLANKS)
 			.properties(properties -> properties.strength(2.0F).sound(SoundType.WOOD))
 			.simpleItem()
 			.register();
@@ -152,8 +157,8 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
 				props -> new DeadAnimalBlock(() -> {
 					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
-					Item rawGoat = ForgeRegistries.ITEMS.getValue(new ResourceLocation("delightful", "raw_goat"));
-					Item goatFur = ForgeRegistries.ITEMS.getValue(new ResourceLocation("cold_sweat", "goat_fur"));
+					Item rawGoat = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("delightful", "raw_goat"));
+					Item goatFur = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cold_sweat", "goat_fur"));
 					if(rawGoat != null) {
 						builder.add(new ItemStack(rawGoat), new ItemStack(rawGoat));
 					}
@@ -169,7 +174,7 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
 				props -> new DeadAnimalBlock(() -> {
 					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
-					Item rawHorse = ForgeRegistries.ITEMS.getValue(new ResourceLocation("kubejs", "sheng_horsemeat"));
+					Item rawHorse = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "sheng_horsemeat"));
 					if(rawHorse != null) {
 						builder.add(new ItemStack(rawHorse), new ItemStack(rawHorse));
 					}
@@ -194,8 +199,8 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
 				props -> new DeadAnimalBlock(() -> {
 					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
-					Item polarBear = ForgeRegistries.ITEMS.getValue(new ResourceLocation("kubejs", "polar_bear"));
-					Item rawBear = ForgeRegistries.ITEMS.getValue(new ResourceLocation("kubejs", "sheng_bearmeat"));
+					Item polarBear = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "polar_bear"));
+					Item rawBear = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "sheng_bearmeat"));
 					if(polarBear != null) {
 						builder.add(new ItemStack(polarBear), new ItemStack(polarBear));
 					}
@@ -222,7 +227,7 @@ public final class MISCTWFBlocks {
 				props -> new DeadAnimalBlock(() -> {
 					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
 					builder.add(new ItemStack(Items.BONE), new ItemStack(Items.BONE), new ItemStack(Items.MUTTON), new ItemStack(Items.MUTTON));
-					Item rawGigot = ForgeRegistries.ITEMS.getValue(new ResourceLocation("kubejs", "sheng_yangtui"));
+					Item rawGigot = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "sheng_yangtui"));
 					if(rawGigot != null) {
 						builder.add(new ItemStack(rawGigot), new ItemStack(rawGigot));
 					}
@@ -234,7 +239,7 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.copy(NETHER_WART_BLOCK).noOcclusion(),
 				props -> new DeadAnimalBlock(() -> {
 					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
-					Item rawWolf = ForgeRegistries.ITEMS.getValue(new ResourceLocation("kubejs", "sheng_wolfmeat"));
+					Item rawWolf = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "sheng_wolfmeat"));
 					if(rawWolf != null) {
 						builder.add(new ItemStack(rawWolf), new ItemStack(rawWolf, 2));
 					}
@@ -400,49 +405,49 @@ public final class MISCTWFBlocks {
 		);
 		public static final BlockEntry<M4A1CarbineBlock> M4A1_CARBINE = new BlockEntry<>(
 				"m4a1_carbine",
-				() -> BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.TERRACOTTA_LIGHT_GRAY).strength(0.1F).sound(SoundType.METAL).noOcclusion(),
+				() -> BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_LIGHT_GRAY).strength(0.1F).sound(SoundType.METAL).noOcclusion(),
 				M4A1CarbineBlock::new
 		);
 		public static final BlockEntry<BulletHoleBlock> BULLET_HOLE = new BlockEntry<>(
 				"bullet_hole",
-				() -> BlockBehaviour.Properties.of(Material.DECORATION).instabreak().sound(SoundType.METAL).noCollission(),
+				() -> BlockBehaviour.Properties.of().instabreak().sound(SoundType.METAL).noCollission(),
 				BulletHoleBlock::new
 		);
 		public static final BlockEntry<SignalRodBlock> SIGNAL_ROD = new BlockEntry<>(
 				"signal_rod",
-				() -> BlockBehaviour.Properties.copy(SOUL_TORCH).noOcclusion(),
+				() -> BlockBehaviour.Properties.ofFullCopy(SOUL_TORCH).noOcclusion(),
 				SignalRodBlock::new
 		);
 		public static final BlockEntry<MicroscopeBlock> MICROSCOPE = new BlockEntry<>(
 				"microscope",
-				() -> BlockBehaviour.Properties.copy(IRON_BLOCK).noOcclusion(),
+				() -> BlockBehaviour.Properties.ofFullCopy(IRON_BLOCK).noOcclusion(),
 				MicroscopeBlock::new
 		);
 		public static final BlockEntry<SurveillanceCameraBlock> SURVEILLANCE_CAMERA = new BlockEntry<>(
 				"surveillance_camera",
-				() -> BlockBehaviour.Properties.copy(IRON_BLOCK).noOcclusion(),
+				() -> BlockBehaviour.Properties.ofFullCopy(IRON_BLOCK).noOcclusion(),
 				SurveillanceCameraBlock::new
 		);
 		public static final BlockEntry<DistributionBoxBlock> DISTRIBUTION_BOX = new BlockEntry<>(
 				"distribution_box",
-				() -> BlockBehaviour.Properties.copy(IRON_BLOCK).noOcclusion(),
+				() -> BlockBehaviour.Properties.ofFullCopy(IRON_BLOCK).noOcclusion(),
 				DistributionBoxBlock::new
 		);
 		public static final BlockEntry<AmmunitionBoxBlock> AMMUNITION_BOX = new BlockEntry<>(
 				"ammunition_box",
-				() -> BlockBehaviour.Properties.of(Material.BAMBOO, MaterialColor.GRASS)
+				() -> BlockBehaviour.Properties.of().mapColor(MapColor.GRASS).instrument(NoteBlockInstrument.BASS)
 						.strength(1.0F, 1.0F)
 						.sound(SoundType.BAMBOO).noOcclusion(),
 				AmmunitionBoxBlock::new
 		);
 		public static final BlockEntry<StackedAmmunitionBoxBlock> STACKED_AMMUNITION_BOX = new BlockEntry<>(
 				"stacked_ammunition_box",
-				() -> BlockBehaviour.Properties.copy(AMMUNITION_BOX.get()).noOcclusion(),
+				() -> BlockBehaviour.Properties.ofFullCopy(AMMUNITION_BOX.get()).noOcclusion(),
 				StackedAmmunitionBoxBlock::new
 		);
 		public static final BlockEntry<SignalRodBlock> MAGAZINE_556 = new BlockEntry<>(
 				"magazine_556",
-				() -> BlockBehaviour.Properties.copy(SOUL_TORCH).noOcclusion().lightLevel((state) -> 0),
+				() -> BlockBehaviour.Properties.ofFullCopy(SOUL_TORCH).noOcclusion().lightLevel((state) -> 0),
 				SignalRodBlock::new
 		);
 
@@ -458,7 +463,7 @@ public final class MISCTWFBlocks {
 	}
 
 	public static final class BlockEntry<T extends Block> implements Supplier<T>, ItemLike {
-		private final RegistryObject<T> regObject;
+		private final DeferredHolder<Block, T> regObject;
 		private final Supplier<BlockBehaviour.Properties> properties;
 
 		public BlockEntry(String name, Supplier<BlockBehaviour.Properties> properties, Function<BlockBehaviour.Properties, T> make) {

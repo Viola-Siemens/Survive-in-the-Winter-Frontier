@@ -1,118 +1,49 @@
-buildscript {
-    repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
-        jcenter()
-        mavenCentral()
-        maven { name="sponge"; url 'https://repo.spongepowered.org/repository/maven-public/' }
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '[6.0.24,6.2)', changing: true
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-    }
-}
-
 plugins {
+    id 'java-library'
+    id 'eclipse'
+    id 'idea'
     id 'maven-publish'
+    id 'net.neoforged.gradle.userdev' version '7.0.145'
 }
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.spongepowered.mixin'
 
-version = '1.2.10'
-group = 'com.hexagram2021.misc_twf'
-archivesBaseName = 'misc_twf'
+version = mod_version
+group = "com.hexagram2021.${mod_id}"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-
-compileJava {
-    sourceCompatibility = 17
-    targetCompatibility = 17
+base {
+    archivesName = mod_id
 }
-java.disableAutoTargetJvm()
 
-println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
-minecraft {
-    mappings channel: 'official', version: '1.18.2'
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
 
-    runs {
-        client {
-            workingDirectory project.file('run/client')
-            //Important: Remove if you a not using JetBrains Runtime (JBR)
-            //jvmArg("-XX:+AllowEnhancedClassRedefinition")
+runs {
+    configureEach {
+        systemProperty 'forge.logging.markers', 'REGISTRIES'
+        systemProperty 'forge.logging.console.level', 'debug'
 
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+        modSource project.sourceSets.main
+    }
 
-            property 'forge.logging.console.level', 'debug'
+    client {
+        workingDirectory project.file('run/client')
+        systemProperty 'forge.enabledGameTestNamespaces', mod_id
+    }
 
-            property 'forge.enabledGameTestNamespaces', 'misc_twf'
-            arg "-mixin.config=misc_twf.mixins.json"
+    server {
+        workingDirectory project.file('run/server')
+        systemProperty 'forge.enabledGameTestNamespaces', mod_id
+    }
 
-            mods {
-                misc_twf {
-                    source sourceSets.main
-                }
-            }
-        }
+    gameTestServer {
+        workingDirectory project.file('run/testServer')
+        systemProperty 'forge.enabledGameTestNamespaces', mod_id
+    }
 
-        server {
-            workingDirectory project.file('run/server')
+    data {
+        workingDirectory project.file('run/data')
 
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-
-            property 'forge.logging.console.level', 'debug'
-
-            property 'forge.enabledGameTestNamespaces', 'misc_twf'
-            arg "-mixin.config=misc_twf.mixins.json"
-
-            mods {
-                misc_twf {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        gameTestServer {
-            workingDirectory project.file('run/test_server')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-
-            property 'forge.logging.console.level', 'debug'
-
-            property 'forge.enabledGameTestNamespaces', 'misc_twf'
-            arg "-mixin.config=misc_twf.mixins.json"
-
-            mods {
-                misc_twf {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        data {
-            workingDirectory project.file('run/data')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-
-            property 'forge.logging.console.level', 'debug'
-
-            args '--mod', 'misc_twf', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-            arg "-mixin.config=misc_twf.mixins.json"
-
-            mods {
-                misc_twf {
-                    source sourceSets.main
-                }
-            }
-        }
+        programArguments.addAll '--mod', mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
     }
 }
 
@@ -121,9 +52,6 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 repositories {
     maven {
         url "https://cursemaven.com"
-        content {
-            includeGroup "curse.maven"
-        }
     }
     maven {
         name 'tterrag maven'
@@ -138,6 +66,18 @@ repositories {
         url = 'https://maven.theillusivec4.top/'
     }
     maven {
+        name 'DVS1 Maven FS'
+        url 'https://dvs1.progwml6.com/files/maven'
+    }
+    maven {
+        name 'DevOS'
+        url 'https://mvn.devos.one/snapshots/'
+    }
+    maven {
+        name 'Create Mod Maven'
+        url 'https://maven.createmod.net/'
+    }
+    maven {
         name = "ModMaven"
         url = "https://modmaven.dev"
     }
@@ -149,91 +89,87 @@ repositories {
         name = "Florensie's Maven"
         url = "https://maven.florens.be/releases"
     }
-    flatDir {
-        dirs 'libs'
+    maven {
+        name = "ParchmentMC"
+        url = "https://maven.parchmentmc.org/"
     }
 }
 
 dependencies {
-    implementation('cpw.mods:securejarhandler') { version { strictly '0.9.45' } }
+    implementation "net.neoforged:neoforge:${neo_version}"
 
-    minecraft 'net.minecraftforge:forge:1.18.2-40.3.0'
+    implementation ("mezz.jei:jei-1.21.1-neoforge:19.27.0.340")
+    implementation ("be.florens:expandability-neoforge:12.0.0")
+    compileOnly ("com.tterrag.registrate:Registrate:MC1.21-1.3.0+67")
+    implementation ('software.bernie.geckolib:geckolib-forge-1.21.1:4.8.3')
+    implementation ("top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1")
+    runtimeOnly ("net.darkhax.bookshelf:bookshelf-neoforge-1.21.1:21.1.81")
+    runtimeOnly ("dev.engine-room.flywheel:flywheel-neoforge-1.21.1:1.0.6")
 
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    compileOnly annotationProcessor('io.github.llamalad7:mixinextras-common:0.4.1')
-    implementation "io.github.llamalad7:mixinextras-forge:0.4.1"
-
-    implementation fg.deobf("mezz.jei:jei-1.18.2-forge:10.2.1.1005")
-    implementation fg.deobf("be.florens:expandability-forge:6.0.0")
-    compileOnly fg.deobf("com.tterrag.registrate:Registrate:MC1.18.2-1.1.3")
-    implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.18:3.0.57')
-    implementation fg.deobf("top.theillusivec4.curios:curios-forge:1.18.2-5.0.9.1")
-    implementation fg.deobf("net.darkhax.gamestages:GameStages-Forge-1.18.2:8.1.3")
-    runtimeOnly fg.deobf("net.darkhax.bookshelf:Bookshelf-Forge-1.18.2:13.3.56")
-
-    implementation fg.deobf('curse.maven:atlaslib-463826:4567244')              //////
-    runtimeOnly fg.deobf("curse.maven:biomancy-492939:4496477")
-    implementation fg.deobf("curse.maven:create-328085:4550986")                //////
-    implementation fg.deobf("curse.maven:createaddition-439890:4683727")        //////
-    runtimeOnly fg.deobf("curse.maven:createdeco-509285:4554163")
-    implementation fg.deobf("curse.maven:diet-443570:4571116")                  //////
-    compileOnly fg.deobf("curse.maven:embeddium-908741:4949961")
-    compileOnly fg.deobf("curse.maven:embeddiumplus-931925:4958315")
-    runtimeOnly fg.deobf("curse.maven:flywheel-486392:4341461")
-    implementation fg.deobf('curse.maven:framework-549225:4613856')             //////
-    implementation fg.deobf("curse.maven:hunger_reworked-847923:6358923")       //////
-    implementation fg.deobf("curse.maven:hordes-485779:5287529")                //////
-    implementation fg.deobf("curse.maven:jade-324717:4575623")                  //////
-    compileOnly fg.deobf("curse.maven:kubejs-238086:4377177")
-    runtimeOnly fg.deobf("curse.maven:spark-361579:4505375")
-    implementation fg.deobf("curse.maven:tacz-1028108:6069322-sources-6069332") //////
-    implementation fg.deobf("curse.maven:tetrachordlib-980149:5153986")         //////
-    implementation fg.deobf("curse.maven:travelersbackpack-321117:5310212")     //////
-    implementation fg.deobf("curse.maven:justlevelingfork-1073400:5677674")     //////
-    runtimeOnly fg.deobf("curse.maven:verdure-577197:4365968")
-    runtimeOnly fg.deobf("curse.maven:zombie_extreme-392809:4746394")
-    implementation fg.deobf("curse.maven:sona-survival-101-1023345:5828134")
+    //implementation ("curse.maven:astages-1120180:6892933")            ////// todo: it's not open-sourced
+    implementation ('curse.maven:atlaslib-463826:5449009')              //////
+    //runtimeOnly ("curse.maven:biomancy-492939:4496477")       // todo: no 1.21.1
+    implementation ("curse.maven:create-328085:7408951")                //////
+    implementation ("curse.maven:createaddition-439890:7518252")        //////
+    runtimeOnly ("curse.maven:createdeco-509285:7314692")
+    implementation ("curse.maven:easydiet-1419902:7463630")             //////
+    compileOnly ("curse.maven:embeddium-908741:6118392")
+    compileOnly ("curse.maven:embeddiumplus-931925:7378108")
+    //implementation ("curse.maven:hunger_reworked-847923:6358923")     ////// todo: port it
+    implementation ("curse.maven:hordes-485779:6772331")                //////
+    implementation ("curse.maven:jade-324717:7545219")                  //////
+    compileOnly ("curse.maven:kubejs-238086:7278501")
+    runtimeOnly ("curse.maven:spark-361579:7315224")
+    //implementation ("curse.maven:tacz-1028108:6069322-sources-6069332")           ////// replaced by superb-warfare
+    implementation ("curse.maven:superb-warfare-1218165:7292699-sources-7292701")   //////
+    implementation ("curse.maven:tetrachordlib-980149:6707317")         //////
+    implementation ("curse.maven:travelersbackpack-321117:7543685")     //////
+    //implementation ("curse.maven:justlevelingfork-1073400:5677674")   ////// todo: no 1.21.1
+    runtimeOnly ("curse.maven:zombie_extreme-392809:7014504")
+    //implementation ("curse.maven:sona-survival-101-1023345:5828134")  // todo: no 1.21.1
 }
 
-jar {
-    manifest {
-        attributes([
-                "Specification-Title"     : "Survive in the Winter Frontier",
-                "Specification-Vendor"    : "Hexagram",
-                "Specification-Version"   : "1",
-                "Implementation-Title"    : project.name,
-                "Implementation-Version"  : project.jar.archiveVersion,
-                "Implementation-Vendor"   : "Hexagram",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                'FMLCorePluginContainsFMLMod': 'true'
-        ])
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            neo_version_range      : neo_version_range,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties
     }
-    from('LICENSE')
 }
-
-jar.finalizedBy('reobfJar')
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            artifact jar
+        register('mavenJava', MavenPublication) {
+            from components.java
         }
     }
     repositories {
         maven {
-            url "file://${project.projectDir}/mcmodsrepo"
+            url "file://${project.projectDir}/repo"
         }
     }
 }
 
-mixin {
-    add sourceSets.main, 'misc_twf.refmap.json'
-    config 'misc_twf.mixins.json'
-
-    debug.verbose = true
-    debug.export = true
-}
-
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
 }
