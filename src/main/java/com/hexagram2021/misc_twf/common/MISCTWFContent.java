@@ -5,26 +5,26 @@ import com.hexagram2021.misc_twf.common.entity.capability.CapabilityAnimal;
 import com.hexagram2021.misc_twf.common.register.*;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
-@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = MODID)
 public class MISCTWFContent {
 	public static void modConstruct(IEventBus bus) {
 		initTags();
 
+		MISCTWFAttachmentTypes.init(bus);
+		MISCTWFAttributes.init(bus);
 		MISCTWFBlockStateProperties.init();
 		MISCTWFFluids.init(bus);
 		MISCTWFBlocks.init(bus);
@@ -45,16 +45,14 @@ public class MISCTWFContent {
 	}
 
 	@SubscribeEvent
-	public static void registerAttributes(RegistryEvent.Register<Attribute> event) {
-		MISCTWFAttributes.init(event.getRegistry()::register);
+	public static void onRegister(RegisterEvent event) {
+
 	}
 
-	@SubscribeEvent
 	public static void registerPotions(RegistryEvent.Register<Potion> event) {
 		MISCTWFBrewingRecipes.init();
 	}
 
-	@SubscribeEvent
 	public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
 		MISCTWFSounds.init(event.getRegistry());
 	}
