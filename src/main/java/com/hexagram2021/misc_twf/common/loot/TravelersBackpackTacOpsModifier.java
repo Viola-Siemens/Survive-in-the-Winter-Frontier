@@ -1,17 +1,20 @@
 package com.hexagram2021.misc_twf.common.loot;
 
+import com.google.common.collect.ImmutableList;
+import com.hexagram2021.misc_twf.common.data_component.TravelersBackpackTacData;
+import com.hexagram2021.misc_twf.common.register.MISCTWFDataComponentTypes;
 import com.hexagram2021.misc_twf.common.util.IAmmoBackpack;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.tiviacz.travelersbackpack.blockentity.BackpackBlockEntity;
 import com.tiviacz.travelersbackpack.items.TravelersBackpackItem;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 /**
  * 旅行背包TAC操作修改器，用于在旅行背包被破坏时保存弹药槽数据喵~
@@ -23,7 +26,7 @@ public class TravelersBackpackTacOpsModifier extends OrConditionLootModifier {
 	/**
 	 * 用于序列化和反序列化该修改器的编解码器喵~
 	 */
-	public static final MapCodec<TravelersBackpackTacOpsModifier> CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
+	public static final MapCodec<TravelersBackpackTacOpsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 			LOOT_CONDITIONS_CODEC.fieldOf("conditions").forGetter(modifier -> modifier.conditions)
 	).apply(instance, TravelersBackpackTacOpsModifier::new));
 
@@ -38,7 +41,7 @@ public class TravelersBackpackTacOpsModifier extends OrConditionLootModifier {
 
 	/**
 	 * 执行战利品修改逻辑喵~
-	 * 如果被破坏的方块实体是旅行背包��支持弹药存储，则将弹药槽数据保存到掉落物品的NBT中喵~
+	 * 如果被破坏的方块实体是旅行背包且支持弹药存储，则将弹药槽数据保存到掉落物品的NBT中喵~
 	 *
 	 * @param generatedLoot 生成的战利品列表喵~
 	 * @param context 战利品上下文，包含被破坏的方块实体信息喵~
@@ -58,12 +61,18 @@ public class TravelersBackpackTacOpsModifier extends OrConditionLootModifier {
 					for(ItemStack itemStack: generatedLoot) {
 						// 如果掉落物品是旅行背包物品喵~
 						if(itemStack.getItem() instanceof TravelersBackpackItem) {
-							CompoundTag tag = itemStack.getOrCreateTag();
+							// 将弹药槽数据序列化喵~
+							ItemStackHandler handler = ammoBackpack.getAmmoHandler();
+							ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
+							for(int i = 0; i < handler.getSlots(); ++i) {
+								builder.add(handler.getStackInSlot(i));
+							}
 							// 标记该背包已升级为TAC版本喵~
-							tag.putBoolean("UpgradeToTac", true);
-							// 将弹药槽数据序列化到NBT中喵~
-							tag.put("AmmoInventory", ammoBackpack.getAmmoHandler().serializeNBT());
-							itemStack.setTag(tag);
+							TravelersBackpackTacData travelersBackpackTacData = new TravelersBackpackTacData(
+									true,
+									builder.build()
+							);
+							itemStack.set(MISCTWFDataComponentTypes.TRAVELERS_BACKPACK_TAC_DATA, travelersBackpackTacData);
 						}
 					}
 				}

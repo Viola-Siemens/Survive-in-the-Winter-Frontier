@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/crop",
+  "render_type": "cutout",
   "textures": {
     "crop": "misc_twf:block/winter_wheat_stage3"
   }

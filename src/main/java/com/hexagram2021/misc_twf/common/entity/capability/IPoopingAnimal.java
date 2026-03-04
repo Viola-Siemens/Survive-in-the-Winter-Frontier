@@ -47,14 +47,6 @@ public interface IPoopingAnimal {
 	}
 
 	/**
-	 * 重置排便计时器为默认值（包含固定噪声）喵~
-	 * 使用配置中的基础间隔和固定噪声值计算下次排便时间喵~
-	 */
-	default void resetPoopingTicks() {
-		this.setPoopingRemainingTicks(MISCTWFCommonConfig.ANIMAL_POOPING_INTERVAL.get() * 20 + MISCTWFCommonConfig.ANIMAL_POOPING_INTERVAL_NOISE.get() * 10);
-	}
-
-	/**
 	 * 重置排便计时器为随机值，使用实体的随机数生成器增加变化性喵~
 	 * 计算公式为：(基础间隔 + 随机噪声) × 20 刻喵~
 	 *

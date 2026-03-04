@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/block",
+  "render_type": "cutout",
   "texture_size": [128, 128],
   "textures": {
     "main": "misc_twf:block/mold_detacher_main",

@@ -1,4 +1,5 @@
 {
+  "render_type": "translucent",
   "textures": {
     "particle": "misc_twf:block/fluid/blood_still"
   }

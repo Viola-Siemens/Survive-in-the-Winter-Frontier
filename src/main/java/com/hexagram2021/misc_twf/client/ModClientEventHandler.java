@@ -5,20 +5,30 @@ import com.hexagram2021.misc_twf.client.renderer.*;
 import com.hexagram2021.misc_twf.client.screen.*;
 import com.hexagram2021.misc_twf.common.infrastructure.compat.ModCreateCompat;
 import com.hexagram2021.misc_twf.common.register.*;
-import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
-@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+/**
+ * 客户端事件处理器喵~
+ * 负责注册客户端专用的渲染器、模型层、屏幕等内容喵~
+ *
+ * @author liudongyu
+ */
+@EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
 public class ModClientEventHandler {
+	/**
+	 * 注册实体模型层定义喵~
+	 * 包括夜视设备饰品和所有僵尸动物实体的模型层喵~
+	 *
+	 * @param event 模型层注册事件喵~
+	 */
 	@SubscribeEvent
 	public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		event.registerLayerDefinition(MISCTWFModelLayers.NIGHT_VISION_DEVICE, NightVisionDeviceModel::createBodyLayer);
@@ -33,6 +43,12 @@ public class ModClientEventHandler {
 		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_WOLF, ZombieWolfModel::createBodyLayer);
 	}
 
+	/**
+	 * 注册实体和方块实体的渲染器喵~
+	 * 包括所有僵尸动物实体和怪物蛋方块实体的渲染器喵~
+	 *
+	 * @param event 渲染器注册事件喵~
+	 */
 	@SubscribeEvent
 	public static void onRegisterRenderer(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_CHICKEN.get(), ZombieChickenRenderer::new);
@@ -46,35 +62,36 @@ public class ModClientEventHandler {
 		event.registerBlockEntityRenderer(MISCTWFBlockEntities.MONSTER_EGG.get(), MonsterEggRenderer::new);
 	}
 
+	/**
+	 * 客户端设置事件喵~
+	 * 在客户端初始化时注册模组兼容和 Curios 渲染器喵~
+	 *
+	 * @param event 客户端设置事件喵~
+	 */
 	@SubscribeEvent
 	public static void onClientSetup(final FMLClientSetupEvent event) {
 		ModCreateCompat.register();
-		event.enqueueWork(() -> {
-			registerRenderLayers();
-			registerContainersAndScreens();
-			registerCuriosRenderers();
-		});
+		event.enqueueWork(ModClientEventHandler::registerCuriosRenderers);
 	}
 
-	private static void registerRenderLayers() {
-		ItemBlockRenderTypes.setRenderLayer(MISCTWFBlocks.MOLD_DETACHER.get(), RenderType.cutout());
-		ItemBlockRenderTypes.setRenderLayer(MISCTWFBlocks.ULTRAVIOLET_LAMP.get(), RenderType.translucent());
-		ItemBlockRenderTypes.setRenderLayer(MISCTWFBlocks.INTESTINE.get(), RenderType.cutout());
-		ItemBlockRenderTypes.setRenderLayer(MISCTWFBlocks.BLOODSTAIN.get(), RenderType.cutout());
-		ItemBlockRenderTypes.setRenderLayer(MISCTWFBlocks.WINTER_WHEAT.get(), RenderType.cutout());
-		ItemBlockRenderTypes.setRenderLayer(MISCTWFFluids.BLOOD_FLUID.getFlowing(), RenderType.translucent());
-		ItemBlockRenderTypes.setRenderLayer(MISCTWFFluids.BLOOD_FLUID.getStill(), RenderType.translucent());
-	}
-
+	/**
+	 * 注册 Curios 饰品的渲染器喵~
+	 */
 	private static void registerCuriosRenderers() {
 		CuriosRendererRegistry.register(MISCTWFItems.NIGHT_VISION_DEVICE.get(), NightVisionDeviceRenderer::new);
 	}
 
-	private static void registerContainersAndScreens() {
-		MenuScreens.register(MISCTWFMenuTypes.ULTRAVIOLET_LAMP_MENU.get(), UltravioletLampScreen::new);
-		MenuScreens.register(MISCTWFMenuTypes.TRAVELERS_BACKPACK_BLOCK_ENTITY_TAC_SLOT_MENU.get(), TravelersBackpackTacScreen::new);
-		MenuScreens.register(MISCTWFMenuTypes.TRAVELERS_BACKPACK_ITEM_TAC_SLOT_MENU.get(), TravelersBackpackTacScreen::new);
-		MenuScreens.register(MISCTWFMenuTypes.MOLD_WORKBENCH_MENU.get(), MoldWorkbenchScreen::new);
-		MenuScreens.register(MISCTWFMenuTypes.RECOVERY_FURNACE.get(), RecoveryFurnaceScreen::new);
+	/**
+	 * 注册容器菜单对应的屏幕喵~
+	 *
+	 * @param event 菜单屏幕注册事件喵~
+	 */
+	@SubscribeEvent
+	private static void registerContainersAndScreens(RegisterMenuScreensEvent event) {
+		event.register(MISCTWFMenuTypes.ULTRAVIOLET_LAMP_MENU.get(), UltravioletLampScreen::new);
+		event.register(MISCTWFMenuTypes.TRAVELERS_BACKPACK_BLOCK_ENTITY_TAC_SLOT_MENU.get(), TravelersBackpackTacScreen::new);
+		event.register(MISCTWFMenuTypes.TRAVELERS_BACKPACK_ITEM_TAC_SLOT_MENU.get(), TravelersBackpackTacScreen::new);
+		event.register(MISCTWFMenuTypes.MOLD_WORKBENCH_MENU.get(), MoldWorkbenchScreen::new);
+		event.register(MISCTWFMenuTypes.RECOVERY_FURNACE.get(), RecoveryFurnaceScreen::new);
 	}
 }

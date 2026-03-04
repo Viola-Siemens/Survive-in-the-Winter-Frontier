@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/block",
+  "render_type": "cutout",
   "textures": {
     "particle": "misc_twf:block/mold_detacher_side",
     "side": "misc_twf:block/mold_detacher_side",

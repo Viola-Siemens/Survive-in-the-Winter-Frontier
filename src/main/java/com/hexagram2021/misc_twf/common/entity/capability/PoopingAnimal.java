@@ -24,13 +24,13 @@ public class PoopingAnimal implements IPoopingAnimal {
 	/**
 	 * 距离下次排便的剩余时间（以刻为单位）喵~
 	 */
-	protected int remainingTicks = 0;
+	protected int remainingTicks;
 
 	/**
 	 * 创建一个新的排便能力实例，并使用默认时间初始化计时器喵~
 	 */
 	public PoopingAnimal() {
-		this.resetPoopingTicks();
+		this(-1);
 	}
 
 	/**
@@ -69,5 +69,6 @@ public class PoopingAnimal implements IPoopingAnimal {
 				self.getRandomX(0.5D), self.getRandomY(), self.getRandomZ(0.5D),
 				new ItemStack(MISCTWFItems.Materials.ANIMAL_POOP)
 		));
+		this.resetPoopingTicks(self);
 	}
 }
