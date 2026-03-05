@@ -1,6 +1,7 @@
 package com.hexagram2021.misc_twf.common;
 
 import com.hexagram2021.misc_twf.common.entity.ZombieAnimalEntity;
+import com.hexagram2021.misc_twf.common.network.ClientboundMonsterEggAnimationPacket;
 import com.hexagram2021.misc_twf.common.register.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
@@ -12,6 +13,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
@@ -130,5 +132,19 @@ public class MISCTWFContent {
 	@SubscribeEvent
 	public static void onModifyDefaultAttributes(EntityAttributeModificationEvent event) {
 		event.add(EntityType.PLAYER, MISCTWFAttributes.GUN_MASTERY, 0.0D);
+	}
+
+	/**
+	 * 注册网络包处理器喵~
+	 * @param event 网络包处理器注册事件喵~
+	 */
+	@SubscribeEvent
+	public static void networkRegistry(RegisterPayloadHandlersEvent event) {
+		event.registrar("1")
+				.commonToClient(
+						ClientboundMonsterEggAnimationPacket.TYPE,
+						ClientboundMonsterEggAnimationPacket.STREAM_CODEC,
+						ClientboundMonsterEggAnimationPacket::handle
+				);
 	}
 }

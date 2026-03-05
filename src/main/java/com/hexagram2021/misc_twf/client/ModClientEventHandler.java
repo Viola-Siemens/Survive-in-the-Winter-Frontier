@@ -22,7 +22,7 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
  * @author liudongyu
  */
 @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
-public class ModClientEventHandler {
+public final class ModClientEventHandler {
 	/**
 	 * 注册实体模型层定义喵~
 	 * 包括夜视设备饰品和所有僵尸动物实体的模型层喵~
@@ -93,5 +93,8 @@ public class ModClientEventHandler {
 		event.register(MISCTWFMenuTypes.TRAVELERS_BACKPACK_ITEM_TAC_SLOT_MENU.get(), TravelersBackpackTacScreen::new);
 		event.register(MISCTWFMenuTypes.MOLD_WORKBENCH_MENU.get(), MoldWorkbenchScreen::new);
 		event.register(MISCTWFMenuTypes.RECOVERY_FURNACE.get(), RecoveryFurnaceScreen::new);
+	}
+
+	private ModClientEventHandler() {
 	}
 }
