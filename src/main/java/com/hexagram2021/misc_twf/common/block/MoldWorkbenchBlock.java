@@ -335,7 +335,7 @@ public class MoldWorkbenchBlock extends HorizontalKineticBlock implements IBE<Mo
 	}
 
 	@Override
-	public boolean isPathfindable(BlockState blockState, BlockGetter level, BlockPos blockPos, PathComputationType type) {
+	public boolean isPathfindable(BlockState blockState, PathComputationType type) {
 		return false;
 	}
 

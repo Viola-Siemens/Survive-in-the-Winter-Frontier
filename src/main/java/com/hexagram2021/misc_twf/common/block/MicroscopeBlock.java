@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -16,8 +17,14 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+/**
+ * 显微镜方块，可以放置在水中喵~
+ *
+ * @author liudongyu
+ */
 @SuppressWarnings("deprecation")
 public class MicroscopeBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
+	public static final MapCodec<MicroscopeBlock> CODEC = simpleCodec(MicroscopeBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public static final VoxelShape SHAPE = Block.box(4.0, 0.0, 4.0, 12.0, 16.0, 12.0);
@@ -46,4 +53,9 @@ public class MicroscopeBlock extends HorizontalDirectionalBlock implements Simpl
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, WATERLOGGED);
     }
+
+	@Override
+	protected MapCodec<MicroscopeBlock> codec() {
+		return CODEC;
+	}
 }

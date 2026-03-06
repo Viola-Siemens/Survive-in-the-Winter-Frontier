@@ -69,16 +69,20 @@ public class WheeledStretcherBlock extends HorizontalDirectionalBlock {
 	}
 
 	@Override
-	public void playerWillDestroy(Level level, BlockPos blockPos, BlockState blockState, Player player) {
-		if (!level.isClientSide && player.isCreative()) {
-			DoublePlantBlock.preventCreativeDropFromBottomPart(level, blockPos, blockState, player);
+	public BlockState playerWillDestroy(Level level, BlockPos blockPos, BlockState blockState, Player player) {
+		if (!level.isClientSide) {
+			if(player.isCreative()) {
+				DoublePlantBlock.preventDropFromBottomPart(level, blockPos, blockState, player);
+			} else {
+				dropResources(blockState, level, blockPos, null, player, player.getMainHandItem());
+			}
 		}
 
-		super.playerWillDestroy(level, blockPos, blockState, player);
+		return super.playerWillDestroy(level, blockPos, blockState, player);
 	}
 
 	@Override
-	public boolean isPathfindable(BlockState blockState, BlockGetter level, BlockPos blockPos, PathComputationType type) {
+	public boolean isPathfindable(BlockState blockState, PathComputationType type) {
 		return false;
 	}
 
@@ -105,7 +109,7 @@ public class WheeledStretcherBlock extends HorizontalDirectionalBlock {
 	}
 
 	@Override
-	public PushReaction getPistonPushReaction(BlockState p_52814_) {
+	public PushReaction getPistonPushReaction(BlockState blockState) {
 		return PushReaction.BLOCK;
 	}
 

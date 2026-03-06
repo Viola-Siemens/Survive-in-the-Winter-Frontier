@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.FrontAndTop;
@@ -15,8 +16,14 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+/**
+ * 油桶方块，支持六面朝向放置喵~
+ *
+ * @author liudongyu
+ */
 @SuppressWarnings("deprecation")
 public class JerricanBlock extends Block {
+	public static final MapCodec<JerricanBlock> CODEC = simpleCodec(JerricanBlock::new);
 	protected static final VoxelShape X_SHAPE = Block.box(0, 2, 2, 22, 14, 14);
 	protected static final VoxelShape Y_SHAPE = Block.box(2, 0, 2, 14, 22, 14);
 	protected static final VoxelShape Z_SHAPE = Block.box(2, 2, 0, 14, 14, 22);
@@ -62,5 +69,10 @@ public class JerricanBlock extends Block {
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(ORIENTATION);
+	}
+
+	@Override
+	protected MapCodec<JerricanBlock> codec() {
+		return CODEC;
 	}
 }

@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -15,8 +16,14 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+/**
+ * 垃圾桶方块，支持六面朝向放置喵~
+ *
+ * @author liudongyu
+ */
 @SuppressWarnings("deprecation")
 public class TrashCanBlock extends Block {
+	public static final MapCodec<TrashCanBlock> CODEC = simpleCodec(TrashCanBlock::new);
 	protected static final VoxelShape X_SHAPE = Shapes.or(Block.box(5.25, 0, 3, 20.25, 10, 13), Block.box(-9.5, 0, -3.5, 5.5, 1, 11.5));
 	protected static final VoxelShape Y_SHAPE = Block.box(3, 0, 3, 13, 16, 13);
 	protected static final VoxelShape Z_SHAPE = Shapes.or(Block.box(3, 0, 5.25, 13, 10, 20.25), Block.box(4.5, 0, -9.5, 19.5, 1, 5.5));
@@ -63,5 +70,10 @@ public class TrashCanBlock extends Block {
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(FACING);
+	}
+
+	@Override
+	protected MapCodec<TrashCanBlock> codec() {
+		return CODEC;
 	}
 }

@@ -2,6 +2,7 @@ package com.hexagram2021.misc_twf.common.block;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -22,7 +23,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
+/**
+ * 监控方块，需要附着在固体方块上，可以放置在水中喵~
+ *
+ * @author liudongyu
+ */
 public class SurveillanceCameraBlock extends Block implements SimpleWaterloggedBlock {
+	public static final MapCodec<SurveillanceCameraBlock> CODEC = simpleCodec(SurveillanceCameraBlock::new);
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
@@ -67,7 +74,7 @@ public class SurveillanceCameraBlock extends Block implements SimpleWaterloggedB
 
     @Override
     public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
-        return level.getBlockState(pos.relative(state.getValue(FACING).getOpposite())).getMaterial().isSolid();
+        return level.getBlockState(pos.relative(state.getValue(FACING).getOpposite())).isSolid();
     }
     
     @Override
@@ -94,4 +101,9 @@ public class SurveillanceCameraBlock extends Block implements SimpleWaterloggedB
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, WATERLOGGED);
     }
+
+	@Override
+	protected MapCodec<SurveillanceCameraBlock> codec() {
+		return CODEC;
+	}
 }

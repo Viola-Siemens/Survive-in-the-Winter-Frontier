@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -35,9 +36,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
-@SuppressWarnings("deprecation")
 public class UltravioletLampBlock extends BaseEntityBlock {
 	protected static final double AABB_MIN = 6.0D;
 	protected static final double AABB_MAX = 10.0D;
@@ -73,7 +72,7 @@ public class UltravioletLampBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	public boolean isPathfindable(BlockState blockState, BlockGetter level, BlockPos blockPos, PathComputationType type) {
+	public boolean isPathfindable(BlockState blockState, PathComputationType type) {
 		return false;
 	}
 
@@ -90,17 +89,17 @@ public class UltravioletLampBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	public void animateTick(BlockState blockState, Level level, BlockPos blockPos, Random random) {
+	public void animateTick(BlockState blockState, Level level, BlockPos blockPos, RandomSource random) {
 		if(blockState.getValue(LIT)) {
 			Direction direction = blockState.getValue(FACING);
-			double x = (double) blockPos.getX() + 0.55D - (random.nextDouble() * 0.1D);
-			double y = (double) blockPos.getY() + 0.55D - (random.nextDouble() * 0.1D);
-			double z = (double) blockPos.getZ() + 0.55D - (random.nextDouble() * 0.1D);
+			double x = blockPos.getX() + 0.55D - (random.nextDouble() * 0.1D);
+			double y = blockPos.getY() + 0.55D - (random.nextDouble() * 0.1D);
+			double z = blockPos.getZ() + 0.55D - (random.nextDouble() * 0.1D);
 			double d = 0.4D - (random.nextDouble() + random.nextDouble()) * 0.4D;
 			if (random.nextInt(4) == 0) {
 				level.addParticle(
 						ParticleTypes.END_ROD,
-						x + (double) direction.getStepX() * d, y + (double) direction.getStepY() * d, z + (double) direction.getStepZ() * d,
+						x + direction.getStepX() * d, y + direction.getStepY() * d, z + direction.getStepZ() * d,
 						random.nextGaussian() * 0.005D, random.nextGaussian() * 0.005D, random.nextGaussian() * 0.005D
 				);
 			}

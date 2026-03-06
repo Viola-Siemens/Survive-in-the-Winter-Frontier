@@ -147,23 +147,25 @@ public class MonsterEggBlockEntity extends BlockEntity implements GeoBlockEntity
 			boolean flag = !livingEntities.isEmpty();
 			for(LivingEntity livingEntity: livingEntities) {
 				MobEffectInstance mobEffectInstance = livingEntity.getEffect(SonaMobEffects.EXPOSURE.get());
-				int amplifier = mobEffectInstance.getAmplifier();
-				int duration = mobEffectInstance.getDuration();
-				if (monsterEgg.soundData.containsKey(livingEntity.getUUID())) {
-					SoundData soundData = monsterEgg.soundData.get(livingEntity.getUUID());
-					if (amplifier == soundData.amplifier() && duration < soundData.duration())
-						return;
-				}
-				if (blockCheck(level, Vec3.atCenterOf(blockPos), livingEntity.position())) {
-					double token = level.random.nextDouble();
-					if (token < (amplifier + 1) * 0.2) {
-						if (blockState.getBlock() instanceof MonsterEggBlock monsterEggBlock) {
-							monsterEggBlock.destroyEgg(level, blockPos, livingEntity);
-							flag = false;
+				if(mobEffectInstance != null) {
+					int amplifier = mobEffectInstance.getAmplifier();
+					int duration = mobEffectInstance.getDuration();
+					if (monsterEgg.soundData.containsKey(livingEntity.getUUID())) {
+						SoundData soundData = monsterEgg.soundData.get(livingEntity.getUUID());
+						if (amplifier == soundData.amplifier() && duration < soundData.duration())
+							return;
+					}
+					if (blockCheck(level, Vec3.atCenterOf(blockPos), livingEntity.position())) {
+						double token = level.random.nextDouble();
+						if (token < (amplifier + 1) * 0.2) {
+							if (blockState.getBlock() instanceof MonsterEggBlock monsterEggBlock) {
+								monsterEggBlock.destroyEgg(level, blockPos, livingEntity);
+								flag = false;
+							}
 						}
 					}
+					monsterEgg.soundData.put(livingEntity.getUUID(), new SoundData(amplifier, duration, gameTime));
 				}
-				monsterEgg.soundData.put(livingEntity.getUUID(), new SoundData(amplifier, duration, gameTime));
 			}
 			if (flag) {
 				level.getEntitiesOfClass(ServerPlayer.class, AABB.ofSize(blockPos.getBottomCenter(), 32.0D, 16.0D, 32.0D))

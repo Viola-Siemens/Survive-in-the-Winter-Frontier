@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -12,8 +13,14 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+/**
+ * 轮椅方块喵~
+ *
+ * @author liudongyu
+ */
 @SuppressWarnings("deprecation")
 public class WheelchairBlock extends HorizontalDirectionalBlock {
+	public static final MapCodec<WheelchairBlock> CODEC = simpleCodec(WheelchairBlock::new);
 	protected static final VoxelShape NORTH_SHAPE = Shapes.or(
 			Block.box(0.0D, 0.0D, -6.0D, 16.0D, 10.0D, 18.0D),
 			Block.box(1.0D, 10.0D, 2.0D, 15.0D, 15.0D, 10.0D),
@@ -59,5 +66,10 @@ public class WheelchairBlock extends HorizontalDirectionalBlock {
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(FACING);
+	}
+
+	@Override
+	protected MapCodec<WheelchairBlock> codec() {
+		return CODEC;
 	}
 }

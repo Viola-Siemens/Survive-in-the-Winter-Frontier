@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
@@ -11,8 +12,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-@SuppressWarnings("deprecation")
 public class BloodstainBlock extends Block {
+	public static final MapCodec<BloodstainBlock> CODEC = simpleCodec(BloodstainBlock::new);
+
 	protected static final VoxelShape AABB = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 1.0D, 14.0D);
 
 	public BloodstainBlock(Properties props) {
@@ -32,5 +34,10 @@ public class BloodstainBlock extends Block {
 	@Override
 	public boolean canSurvive(BlockState blockState, LevelReader level, BlockPos blockPos) {
 		return canSupportRigidBlock(level, blockPos.below());
+	}
+
+	@Override
+	protected MapCodec<BloodstainBlock> codec() {
+		return CODEC;
 	}
 }

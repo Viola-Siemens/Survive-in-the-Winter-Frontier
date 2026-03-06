@@ -124,7 +124,7 @@ public class BulletHoleBlock extends DirectionalBlock implements SimpleWaterlogg
 	}
 
 	@Override
-	public boolean isPathfindable(BlockState blockState, BlockGetter level, BlockPos blockPos, PathComputationType type) {
+	public boolean isPathfindable(BlockState blockState, PathComputationType type) {
 		return false;
 	}
 

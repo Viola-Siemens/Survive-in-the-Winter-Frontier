@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
@@ -11,8 +12,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+/**
+ * 肋骨骨架方块，需要放置在固体方块上方喵~
+ *
+ * @author liudongyu
+ */
 @SuppressWarnings("deprecation")
 public class RibsBlock extends Block {
+	public static final MapCodec<RibsBlock> CODEC = simpleCodec(RibsBlock::new);
 	protected static final VoxelShape AABB = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D);
 	public RibsBlock(Properties props) {
 		super(props);
@@ -31,5 +38,10 @@ public class RibsBlock extends Block {
 	@Override
 	public boolean canSurvive(BlockState blockState, LevelReader level, BlockPos blockPos) {
 		return canSupportRigidBlock(level, blockPos.below());
+	}
+
+	@Override
+	protected MapCodec<RibsBlock> codec() {
+		return CODEC;
 	}
 }

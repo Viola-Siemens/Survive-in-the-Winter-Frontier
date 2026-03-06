@@ -1,0 +1,13 @@
+{
+  "values": {
+    "misc_twf:animal_poop": {
+      "chance": 1.0
+    },
+    "misc_twf:winter_wheat": {
+      "chance": 0.65
+    },
+    "misc_twf:winter_wheat_seeds": {
+      "chance": 0.3
+    }
+  }
+}

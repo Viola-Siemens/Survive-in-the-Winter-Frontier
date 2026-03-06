@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.stats.Stats;
@@ -21,8 +22,14 @@ import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 
+/**
+ * 易爆油桶方块，可以被点燃或被抛射物击中后爆炸喵~
+ *
+ * @author liudongyu
+ */
 @SuppressWarnings("deprecation")
 public class ExplosiveJerricanBlock extends JerricanBlock {
+	public static final MapCodec<ExplosiveJerricanBlock> CODEC = simpleCodec(ExplosiveJerricanBlock::new);
 	public ExplosiveJerricanBlock(Properties props) {
 		super(props);
 	}
@@ -76,5 +83,10 @@ public class ExplosiveJerricanBlock extends JerricanBlock {
 	@Override
 	public boolean dropFromExplosion(Explosion explosion) {
 		return false;
+	}
+
+	@Override
+	protected MapCodec<ExplosiveJerricanBlock> codec() {
+		return CODEC;
 	}
 }

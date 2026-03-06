@@ -74,7 +74,7 @@ public class IVStandBlock extends Block {
 	}
 
 	@Override
-	public boolean isPathfindable(BlockState blockState, BlockGetter level, BlockPos blockPos, PathComputationType type) {
+	public boolean isPathfindable(BlockState blockState, PathComputationType type) {
 		return false;
 	}
 

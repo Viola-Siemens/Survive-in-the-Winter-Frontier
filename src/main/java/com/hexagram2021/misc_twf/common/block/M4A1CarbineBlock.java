@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -12,8 +13,14 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+/**
+ * M4A1 卡宾枪方块，可以被活塞推动时销毁喵~
+ *
+ * @author liudongyu
+ */
 @SuppressWarnings("deprecation")
 public class M4A1CarbineBlock extends HorizontalDirectionalBlock {
+	public static final MapCodec<M4A1CarbineBlock> CODEC = simpleCodec(M4A1CarbineBlock::new);
 	protected static final VoxelShape X_SHAPE = Block.box(-1, 0, 5, 17, 2, 11);
 	protected static final VoxelShape Z_SHAPE = Block.box(5, 0, -1, 11, 2, 17);
 
@@ -43,5 +50,10 @@ public class M4A1CarbineBlock extends HorizontalDirectionalBlock {
 	@Override
 	public PushReaction getPistonPushReaction(BlockState blockState) {
 		return PushReaction.DESTROY;
+	}
+
+	@Override
+	protected MapCodec<M4A1CarbineBlock> codec() {
+		return CODEC;
 	}
 }

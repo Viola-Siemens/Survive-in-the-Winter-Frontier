@@ -2,6 +2,7 @@ package com.hexagram2021.misc_twf.common.block;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
@@ -18,15 +19,16 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.ToolActions;
+import net.neoforged.neoforge.common.ItemAbilities;
 
 import java.util.Map;
 
 public class AmmunitionBoxBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
+	public static final MapCodec<AmmunitionBoxBlock> CODEC = simpleCodec(AmmunitionBoxBlock::new);
 
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    public static final Map<Direction, VoxelShape> SHAPES = Maps.newEnumMap(ImmutableMap.of(
+    protected static final Map<Direction, VoxelShape> SHAPES = Maps.newEnumMap(ImmutableMap.of(
             Direction.EAST, Block.box(4.5, 0, 1, 11.5, 6, 15),
             Direction.WEST, Block.box(4.5, 0, 1, 11.5, 6, 15),
             Direction.SOUTH,  Block.box(1, 0, 4.5, 15, 6, 11.5),
@@ -44,7 +46,7 @@ public class AmmunitionBoxBlock extends HorizontalDirectionalBlock implements Si
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter p_56294_, BlockPos p_56295_, CollisionContext p_56296_) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos blockPos, CollisionContext context) {
         return SHAPES.get(state.getValue(FACING));
     }
 
@@ -60,9 +62,14 @@ public class AmmunitionBoxBlock extends HorizontalDirectionalBlock implements Si
 
     @Override
     public float getDestroyProgress(BlockState blockState, Player player, BlockGetter level, BlockPos blockPos) {
-        if(player.getMainHandItem().canPerformAction(ToolActions.SWORD_DIG)) {
+        if(player.getMainHandItem().canPerformAction(ItemAbilities.SWORD_DIG)) {
             return 1.0F;
         }
         return super.getDestroyProgress(blockState, player, level, blockPos);
     }
+
+	@Override
+	protected MapCodec<AmmunitionBoxBlock> codec() {
+		return CODEC;
+	}
 }

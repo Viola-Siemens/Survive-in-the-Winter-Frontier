@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -17,8 +18,14 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
+/**
+ * 堆积的沙袋方块，可以被活塞推动时销毁喵~
+ *
+ * @author liudongyu
+ */
 @SuppressWarnings("deprecation")
 public class PackedSandbagBlock extends Block {
+	public static final MapCodec<PackedSandbagBlock> CODEC = simpleCodec(PackedSandbagBlock::new);
 	public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.HORIZONTAL_AXIS;
 
 	private static final VoxelShape X_SHAPE = Block.box(0.0D, 0.0D, 4.0D, 16.0D, 13.0D, 12.0D);
@@ -68,5 +75,10 @@ public class PackedSandbagBlock extends Block {
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(AXIS);
+	}
+
+	@Override
+	protected MapCodec<PackedSandbagBlock> codec() {
+		return CODEC;
 	}
 }

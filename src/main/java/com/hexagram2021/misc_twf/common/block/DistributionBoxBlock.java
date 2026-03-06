@@ -2,6 +2,7 @@ package com.hexagram2021.misc_twf.common.block;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -22,7 +23,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
+/**
+ * 配电箱方块，需要附着在墙面上，可以放置在水中喵~
+ *
+ * @author liudongyu
+ */
 public class DistributionBoxBlock extends Block implements SimpleWaterloggedBlock {
+	public static final MapCodec<DistributionBoxBlock> CODEC = simpleCodec(DistributionBoxBlock::new);
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final Map<Direction, VoxelShape> SHAPES = Maps.newEnumMap(ImmutableMap.of(
@@ -88,4 +95,9 @@ public class DistributionBoxBlock extends Block implements SimpleWaterloggedBloc
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, WATERLOGGED);
     }
+
+	@Override
+	protected MapCodec<DistributionBoxBlock> codec() {
+		return CODEC;
+	}
 }

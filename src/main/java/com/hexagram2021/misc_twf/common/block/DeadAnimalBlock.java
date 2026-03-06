@@ -3,8 +3,9 @@ package com.hexagram2021.misc_twf.common.block;
 import com.google.common.collect.Lists;
 import com.hexagram2021.misc_twf.common.block.entity.DeadAnimalBlockEntity;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
@@ -35,8 +36,14 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * 动物尸体方块，可以用刀具切割获取战利品喵~
+ *
+ * @author liudongyu
+ */
 @SuppressWarnings("deprecation")
 public class DeadAnimalBlock extends BaseEntityBlock {
+	public static final MapCodec<DeadAnimalBlock> CODEC = simpleCodec(DeadAnimalBlock::new);
 	private final Supplier<List<ItemStack>> lootsSupplier;
 	private final int rottenFlesh;
 
@@ -48,7 +55,7 @@ public class DeadAnimalBlock extends BaseEntityBlock {
 		this.rottenFlesh = rottenFlesh;
 	}
 
-	private static final TagKey<Item> KNIVES = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation("forge", "tools/knives"));
+	private static final TagKey<Item> KNIVES = TagKey.create(Registries.ITEM, new ResourceLocation("forge", "tools/knives"));
 	@Override
 	public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player,
 								 InteractionHand hand, BlockHitResult blockHitResult) {
@@ -149,5 +156,10 @@ public class DeadAnimalBlock extends BaseEntityBlock {
 
 	public int rottenFlesh() {
 		return this.rottenFlesh;
+	}
+
+	@Override
+	protected MapCodec<DeadAnimalBlock> codec() {
+		return CODEC;
 	}
 }

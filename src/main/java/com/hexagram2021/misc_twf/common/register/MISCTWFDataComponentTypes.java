@@ -2,8 +2,10 @@ package com.hexagram2021.misc_twf.common.register;
 
 import com.hexagram2021.misc_twf.common.data_component.MonsterEggEntries;
 import com.hexagram2021.misc_twf.common.data_component.TravelersBackpackTacData;
+import com.mojang.serialization.Codec;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -43,6 +45,16 @@ public final class MISCTWFDataComponentTypes {
 			"monster_egg_entries", () -> DataComponentType.<MonsterEggEntries>builder()
 					.persistent(MonsterEggEntries.CODEC)
 					.networkSynchronized(MonsterEggEntries.STREAM_CODEC)
+					.build()
+	);
+
+	/**
+	 * 突变药水标记位喵~
+	 */
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MUTANT_POTION_FLAG = REGISTER.register(
+			"mutant_potion_flag", () -> DataComponentType.<Integer>builder()
+					.persistent(Codec.INT)
+					.networkSynchronized(ByteBufCodecs.INT)
 					.build()
 	);
 

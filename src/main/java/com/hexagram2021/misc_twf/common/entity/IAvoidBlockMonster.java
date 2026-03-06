@@ -12,6 +12,7 @@ import com.hexagram2021.misc_twf.common.entity.goal.AvoidBlockGoal;
  * @see AvoidBlockGoal
  * @author liudongyu
  */
+@SuppressWarnings("java:S100")
 public interface IAvoidBlockMonster {
 	/**
 	 * 获取怪物的避开方块目标（AI Goal）喵~
