@@ -2,6 +2,7 @@ package com.hexagram2021.misc_twf.common;
 
 import com.hexagram2021.misc_twf.common.entity.ZombieAnimalEntity;
 import com.hexagram2021.misc_twf.common.network.ClientboundMonsterEggAnimationPacket;
+import com.hexagram2021.misc_twf.common.network.ServerboundOpenTacBackpackPacket;
 import com.hexagram2021.misc_twf.common.register.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
@@ -25,7 +26,7 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
  * @author liudongyu
  */
 @EventBusSubscriber(modid = MODID)
-public class MISCTWFContent {
+public final class MISCTWFContent {
 	/**
 	 * 模组构造阶段的主入口方法喵~
 	 * 按照依赖顺序初始化所有注册器，包括数据附件、属性、流体、方块、物品、实体等喵~
@@ -145,6 +146,14 @@ public class MISCTWFContent {
 						ClientboundMonsterEggAnimationPacket.TYPE,
 						ClientboundMonsterEggAnimationPacket.STREAM_CODEC,
 						ClientboundMonsterEggAnimationPacket::handle
+				)
+				.commonToServer(
+						ServerboundOpenTacBackpackPacket.TYPE,
+						ServerboundOpenTacBackpackPacket.STREAM_CODEC,
+						ServerboundOpenTacBackpackPacket::handle
 				);
+	}
+
+	private MISCTWFContent() {
 	}
 }

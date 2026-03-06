@@ -2,28 +2,23 @@ package com.hexagram2021.misc_twf.common.block.entity;
 
 import com.google.common.collect.Maps;
 import com.hexagram2021.misc_twf.common.block.MonsterEggBlock;
+import com.hexagram2021.misc_twf.common.data_component.MonsterEggEntries;
 import com.hexagram2021.misc_twf.common.network.ClientboundMonsterEggAnimationPacket;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockTags;
-import com.hexagram2021.misc_twf.common.util.MISCTWFLogger;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.hexagram2021.misc_twf.common.register.MISCTWFDataComponentTypes;
 import com.scarasol.sona.init.SonaMobEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.random.Weight;
-import net.minecraft.util.random.WeightedEntry;
 import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -54,9 +49,9 @@ import java.util.UUID;
  * @author liudongyu
  */
 public class MonsterEggBlockEntity extends BlockEntity implements GeoBlockEntity {
-	protected WeightedRandomList<MonsterEggEntry> entries = WeightedRandomList.create();
+	protected WeightedRandomList<MonsterEggEntries.MonsterEggEntry> entries = WeightedRandomList.create();
 	private final Map<UUID, SoundData> soundData = Maps.newHashMap();
-	public AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
+	private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
 	private boolean needReload;
 	private boolean needPlay;
 	private static final String CONTROLLER_NAME = "controller";
@@ -98,7 +93,7 @@ public class MonsterEggBlockEntity extends BlockEntity implements GeoBlockEntity
 	 *
 	 * @param entries 带权重的怪物生成条目列表喵~
 	 */
-	public void setEntries(WeightedRandomList<MonsterEggEntry> entries) {
+	public void setEntries(WeightedRandomList<MonsterEggEntries.MonsterEggEntry> entries) {
 		this.entries = entries;
 	}
 
@@ -108,31 +103,28 @@ public class MonsterEggBlockEntity extends BlockEntity implements GeoBlockEntity
 	 * @param itemStack 包含 NBT 数据的物品堆叠喵~
 	 */
 	public void fromItem(ItemStack itemStack) {
-		CompoundTag nbt = itemStack.getTag();
-		if (nbt == null) {
-			return;
-		}
-		this.loadInner(nbt);
-	}
-
-	private void loadInner(CompoundTag nbt) {
-		if (nbt.contains("Entries", Tag.TAG_LIST)) {
-			this.setEntries(WeightedRandomList.create(
-					MonsterEggEntry.CODEC.listOf().parse(NbtOps.INSTANCE, nbt.getList("Entries", Tag.TAG_COMPOUND)).getOrThrow(false, MISCTWFLogger::error)
-			));
+		MonsterEggEntries monsterEggEntries = itemStack.get(MISCTWFDataComponentTypes.MONSTER_EGG_ENTRIES);
+		if(monsterEggEntries == null) {
+			this.setEntries(WeightedRandomList.create());
+		} else {
+			this.setEntries(WeightedRandomList.create(monsterEggEntries.entries()));
 		}
 	}
 
 	@Override
 	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
 		super.loadAdditional(nbt, provider);
-		this.loadInner(nbt);
+		if (nbt.contains("entries", Tag.TAG_LIST)) {
+			this.setEntries(WeightedRandomList.create(
+					MonsterEggEntries.MonsterEggEntry.CODEC.listOf().parse(NbtOps.INSTANCE, nbt.getList("entries", Tag.TAG_COMPOUND)).getOrThrow()
+			));
+		}
 	}
 
 	@Override
 	protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
 		super.saveAdditional(nbt, provider);
-		nbt.put("Entries", MonsterEggEntry.CODEC.listOf().encode(this.entries.unwrap(), NbtOps.INSTANCE, new ListTag()).getOrThrow(false, MISCTWFLogger::error));
+		nbt.put("entries", MonsterEggEntries.MonsterEggEntry.CODEC.listOf().encode(this.entries.unwrap(), NbtOps.INSTANCE, new ListTag()).getOrThrow());
 	}
 
 	/**
@@ -243,40 +235,5 @@ public class MonsterEggBlockEntity extends BlockEntity implements GeoBlockEntity
 	 * @param gameTime 记录时的游戏时间喵~
 	 */
 	record SoundData(int amplifier, int duration, long gameTime) {
-	}
-
-	/**
-	 * 怪物生成条目，包含实体类型和生成权重喵~
-	 * 用于配置怪物蛋可以生成的怪物种类及其出现概率喵~
-	 *
-	 * @author liudongyu
-	 */
-	public static class MonsterEggEntry extends WeightedEntry.IntrusiveBase {
-		public static final Codec<MonsterEggEntry> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-				BuiltInRegistries.ENTITY_TYPE.byNameCodec().fieldOf("type").forGetter(MonsterEggEntry::type),
-				Weight.CODEC.fieldOf("weight").forGetter(WeightedEntry.IntrusiveBase::getWeight)
-		).apply(instance, MonsterEggEntry::new));
-
-		private final EntityType<?> type;
-
-		/**
-		 * 构造怪物生成条目喵~
-		 *
-		 * @param type 实体类型喵~
-		 * @param weight 生成权重喵~
-		 */
-		public MonsterEggEntry(EntityType<?> type, Weight weight) {
-			super(weight);
-			this.type = type;
-		}
-
-		/**
-		 * 获取此条目对应的实体类型喵~
-		 *
-		 * @return 实体类型喵~
-		 */
-		public EntityType<?> type() {
-			return type;
-		}
 	}
 }

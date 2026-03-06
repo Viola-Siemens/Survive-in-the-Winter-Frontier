@@ -21,15 +21,12 @@
     "vanilla.RecipeManagerMixin",
     "vanilla.entities.AbstractHorseEntityMixin",
     "vanilla.entities.AnimalEntityMixin",
-    "vanilla.entities.ChickenEntityMixin",
     "vanilla.entities.CowEntityMixin",
     "vanilla.entities.EntityMixin",
     "vanilla.entities.GoatEntityMixin",
     "vanilla.entities.LivingEntityMixin",
     "vanilla.entities.MonsterMixin",
-    "vanilla.entities.ParrotEntityMixin",
-    "vanilla.entities.SheepEntityMixin",
-    "vanilla.entities.ai.GoatAiMixin"
+    "vanilla.entities.ParrotEntityMixin"
   ],
   "minVersion": "0.8",
   "client": [

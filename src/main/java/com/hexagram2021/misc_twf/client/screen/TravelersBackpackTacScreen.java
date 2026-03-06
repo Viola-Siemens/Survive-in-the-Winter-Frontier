@@ -1,21 +1,23 @@
 package com.hexagram2021.misc_twf.client.screen;
 
-import com.hexagram2021.misc_twf.SurviveInTheWinterFrontier;
 import com.hexagram2021.misc_twf.common.menu.AbstractTravelersBackpackTacMenu;
 import com.hexagram2021.misc_twf.common.network.ServerboundOpenTacBackpackPacket;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.tiviacz.travelersbackpack.blockentity.TravelersBackpackBlockEntity;
-import com.tiviacz.travelersbackpack.inventory.ITravelersBackpackContainer;
+import com.tiviacz.travelersbackpack.blockentity.BackpackBlockEntity;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+
+import java.util.Objects;
+import java.util.Optional;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
@@ -70,7 +72,7 @@ public class TravelersBackpackTacScreen extends AbstractContainerScreen<Abstract
 
 		if(this.leftPos + BACK_BUTTON_X <= mouseX && mouseX < this.leftPos + BACK_BUTTON_X + BACK_BUTTON_WIDTH &&
 				this.topPos + BACK_BUTTON_Y <= mouseY && mouseY < this.topPos + BACK_BUTTON_Y + BACK_BUTTON_HEIGHT) {
-			this.renderTooltip(transform, new TranslatableComponent("screen.travelersbackpack.tac_back"), mouseX, mouseY);
+			this.renderTooltip(transform, Component.translatable("screen.travelersbackpack.tac_back"), mouseX, mouseY);
 		}
 	}
 
@@ -78,12 +80,13 @@ public class TravelersBackpackTacScreen extends AbstractContainerScreen<Abstract
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		if(this.leftPos + BACK_BUTTON_X <= mouseX && mouseX < this.leftPos + BACK_BUTTON_X + BACK_BUTTON_WIDTH &&
 				this.topPos + BACK_BUTTON_Y <= mouseY && mouseY < this.topPos + BACK_BUTTON_Y + BACK_BUTTON_HEIGHT) {
-			if(this.menu.container instanceof TravelersBackpackBlockEntity blockEntity) {
-				SurviveInTheWinterFrontier.packetHandler.sendToServer(new ServerboundOpenTacBackpackPacket(
-						ServerboundOpenTacBackpackPacket.TYPE_TAC_SLOT_TO_BACKPACK, this.screenId, blockEntity.getBlockPos()
+			LocalPlayer player = Objects.requireNonNull(Minecraft.getInstance().player);
+			if(this.menu.container instanceof BackpackBlockEntity blockEntity) {
+				player.connection.send(new ServerboundOpenTacBackpackPacket(
+						ServerboundOpenTacBackpackPacket.TYPE_TAC_SLOT_TO_BACKPACK, this.screenId, Optional.of(blockEntity.getBlockPos())
 				));
 			} else {
-				SurviveInTheWinterFrontier.packetHandler.sendToServer(new ServerboundOpenTacBackpackPacket(
+				player.connection.send(new ServerboundOpenTacBackpackPacket(
 						ServerboundOpenTacBackpackPacket.TYPE_TAC_SLOT_TO_BACKPACK, this.screenId
 				));
 			}

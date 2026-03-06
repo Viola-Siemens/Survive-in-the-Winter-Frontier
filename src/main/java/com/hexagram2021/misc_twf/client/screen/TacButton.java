@@ -5,11 +5,14 @@ import com.hexagram2021.misc_twf.common.network.ServerboundOpenTacBackpackPacket
 import com.hexagram2021.misc_twf.common.util.IAmmoBackpack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.tiviacz.travelersbackpack.blockentity.BackpackBlockEntity;
 import com.tiviacz.travelersbackpack.blockentity.TravelersBackpackBlockEntity;
 import com.tiviacz.travelersbackpack.client.screens.TravelersBackpackScreen;
 import com.tiviacz.travelersbackpack.client.screens.buttons.Button;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.Optional;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
@@ -46,9 +49,9 @@ public class TacButton extends Button {
 		if(this.screen.container instanceof IAmmoBackpack ammoBackpack && ammoBackpack.canStoreAmmo()) {
 			if (this.inButton((int)mouseX, (int)mouseY)) {
 				byte screenID = this.screen.container.getScreenID();
-				if(this.screen.container instanceof TravelersBackpackBlockEntity blockEntity) {
+				if(this.screen.container instanceof BackpackBlockEntity blockEntity) {
 					SurviveInTheWinterFrontier.packetHandler.sendToServer(new ServerboundOpenTacBackpackPacket(
-							ServerboundOpenTacBackpackPacket.TYPE_BACKPACK_TO_TAC_SLOT, screenID, blockEntity.getBlockPos()
+							ServerboundOpenTacBackpackPacket.TYPE_BACKPACK_TO_TAC_SLOT, screenID, Optional.of(blockEntity.getBlockPos())
 					));
 				} else {
 					SurviveInTheWinterFrontier.packetHandler.sendToServer(new ServerboundOpenTacBackpackPacket(

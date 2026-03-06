@@ -1,6 +1,7 @@
 package com.hexagram2021.misc_twf.common.world.features;
 
 import com.hexagram2021.misc_twf.common.block.entity.MonsterEggBlockEntity;
+import com.hexagram2021.misc_twf.common.data_component.MonsterEggEntries;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlocks;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -65,9 +66,9 @@ public class MonsterEggFeature extends Feature<MonsterEggFeature.MonsterEggFeatu
 	 *
 	 * @author liudongyu
 	 */
-	public record MonsterEggFeatureConfiguration(List<MonsterEggBlockEntity.MonsterEggEntry> entries) implements FeatureConfiguration {
+	public record MonsterEggFeatureConfiguration(List<MonsterEggEntries.MonsterEggEntry> entries) implements FeatureConfiguration {
 		public static final Codec<MonsterEggFeatureConfiguration> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-				MonsterEggBlockEntity.MonsterEggEntry.CODEC.listOf().fieldOf("entries").forGetter(configuration -> configuration.entries)
+				MonsterEggEntries.MonsterEggEntry.CODEC.listOf().fieldOf("entries").forGetter(configuration -> configuration.entries)
 		).apply(instance, MonsterEggFeatureConfiguration::new));
 	}
 }

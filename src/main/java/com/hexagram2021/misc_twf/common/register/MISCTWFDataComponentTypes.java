@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common.register;
 
+import com.hexagram2021.misc_twf.common.data_component.MonsterEggEntries;
 import com.hexagram2021.misc_twf.common.data_component.TravelersBackpackTacData;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -32,6 +33,16 @@ public final class MISCTWFDataComponentTypes {
 			"travelers_backpack_tac_data", () -> DataComponentType.<TravelersBackpackTacData>builder()
 					.persistent(TravelersBackpackTacData.CODEC)
 					.networkSynchronized(TravelersBackpackTacData.STREAM_CODEC)
+					.build()
+	);
+
+	/**
+	 * 怪物蛋刷怪条目列表喵~
+	 */
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<MonsterEggEntries>> MONSTER_EGG_ENTRIES = REGISTER.register(
+			"monster_egg_entries", () -> DataComponentType.<MonsterEggEntries>builder()
+					.persistent(MonsterEggEntries.CODEC)
+					.networkSynchronized(MonsterEggEntries.STREAM_CODEC)
 					.build()
 	);
 
