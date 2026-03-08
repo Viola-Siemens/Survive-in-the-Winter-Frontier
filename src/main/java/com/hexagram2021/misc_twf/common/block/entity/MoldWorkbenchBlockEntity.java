@@ -6,7 +6,7 @@ import com.hexagram2021.misc_twf.common.menu.MoldWorkbenchMenu;
 import com.hexagram2021.misc_twf.common.recipe.MoldWorkbenchRecipe;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlocks;
-import com.simibubi.create.content.contraptions.ITransformableBlockEntity;
+import com.simibubi.create.api.contraption.transformable.TransformableBlockEntity;
 import com.simibubi.create.content.contraptions.StructureTransform;
 import com.simibubi.create.content.decoration.bracket.BracketedBlockEntityBehaviour;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
@@ -14,11 +14,11 @@ import com.simibubi.create.content.kinetics.simpleRelays.AbstractSimpleShaftBloc
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.*;
@@ -28,21 +28,15 @@ import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-@SuppressWarnings("Convert2MethodRef")
-public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Container, MenuProvider, Nameable, WorldlyContainer, StackedContentsCompatible, ITransformableBlockEntity {
+public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Container, MenuProvider, Nameable, WorldlyContainer, StackedContentsCompatible, TransformableBlockEntity {
 	public static final int SLOT_INPUT = 0;
 	public static final int SLOT_RESULT = 1;
 	public static final int SLOT_MECHANICAL_ARM = 2;
@@ -97,10 +91,6 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 		this.items = NonNullList.withSize(NUM_SLOTS, ItemStack.EMPTY);
 	}
 
-	public void setCustomName(Component customName) {
-		this.name = customName;
-	}
-
 	@Override
 	public Component getName() {
 		return this.name != null ? this.name : this.getDefaultName();
@@ -117,7 +107,7 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 	}
 
 	protected Component getDefaultName() {
-		return new TranslatableComponent("container.misc_twf.mold_workbench");
+		return Component.translatable("container.misc_twf.mold_workbench");
 	}
 
 	@Override
@@ -126,28 +116,28 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 	}
 
 	@Override
-	public void read(CompoundTag nbt, boolean clientPacket) {
-		super.read(nbt, clientPacket);
+	public void read(CompoundTag nbt, HolderLookup.Provider provider, boolean clientPacket) {
+		super.read(nbt, provider, clientPacket);
 		if (nbt.contains("CustomName", Tag.TAG_STRING)) {
-			this.name = Component.Serializer.fromJson(nbt.getString("CustomName"));
+			this.name = Component.Serializer.fromJson(nbt.getString("CustomName"), provider);
 		}
 		this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-		ContainerHelper.loadAllItems(nbt, this.items);
+		ContainerHelper.loadAllItems(nbt, this.items, provider);
 		this.workProgress = nbt.getInt("WorkProgress");
 		this.workTotalTime = nbt.getInt("WorkTotalTime");
 		this.recipeIndex = nbt.getInt("RecipeIndex");
 		if(nbt.contains("RecipeUsed", Tag.TAG_STRING)) {
-			this.recipeUsed = new ResourceLocation(nbt.getString("RecipeUsed"));
+			this.recipeUsed = ResourceLocation.parse(nbt.getString("RecipeUsed"));
 		}
 	}
 
 	@Override
-	public void write(CompoundTag nbt, boolean clientPacket) {
-		super.write(nbt, clientPacket);
+	public void write(CompoundTag nbt, HolderLookup.Provider provider, boolean clientPacket) {
+		super.write(nbt, provider, clientPacket);
 		if (this.name != null) {
-			nbt.putString("CustomName", Component.Serializer.toJson(this.name));
+			nbt.putString("CustomName", Component.Serializer.toJson(this.name, provider));
 		}
-		ContainerHelper.saveAllItems(nbt, this.items);
+		ContainerHelper.saveAllItems(nbt, this.items, provider);
 		nbt.putInt("WorkProgress", this.workProgress);
 		nbt.putInt("WorkTotalTime", this.workTotalTime);
 		nbt.putInt("RecipeIndex", this.recipeIndex);
@@ -168,14 +158,16 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 			if(recipeUsed != null) {
 				ItemStack input = this.getItem(SLOT_INPUT);
 				ItemStack result = this.getItem(SLOT_RESULT);
-				Recipe<?> recipe = this.level.getRecipeManager().byKey(recipeUsed).orElse(null);
+				RecipeHolder<?> recipe = this.level.getRecipeManager().byKey(recipeUsed).orElse(null);
 				boolean resultEmpty = result.isEmpty();
-				if(recipe != null && (resultEmpty || ItemStack.isSameItemSameTags(result, recipe.getResultItem()))) {
+				if(recipe != null && (resultEmpty || ItemStack.isSameItemSameComponents(
+						result, recipe.value().getResultItem(this.level.registryAccess())
+				))) {
 					this.workProgress += 1;
 					if (this.workProgress < this.workTotalTime) {
 						return;
 					}
-					if (recipe instanceof MoldWorkbenchRecipe moldWorkbenchRecipe && moldWorkbenchRecipe.matches(this, this.level)) {
+					if (recipe.value() instanceof MoldWorkbenchRecipe moldWorkbenchRecipe && moldWorkbenchRecipe.matches(this, this.level)) {
 						input.shrink(1);
 						if(resultEmpty) {
 							this.setItem(SLOT_RESULT, moldWorkbenchRecipe.assemble(this));
@@ -207,7 +199,7 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 	}
 
 	@Override
-	public void transform(StructureTransform transform) {
+	public void transform(BlockEntity blockEntity, StructureTransform transform) {
 		BracketedBlockEntityBehaviour bracketBehaviour = this.getBehaviour(BracketedBlockEntityBehaviour.TYPE);
 		if (bracketBehaviour != null) {
 			bracketBehaviour.transformBracket(transform);
@@ -307,11 +299,11 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 		this.items.forEach(contents::accountStack);
 	}
 
-	public void setRecipeUsed(@Nullable Recipe<?> recipe) {
+	public void setRecipeUsed(@Nullable RecipeHolder<MoldWorkbenchRecipe> recipe) {
 		if (recipe == null) {
 			this.recipeUsed = null;
 		} else {
-			this.recipeUsed = recipe.getId();
+			this.recipeUsed = recipe.id();
 		}
 	}
 
@@ -324,45 +316,5 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 		if(this.level instanceof ServerLevel) {
 			this.level.setBlock(this.worldPosition, this.getBlockState().setValue(MoldWorkbenchBlock.ARMED, hasMechanicalArm), Block.UPDATE_ALL);
 		}
-	}
-
-	// Forge start
-	LazyOptional<?> itemHandler = LazyOptional.of(() -> this.createUnSidedHandler());
-	LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
-
-	protected IItemHandler createUnSidedHandler() {
-		return new InvWrapper(this);
-	}
-
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (!this.remove) {
-			if(facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-				if (facing == Direction.UP) {
-					return this.handlers[0].cast();
-				}
-				return facing == Direction.DOWN ? this.handlers[1].cast() : this.handlers[2].cast();
-			}
-			if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-				return this.itemHandler.cast();
-			}
-		}
-		return super.getCapability(capability, facing);
-	}
-
-	@Override
-	public void invalidateCaps() {
-		super.invalidateCaps();
-		for (LazyOptional<? extends IItemHandler> handler : this.handlers) {
-			handler.invalidate();
-		}
-		this.itemHandler.invalidate();
-	}
-
-	@Override
-	public void reviveCaps() {
-		super.reviveCaps();
-		this.handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
-		this.itemHandler = LazyOptional.of(() -> this.createUnSidedHandler());
 	}
 }

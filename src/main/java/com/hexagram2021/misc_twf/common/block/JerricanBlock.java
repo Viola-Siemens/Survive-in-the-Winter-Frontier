@@ -21,7 +21,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  *
  * @author liudongyu
  */
-@SuppressWarnings("deprecation")
 public class JerricanBlock extends Block {
 	public static final MapCodec<JerricanBlock> CODEC = simpleCodec(JerricanBlock::new);
 	protected static final VoxelShape X_SHAPE = Block.box(0, 2, 2, 22, 14, 14);
@@ -72,7 +71,7 @@ public class JerricanBlock extends Block {
 	}
 
 	@Override
-	protected MapCodec<JerricanBlock> codec() {
+	protected MapCodec<? extends JerricanBlock> codec() {
 		return CODEC;
 	}
 }

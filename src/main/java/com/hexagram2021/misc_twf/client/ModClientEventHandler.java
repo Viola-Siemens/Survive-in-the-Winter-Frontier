@@ -92,7 +92,7 @@ public final class ModClientEventHandler {
 		event.register(MISCTWFMenuTypes.TRAVELERS_BACKPACK_BLOCK_ENTITY_TAC_SLOT_MENU.get(), TravelersBackpackTacScreen::new);
 		event.register(MISCTWFMenuTypes.TRAVELERS_BACKPACK_ITEM_TAC_SLOT_MENU.get(), TravelersBackpackTacScreen::new);
 		event.register(MISCTWFMenuTypes.MOLD_WORKBENCH_MENU.get(), MoldWorkbenchScreen::new);
-		event.register(MISCTWFMenuTypes.RECOVERY_FURNACE.get(), RecoveryFurnaceScreen::new);
+		event.register(MISCTWFMenuTypes.RECOVERY_FURNACE_MENU.get(), RecoveryFurnaceScreen::new);
 	}
 
 	private ModClientEventHandler() {

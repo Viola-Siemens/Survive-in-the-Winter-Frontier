@@ -1,26 +1,17 @@
 package com.hexagram2021.misc_twf.common.recipe.compat;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.hexagram2021.misc_twf.common.recipe.RecoveryFurnaceRecipe;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlocks;
-import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.drawable.IDrawableAnimated;
-import mezz.jei.api.gui.drawable.IDrawableStatic;
-import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.gui.placement.HorizontalAlignment;
+import mezz.jei.api.gui.placement.VerticalAlignment;
+import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
-import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
+import mezz.jei.api.recipe.category.AbstractRecipeCategory;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -28,93 +19,64 @@ import java.util.List;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
-public class RecoveryFurnaceRecipeCategory implements IRecipeCategory<RecoveryFurnaceRecipe> {
-	public static final ResourceLocation UID = new ResourceLocation(MODID, "recovery_furnace");
-	public static final ResourceLocation TEXTURE = new ResourceLocation(MODID, "textures/gui/jei/recovery_furnace.png");
+public class RecoveryFurnaceRecipeCategory extends AbstractRecipeCategory<RecoveryFurnaceRecipe> {
+	public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(MODID, "recovery_furnace");
+	public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/recovery_furnace.png");
 
-	public static final int width = 118;
-	public static final int height = 54;
+	public static final int WIDTH = 118;
 
-	protected final IDrawableStatic staticFlame;
-	protected final IDrawableAnimated animatedFlame;
-	private final IDrawable background;
 	private final int regularCookTime;
-	private final IDrawable icon;
-	private final LoadingCache<Integer, IDrawableAnimated> cachedArrows;
 
 	public RecoveryFurnaceRecipeCategory(IGuiHelper guiHelper) {
-		this.staticFlame = guiHelper.createDrawable(TEXTURE, 118, 0, 15, 15);
-		this.animatedFlame = guiHelper.createAnimatedDrawable(this.staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true);
-		this.background = guiHelper.createDrawable(TEXTURE, 0, 0, width, height);
+		super(
+				JEIHelper.MISCTWFJEIRecipeTypes.RECOVERY_FURNACE,
+				Component.translatable("block.misc_twf.recovery_furnace"),
+				guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(MISCTWFBlocks.RECOVERY_FURNACE.get())),
+				WIDTH, 54
+		);
 		this.regularCookTime = RecoveryFurnaceRecipe.Serializer.DEFAULT_RECOVERING_TIME;
-		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(MISCTWFBlocks.RECOVERY_FURNACE.get()));
-		this.cachedArrows = CacheBuilder.newBuilder().maximumSize(25L).build(new CacheLoader<>() {
-			@Override
-			public IDrawableAnimated load(Integer cookTime) {
-				return guiHelper.drawableBuilder(TEXTURE, 118, 15, 24, 17).buildAnimated(cookTime, IDrawableAnimated.StartDirection.LEFT, false);
-			}
-		});
 	}
 
-	protected IDrawableAnimated getArrow(RecoveryFurnaceRecipe recipe) {
+	@Override
+	public void createRecipeExtras(IRecipeExtrasBuilder builder, RecoveryFurnaceRecipe recipe, IFocusGroup focuses) {
 		int cookTime = recipe.recoveringTime();
 		if (cookTime <= 0) {
-			cookTime = this.regularCookTime;
+			cookTime = regularCookTime;
 		}
+		builder.addAnimatedRecipeArrow(cookTime)
+				.setPosition(26, 17);
+		builder.addAnimatedRecipeFlame(300)
+				.setPosition(1, 20);
 
-		return this.cachedArrows.getUnchecked(cookTime);
+		this.addExperience(builder, recipe);
+		this.addCookTime(builder, recipe);
 	}
 
-	@Override
-	public void draw(RecoveryFurnaceRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack poseStack, double mouseX, double mouseY) {
-		this.animatedFlame.draw(poseStack, 30, 19);
-		IDrawableAnimated arrow = this.getArrow(recipe);
-		arrow.draw(poseStack, 52, 18);
-		this.drawExperience(recipe, poseStack);
-		this.drawCookTime(recipe, poseStack);
-	}
-
-	protected void drawExperience(RecoveryFurnaceRecipe recipe, PoseStack poseStack) {
+	protected void addExperience(IRecipeExtrasBuilder builder, RecoveryFurnaceRecipe recipe) {
 		float experience = recipe.experience();
-		if (experience > 0.0F) {
-			TranslatableComponent experienceString = new TranslatableComponent("gui.jei.category.smelting.experience", experience);
-			Minecraft minecraft = Minecraft.getInstance();
-			Font fontRenderer = minecraft.font;
-			int stringWidth = fontRenderer.width(experienceString);
-			fontRenderer.draw(poseStack, experienceString, (float)(this.background.getWidth() - stringWidth), 0.0F, -8355712);
+		if (experience > 0) {
+			Component experienceString = Component.translatable("gui.jei.category.smelting.experience", experience);
+			builder.addText(experienceString, getWidth() - 20, 10)
+					.setPosition(0, 0, getWidth(), getHeight(), HorizontalAlignment.RIGHT, VerticalAlignment.TOP)
+					.setTextAlignment(HorizontalAlignment.RIGHT)
+					.setColor(0xFF808080);
 		}
 	}
 
-	protected void drawCookTime(RecoveryFurnaceRecipe recipe, PoseStack poseStack) {
+	protected void addCookTime(IRecipeExtrasBuilder builder, RecoveryFurnaceRecipe recipe) {
 		int cookTime = recipe.recoveringTime();
+		if (cookTime <= 0) {
+			cookTime = regularCookTime;
+		}
 		if (cookTime > 0) {
 			int cookTimeSeconds = cookTime / 20;
-			TranslatableComponent timeString = new TranslatableComponent("gui.jei.category.smelting.time.seconds", cookTimeSeconds);
-			Minecraft minecraft = Minecraft.getInstance();
-			Font fontRenderer = minecraft.font;
-			int stringWidth = fontRenderer.width(timeString);
-			fontRenderer.draw(poseStack, timeString, (float)(this.background.getWidth() - stringWidth), 45.0F, -8355712);
+			Component timeString = Component.translatable("gui.jei.category.smelting.time.seconds", cookTimeSeconds);
+			builder.addText(timeString, getWidth() - 20, 10)
+					.setPosition(0, 0, getWidth(), getHeight(), HorizontalAlignment.RIGHT, VerticalAlignment.BOTTOM)
+					.setTextAlignment(HorizontalAlignment.RIGHT)
+					.setTextAlignment(VerticalAlignment.BOTTOM)
+					.setColor(0xFF808080);
 		}
-	}
-
-	@Override
-	public RecipeType<RecoveryFurnaceRecipe> getRecipeType() {
-		return JEIHelper.MISCTWFJEIRecipeTypes.RECOVERY_FURNACE;
-	}
-
-	@Override
-	public Component getTitle() {
-		return new TranslatableComponent("block.misc_twf.recovery_furnace");
-	}
-
-	@Override
-	public IDrawable getBackground() {
-		return this.background;
-	}
-
-	@Override
-	public IDrawable getIcon() {
-		return this.icon;
 	}
 
 	@Override
@@ -129,17 +91,5 @@ public class RecoveryFurnaceRecipeCategory implements IRecipeCategory<RecoveryFu
 	@Override
 	public boolean isHandled(RecoveryFurnaceRecipe recipe) {
 		return !recipe.isSpecial();
-	}
-
-	@SuppressWarnings("removal")
-	@Override
-	public ResourceLocation getUid() {
-		return UID;
-	}
-
-	@SuppressWarnings("removal")
-	@Override
-	public Class<? extends RecoveryFurnaceRecipe> getRecipeClass() {
-		return RecoveryFurnaceRecipe.class;
 	}
 }

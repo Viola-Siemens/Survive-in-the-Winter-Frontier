@@ -5,51 +5,41 @@ import com.hexagram2021.misc_twf.common.register.MISCTWFBlocks;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
-import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.api.recipe.category.AbstractRecipeCategory;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
-public class MoldDetacherRecipeCategory implements IRecipeCategory<MoldDetacherRecipe> {
-	public static final ResourceLocation UID = new ResourceLocation(MODID, "mold_detach");
-	public static final ResourceLocation TEXTURE = new ResourceLocation(MODID, "textures/gui/jei/mold_detacher.png");
+public class MoldDetacherRecipeCategory extends AbstractRecipeCategory<MoldDetacherRecipe> {
+	public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(MODID, "mold_detach");
+	public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/mold_detacher.png");
 
-	public static final int width = 128;
-	public static final int height = 48;
+	public static final int WIDTH = 128;
+	public static final int HEIGHT = 48;
 
 	private final IDrawable background;
-	private final IDrawable icon;
 
 	public MoldDetacherRecipeCategory(IGuiHelper guiHelper) {
-		this.background = guiHelper.createDrawable(TEXTURE, 0, 0, width, height);
-		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(MISCTWFBlocks.MOLD_DETACHER.get()));
+		super(
+				JEIHelper.MISCTWFJEIRecipeTypes.MOLD_DETACHER,
+				Component.translatable("block.misc_twf.mold_detacher"),
+				guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(MISCTWFBlocks.MOLD_DETACHER.get())),
+				WIDTH, HEIGHT
+		);
+		this.background = guiHelper.createDrawable(TEXTURE, 0, 0, WIDTH, HEIGHT);
 	}
 
 	@Override
-	public RecipeType<MoldDetacherRecipe> getRecipeType() {
-		return JEIHelper.MISCTWFJEIRecipeTypes.MOLD_DETACHER;
-	}
-
-	@Override
-	public Component getTitle() {
-		return new TranslatableComponent("block.misc_twf.mold_detacher");
-	}
-
-	@Override
-	public IDrawable getBackground() {
-		return this.background;
-	}
-
-	@Override
-	public IDrawable getIcon() {
-		return this.icon;
+	public void draw(MoldDetacherRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+		super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
+		this.background.draw(guiGraphics);
 	}
 
 	@Override
@@ -63,17 +53,5 @@ public class MoldDetacherRecipeCategory implements IRecipeCategory<MoldDetacherR
 	@Override
 	public boolean isHandled(MoldDetacherRecipe recipe) {
 		return !recipe.isSpecial();
-	}
-
-	@SuppressWarnings("removal")
-	@Override
-	public ResourceLocation getUid() {
-		return UID;
-	}
-
-	@SuppressWarnings("removal")
-	@Override
-	public Class<? extends MoldDetacherRecipe> getRecipeClass() {
-		return MoldDetacherRecipe.class;
 	}
 }

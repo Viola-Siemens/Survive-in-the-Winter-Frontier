@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public record RecoveryFurnaceRecipe(ResourceLocation id, GunSmithTableResult ingredient, List<ItemStack> results, float experience, int recoveringTime) implements Recipe<Container>, IHasCustomIconRecipe {
+public record RecoveryFurnaceRecipe(ResourceLocation id, GunSmithTableResult ingredient, List<ItemStack> results, float experience, int recoveringTime) implements Recipe<SingleRecipeInput>, IHasCustomIconRecipe {
 	public static final CachedRecipeList<RecoveryFurnaceRecipe> recipeList = new CachedRecipeList<>(
 			MISCTWFRecipeTypes.RECOVERY_FURNACE,
 			RecoveryFurnaceRecipe.class

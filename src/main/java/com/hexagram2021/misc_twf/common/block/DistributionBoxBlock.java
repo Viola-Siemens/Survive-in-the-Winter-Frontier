@@ -41,7 +41,7 @@ public class DistributionBoxBlock extends Block implements SimpleWaterloggedBloc
 
     public DistributionBoxBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, Boolean.FALSE));
     }
 
     @Override
@@ -67,7 +67,7 @@ public class DistributionBoxBlock extends Block implements SimpleWaterloggedBloc
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter p_56294_, BlockPos p_56295_, CollisionContext p_56296_) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos blockPos, CollisionContext context) {
         return SHAPES.get(state.getValue(FACING));
     }
 

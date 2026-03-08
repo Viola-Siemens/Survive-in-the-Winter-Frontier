@@ -11,9 +11,13 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
+import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
@@ -79,6 +83,20 @@ public final class MISCTWFContent {
 	@SubscribeEvent
 	public static void registerPotions(RegisterBrewingRecipesEvent event) {
 		MISCTWFBrewingRecipes.init(event.getBuilder());
+	}
+
+	/**
+	 * 注册能力喵~
+	 *
+	 * @param event 注册能力事件喵~
+	 */
+	@SubscribeEvent
+	public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
+		event.registerBlockEntity(
+				Capabilities.ItemHandler.BLOCK,
+				MISCTWFBlockEntities.MOLD_WORKBENCH.get(),
+				(container, side) -> side == null ? new InvWrapper(container) : new SidedInvWrapper(container, side)
+		);
 	}
 
 	/**

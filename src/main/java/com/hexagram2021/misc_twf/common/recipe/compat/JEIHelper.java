@@ -10,6 +10,7 @@ import com.hexagram2021.misc_twf.common.recipe.MoldWorkbenchRecipe;
 import com.hexagram2021.misc_twf.common.recipe.RecoveryFurnaceRecipe;
 import com.hexagram2021.misc_twf.common.recipe.cache.CachedRecipeList;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlocks;
+import com.hexagram2021.misc_twf.common.register.MISCTWFMenuTypes;
 import com.hexagram2021.misc_twf.common.util.MISCTWFLogger;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -30,13 +31,16 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
 @JeiPlugin
 public class JEIHelper implements IModPlugin {
-	public interface MISCTWFJEIRecipeTypes {
-		RecipeType<MoldDetacherRecipe> MOLD_DETACHER = new RecipeType<>(MoldDetacherRecipeCategory.UID, MoldDetacherRecipe.class);
-		RecipeType<MoldWorkbenchRecipe> MOLD_WORKBENCH = new RecipeType<>(MoldWorkbenchRecipeCategory.UID, MoldWorkbenchRecipe.class);
-		RecipeType<RecoveryFurnaceRecipe> RECOVERY_FURNACE = new RecipeType<>(RecoveryFurnaceRecipeCategory.UID, RecoveryFurnaceRecipe.class);
+	public static final class MISCTWFJEIRecipeTypes {
+		public static final RecipeType<MoldDetacherRecipe> MOLD_DETACHER = new RecipeType<>(MoldDetacherRecipeCategory.UID, MoldDetacherRecipe.class);
+		public static final RecipeType<MoldWorkbenchRecipe> MOLD_WORKBENCH = new RecipeType<>(MoldWorkbenchRecipeCategory.UID, MoldWorkbenchRecipe.class);
+		public static final RecipeType<RecoveryFurnaceRecipe> RECOVERY_FURNACE = new RecipeType<>(RecoveryFurnaceRecipeCategory.UID, RecoveryFurnaceRecipe.class);
+
+		private MISCTWFJEIRecipeTypes() {
+		}
 	}
 
-	private static final ResourceLocation UID = new ResourceLocation(MODID, "main");
+	private static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(MODID, "main");
 
 	@Override
 	public ResourceLocation getPluginUid() {
@@ -71,18 +75,21 @@ public class JEIHelper implements IModPlugin {
 	public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
 		registration.addRecipeTransferHandler(
 				MoldWorkbenchMenu.class,
+				MISCTWFMenuTypes.MOLD_WORKBENCH_MENU.get(),
 				MISCTWFJEIRecipeTypes.MOLD_WORKBENCH,
 				MoldWorkbenchBlockEntity.SLOT_INPUT, 1,
 				MoldWorkbenchMenu.INV_SLOT_START, 36
 		);
 		registration.addRecipeTransferHandler(
 				RecoveryFurnaceMenu.class,
+				MISCTWFMenuTypes.RECOVERY_FURNACE_MENU.get(),
 				MISCTWFJEIRecipeTypes.RECOVERY_FURNACE,
 				RecoveryFurnaceBlockEntity.SLOT_INPUT, 1,
 				RecoveryFurnaceMenu.INV_SLOT_START, 36
 		);
 		registration.addRecipeTransferHandler(
 				RecoveryFurnaceMenu.class,
+				MISCTWFMenuTypes.RECOVERY_FURNACE_MENU.get(),
 				RecipeTypes.FUELING,
 				RecoveryFurnaceBlockEntity.SLOT_FUEL, 1,
 				RecoveryFurnaceMenu.INV_SLOT_START, 36
@@ -94,6 +101,7 @@ public class JEIHelper implements IModPlugin {
 		registration.addRecipeCatalyst(new ItemStack(MISCTWFBlocks.MOLD_WORKBENCH.get()), MISCTWFJEIRecipeTypes.MOLD_WORKBENCH);
 		registration.addRecipeCatalyst(new ItemStack(MISCTWFBlocks.MOLD_DETACHER.get()), MISCTWFJEIRecipeTypes.MOLD_DETACHER);
 		registration.addRecipeCatalyst(new ItemStack(MISCTWFBlocks.RECOVERY_FURNACE.get()), MISCTWFJEIRecipeTypes.RECOVERY_FURNACE);
+		registration.addRecipeCatalysts(RecipeTypes.FUELING, MISCTWFBlocks.RECOVERY_FURNACE);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.hexagram2021.misc_twf.common.block;
 
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockStateProperties;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -28,8 +29,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-@SuppressWarnings("deprecation")
 public class BulletHoleBlock extends DirectionalBlock implements SimpleWaterloggedBlock {
+	public static final MapCodec<BulletHoleBlock> CODEC = simpleCodec(BulletHoleBlock::new);
 	public static final IntegerProperty HOLES = MISCTWFBlockStateProperties.HOLES;
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
@@ -131,5 +132,10 @@ public class BulletHoleBlock extends DirectionalBlock implements SimpleWaterlogg
 	@Override
 	public PushReaction getPistonPushReaction(BlockState blockState) {
 		return PushReaction.DESTROY;
+	}
+
+	@Override
+	protected MapCodec<BulletHoleBlock> codec() {
+		return CODEC;
 	}
 }

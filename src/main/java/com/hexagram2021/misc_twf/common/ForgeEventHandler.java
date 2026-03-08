@@ -29,6 +29,7 @@ import net.neoforged.neoforge.event.entity.living.LivingConversionEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
@@ -40,7 +41,7 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
  * @author liudongyu
  */
 @EventBusSubscriber(modid = MODID)
-public class ForgeEventHandler {
+public final class ForgeEventHandler {
 	/** 能量能力的标识符喵~ */
 	public static final ResourceLocation ENERGY = ResourceLocation.fromNamespaceAndPath(MODID, "energy");
 	/** 排泄能力的标识符喵~ */
@@ -187,5 +188,18 @@ public class ForgeEventHandler {
 				))) {
 			event.setResult(MobSpawnEvent.SpawnPlacementCheck.Result.FAIL);
 		}
+	}
+
+	/**
+	 * 处理获取燃料燃烧时间获取事件喵~
+	 *
+	 * @param event 获取燃料燃烧时间获取事件喵~
+	 */
+	@SubscribeEvent
+	public static void onGetBurnTime(FurnaceFuelBurnTimeEvent event) {
+		// empty
+	}
+
+	private ForgeEventHandler() {
 	}
 }

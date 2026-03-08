@@ -18,7 +18,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  *
  * @author liudongyu
  */
-@SuppressWarnings("deprecation")
 public class M4A1CarbineBlock extends HorizontalDirectionalBlock {
 	public static final MapCodec<M4A1CarbineBlock> CODEC = simpleCodec(M4A1CarbineBlock::new);
 	protected static final VoxelShape X_SHAPE = Block.box(-1, 0, 5, 17, 2, 11);

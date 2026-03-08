@@ -2,6 +2,7 @@ package com.hexagram2021.misc_twf.common.block;
 
 import com.hexagram2021.misc_twf.common.block.entity.MoldDetacherBlockEntity;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
+import com.mojang.serialization.MapCodec;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
 import com.simibubi.create.foundation.block.IBE;
 import net.minecraft.core.BlockPos;
@@ -24,8 +25,8 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-@SuppressWarnings("deprecation")
 public class MoldDetacherBlock extends HorizontalKineticBlock implements IBE<MoldDetacherBlockEntity> {
+	public static final MapCodec<MoldDetacherBlock> CODEC = simpleCodec(MoldDetacherBlock::new);
 	public static final BooleanProperty TRIGGERED = BlockStateProperties.TRIGGERED;
 
 	public MoldDetacherBlock(Properties props) {
@@ -98,5 +99,10 @@ public class MoldDetacherBlock extends HorizontalKineticBlock implements IBE<Mol
 	@Override
 	public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
 		return face == state.getValue(HORIZONTAL_FACING);
+	}
+
+	@Override
+	public MapCodec<MoldDetacherBlock> codec() {
+		return CODEC;
 	}
 }

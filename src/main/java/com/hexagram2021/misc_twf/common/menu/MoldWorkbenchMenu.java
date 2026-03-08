@@ -12,6 +12,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -28,7 +30,7 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 	private final Slot inputSlot;
 	public final Slot mechanicalArmSlot;
 	private ItemStack input = ItemStack.EMPTY;
-	private final List<MoldWorkbenchRecipe> recipes = Lists.newArrayList();
+	private final List<RecipeHolder<MoldWorkbenchRecipe>> recipes = Lists.newArrayList();
 	Runnable slotUpdateListener;
 
 	public MoldWorkbenchMenu(int id, Inventory inventory) {
@@ -40,7 +42,7 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 		checkContainerDataCount(containerData, MoldWorkbenchBlockEntity.DATA_SLOTS);
 		this.container = container;
 		this.containerData = containerData;
-		this.level = inventory.player.level;
+		this.level = inventory.player.level();
 		this.slotUpdateListener = () -> {
 		};
 
@@ -93,7 +95,7 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 		return this.containerData.get(DATA_RECIPE_INDEX);
 	}
 
-	public List<MoldWorkbenchRecipe> getRecipes() {
+	public List<RecipeHolder<MoldWorkbenchRecipe>> getRecipes() {
 		return this.recipes;
 	}
 
@@ -143,15 +145,19 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 	private void setupAllWorkbenchRecipes(Container container, ItemStack itemStack) {
 		this.recipes.clear();
 		if (!itemStack.isEmpty()) {
-			this.recipes.addAll(this.level.getRecipeManager().getRecipesFor(MISCTWFRecipeTypes.MOLD_WORKBENCH.get(), container, this.level));
+			this.recipes.addAll(this.level.getRecipeManager().getRecipesFor(
+					MISCTWFRecipeTypes.MOLD_WORKBENCH.get(),
+					new SingleRecipeInput(container.getItem(MoldWorkbenchBlockEntity.SLOT_INPUT)),
+					this.level
+			));
 		}
 	}
 
 	void setupResultSlot() {
 		if(this.container instanceof MoldWorkbenchBlockEntity moldWorkbenchBlockEntity) {
-			MoldWorkbenchRecipe recipe = this.recipes.get(this.containerData.get(DATA_RECIPE_INDEX));
+			RecipeHolder<MoldWorkbenchRecipe> recipe = this.recipes.get(this.containerData.get(DATA_RECIPE_INDEX));
 			moldWorkbenchBlockEntity.setRecipeUsed(recipe);
-			moldWorkbenchBlockEntity.startWorking(recipe.workingTime());
+			moldWorkbenchBlockEntity.startWorking(recipe.value().workingTime());
 		}
 		this.broadcastChanges();
 	}
@@ -208,7 +214,7 @@ public class MoldWorkbenchMenu extends AbstractContainerMenu {
 	}
 
 	protected boolean canWorkOn(ItemStack itemStack) {
-		return this.level.getRecipeManager().getRecipeFor(MISCTWFRecipeTypes.MOLD_WORKBENCH.get(), new SimpleContainer(itemStack), this.level).isPresent();
+		return this.level.getRecipeManager().getRecipeFor(MISCTWFRecipeTypes.MOLD_WORKBENCH.get(), new SingleRecipeInput(itemStack), this.level).isPresent();
 	}
 
 	public void registerUpdateListener(Runnable runnable) {

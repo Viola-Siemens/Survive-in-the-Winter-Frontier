@@ -4,12 +4,14 @@ import com.hexagram2021.misc_twf.common.block.entity.RecoveryFurnaceBlockEntity;
 import com.hexagram2021.misc_twf.common.block.properties.RecoveryFurnacePart;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockStateProperties;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
@@ -37,10 +39,10 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
 @SuppressWarnings("deprecation")
 public class RecoveryFurnaceBlock extends HorizontalDirectionalBlock implements EntityBlock {
+	public static final MapCodec<RecoveryFurnaceBlock> CODEC = simpleCodec(RecoveryFurnaceBlock::new);
 	public static final EnumProperty<RecoveryFurnacePart> PART = MISCTWFBlockStateProperties.RECOVERY_FURNACE_PART;
 	public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 	public static final BooleanProperty LIT = BlockStateProperties.LIT;
@@ -51,9 +53,10 @@ public class RecoveryFurnaceBlock extends HorizontalDirectionalBlock implements 
 	}
 
 	@Override
-	public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult result) {
+	public ItemInteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos,
+										   Player player, InteractionHand hand, BlockHitResult result) {
 		if (level.isClientSide) {
-			return InteractionResult.SUCCESS;
+			return ItemInteractionResult.SUCCESS;
 		}
 		RecoveryFurnacePart part = blockState.getValue(PART);
 		Direction facing = blockState.getValue(FACING);
@@ -66,7 +69,7 @@ public class RecoveryFurnaceBlock extends HorizontalDirectionalBlock implements 
 			player.openMenu(recoveryFurnace);
 			PiglinAi.angerNearbyPiglins(player, true);
 		}
-		return InteractionResult.CONSUME;
+		return ItemInteractionResult.CONSUME;
 	}
 
 	@Override
@@ -90,7 +93,7 @@ public class RecoveryFurnaceBlock extends HorizontalDirectionalBlock implements 
 	}
 
 	@Override
-	public void playerWillDestroy(Level level, BlockPos blockPos, BlockState blockState, Player player) {
+	public BlockState playerWillDestroy(Level level, BlockPos blockPos, BlockState blockState, Player player) {
 		if (!level.isClientSide && player.isCreative()) {
 			RecoveryFurnacePart part = blockState.getValue(PART);
 			Direction facing = blockState.getValue(FACING);
@@ -118,7 +121,7 @@ public class RecoveryFurnaceBlock extends HorizontalDirectionalBlock implements 
 				}
 			}
 		}
-		super.playerWillDestroy(level, blockPos, blockState, player);
+		return super.playerWillDestroy(level, blockPos, blockState, player);
 	}
 
 	@Nullable
@@ -217,7 +220,7 @@ public class RecoveryFurnaceBlock extends HorizontalDirectionalBlock implements 
 	}
 
 	@Override
-	public void tick(BlockState blockState, ServerLevel level, BlockPos blockPos, Random random) {
+	public void tick(BlockState blockState, ServerLevel level, BlockPos blockPos, RandomSource random) {
 		RecoveryFurnacePart part = blockState.getValue(PART);
 		Direction facing = blockState.getValue(FACING);
 		BlockPos back = blockPos.relative(facing.getOpposite());
@@ -234,5 +237,10 @@ public class RecoveryFurnaceBlock extends HorizontalDirectionalBlock implements 
 	@Override
 	public boolean isPathfindable(BlockState blockState, PathComputationType type) {
 		return false;
+	}
+
+	@Override
+	public MapCodec<RecoveryFurnaceBlock> codec() {
+		return CODEC;
 	}
 }

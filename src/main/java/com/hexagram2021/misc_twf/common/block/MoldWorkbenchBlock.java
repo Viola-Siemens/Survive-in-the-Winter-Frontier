@@ -5,6 +5,7 @@ import com.hexagram2021.misc_twf.common.block.entity.MoldWorkbenchBlockEntity;
 import com.hexagram2021.misc_twf.common.block.properties.MoldWorkbenchPart;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockStateProperties;
+import com.mojang.serialization.MapCodec;
 import com.simibubi.create.content.decoration.bracket.BracketedBlockEntityBehaviour;
 import com.simibubi.create.content.equipment.wrench.IWrenchableWithBracket;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
@@ -17,7 +18,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -49,6 +50,7 @@ import java.util.Optional;
 
 @SuppressWarnings("deprecation")
 public class MoldWorkbenchBlock extends HorizontalKineticBlock implements IBE<MoldWorkbenchBlockEntity>, IWrenchableWithBracket {
+	public static final MapCodec<MoldWorkbenchBlock> CODEC = simpleCodec(MoldWorkbenchBlock::new);
 	public static final EnumProperty<MoldWorkbenchPart> PART = MISCTWFBlockStateProperties.MOLD_WORKBENCH_PART;
 	public static final BooleanProperty ARMED = MISCTWFBlockStateProperties.ARMED;
 	private static final Map<Direction, Map<MoldWorkbenchPart, VoxelShape>> SHAPE_BY_PART = Util.make(() -> {
@@ -116,9 +118,10 @@ public class MoldWorkbenchBlock extends HorizontalKineticBlock implements IBE<Mo
 	}
 
 	@Override
-	public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult result) {
+	public ItemInteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos,
+										   Player player, InteractionHand hand, BlockHitResult result) {
 		if (level.isClientSide) {
-			return InteractionResult.SUCCESS;
+			return ItemInteractionResult.SUCCESS;
 		}
 		MoldWorkbenchPart part = blockState.getValue(PART);
 		Direction facing = blockState.getValue(HORIZONTAL_FACING);
@@ -135,7 +138,7 @@ public class MoldWorkbenchBlock extends HorizontalKineticBlock implements IBE<Mo
 			player.openMenu(moldWorkbench);
 			//player.awardStat
 		}
-		return InteractionResult.CONSUME;
+		return ItemInteractionResult.CONSUME;
 	}
 
 	@Override
@@ -163,7 +166,7 @@ public class MoldWorkbenchBlock extends HorizontalKineticBlock implements IBE<Mo
 	}
 
 	@Override
-	public void playerWillDestroy(Level level, BlockPos blockPos, BlockState blockState, Player player) {
+	public BlockState playerWillDestroy(Level level, BlockPos blockPos, BlockState blockState, Player player) {
 		if (!level.isClientSide && player.isCreative()) {
 			MoldWorkbenchPart part = blockState.getValue(PART);
 			Direction facing = blockState.getValue(HORIZONTAL_FACING);
@@ -223,7 +226,7 @@ public class MoldWorkbenchBlock extends HorizontalKineticBlock implements IBE<Mo
 				}
 			}
 		}
-		super.playerWillDestroy(level, blockPos, blockState, player);
+		return super.playerWillDestroy(level, blockPos, blockState, player);
 	}
 
 	@Nullable
@@ -304,12 +307,6 @@ public class MoldWorkbenchBlock extends HorizontalKineticBlock implements IBE<Mo
 			level.blockUpdated(blockPos, Blocks.AIR);
 			blockState.updateNeighbourShapes(level, blockPos, Block.UPDATE_ALL);
 		}
-		if (itemStack.hasCustomHoverName()) {
-			BlockEntity blockentity = level.getBlockEntity(blockPos);
-			if (blockentity instanceof MoldWorkbenchBlockEntity moldWorkbenchBlockEntity) {
-				moldWorkbenchBlockEntity.setCustomName(itemStack.getHoverName());
-			}
-		}
 	}
 
 	@Override
@@ -381,5 +378,10 @@ public class MoldWorkbenchBlock extends HorizontalKineticBlock implements IBE<Mo
 			case BOTTOM, LEFT_BOTTOM -> IBE.super.newBlockEntity(blockPos, blockState);
 			default -> null;
 		};
+	}
+
+	@Override
+	public MapCodec<MoldWorkbenchBlock> codec() {
+		return CODEC;
 	}
 }

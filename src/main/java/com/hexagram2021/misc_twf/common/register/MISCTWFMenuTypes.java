@@ -51,7 +51,7 @@ public final class MISCTWFMenuTypes {
 	/**
 	 * 回收炉菜单类型，用于回收和熔炼物品的界面喵~
 	 */
-	public static final DeferredHolder<MenuType<?>, MenuType<RecoveryFurnaceMenu>> RECOVERY_FURNACE = REGISTER.register(
+	public static final DeferredHolder<MenuType<?>, MenuType<RecoveryFurnaceMenu>> RECOVERY_FURNACE_MENU = REGISTER.register(
 			"recovery_furnace", () -> new MenuType<>(RecoveryFurnaceMenu::new, FeatureFlags.VANILLA_SET)
 	);
 

@@ -14,7 +14,7 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
-public record MoldWorkbenchRecipe(ResourceLocation id, Ingredient input, ItemStack result, int workingTime) implements Recipe<Container> {
+public record MoldWorkbenchRecipe(ResourceLocation id, Ingredient input, ItemStack result, int workingTime) implements Recipe<SingleRecipeInput> {
 	public static final int DEFAULT_WORKING_TIME = 40;
 
 	public static final CachedRecipeList<MoldWorkbenchRecipe> recipeList = new CachedRecipeList<>(

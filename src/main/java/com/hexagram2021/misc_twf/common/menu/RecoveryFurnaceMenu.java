@@ -2,6 +2,7 @@ package com.hexagram2021.misc_twf.common.menu;
 
 import com.hexagram2021.misc_twf.common.block.entity.RecoveryFurnaceBlockEntity;
 import com.hexagram2021.misc_twf.common.menu.slot.RecoveryFurnaceResultSlot;
+import com.hexagram2021.misc_twf.common.recipe.RecoveryFurnaceRecipe;
 import com.hexagram2021.misc_twf.common.register.MISCTWFMenuTypes;
 import com.hexagram2021.misc_twf.common.register.MISCTWFRecipeBookTypes;
 import com.hexagram2021.misc_twf.common.register.MISCTWFRecipeTypes;
@@ -12,11 +13,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ForgeHooks;
 
-public class RecoveryFurnaceMenu extends RecipeBookMenu<Container> {
+public class RecoveryFurnaceMenu extends RecipeBookMenu<SingleRecipeInput, RecoveryFurnaceRecipe> {
 	public static final int INV_SLOT_START = 6;
 	public static final int INV_SLOT_END = 33;
 	public static final int USE_ROW_SLOT_START = 33;
@@ -30,13 +31,13 @@ public class RecoveryFurnaceMenu extends RecipeBookMenu<Container> {
 		this(id, inventory, new SimpleContainer(RecoveryFurnaceBlockEntity.NUM_SLOTS), new SimpleContainerData(RecoveryFurnaceBlockEntity.DATA_SLOTS));
 	}
 	public RecoveryFurnaceMenu(int id, Inventory inventory, Container container, ContainerData containerData) {
-		super(MISCTWFMenuTypes.RECOVERY_FURNACE.get(), id);
+		super(MISCTWFMenuTypes.RECOVERY_FURNACE_MENU.get(), id);
 		checkContainerSize(container, RecoveryFurnaceBlockEntity.NUM_SLOTS);
 		checkContainerDataCount(containerData, RecoveryFurnaceBlockEntity.DATA_SLOTS);
 		this.container = container;
 		this.containerData = containerData;
 		container.startOpen(inventory.player);
-		this.level = inventory.player.level;
+		this.level = inventory.player.level();
 		this.slotUpdateListener = () -> {
 		};
 
@@ -64,11 +65,13 @@ public class RecoveryFurnaceMenu extends RecipeBookMenu<Container> {
 	}
 
 	protected boolean canSmelt(ItemStack itemStack) {
-		return this.level.getRecipeManager().getRecipeFor(MISCTWFRecipeTypes.RECOVERY_FURNACE.get(), new SimpleContainer(itemStack), this.level).isPresent();
+		return this.level.getRecipeManager().getRecipeFor(
+				MISCTWFRecipeTypes.RECOVERY_FURNACE.get(), new SingleRecipeInput(itemStack), this.level
+		).isPresent();
 	}
 
 	protected boolean isFuel(ItemStack itemStack) {
-		return ForgeHooks.getBurnTime(itemStack, MISCTWFRecipeTypes.RECOVERY_FURNACE.get()) > 0;
+		return itemStack.getBurnTime(MISCTWFRecipeTypes.RECOVERY_FURNACE.get()) > 0;
 	}
 
 	public Container getContainer() {
@@ -77,8 +80,8 @@ public class RecoveryFurnaceMenu extends RecipeBookMenu<Container> {
 
 	@Override
 	public void fillCraftSlotsStackedContents(StackedContents contents) {
-		if (this.container instanceof StackedContentsCompatible) {
-			((StackedContentsCompatible)this.container).fillStackedContents(contents);
+		if (this.container instanceof StackedContentsCompatible stackedContentsCompatible) {
+			stackedContentsCompatible.fillStackedContents(contents);
 		}
 	}
 
@@ -91,8 +94,8 @@ public class RecoveryFurnaceMenu extends RecipeBookMenu<Container> {
 	}
 
 	@Override
-	public boolean recipeMatches(Recipe<? super Container> recipe) {
-		return recipe.matches(this.container, this.level);
+	public boolean recipeMatches(RecipeHolder<RecoveryFurnaceRecipe> recipe) {
+		return recipe.value().matches(this.container, this.level);
 	}
 
 	@Override

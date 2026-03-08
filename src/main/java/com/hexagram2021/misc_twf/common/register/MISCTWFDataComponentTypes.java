@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common.register;
 
+import com.hexagram2021.misc_twf.common.data_component.DeadAnimalData;
 import com.hexagram2021.misc_twf.common.data_component.MonsterEggEntries;
 import com.hexagram2021.misc_twf.common.data_component.TravelersBackpackTacData;
 import com.mojang.serialization.Codec;
@@ -55,6 +56,16 @@ public final class MISCTWFDataComponentTypes {
 			"mutant_potion_flag", () -> DataComponentType.<Integer>builder()
 					.persistent(Codec.INT)
 					.networkSynchronized(ByteBufCodecs.INT)
+					.build()
+	);
+
+	/**
+	 * 死亡动物数据组件类型喵~
+	 */
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<DeadAnimalData>> DEAD_ANIMAL_DATA = REGISTER.register(
+			"dead_animal_data", () -> DataComponentType.<DeadAnimalData>builder()
+					.persistent(DeadAnimalData.CODEC)
+					.networkSynchronized(DeadAnimalData.STREAM_CODEC)
 					.build()
 	);
 

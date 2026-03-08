@@ -21,7 +21,6 @@ import net.neoforged.neoforge.common.ItemAbilities;
  *
  * @author liudongyu
  */
-@SuppressWarnings("deprecation")
 public class BodyBlock extends HorizontalDirectionalBlock {
 	public static final MapCodec<BodyBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 			Codec.INT.fieldOf("x_size").forGetter(b -> b.xSize),
@@ -31,23 +30,23 @@ public class BodyBlock extends HorizontalDirectionalBlock {
 
 	protected final int xSize;
 	protected final int zSize;
-	protected final VoxelShape X_SHAPE;
-	protected final VoxelShape Z_SHAPE;
+	protected final VoxelShape xShape;
+	protected final VoxelShape zShape;
 
 	public BodyBlock(int xSize, int zSize, Properties props) {
 		super(props);
 		this.xSize = xSize;
 		this.zSize = zSize;
-		this.X_SHAPE = Block.box(8.0D - zSize, 0.0D, 8.0D - xSize, 8.0D + zSize, 10.0D, 8.0D + xSize);
-		this.Z_SHAPE = Block.box(8.0D - xSize, 0.0D, 8.0D - zSize, 8.0D + xSize, 10.0D, 8.0D + zSize);
+		this.xShape = Block.box(8.0D - zSize, 0.0D, 8.0D - xSize, 8.0D + zSize, 10.0D, 8.0D + xSize);
+		this.zShape = Block.box(8.0D - xSize, 0.0D, 8.0D - zSize, 8.0D + xSize, 10.0D, 8.0D + zSize);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState blockState, BlockGetter level, BlockPos blockPos, CollisionContext context) {
 		return switch (blockState.getValue(FACING)) {
-			case DOWN, UP, NORTH, SOUTH -> this.Z_SHAPE;
-			case WEST, EAST -> this.X_SHAPE;
+			case DOWN, UP, NORTH, SOUTH -> this.zShape;
+			case WEST, EAST -> this.xShape;
 		};
 	}
 

@@ -5,7 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -38,34 +38,34 @@ public class ExplosiveJerricanBlock extends JerricanBlock {
 	public void onCaughtFire(BlockState blockState, Level level, BlockPos blockPos, @Nullable Direction face, @Nullable LivingEntity sourceMob) {
 		if (!level.isClientSide) {
 			Vec3 position = Vec3.atCenterOf(blockPos);
-			level.explode(sourceMob, position.x, position.y, position.z, 5.0F, Explosion.BlockInteraction.BREAK);
+			level.explode(sourceMob, position.x, position.y, position.z, 5.0F, Level.ExplosionInteraction.TNT);
 		}
 	}
 
 	@Override
 	public void wasExploded(Level level, BlockPos blockPos, Explosion explosion) {
 		if (!level.isClientSide) {
-			this.onCaughtFire(level.getBlockState(blockPos), level, blockPos, null, explosion.getSourceMob());
+			this.onCaughtFire(level.getBlockState(blockPos), level, blockPos, null, explosion.getIndirectSourceEntity());
 		}
 	}
 
 	@Override
-	public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult result) {
-		ItemStack itemStack = player.getItemInHand(hand);
+	public ItemInteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos,
+										   Player player, InteractionHand hand, BlockHitResult result) {
 		if(itemStack.is(Items.FLINT_AND_STEEL) || itemStack.is(Items.FIRE_CHARGE)) {
 			this.onCaughtFire(blockState, level, blockPos, result.getDirection(), player);
 			level.setBlock(blockPos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE);
 			if (!player.isCreative()) {
 				if (itemStack.is(Items.FLINT_AND_STEEL)) {
-					itemStack.hurtAndBreak(1, player, player1 -> player1.broadcastBreakEvent(hand));
+					itemStack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
 				} else {
 					itemStack.shrink(1);
 				}
 			}
 			player.awardStat(Stats.ITEM_USED.get(itemStack.getItem()));
-			return InteractionResult.sidedSuccess(level.isClientSide);
+			return ItemInteractionResult.sidedSuccess(level.isClientSide);
 		}
-		return super.use(blockState, level, blockPos, player, hand, result);
+		return super.useItemOn(itemStack, blockState, level, blockPos, player, hand, result);
 	}
 
 	@Override
