@@ -9,7 +9,7 @@ import net.minecraft.world.item.ArmorItem;
 import javax.annotation.Nullable;
 
 /**
- * 旅行者护甲物品，不同部位在通电时可提供不同的药水效果喵~
+ * 远行者护甲物品，不同部位在通电时可提供不同的药水效果喵~
  * <ul>
  *     <li>头盔 - 水下呼吸喵~</li>
  *     <li>胸甲 - 抗性提升喵~</li>
@@ -20,12 +20,10 @@ import javax.annotation.Nullable;
  * @author liudongyu
  */
 public class WayfarerArmorItem extends ArmorItem implements IEnergyItem {
-	private static final int[] HEALTH_PER_SLOT = new int[]{13, 15, 16, 11};
-
-	public static final String name = "wayfarer";
+	public static final String NAME = "wayfarer";
 
 	/**
-	 * 构造一个旅行者护甲物品喵~
+	 * 构造一个远行者护甲物品喵~
 	 *
 	 * @param type 护甲部位类型喵~
 	 */
@@ -33,10 +31,6 @@ public class WayfarerArmorItem extends ArmorItem implements IEnergyItem {
 		super(MISCTWFArmorMaterials.WAYFARER, type, new Properties().stacksTo(1));
 	}
 
-	@Override
-	public boolean canBeDepleted() {
-		return false;
-	}
 
 	@Override
 	public int getEnergyCapability() {

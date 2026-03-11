@@ -320,7 +320,7 @@ public final class MISCTWFItems {
 		// 动态注册远行者护甲套装喵~
 		for(ArmorItem.Type type : ArmorItem.Type.values()) {
 			if(type.getSlot().getType() == EquipmentSlot.Type.HUMANOID_ARMOR) {
-				WAYFARER_ARMORS.put(type, ItemEntry.register(WayfarerArmorItem.name + "_" + type.name().toLowerCase(Locale.ENGLISH), () -> new WayfarerArmorItem(type), ENERGY_ITEM_MODIFIER));
+				WAYFARER_ARMORS.put(type, ItemEntry.register(WayfarerArmorItem.NAME + "_" + type.name().toLowerCase(Locale.ENGLISH), () -> new WayfarerArmorItem(type), ENERGY_ITEM_MODIFIER));
 			}
 		}
 	}
