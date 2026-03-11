@@ -1,36 +1,28 @@
 package com.hexagram2021.misc_twf.common.item;
 
-import com.hexagram2021.misc_twf.common.ForgeEventHandler;
-import com.hexagram2021.misc_twf.common.item.capability.TaggedEnergyStorage;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.energy.CapabilityEnergy;
-
+/**
+ * 能量物品接口，定义了物品能量存储和传输的基本能力喵~
+ *
+ * @author liudongyu
+ */
 public interface IEnergyItem {
+	/**
+	 * 获取物品的能量容量上限喵~
+	 *
+	 * @return 能量容量上限值喵~
+	 */
 	int getEnergyCapability();
 
+	/**
+	 * 获取物品每 tick 最大充能速度喵~
+	 *
+	 * @return 每 tick 最大充能量喵~
+	 */
 	int getMaxEnergyReceiveSpeed();
+	/**
+	 * 获取物品每 tick 最大放电速度喵~
+	 *
+	 * @return 每 tick 最大放电量喵~
+	 */
 	int getMaxEnergyExtractSpeed();
-
-	@SuppressWarnings("unchecked")
-	default void readEnergyShareTag(CompoundTag nbt, ItemStack stack) {
-		if(nbt.contains(ForgeEventHandler.ENERGY.toString(), Tag.TAG_INT)) {
-			stack.getCapability(CapabilityEnergy.ENERGY).ifPresent(ies -> {
-				if(ies instanceof INBTSerializable) {
-					INBTSerializable<Tag> nbtSerializable = (INBTSerializable<Tag>)ies;
-					nbtSerializable.deserializeNBT(nbt.get(ForgeEventHandler.ENERGY.toString()));
-				} else if(ies instanceof TaggedEnergyStorage es) {
-					es.setEnergy(nbt.getInt(ForgeEventHandler.ENERGY.toString()));
-				}
-			});
-		}
-	}
-
-	default CompoundTag getMaxEnergyTag(ItemStack itemStack) {
-		CompoundTag nbt = itemStack.getOrCreateTag();
-		nbt.putInt(ForgeEventHandler.ENERGY.toString(), this.getEnergyCapability());
-		return nbt;
-	}
 }

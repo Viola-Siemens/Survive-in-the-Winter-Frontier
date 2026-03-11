@@ -4,14 +4,17 @@ import com.google.common.collect.Lists;
 import com.hexagram2021.misc_twf.common.register.MISCTWFFluids;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.ByteArrayTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -26,8 +29,8 @@ import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePieceAccessor;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -36,14 +39,27 @@ import java.util.Random;
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 import static com.hexagram2021.misc_twf.common.register.MISCTWFStructurePieceTypes.*;
 
+/**
+ * Boss 巢穴结构组件集合，包含巢穴各部分（大厅、锅炉房、Boss 房间、楼梯、墙壁）的生成逻辑喵~
+ *
+ * @author liudongyu
+ */
 public class BossLairPieces {
+	/**
+	 * 结构组件工厂函数接口喵~
+	 *
+	 * @param <T> 结构组件类型喵~
+	 */
 	@FunctionalInterface
 	private interface PieceFactory<T extends AbstractBossLairPiece> {
 		@Nullable
 		T createPiece(StructurePieceAccessor pieces, int x, int y, int z, long seed, Direction direction, int depth);
 	}
 
-	private static sealed abstract class AbstractBossLairPiece extends StructurePiece permits HallPiece, AbstractEarRoomPiece, StaircasePiece, WallPiece {
+	/**
+	 * Boss 巢穴结构组件的抽象基类，提供子组件生成和碰撞检测等通用方法喵~
+	 */
+	private abstract static sealed class AbstractBossLairPiece extends StructurePiece permits HallPiece, AbstractEarRoomPiece, StaircasePiece, WallPiece {
 		protected static final BlockState STONE = Blocks.STONE.defaultBlockState();
 
 		protected AbstractBossLairPiece(StructurePieceType type, int depth, BoundingBox bbox) {
@@ -117,7 +133,7 @@ public class BossLairPieces {
 		}
 
 		@Override
-		public void addChildren(StructurePiece structurePiece, StructurePieceAccessor pieces, Random random) {
+		public void addChildren(StructurePiece structurePiece, StructurePieceAccessor pieces, RandomSource random) {
 			this.addChildren((StartPiece)structurePiece, pieces);
 		}
 		public abstract void addChildren(StartPiece startPiece, StructurePieceAccessor pieces);
@@ -142,6 +158,9 @@ public class BossLairPieces {
 		}
 	}
 
+	/**
+	 * Boss 巢穴大厅组件，生成含有血池和砖石装饰的走廊喵~
+	 */
 	public static sealed class HallPiece extends AbstractBossLairPiece permits StartPiece {
 		protected static final int WIDTH = 15;
 		protected static final int HEIGHT = 11;
@@ -152,9 +171,9 @@ public class BossLairPieces {
 		protected static final int OFF_Z = 0;
 
 		protected static final BlockState BLOOD = MISCTWFFluids.BLOOD_FLUID.getBlock().defaultBlockState();
-		protected static final BlockState DEAN_BRICKS = RegistryObject.create(new ResourceLocation("createdeco", "dean_bricks"), ForgeRegistries.BLOCKS).get().defaultBlockState();
-		protected static final BlockState MOSSY_DEAN_BRICKS = RegistryObject.create(new ResourceLocation("createdeco", "mossy_dean_bricks"), ForgeRegistries.BLOCKS).get().defaultBlockState();
-		protected static final BlockState PEBBLES = RegistryObject.create(new ResourceLocation("verdure", "pebbles"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		protected static final BlockState DEAN_BRICKS = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("createdeco", "dean_bricks")).get().defaultBlockState();
+		protected static final BlockState MOSSY_DEAN_BRICKS = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("createdeco", "mossy_dean_bricks")).get().defaultBlockState();
+		protected static final BlockState PEBBLES = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("verdure", "pebbles")).get().defaultBlockState();
 
 		public HallPiece(int depth, BoundingBox bbox, Direction direction) {
 			this(HALL_TYPE, depth, bbox, direction);
@@ -180,7 +199,7 @@ public class BossLairPieces {
 		}
 
 		@Override
-		public void postProcess(WorldGenLevel level, StructureFeatureManager manager, ChunkGenerator chunk, Random random,
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
 								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			this.generateBox(level, bbox, 0, 0, 0, WIDTH - 1, HEIGHT - 1, LENGTH - 1, STONE, CAVE_AIR, true);
 			this.generateBox(level, bbox, 1, 1, 0, WIDTH - 2, HEIGHT - 2, 0, CAVE_AIR, CAVE_AIR, false);
@@ -211,11 +230,14 @@ public class BossLairPieces {
 		}
 	}
 
+	/**
+	 * Boss 巢穴起始组件，作为结构生成的入口点，向前、向左、向右扩展子结构喵~
+	 */
 	public static final class StartPiece extends HallPiece {
 		public final List<StructurePiece> pendingChildren = Lists.newArrayList();
 		public long seed;
 
-		public StartPiece(Random random, int x, int z) {
+		public StartPiece(RandomSource random, int x, int z) {
 			this(x, z, random.nextLong(), getRandomHorizontalDirection(random));
 		}
 		private StartPiece(int x, int z, long seed, Direction direction) {
@@ -242,7 +264,7 @@ public class BossLairPieces {
 		}
 
 		@Override
-		public void postProcess(WorldGenLevel level, StructureFeatureManager manager, ChunkGenerator chunk, Random random,
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
 								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			this.generateBox(level, bbox, 0, 0, 0, WIDTH - 1, HEIGHT - 1, LENGTH - 1, STONE, CAVE_AIR, true);
 			this.generateBox(level, bbox, 0, 1, 17, 0, 3, 19, CAVE_AIR, CAVE_AIR, false);
@@ -266,16 +288,19 @@ public class BossLairPieces {
 		}
 	}
 
+	/**
+	 * Boss 巢穴侧翼房间的抽象基类，使用高斯混合模型生成随机地形，包含战利品箱和装饰喵~
+	 */
 	public static abstract sealed class AbstractEarRoomPiece extends AbstractBossLairPiece permits BoilerRoomPiece, BossRoomPiece {
 		protected static final BlockState BRICKS = Blocks.BRICKS.defaultBlockState();
-		protected static final BlockState POLISHED_CUT_DRIPSTONE = RegistryObject.create(new ResourceLocation("create", "polished_cut_dripstone"), ForgeRegistries.BLOCKS).get().defaultBlockState();
-		protected static final BlockState POLISHED_CUT_OCHRUM = RegistryObject.create(new ResourceLocation("create", "polished_cut_ochrum"), ForgeRegistries.BLOCKS).get().defaultBlockState();
-		protected static final BlockState OCHRUM_PILLAR = RegistryObject.create(new ResourceLocation("create", "ochrum_pillar"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		protected static final BlockState POLISHED_CUT_DRIPSTONE = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("create", "polished_cut_dripstone")).get().defaultBlockState();
+		protected static final BlockState POLISHED_CUT_OCHRUM = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("create", "polished_cut_ochrum")).get().defaultBlockState();
+		protected static final BlockState OCHRUM_PILLAR = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("create", "ochrum_pillar")).get().defaultBlockState();
 
-		protected static final BlockState FLESH = RegistryObject.create(new ResourceLocation("biomancy", "flesh"), ForgeRegistries.BLOCKS).get().defaultBlockState();
-		protected static final BlockState FLESH_SLAB = RegistryObject.create(new ResourceLocation("biomancy", "flesh_slab"), ForgeRegistries.BLOCKS).get().defaultBlockState();
-		protected static final BlockState MALIGNANT_FLESH = RegistryObject.create(new ResourceLocation("biomancy", "malignant_flesh"), ForgeRegistries.BLOCKS).get().defaultBlockState();
-		protected static final BlockState MALIGNANT_FLESH_SLAB = RegistryObject.create(new ResourceLocation("biomancy", "malignant_flesh_slab"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		protected static final BlockState FLESH = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("biomancy", "flesh")).get().defaultBlockState();
+		protected static final BlockState FLESH_SLAB = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("biomancy", "flesh_slab")).get().defaultBlockState();
+		protected static final BlockState MALIGNANT_FLESH = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("biomancy", "malignant_flesh")).get().defaultBlockState();
+		protected static final BlockState MALIGNANT_FLESH_SLAB = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("biomancy", "malignant_flesh_slab")).get().defaultBlockState();
 
 		protected static final int WIDTH = 37;
 		protected static final int HEIGHT = 14;
@@ -361,13 +386,13 @@ public class BossLairPieces {
 		public void addChildren(StartPiece startPiece, StructurePieceAccessor pieces) {
 		}
 
-		private static final ResourceLocation LOOT_TABLE_TEACH = new ResourceLocation(MODID, "chests/abyss_lair_teach");
-		private static final ResourceLocation LOOT_TABLE_ORDINARY = new ResourceLocation(MODID, "chests/abyss_lair_ordinary");
-		private static final ResourceLocation LOOT_TABLE_RARE = new ResourceLocation(MODID, "chests/abyss_lair_rare");
+		private static final ResourceKey<LootTable> LOOT_TABLE_TEACH = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MODID, "chests/abyss_lair_teach"));
+		private static final ResourceKey<LootTable> LOOT_TABLE_ORDINARY = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MODID, "chests/abyss_lair_ordinary"));
+		private static final ResourceKey<LootTable> LOOT_TABLE_RARE = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MODID, "chests/abyss_lair_rare"));
 		private static final double CHEST_POSSIBILITY = 0.75D;
 
 		@Override
-		public void postProcess(WorldGenLevel level, StructureFeatureManager manager, ChunkGenerator chunk, Random random,
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
 								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			//outline
 			this.generateBox(level, bbox, 0, 0, 0, WIDTH - 1, HEIGHT - 1, LENGTH - 1, STONE, CAVE_AIR, false);
@@ -422,19 +447,22 @@ public class BossLairPieces {
 		}
 	}
 
+	/**
+	 * Boss 巢穴锅炉房组件，生成工业管道和锅炉装饰，以及肉质脉络地形喵~
+	 */
 	public static final class BoilerRoomPiece extends AbstractEarRoomPiece {
-		private static final BlockState CAST_IRON_HULL = RegistryObject.create(new ResourceLocation("createdeco", "cast_iron_hull"), ForgeRegistries.BLOCKS).get().defaultBlockState()
+		private static final BlockState CAST_IRON_HULL = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("createdeco", "cast_iron_hull")).get().defaultBlockState()
 				.setValue(BlockStateProperties.FACING, Direction.DOWN);
-		private static final BlockState INDUSTRIAL_IRON_BLOCK = RegistryObject.create(new ResourceLocation("create", "industrial_iron_block"), ForgeRegistries.BLOCKS).get().defaultBlockState();
-		private static final BlockState POLISHED_CUT_DEEPSLATE = RegistryObject.create(new ResourceLocation("create", "polished_cut_deepslate"), ForgeRegistries.BLOCKS).get().defaultBlockState();
-		private static final BlockState POLISHED_CUT_DEEPSLATE_STAIRS = RegistryObject.create(new ResourceLocation("create", "polished_cut_deepslate_stairs"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		private static final BlockState INDUSTRIAL_IRON_BLOCK = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("create", "industrial_iron_block")).get().defaultBlockState();
+		private static final BlockState POLISHED_CUT_DEEPSLATE = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("create", "polished_cut_deepslate")).get().defaultBlockState();
+		private static final BlockState POLISHED_CUT_DEEPSLATE_STAIRS = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("create", "polished_cut_deepslate_stairs")).get().defaultBlockState();
 
 		private static final BlockState FLUID_PIPE_VERTICAL, FLUID_PIPE_CORNER, FLUID_PIPE_HORIZONTAL, FLUID_PIPE_HORIZONTAL_2;
 		private static final BlockState FLUID_PIPE_CORNER_1, FLUID_PIPE_CORNER_2;
 		private static final BlockState FLUID_PIPE_T_CROSS_1, FLUID_PIPE_T_CROSS_2, FLUID_PIPE_T_CROSS_3, FLUID_PIPE_T_CROSS_4, FLUID_PIPE_X_CROSS;
 
 		static {
-			Block fluidPipe = RegistryObject.create(new ResourceLocation("create", "fluid_pipe"), ForgeRegistries.BLOCKS).get();
+			Block fluidPipe = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("create", "fluid_pipe")).get();
 			BlockState initialFluidPipe = fluidPipe.defaultBlockState()
 					.setValue(BlockStateProperties.UP, false).setValue(BlockStateProperties.DOWN, false)
 					.setValue(BlockStateProperties.NORTH, false).setValue(BlockStateProperties.SOUTH, false)
@@ -472,7 +500,7 @@ public class BossLairPieces {
 		}
 
 		@Override
-		public void postProcess(WorldGenLevel level, StructureFeatureManager manager, ChunkGenerator chunk, Random random,
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
 								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			super.postProcess(level, manager, chunk, random, bbox, chunkPos, blockPos);
 
@@ -576,13 +604,16 @@ public class BossLairPieces {
 		}
 	}
 
+	/**
+	 * Boss 巢穴 Boss 房间组件，生成肉质脉络地形和原始摇篮（Boss 召唤台），并包含战利品背包喵~
+	 */
 	public static final class BossRoomPiece extends AbstractEarRoomPiece {
-		private static final BlockState EMPTY_CANS = RegistryObject.create(new ResourceLocation("zombie_extreme", "empty_cans"), ForgeRegistries.BLOCKS).get().defaultBlockState();
-		private static final BlockState IRON_TABLE = RegistryObject.create(new ResourceLocation("zombie_extreme", "iron_table"), ForgeRegistries.BLOCKS).get().defaultBlockState();
-		private static final BlockState WOODEN_CHAIR = RegistryObject.create(new ResourceLocation("zombie_extreme", "wooden_chair"), ForgeRegistries.BLOCKS).get().defaultBlockState();
-		private static final BlockState DECOMPOSING_BACKPACK = RegistryObject.create(new ResourceLocation("zombie_extreme", "decomposing_backpack"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		private static final BlockState EMPTY_CANS = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("zombie_extreme", "empty_cans")).get().defaultBlockState();
+		private static final BlockState IRON_TABLE = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("zombie_extreme", "iron_table")).get().defaultBlockState();
+		private static final BlockState WOODEN_CHAIR = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("zombie_extreme", "wooden_chair")).get().defaultBlockState();
+		private static final BlockState DECOMPOSING_BACKPACK = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("zombie_extreme", "decomposing_backpack")).get().defaultBlockState();
 
-		private static final BlockState PRIMORDIAL_CRADLE = RegistryObject.create(new ResourceLocation("biomancy", "primordial_cradle"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		private static final BlockState PRIMORDIAL_CRADLE = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("biomancy", "primordial_cradle")).get().defaultBlockState();
 
 		public BossRoomPiece(int depth, BoundingBox bbox, Direction direction, long seed) {
 			super(BOSS_ROOM_TYPE, depth, bbox, direction, seed);
@@ -592,10 +623,10 @@ public class BossLairPieces {
 			super(BOSS_ROOM_TYPE, context, nbt);
 		}
 
-		private static final ResourceLocation LOOT_TABLE_BACKPACK = new ResourceLocation(MODID, "chests/backpack");
+		private static final ResourceKey<LootTable> LOOT_TABLE_BACKPACK = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(MODID, "chests/backpack"));
 
 		@Override
-		public void postProcess(WorldGenLevel level, StructureFeatureManager manager, ChunkGenerator chunk, Random random,
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
 								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			super.postProcess(level, manager, chunk, random, bbox, chunkPos, blockPos);
 
@@ -642,13 +673,13 @@ public class BossLairPieces {
 		}
 
 		@SuppressWarnings({"UnusedReturnValue", "SameParameterValue"})
-		private boolean createBackpack(WorldGenLevel level, BoundingBox bbox, Random random, int x, int y, int z, ResourceLocation lootTable) {
+		private boolean createBackpack(WorldGenLevel level, BoundingBox bbox, RandomSource random, int x, int y, int z, ResourceKey<LootTable> lootTable) {
 			return this.createBackpack(level, bbox, random, this.getWorldPos(x, y, z), lootTable, null);
 		}
 
 		@SuppressWarnings("SameParameterValue")
-		private boolean createBackpack(ServerLevelAccessor level, BoundingBox bbox, Random random, BlockPos blockPos,
-									   ResourceLocation lootTable, @Nullable BlockState blockState) {
+		private boolean createBackpack(ServerLevelAccessor level, BoundingBox bbox, RandomSource random, BlockPos blockPos,
+									   ResourceKey<LootTable> lootTable, @Nullable BlockState blockState) {
 			if (bbox.isInside(blockPos) && !level.getBlockState(blockPos).is(DECOMPOSING_BACKPACK.getBlock())) {
 				if (blockState == null) {
 					blockState = reorient(level, blockPos, DECOMPOSING_BACKPACK);
@@ -666,6 +697,9 @@ public class BossLairPieces {
 		}
 	}
 
+	/**
+	 * Boss 巢穴楼梯组件，连接不同层级的大厅喵~
+	 */
 	public static final class StaircasePiece extends AbstractBossLairPiece {
 		private static final int WIDTH = 15;
 		private static final int HEIGHT = 17;
@@ -675,8 +709,8 @@ public class BossLairPieces {
 		private static final int OFF_Y = 1;
 		private static final int OFF_Z = 0;
 
-		private static final BlockState DEAN_BRICKS = RegistryObject.create(new ResourceLocation("createdeco", "dean_bricks"), ForgeRegistries.BLOCKS).get().defaultBlockState();
-		private static final BlockState DEAN_BRICKS_SLAB = RegistryObject.create(new ResourceLocation("createdeco", "dean_bricks_slab"), ForgeRegistries.BLOCKS).get().defaultBlockState();
+		private static final BlockState DEAN_BRICKS = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("createdeco", "dean_bricks")).get().defaultBlockState();
+		private static final BlockState DEAN_BRICKS_SLAB = DeferredBlock.createBlock(ResourceLocation.fromNamespaceAndPath("createdeco", "dean_bricks_slab")).get().defaultBlockState();
 
 		public StaircasePiece(int depth, BoundingBox bbox, Direction direction) {
 			super(STAIRCASE_TYPE, depth, bbox);
@@ -693,7 +727,7 @@ public class BossLairPieces {
 		}
 
 		@Override
-		public void postProcess(WorldGenLevel level, StructureFeatureManager manager, ChunkGenerator chunk, Random random,
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
 								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			for(int z = 0; z < LENGTH; ++z) {
 				int dz = (z + 1) / 2;
@@ -728,6 +762,9 @@ public class BossLairPieces {
 		}
 	}
 
+	/**
+	 * Boss 巢穴墙壁组件，用于封堵结构边缘喵~
+	 */
 	public static final class WallPiece extends AbstractBossLairPiece {
 		private static final int WIDTH = 5;
 		private static final int HEIGHT = 5;
@@ -751,7 +788,7 @@ public class BossLairPieces {
 		}
 
 		@Override
-		public void postProcess(WorldGenLevel level, StructureFeatureManager manager, ChunkGenerator chunk, Random random,
+		public void postProcess(WorldGenLevel level, StructureManager manager, ChunkGenerator chunk, RandomSource random,
 								BoundingBox bbox, ChunkPos chunkPos, BlockPos blockPos) {
 			this.generateBox(level, bbox, 0, 0, 0, WIDTH - 1, HEIGHT - 1, LENGTH - 1, STONE, STONE, false);
 		}

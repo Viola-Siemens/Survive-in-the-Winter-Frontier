@@ -129,7 +129,7 @@ public class MonsterEggBlockEntity extends BlockEntity implements GeoBlockEntity
 
 	/**
 	 * 服务端刻更新逻辑喵~
-	 * 每 5 游戏刻执行一次，检测周围带"曝光"效果的生物实体喵~
+	 * 每 5 游戏刻执行一次，检测周围带"暴露"效果的生物实体喵~
 	 * 如果检测到符合条件的实体，根据效果等级计算破裂概率，并向客户端发送动画数据包喵~
 	 * 使用声音传播算法，会被"隔音屏障"方块阻挡喵~
 	 *

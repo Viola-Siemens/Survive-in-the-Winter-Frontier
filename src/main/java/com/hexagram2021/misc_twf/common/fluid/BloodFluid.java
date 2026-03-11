@@ -22,11 +22,16 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraftforge.fluids.FluidAttributes;
+import net.neoforged.neoforge.fluids.FluidType;
 
 import java.util.Optional;
 import java.util.Random;
 
+/**
+ * 血液流体，继承自 {@link FlowingFluid}，实现血液的流动和静止两种状态喵~
+ *
+ * @author liudongyu
+ */
 @SuppressWarnings("deprecation")
 public abstract class BloodFluid extends FlowingFluid {
 	private final MISCTWFFluids.FluidEntry<BloodFluid> fluidEntry;
@@ -34,6 +39,14 @@ public abstract class BloodFluid extends FlowingFluid {
 	protected final ResourceLocation stillTex;
 	protected final ResourceLocation flowingTex;
 
+	/**
+	 * 构造血液流体实例喵~
+	 *
+	 * @param fluidEntry 流体注册条目喵~
+	 * @param fluidTag   流体标签喵~
+	 * @param stillTex   静止状态纹理喵~
+	 * @param flowingTex 流动状态纹理喵~
+	 */
 	public BloodFluid(MISCTWFFluids.FluidEntry<BloodFluid> fluidEntry, TagKey<Fluid> fluidTag, ResourceLocation stillTex, ResourceLocation flowingTex) {
 		this.fluidEntry = fluidEntry;
 		this.fluidTag = fluidTag;
@@ -124,7 +137,28 @@ public abstract class BloodFluid extends FlowingFluid {
 		return builder.build(this);
 	}
 
+	@Override
+	protected boolean canConvertToSource(Level level) {
+		return false;
+	}
+
+	@Override
+	public FluidType getFluidType() {
+		return MISCTWFFluids.BLOOD_FLUID.type().get();
+	}
+
+	/**
+	 * 血液流体的流动状态喵~
+	 */
 	public static class Flowing extends BloodFluid {
+		/**
+		 * 构造流动状态的血液流体实例喵~
+		 *
+		 * @param fluidEntry 流体注册条目喵~
+		 * @param fluidTag   流体标签喵~
+		 * @param stillTex   静止状态纹理喵~
+		 * @param flowingTex 流动状态纹理喵~
+		 */
 		public Flowing(MISCTWFFluids.FluidEntry<BloodFluid> fluidEntry, TagKey<Fluid> fluidTag, ResourceLocation stillTex, ResourceLocation flowingTex) {
 			super(fluidEntry, fluidTag, stillTex, flowingTex);
 		}
@@ -146,7 +180,18 @@ public abstract class BloodFluid extends FlowingFluid {
 		}
 	}
 
+	/**
+	 * 血液流体的源方块状态喵~
+	 */
 	public static class Source extends BloodFluid {
+		/**
+		 * 构造源方块状态的血液流体实例喵~
+		 *
+		 * @param fluidEntry 流体注册条目喵~
+		 * @param fluidTag   流体标签喵~
+		 * @param stillTex   静止状态纹理喵~
+		 * @param flowingTex 流动状态纹理喵~
+		 */
 		public Source(MISCTWFFluids.FluidEntry<BloodFluid> fluidEntry, TagKey<Fluid> fluidTag, ResourceLocation stillTex, ResourceLocation flowingTex) {
 			super(fluidEntry, fluidTag, stillTex, flowingTex);
 		}

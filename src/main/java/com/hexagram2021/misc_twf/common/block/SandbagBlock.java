@@ -14,11 +14,15 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  *
  * @author liudongyu
  */
-@SuppressWarnings("deprecation")
 public class SandbagBlock extends Block {
 	public static final MapCodec<SandbagBlock> CODEC = simpleCodec(SandbagBlock::new);
 	private static final VoxelShape SHAPE = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 3.0D, 13.0D);
 
+	/**
+	 * 构造一个沙袋方块实例喵~
+	 *
+	 * @param props 方块属性喵~
+	 */
 	public SandbagBlock(Properties props) {
 		super(props);
 	}
@@ -29,7 +33,7 @@ public class SandbagBlock extends Block {
 	}
 
 	@Override
-	public PushReaction getPistonPushReaction(BlockState p_52814_) {
+	public PushReaction getPistonPushReaction(BlockState blockState) {
 		return PushReaction.DESTROY;
 	}
 

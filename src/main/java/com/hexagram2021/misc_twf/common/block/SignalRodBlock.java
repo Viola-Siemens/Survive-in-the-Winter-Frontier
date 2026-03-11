@@ -14,12 +14,16 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  *
  * @author liudongyu
  */
-@SuppressWarnings("deprecation")
 public class SignalRodBlock extends Block {
 	public static final MapCodec<SignalRodBlock> CODEC = simpleCodec(SignalRodBlock::new);
 
     private static final VoxelShape SHAPE = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 3.0D, 13.0D);
 
+    /**
+     * 构造一个信号棒方块实例喵~
+     *
+     * @param prop 方块属性喵~
+     */
     public SignalRodBlock(Properties prop) {
         super(prop);
     }

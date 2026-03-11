@@ -36,25 +36,51 @@ import net.minecraft.world.level.block.state.BlockState;
 import javax.annotation.Nullable;
 import java.util.List;
 
+/**
+ * 模具加工台方块实体,用于将粘土模具加工成各种子弹模具喵~
+ *
+ * <p>模具加工台有两种工作模式喵~:</p>
+ * <ul>
+ *     <li>手动模式:玩家手动放入粘土模具和选择配方进行加工喵~</li>
+ *     <li>自动模式:安装动力臂并接入旋转应力后,自动批量加工子弹模具喵~</li>
+ * </ul>
+ *
+ * @author liudongyu
+ */
 public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Container, MenuProvider, Nameable, WorldlyContainer, StackedContentsCompatible, TransformableBlockEntity {
+	/** 输入槽位索引喵~ */
 	public static final int SLOT_INPUT = 0;
+	/** 输出槽位索引喵~ */
 	public static final int SLOT_RESULT = 1;
+	/** 动力臂槽位索引喵~ */
 	public static final int SLOT_MECHANICAL_ARM = 2;
+	/** 从上方可访问的槽位索引数组喵~ */
 	private static final int[] SLOTS_FOR_UP = new int[]{0, 2};
+	/** 从下方可访问的槽位索引数组喵~ */
 	private static final int[] SLOTS_FOR_DOWN = new int[]{1};
+	/** 从侧面可访问的槽位索引数组喵~ */
 	private static final int[] SLOTS_FOR_SIDES = new int[]{0, 1};
+	/** 槽位总数喵~ */
 	public static final int NUM_SLOTS = 3;
+	/** 数据槽数量喵~ */
 	public static final int DATA_SLOTS = 3;
 
+	/** 自定义容器名称喵~ */
 	@Nullable
 	private Component name;
+	/** 物品槽位列表喵~ */
 	protected NonNullList<ItemStack> items;
+	/** 当前加工进度(游戏刻)喵~ */
 	int workProgress;
+	/** 加工总时间(游戏刻)喵~ */
 	int workTotalTime;
+	/** 当前选择的配方索引喵~ */
 	int recipeIndex = -1;
+	/** 正在使用的配方资源位置喵~ */
 	@Nullable
 	private ResourceLocation recipeUsed = null;
 
+	/** 容器数据访问器,用于与 GUI 同步数据喵~ */
 	private final ContainerData dataAccess = new ContainerData() {
 		@Override
 		public int get(int index) {
@@ -86,6 +112,12 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 		}
 	};
 
+	/**
+	 * 构造模具加工台方块实体喵~
+	 *
+	 * @param blockPos 方块位置喵~
+	 * @param blockState 方块状态喵~
+	 */
 	public MoldWorkbenchBlockEntity(BlockPos blockPos, BlockState blockState) {
 		super(MISCTWFBlockEntities.MOLD_WORKBENCH.get(), blockPos, blockState);
 		this.items = NonNullList.withSize(NUM_SLOTS, ItemStack.EMPTY);
@@ -101,11 +133,21 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 		return this.getName();
 	}
 
+	/**
+	 * 获取自定义容器名称喵~
+	 *
+	 * @return 自定义名称,如果未设置则返回 null 喵~
+	 */
 	@Override @Nullable
 	public Component getCustomName() {
 		return this.name;
 	}
 
+	/**
+	 * 获取默认容器名称喵~
+	 *
+	 * @return 翻译键对应的容器名称喵~
+	 */
 	protected Component getDefaultName() {
 		return Component.translatable("container.misc_twf.mold_workbench");
 	}
@@ -149,6 +191,7 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 	@Override
 	public void tick() {
 		super.tick();
+		// 只有底部部分才执行 tick 逻辑喵~
 		if(this.getBlockState().getValue(MoldWorkbenchBlock.PART) != MoldWorkbenchPart.BOTTOM) {
 			return;
 		}
@@ -160,13 +203,16 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 				ItemStack result = this.getItem(SLOT_RESULT);
 				RecipeHolder<?> recipe = this.level.getRecipeManager().byKey(recipeUsed).orElse(null);
 				boolean resultEmpty = result.isEmpty();
+				// 检查配方是否仍然有效喵~
 				if(recipe != null && (resultEmpty || ItemStack.isSameItemSameComponents(
 						result, recipe.value().getResultItem(this.level.registryAccess())
 				))) {
+					// 增加加工进度喵~
 					this.workProgress += 1;
 					if (this.workProgress < this.workTotalTime) {
 						return;
 					}
+					// 加工完成,生成产物喵~
 					if (recipe.value() instanceof MoldWorkbenchRecipe moldWorkbenchRecipe && moldWorkbenchRecipe.matches(this, this.level)) {
 						input.shrink(1);
 						if(resultEmpty) {
@@ -176,11 +222,13 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 						}
 					}
 				}
+				// 如果满足速度要求且输入槽不为空,继续下一次加工喵~
 				if(this.isSpeedRequirementFulfilled() && !input.isEmpty()) {
 					this.workProgress = 0;
 					this.setChanged();
 					return;
 				}
+				// 停止加工,重置配方喵~
 				this.recipeIndex = -1;
 				this.recipeUsed = null;
 			}
@@ -299,6 +347,11 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 		this.items.forEach(contents::accountStack);
 	}
 
+	/**
+	 * 设置当前使用的配方喵~
+	 *
+	 * @param recipe 配方持有者,为 null 时清除当前配方喵~
+	 */
 	public void setRecipeUsed(@Nullable RecipeHolder<MoldWorkbenchRecipe> recipe) {
 		if (recipe == null) {
 			this.recipeUsed = null;
@@ -307,11 +360,21 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 		}
 	}
 
+	/**
+	 * 开始加工操作喵~
+	 *
+	 * @param totalTime 加工总时间(游戏刻)喵~
+	 */
 	public void startWorking(int totalTime) {
 		this.workProgress = 0;
 		this.workTotalTime = totalTime;
 	}
 
+	/**
+	 * 当动力臂槽位变化时更新方块状态喵~
+	 *
+	 * @param hasMechanicalArm 是否安装了动力臂喵~
+	 */
 	public void mechanicalArmSlotChange(boolean hasMechanicalArm) {
 		if(this.level instanceof ServerLevel) {
 			this.level.setBlock(this.worldPosition, this.getBlockState().setValue(MoldWorkbenchBlock.ARMED, hasMechanicalArm), Block.UPDATE_ALL);

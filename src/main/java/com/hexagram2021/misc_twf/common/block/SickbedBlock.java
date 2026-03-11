@@ -23,12 +23,16 @@ public class SickbedBlock extends HorizontalDirectionalBlock {
 	protected static final VoxelShape X_SHAPE = Shapes.or(Block.box(-10, 0, -1, 26, 15, 17), Block.box(-13, 0, -2, -10, 20, 18), Block.box(26, 0, -2, 29, 20, 18));
 	protected static final VoxelShape Z_SHAPE = Shapes.or(Block.box(-1, 0, -10, 17, 15, 26), Block.box(-2, 0, -13, 18, 20, -10), Block.box(-2, 0, 26, 18, 20, 29));
 
+	/**
+	 * 构造一个病床方块实例，默认朝向为北喵~
+	 *
+	 * @param props 方块属性喵~
+	 */
 	public SickbedBlock(Properties props) {
 		super(props);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getShape(BlockState blockState, BlockGetter level, BlockPos blockPos, CollisionContext context) {
 		return switch (blockState.getValue(FACING)) {

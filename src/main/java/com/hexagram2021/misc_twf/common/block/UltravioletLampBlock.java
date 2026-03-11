@@ -3,17 +3,14 @@ package com.hexagram2021.misc_twf.common.block;
 import com.hexagram2021.misc_twf.common.block.entity.UltravioletLampBlockEntity;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -37,7 +34,16 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
+/**
+ * 紫外线灯方块，支持六面朝向放置，可点亮以产生消毒效果喵~
+ * <p>
+ * 该方块是一个方块实体，内部可放置蓄电池以供电喵~
+ * 点亮后会在周围产生末地烛粒子效果喵~
+ *
+ * @author liudongyu
+ */
 public class UltravioletLampBlock extends BaseEntityBlock {
+	public static final MapCodec<UltravioletLampBlock> CODEC = simpleCodec(UltravioletLampBlock::new);
 	protected static final double AABB_MIN = 6.0D;
 	protected static final double AABB_MAX = 10.0D;
 	protected static final VoxelShape X_AXIS_AABB = Block.box(0.0D, AABB_MIN, AABB_MIN, 16.0D, AABB_MAX, AABB_MAX);
@@ -47,6 +53,11 @@ public class UltravioletLampBlock extends BaseEntityBlock {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 	public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
+	/**
+	 * 构造紫外线灯方块，并设置默认朝向为向上、默认未点亮喵~
+	 *
+	 * @param props 方块属性喵~
+	 */
 	public UltravioletLampBlock(BlockBehaviour.Properties props) {
 		super(props);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(LIT, false));
@@ -117,16 +128,6 @@ public class UltravioletLampBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	public void setPlacedBy(Level level, BlockPos blockPos, BlockState blockState, @Nullable LivingEntity entity, ItemStack itemStack) {
-		if (itemStack.hasCustomHoverName()) {
-			BlockEntity blockentity = level.getBlockEntity(blockPos);
-			if (blockentity instanceof UltravioletLampBlockEntity ultravioletLampBlockEntity) {
-				ultravioletLampBlockEntity.setCustomName(itemStack.getHoverName());
-			}
-		}
-	}
-
-	@Override
 	public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState newState, boolean v) {
 		if (!blockState.is(newState.getBlock())) {
 			if(blockState.getValue(LIT)) {
@@ -146,22 +147,28 @@ public class UltravioletLampBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult result) {
+	public ItemInteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult result) {
 		if (level.isClientSide) {
-			return InteractionResult.SUCCESS;
-		} else {
-			this.openContainer(level, blockPos, player);
-			return InteractionResult.CONSUME;
+			return ItemInteractionResult.SUCCESS;
 		}
+		this.openContainer(level, blockPos, player);
+		return ItemInteractionResult.CONSUME;
 	}
 
+	/**
+	 * 打开紫外线灯的容器界面喵~
+	 *
+	 * @param level 当前世界喵~
+	 * @param blockPos 方块位置喵~
+	 * @param player 交互的玩家喵~
+	 */
 	protected void openContainer(Level level, BlockPos blockPos, Player player) {
 		BlockEntity blockentity = level.getBlockEntity(blockPos);
 		if (blockentity instanceof UltravioletLampBlockEntity) {
 			player.openMenu((MenuProvider)blockentity);
 		}
 	}
-	
+
 	@Override @Nullable
 	public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
 		return new UltravioletLampBlockEntity(blockPos, blockState);
@@ -170,5 +177,10 @@ public class UltravioletLampBlock extends BaseEntityBlock {
 	@Override @Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
 		return level.isClientSide ? null : createTickerHelper(blockEntityType, MISCTWFBlockEntities.ULTRAVIOLET_LAMP.get(), UltravioletLampBlockEntity::serverTick);
+	}
+
+	@Override
+	protected MapCodec<UltravioletLampBlock> codec() {
+		return CODEC;
 	}
 }

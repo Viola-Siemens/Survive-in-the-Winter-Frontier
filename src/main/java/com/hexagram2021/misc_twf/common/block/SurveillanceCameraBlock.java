@@ -40,9 +40,14 @@ public class SurveillanceCameraBlock extends Block implements SimpleWaterloggedB
             Direction.EAST, Block.box(0, 4, 4, 8, 12, 12)
     ));
 
+    /**
+     * 构造一个监控摄像头方块实例，默认朝向为北且未含水喵~
+     *
+     * @param properties 方块属性喵~
+     */
     public SurveillanceCameraBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, Boolean.FALSE));
     }
 
     @Override
@@ -68,15 +73,15 @@ public class SurveillanceCameraBlock extends Block implements SimpleWaterloggedB
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter p_56294_, BlockPos p_56295_, CollisionContext p_56296_) {
-        return AABBS.get(state.getValue(FACING));
+    public VoxelShape getShape(BlockState blockState, BlockGetter level, BlockPos blockPos, CollisionContext context) {
+        return AABBS.get(blockState.getValue(FACING));
     }
 
     @Override
     public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         return level.getBlockState(pos.relative(state.getValue(FACING).getOpposite())).isSolid();
     }
-    
+
     @Override
     public FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);

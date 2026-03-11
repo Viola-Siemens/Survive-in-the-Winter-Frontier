@@ -4,6 +4,7 @@ import com.hexagram2021.misc_twf.common.fluid.BloodFluid;
 import com.hexagram2021.misc_twf.common.fluid.FluidConstructor;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
@@ -13,9 +14,13 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.common.SoundActions;
+import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
 
@@ -32,6 +37,7 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
  */
 public final class MISCTWFFluids {
 	public static final DeferredRegister<Fluid> REGISTER = DeferredRegister.create(Registries.FLUID, MODID);
+	public static final DeferredRegister<FluidType> FLUID_TYPE_REGISTER = DeferredRegister.create(NeoForgeRegistries.FLUID_TYPES, MODID);
 
 	/**
 	 * 血液流体条目，包含静态血液、流动血液、血液方块和血桶喵~
@@ -42,7 +48,15 @@ public final class MISCTWFFluids {
 			ResourceLocation.fromNamespaceAndPath(MODID, "block/fluid/blood_still"), ResourceLocation.fromNamespaceAndPath(MODID, "block/fluid/blood_flowing"),
 			() -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(5.0F)
 					.speedFactor(0.5F).noCollission().replaceable().pushReaction(PushReaction.DESTROY).liquid().noLootTable(),
-			(entry, props) -> new LiquidBlock(entry.getStill(), props)
+			(entry, props) -> new LiquidBlock(entry.getStill(), props),
+			FluidType.Properties.create()
+					.descriptionId("block.misc_twf.blood")
+					.motionScale(0.02D).fallDistanceModifier(0.2F)
+					.canExtinguish(true).supportsBoating(true)
+					.pathType(PathType.LAVA)
+					.sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
+					.sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
+					.sound(SoundActions.FLUID_VAPORIZE, SoundEvents.FIRE_EXTINGUISH)
 	);
 
 	/**
@@ -56,7 +70,8 @@ public final class MISCTWFFluids {
 	 * @param <T> 流体类型喵~
 	 */
 	public record FluidEntry<T extends Fluid>(DeferredHolder<Fluid, T> still, DeferredHolder<Fluid, T> flowing,
-											  MISCTWFBlocks.BlockEntry<LiquidBlock> fluidBlock, MISCTWFItems.ItemEntry<BucketItem> bucket) {
+											  MISCTWFBlocks.BlockEntry<LiquidBlock> fluidBlock, MISCTWFItems.ItemEntry<BucketItem> bucket,
+											  DeferredHolder<FluidType, FluidType> type) {
 		/**
 		 * 获取流动状态的流体实例喵~
 		 *
@@ -111,7 +126,8 @@ public final class MISCTWFFluids {
 															   FluidConstructor<T> stillMaker, FluidConstructor<T> flowingMaker,
 															   ResourceLocation stillTex, ResourceLocation flowingTex,
 															   Supplier<BlockBehaviour.Properties> blockProperties,
-															   BiFunction<FluidEntry<T>, BlockBehaviour.Properties, ? extends LiquidBlock> blockMaker) {
+															   BiFunction<FluidEntry<T>, BlockBehaviour.Properties, ? extends LiquidBlock> blockMaker,
+															   FluidType.Properties properties) {
 			Mutable<FluidEntry<T>> thisMutable = new MutableObject<>();
 			DeferredHolder<Fluid, T> still = REGISTER.register(name, () -> makeFluid(
 					stillMaker, thisMutable.getValue(), fluidTag, stillTex, flowingTex
@@ -126,7 +142,8 @@ public final class MISCTWFFluids {
 					null
 			);
 			MISCTWFItems.ItemEntry<BucketItem> bucket = MISCTWFItems.ItemEntry.register(name + "_bucket", () -> makeBucket(still));
-			FluidEntry<T> entry = new FluidEntry<>(still, flowing, block, bucket);
+			DeferredHolder<FluidType, FluidType> type = FLUID_TYPE_REGISTER.register(name, () -> new FluidType(properties));
+			FluidEntry<T> entry = new FluidEntry<>(still, flowing, block, bucket, type);
 			thisMutable.setValue(entry);
 			return entry;
 		}
@@ -165,5 +182,6 @@ public final class MISCTWFFluids {
 	 */
 	public static void init(IEventBus bus) {
 		REGISTER.register(bus);
+		FLUID_TYPE_REGISTER.register(bus);
 	}
 }

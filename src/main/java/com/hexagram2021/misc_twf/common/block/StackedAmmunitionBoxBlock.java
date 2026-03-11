@@ -1,27 +1,28 @@
 package com.hexagram2021.misc_twf.common.block;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
  * 堆叠弹药箱方块喵~
  *
  * @author liudongyu
  */
-@SuppressWarnings("deprecation")
 public class StackedAmmunitionBoxBlock extends HorizontalDirectionalBlock {
 	public static final MapCodec<StackedAmmunitionBoxBlock> CODEC = simpleCodec(StackedAmmunitionBoxBlock::new);
-    public StackedAmmunitionBoxBlock(Properties p_49795_) {
-        super(p_49795_);
+
+    /**
+     * 构造一个堆叠弹药箱方块实例，默认朝向为北喵~
+     *
+     * @param properties 方块属性喵~
+     */
+    public StackedAmmunitionBoxBlock(Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 

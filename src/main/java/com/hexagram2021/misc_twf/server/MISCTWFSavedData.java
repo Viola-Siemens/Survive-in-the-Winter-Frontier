@@ -9,6 +9,7 @@ import com.hexagram2021.tetrachordlib.core.container.KDTree;
 import com.hexagram2021.tetrachordlib.vanilla.MDUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -22,7 +23,15 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
+/**
+ * 模组存档数据，用于持久化存储疫苗免疫信息和紫外线灯位置喵~
+ * <br/>
+ * 使用 KD 树存储紫外线灯坐标以支持高效的最近邻查询喵~
+ *
+ * @author liudongyu
+ */
 public class MISCTWFSavedData extends SavedData {
+	/** 已注册的维度集合喵~ */
 	public static final Set<ResourceLocation> dimensions = Sets.newHashSet(
 			Level.OVERWORLD.location(), Level.NETHER.location(), Level.END.location()
 	);
@@ -31,6 +40,7 @@ public class MISCTWFSavedData extends SavedData {
 	@Nullable
 	private static MISCTWFSavedData INSTANCE;
 
+	/** 存档数据名称喵~ */
 	public static final String SAVED_DATA_NAME = "MiscTWF-SavedData";
 
 	private static final String TAG_IMMUNITY = "immunity";
@@ -49,7 +59,13 @@ public class MISCTWFSavedData extends SavedData {
 		this.lampPositions = Maps.newHashMap();
 	}
 
-	public MISCTWFSavedData(CompoundTag nbt) {
+	/**
+	 * 从 NBT 数据反序列化存档数据喵~
+	 *
+	 * @param nbt      NBT 复合标签喵~
+	 * @param provider 注册表查找提供者喵~
+	 */
+	public MISCTWFSavedData(CompoundTag nbt, @SuppressWarnings("unused") HolderLookup.Provider provider) {
 		this();
 		if(nbt.contains(TAG_IMMUNITY, Tag.TAG_LIST)) {
 			ListTag list = nbt.getList(TAG_IMMUNITY, Tag.TAG_COMPOUND);
@@ -77,7 +93,7 @@ public class MISCTWFSavedData extends SavedData {
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag nbt) {
+	public CompoundTag save(CompoundTag nbt, HolderLookup.Provider provider) {
 		ListTag immunity = new ListTag();
 		synchronized (this.immunityAgainstZombification) {
 			this.immunityAgainstZombification.forEach((uuid, content) -> {
@@ -106,6 +122,12 @@ public class MISCTWFSavedData extends SavedData {
 		return nbt;
 	}
 
+	/**
+	 * 设置指定 UUID 的实体对僵尸化的免疫时间喵~
+	 *
+	 * @param uuid 实体 UUID 喵~
+	 * @param time 免疫时间（tick）喵~
+	 */
 	public static void setImmuneToZombification(UUID uuid, int time) {
 		if(INSTANCE == null) {
 			MISCTWFLogger.warn("Ignore trying to set immunity for uuid " + uuid + " as saved data is not loaded.");
@@ -116,6 +138,12 @@ public class MISCTWFSavedData extends SavedData {
 		}
 		INSTANCE.setDirty();
 	}
+	/**
+	 * 检查指定 UUID 的实体是否对僵尸化免疫喵~
+	 *
+	 * @param uuid 实体 UUID 喵~
+	 * @return 是否免疫喵~
+	 */
 	public static boolean isImmuneToZombification(UUID uuid) {
 		if(INSTANCE == null) {
 			MISCTWFLogger.warn("Ignore trying to get immunity for uuid " + uuid + " as saved data is not loaded.");
@@ -124,6 +152,11 @@ public class MISCTWFSavedData extends SavedData {
 		return INSTANCE.immunityAgainstZombification.containsKey(uuid);
 	}
 
+	/**
+	 * 记录紫外线灯的放置位置喵~
+	 *
+	 * @param globalPos 全局坐标（含维度信息）喵~
+	 */
 	public static void placeLamp(GlobalPos globalPos) {
 		BlockPos blockPos = globalPos.pos();
 //		MISCTWFLogger.debug("Place lamp at " + globalPos.dimension().location() + " (" + blockPos.toShortString() + ").");
@@ -135,6 +168,11 @@ public class MISCTWFSavedData extends SavedData {
 				.insert(KDTree.BuildNode.of(blockPos, MDUtils.vec3i(blockPos)));
 		INSTANCE.setDirty();
 	}
+	/**
+	 * 移除紫外线灯的放置记录喵~
+	 *
+	 * @param globalPos 全局坐标（含维度信息）喵~
+	 */
 	public static void destroyLamp(GlobalPos globalPos) {
 		BlockPos blockPos = globalPos.pos();
 //		MISCTWFLogger.debug("Destroy lamp at " + globalPos.dimension().location() + " (" + blockPos.toShortString() + ").");
@@ -148,6 +186,12 @@ public class MISCTWFSavedData extends SavedData {
 		}
 		INSTANCE.setDirty();
 	}
+	/**
+	 * 判断指定位置是否在紫外线灯的有效范围内，以阻止怪物生成喵~
+	 *
+	 * @param globalPos 全局坐标（含维度信息）喵~
+	 * @return 是否应阻止怪物生成喵~
+	 */
 	public static boolean denyMonsterSpawn(GlobalPos globalPos) {
 		BlockPos blockPos = globalPos.pos();
 //		MISCTWFLogger.debug("Query lamp at " + globalPos.dimension().location() + " (" + blockPos.toShortString() + ").");
@@ -164,17 +208,36 @@ public class MISCTWFSavedData extends SavedData {
 		return closest.distanceWith(target) <= MISCTWFCommonConfig.ULTRAVIOLET_LAMPS_RADIUS.get();
 	}
 
+	/**
+	 * 设置存档数据单例实例喵~
+	 *
+	 * @param in 存档数据实例喵~
+	 */
 	public static void setInstance(MISCTWFSavedData in) {
 		INSTANCE = in;
 	}
 
+	/**
+	 * 疫苗免疫内容，记录免疫持续时间喵~
+	 */
 	public static class VaccineContent {
+		/** 免疫持续时间（tick），-1 表示永久喵~ */
 		public final int time;
 
+		/**
+		 * 通过时间值构造疫苗内容喵~
+		 *
+		 * @param time 免疫时间（tick）喵~
+		 */
 		public VaccineContent(int time) {
 			this.time = time;
 		}
 
+		/**
+		 * 从 NBT 数据反序列化疫苗内容喵~
+		 *
+		 * @param nbt NBT 复合标签喵~
+		 */
 		public VaccineContent(CompoundTag nbt) {
 			if(nbt.contains("time")) {
 				this.time = nbt.getInt("time");
@@ -183,6 +246,11 @@ public class MISCTWFSavedData extends SavedData {
 			}
 		}
 
+		/**
+		 * 将疫苗内容序列化为 NBT 数据喵~
+		 *
+		 * @return 序列化后的 NBT 复合标签喵~
+		 */
 		public CompoundTag save() {
 			CompoundTag nbt = new CompoundTag();
 			nbt.putInt("time", this.time);

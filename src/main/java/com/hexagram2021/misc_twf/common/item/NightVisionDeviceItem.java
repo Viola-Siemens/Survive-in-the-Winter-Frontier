@@ -1,19 +1,25 @@
 package com.hexagram2021.misc_twf.common.item;
 
 import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
-import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.energy.CapabilityEnergy;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
-import javax.annotation.Nullable;
-
+/**
+ * 夜视仪物品，作为 Curios 饰品佩戴时每秒消耗能量以维持夜视效果喵~
+ *
+ * @author liudongyu
+ */
 public class NightVisionDeviceItem extends Item implements ICurioItem, IEnergyItem {
+	/**
+	 * 构造一个夜视仪物品喵~
+	 *
+	 * @param props 物品属性喵~
+	 */
 	public NightVisionDeviceItem(Properties props) {
 		super(props);
 	}
@@ -22,16 +28,11 @@ public class NightVisionDeviceItem extends Item implements ICurioItem, IEnergyIt
 	public void curioTick(SlotContext slotContext, ItemStack stack) {
 		LivingEntity entity = slotContext.entity();
 		if(entity.tickCount % 20 == 0) {
-			stack.getCapability(CapabilityEnergy.ENERGY).ifPresent(ies -> ies.extractEnergy(1, false));
+			IEnergyStorage ies = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+			if(ies != null) {
+				ies.extractEnergy(1, false);
+			}
 		}
-	}
-
-	@Override
-	public void readShareTag(ItemStack stack, @Nullable CompoundTag nbt) {
-		if (nbt != null) {
-			this.readEnergyShareTag(nbt, stack);
-		}
-		super.readShareTag(stack, nbt);
 	}
 
 	@Override
@@ -47,14 +48,5 @@ public class NightVisionDeviceItem extends Item implements ICurioItem, IEnergyIt
 	@Override
 	public int getMaxEnergyExtractSpeed() {
 		return 1;
-	}
-
-	@Override
-	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> list) {
-		if (this.allowdedIn(tab)) {
-			ItemStack itemStack = new ItemStack(this);
-			this.readShareTag(itemStack, this.getMaxEnergyTag(itemStack));
-			list.add(itemStack);
-		}
 	}
 }

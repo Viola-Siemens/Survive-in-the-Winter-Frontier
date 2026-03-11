@@ -122,7 +122,7 @@ dependencies {
     runtimeOnly ("curse.maven:spark-361579:7315224")
     //implementation ("curse.maven:tacz-1028108:6069322-sources-6069332")           ////// replaced by superb-warfare
     implementation ("curse.maven:superb-warfare-1218165:7292699-sources-7292701")   //////
-    implementation ("curse.maven:tetrachordlib-980149:6707317")         //////
+    implementation ("curse.maven:tetrachordlib-980149:5644644")         //////
     implementation ("curse.maven:travelersbackpack-321117:7543685")     //////
     //implementation ("curse.maven:justlevelingfork-1073400:5677674")   ////// todo: no 1.21.1
     runtimeOnly ("curse.maven:zombie_extreme-392809:7014504")

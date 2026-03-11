@@ -18,7 +18,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  *
  * @author liudongyu
  */
-@SuppressWarnings("deprecation")
 public class WheelchairBlock extends HorizontalDirectionalBlock {
 	public static final MapCodec<WheelchairBlock> CODEC = simpleCodec(WheelchairBlock::new);
 	protected static final VoxelShape NORTH_SHAPE = Shapes.or(
@@ -42,6 +41,11 @@ public class WheelchairBlock extends HorizontalDirectionalBlock {
 			Block.box(0.0D, 15.0D, 2.0D, 6.0D, 19.0D, 14.0D)
 	);
 
+	/**
+	 * 构造轮椅方块，并设置默认朝向为北喵~
+	 *
+	 * @param props 方块属性喵~
+	 */
 	public WheelchairBlock(Properties props) {
 		super(props);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));

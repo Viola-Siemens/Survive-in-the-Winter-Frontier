@@ -18,11 +18,15 @@ public class TinyTrashBagBlock extends Block {
 
 	protected static final VoxelShape SHAPE = Block.box(6, 0, 5.5, 10, 4, 10.5);
 
+	/**
+	 * 构造一个小型垃圾袋方块实例喵~
+	 *
+	 * @param props 方块属性喵~
+	 */
 	public TinyTrashBagBlock(Properties props) {
 		super(props);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getShape(BlockState blockState, BlockGetter level, BlockPos blockPos, CollisionContext context) {
 		return SHAPE;

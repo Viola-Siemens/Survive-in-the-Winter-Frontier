@@ -21,7 +21,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  *
  * @author liudongyu
  */
-@SuppressWarnings("deprecation")
 public class TrashCanBlock extends Block {
 	public static final MapCodec<TrashCanBlock> CODEC = simpleCodec(TrashCanBlock::new);
 	protected static final VoxelShape X_SHAPE = Shapes.or(Block.box(5.25, 0, 3, 20.25, 10, 13), Block.box(-9.5, 0, -3.5, 5.5, 1, 11.5));
@@ -32,6 +31,11 @@ public class TrashCanBlock extends Block {
 
 	public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING_HOPPER;
 
+	/**
+	 * 构造垃圾桶方块，并设置默认朝向为向下喵~
+	 *
+	 * @param props 方块属性喵~
+	 */
 	public TrashCanBlock(Properties props) {
 		super(props);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.DOWN));

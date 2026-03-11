@@ -19,7 +19,13 @@ import java.util.Map;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
+/**
+ * 模组已配置结构注册类，负责注册 Boss 巢穴等结构的配置喵~
+ *
+ * @author liudongyu
+ */
 public final class MISCTWFConfiguredStructures {
+	/** 怪物刷新覆盖列表，定义 Boss 巢穴内可生成的怪物类型和权重喵~ */
 	private static final List<MobSpawnSettings.SpawnerData> MONSTER_OVERRIDE_LIST = Util.make(() -> {
 		List<MobSpawnSettings.SpawnerData> ret = Lists.newArrayList();
 		ret.add(new MobSpawnSettings.SpawnerData(EntityType.ZOMBIE, 30, 2, 4));
@@ -74,9 +80,10 @@ public final class MISCTWFConfiguredStructures {
 		return ret;
 	});
 
+	/** Boss 巢穴已配置结构特征实例喵~ */
 	public static final Holder<ConfiguredStructureFeature<?, ?>> BOSS_LAIR = register(
 			"boss_lair",
-			MISCTWFStructures.BOSS_LAIR.configured(
+			MISCTWFStructureTypes.BOSS_LAIR.configured(
 					NoneFeatureConfiguration.INSTANCE, MISCTWFBiomeTags.HAS_BOSS_LAIR, true,
 					Map.of(
 							MobCategory.MONSTER, new StructureSpawnOverride(
@@ -90,11 +97,21 @@ public final class MISCTWFConfiguredStructures {
 	private MISCTWFConfiguredStructures() {
 	}
 
+	/**
+	 * 将已配置结构特征注册到内置注册表喵~
+	 *
+	 * @param name                        结构名称喵~
+	 * @param configuredStructureFeature  已配置结构特征实例喵~
+	 * @return 已注册的结构特征持有者喵~
+	 */
 	@SuppressWarnings("SameParameterValue")
 	private static Holder<ConfiguredStructureFeature<?, ?>> register(String name, ConfiguredStructureFeature<?, ?> configuredStructureFeature) {
 		return BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE, new ResourceLocation(MODID, name), configuredStructureFeature);
 	}
 
+	/**
+	 * 触发类加载以完成静态初始化喵~
+	 */
 	public static void init() {
 	}
 }

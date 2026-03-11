@@ -7,26 +7,29 @@ import com.hexagram2021.misc_twf.common.block.entity.MoldDetacherBlockEntity;
 import com.hexagram2021.misc_twf.common.recipe.cache.CachedRecipeList;
 import com.hexagram2021.misc_twf.common.register.MISCTWFRecipeSerializers;
 import com.hexagram2021.misc_twf.common.register.MISCTWFRecipeTypes;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
-public record MoldDetacherRecipe(ResourceLocation id, Ingredient input, NonNullList<ItemStack> results) implements Recipe<Container> {
+/**
+ * 模具拆卸机配方，定义了模具拆卸机的输入原料和多个输出结果喵~
+ *
+ * @param id 配方的资源路径标识符喵~
+ * @param input 配方的输入原料喵~
+ * @param results 配方的输出结果列表喵~
+ *
+ * @author liudongyu
+ */
+public record MoldDetacherRecipe(ResourceLocation id, Ingredient input, NonNullList<ItemStack> results) implements Recipe<SingleRecipeInput> {
 	public static final CachedRecipeList<MoldDetacherRecipe> recipeList = new CachedRecipeList<>(
 			MISCTWFRecipeTypes.MOLD_DETACHER,
 			MoldDetacherRecipe.class
 	);
-
-	@Override
-	public ResourceLocation getId() {
-		return this.id;
-	}
 
 	@Override
 	public NonNullList<Ingredient> getIngredients() {
@@ -34,18 +37,18 @@ public record MoldDetacherRecipe(ResourceLocation id, Ingredient input, NonNullL
 	}
 
 	@Override
-	public boolean matches(Container container, Level level) {
+	public boolean matches(SingleRecipeInput container, Level level) {
 		return this.input.test(container.getItem(0));
 	}
 
 	@Override
-	public ItemStack getResultItem() {
-		return this.results.get(0);
+	public ItemStack getResultItem(HolderLookup.Provider provider) {
+		return this.results.getFirst();
 	}
 
 	@Override
-	public ItemStack assemble(Container container) {
-		return this.getResultItem().copy();
+	public ItemStack assemble(SingleRecipeInput container, HolderLookup.Provider provider) {
+		return this.getResultItem(provider).copy();
 	}
 
 	@Override
@@ -63,6 +66,9 @@ public record MoldDetacherRecipe(ResourceLocation id, Ingredient input, NonNullL
 		return MISCTWFRecipeTypes.MOLD_DETACHER.get();
 	}
 
+	/**
+	 * 模具拆卸机配方的序列化器，负责 JSON 解析和网络编解码喵~
+	 */
 	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<MoldDetacherRecipe> {
 		@Override
 		public MoldDetacherRecipe fromJson(ResourceLocation id, JsonObject jsonObject) {

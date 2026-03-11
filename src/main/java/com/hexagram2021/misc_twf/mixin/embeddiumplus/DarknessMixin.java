@@ -5,6 +5,7 @@ import me.srrapero720.embeddiumplus.features.true_darkness.Darkness;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -20,6 +21,13 @@ import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
 import java.util.Map;
 
+/**
+ * 针对 Embeddium++ 的 {@link Darkness} 类的 Mixin 喵~
+ * <br/>
+ * 当玩家佩戴夜视仪或旅行者头盔且电量充足时，禁用 Embeddium++ 的真实黑暗效果喵~
+ *
+ * @author liudongyu
+ */
 @Mixin(Darkness.class)
 public class DarknessMixin {
 	@Shadow(remap = false)
@@ -47,7 +55,7 @@ public class DarknessMixin {
 			}
 		}
 		ItemStack stack = client.player.getItemBySlot(EquipmentSlot.HEAD);
-		if(stack.is(MISCTWFItems.WAYFARER_ARMORS.get(EquipmentSlot.HEAD).get())) {
+		if(stack.is(MISCTWFItems.WAYFARER_ARMORS.get(ArmorItem.Type.HELMET).get())) {
 			IEnergyStorage ies = stack.getCapability(CapabilityEnergy.ENERGY).orElse(null);
 			if (ies != null && ies.getEnergyStored() > 0) {
 				enabled = false;

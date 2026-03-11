@@ -18,11 +18,15 @@ public class WastepaperBlock extends Block {
 
 	private static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D);
 
+	/**
+	 * 构造废纸方块喵~
+	 *
+	 * @param props 方块属性喵~
+	 */
 	public WastepaperBlock(Properties props) {
 		super(props);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getShape(BlockState blockState, BlockGetter level, BlockPos blockPos, CollisionContext context) {
 		return SHAPE;

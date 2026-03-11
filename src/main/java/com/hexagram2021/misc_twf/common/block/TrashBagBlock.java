@@ -18,11 +18,15 @@ public class TrashBagBlock extends Block {
 
 	protected static final VoxelShape SHAPE = Block.box(4, 0, 4, 12, 8, 12);
 
+	/**
+	 * 构造白色垃圾袋方块喵~
+	 *
+	 * @param props 方块属性喵~
+	 */
 	public TrashBagBlock(Properties props) {
 		super(props);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getShape(BlockState blockState, BlockGetter level, BlockPos blockPos, CollisionContext context) {
 		return SHAPE;

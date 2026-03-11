@@ -2,16 +2,18 @@ package com.hexagram2021.misc_twf.common;
 
 import be.florens.expandability.api.EventResult;
 import be.florens.expandability.api.forge.PlayerSwimEvent;
+import com.google.common.collect.Streams;
+import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
 import com.hexagram2021.misc_twf.common.effect.FragileEffect;
 import com.hexagram2021.misc_twf.common.entity.ZombieGoatEntity;
 import com.hexagram2021.misc_twf.common.entity.ZombieSheepEntity;
 import com.hexagram2021.misc_twf.common.entity.capability.PoopingAnimal;
 import com.hexagram2021.misc_twf.common.item.AbyssVirusVaccine;
-import com.hexagram2021.misc_twf.common.item.IEnergyItem;
-import com.hexagram2021.misc_twf.common.item.capability.ItemStackEnergyHandler;
+import com.hexagram2021.misc_twf.common.item.WayfarerArmorItem;
 import com.hexagram2021.misc_twf.common.register.*;
 import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -25,12 +27,17 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.event.entity.living.LivingConversionEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+
+import java.util.Objects;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
@@ -46,24 +53,6 @@ public final class ForgeEventHandler {
 	public static final ResourceLocation ENERGY = ResourceLocation.fromNamespaceAndPath(MODID, "energy");
 	/** 排泄能力的标识符喵~ */
 	public static final ResourceLocation POOPING = ResourceLocation.fromNamespaceAndPath(MODID, "pooping");
-
-	/**
-	 * 为物品栈附加能力喵~
-	 * 如果物品实现了 IEnergyItem 接口，则为其附加能量存储能力喵~
-	 *
-	 * @param event 物品栈能力附加事件喵~
-	 */
-	@SubscribeEvent
-	public static void onAttachItemStackCapability(AttachCapabilitiesEvent<ItemStack> event) {
-		if(event.getObject().getItem() instanceof IEnergyItem energyItem) {
-			event.addCapability(ENERGY, new ItemStackEnergyHandler(
-					event.getObject(),
-					energyItem.getEnergyCapability(),
-					energyItem.getMaxEnergyReceiveSpeed(),
-					energyItem.getMaxEnergyExtractSpeed()
-			));
-		}
-	}
 
 	/**
 	 * 处理生物实体的每 tick 更新喵~
@@ -168,7 +157,7 @@ public final class ForgeEventHandler {
 	@SubscribeEvent
 	public static void onPlayerSwim(PlayerSwimEvent event) {
 		Player player = event.getEntity();
-		double fluidHeight = player.getFluidHeight(MISCTWFFluidTags.BLOOD);
+		double fluidHeight = player.getFluidTypeHeight(MISCTWFFluids.BLOOD_FLUID.type().get());
 		if(fluidHeight > 0 && (!player.onGround() || fluidHeight > player.getFluidJumpThreshold())) {
 			event.setResult(EventResult.SUCCESS);
 		}
@@ -198,6 +187,38 @@ public final class ForgeEventHandler {
 	@SubscribeEvent
 	public static void onGetBurnTime(FurnaceFuelBurnTimeEvent event) {
 		// empty
+	}
+
+	/**
+	 * 处理玩家的每 tick 更新喵~
+	 *
+	 * @param event 玩家 tick 事件喵~
+	 */
+	@SubscribeEvent
+	public static void onPlayerTick(PlayerTickEvent event) {
+		Player player = event.getEntity();
+		if(!player.level().isClientSide && player.tickCount % 20 == 0) {
+			player.getArmorSlots().forEach(armorSlot -> {
+				if(armorSlot.getItem() instanceof WayfarerArmorItem item) {
+					IEnergyStorage ies = armorSlot.getCapability(Capabilities.EnergyStorage.ITEM);
+					if (ies != null && ies.getEnergyStored() > 0) {
+						MobEffectInstance effectInstance = item.getTickedEffect();
+						if (effectInstance != null) {
+							player.addEffect(effectInstance);
+						}
+						ies.extractEnergy(1, false);
+					}
+				}
+			});
+
+			if (Streams.stream(player.getArmorSlots()).filter(Objects::nonNull).allMatch(itemStack -> itemStack.getItem() instanceof WayfarerArmorItem)) {
+				MISCTWFCommonConfig.WAYFARER_ARMOR_EFFECTS.get().forEach(
+						id -> BuiltInRegistries.MOB_EFFECT
+								.getHolder(ResourceLocation.parse(id))
+								.ifPresent(effect -> player.addEffect(new MobEffectInstance(effect, 40)))
+				);
+			}
+		}
 	}
 
 	private ForgeEventHandler() {

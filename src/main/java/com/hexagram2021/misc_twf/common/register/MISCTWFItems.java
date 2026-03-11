@@ -3,24 +3,25 @@ package com.hexagram2021.misc_twf.common.register;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
-import com.hexagram2021.misc_twf.common.item.AbyssVirusVaccine;
-import com.hexagram2021.misc_twf.common.item.AccumulatorItem;
-import com.hexagram2021.misc_twf.common.item.NightVisionDeviceItem;
-import com.hexagram2021.misc_twf.common.item.WayfarerArmorItem;
+import com.hexagram2021.misc_twf.common.item.*;
+import com.mrh0.createaddition.energy.InternalEnergyStorage;
 import net.minecraft.Util;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -206,6 +207,14 @@ public final class MISCTWFItems {
 		}
 	}
 
+	private static final Consumer<ItemStack> ENERGY_ITEM_MODIFIER = itemStack -> {
+		if(itemStack.getItem() instanceof IEnergyItem energyItem && itemStack.getCapability(Capabilities.EnergyStorage.ITEM) instanceof InternalEnergyStorage ies) {
+			CompoundTag maxEnergy = new CompoundTag();
+			maxEnergy.putInt("energy", energyItem.getEnergyCapability());
+			ies.read(maxEnergy);
+		}
+	};
+
 	/**
 	 * 深渊病毒免疫注射剂喵~
 	 */
@@ -217,7 +226,7 @@ public final class MISCTWFItems {
 	 * 夜视仪喵~
 	 */
 	public static final ItemEntry<NightVisionDeviceItem> NIGHT_VISION_DEVICE = ItemEntry.register(
-			"night_vision_device", () -> new NightVisionDeviceItem(new Item.Properties().stacksTo(1))
+			"night_vision_device", () -> new NightVisionDeviceItem(new Item.Properties().stacksTo(1)), ENERGY_ITEM_MODIFIER
 	);
 
 	/**
@@ -229,7 +238,8 @@ public final class MISCTWFItems {
 				public int getEnergyCapability() {
 					return MISCTWFCommonConfig.ORDINARY_ACCUMULATOR_CAPABILITY.get();
 				}
-			}
+			},
+			ENERGY_ITEM_MODIFIER
 	);
 
 	/**
@@ -241,7 +251,8 @@ public final class MISCTWFItems {
 				public int getEnergyCapability() {
 					return MISCTWFCommonConfig.MILITARY_ACCUMULATOR_CAPABILITY.get();
 				}
-			}
+			},
+			ENERGY_ITEM_MODIFIER
 	);
 
 	/**
@@ -293,7 +304,7 @@ public final class MISCTWFItems {
 	/**
 	 * 远行者护甲套装映射表喵~
 	 */
-	public static final Map<EquipmentSlot, ItemEntry<WayfarerArmorItem>> WAYFARER_ARMORS = Maps.newEnumMap(EquipmentSlot.class);
+	public static final Map<ArmorItem.Type, ItemEntry<WayfarerArmorItem>> WAYFARER_ARMORS = Maps.newEnumMap(ArmorItem.Type.class);
 
 	/**
 	 * 初始化物品注册器喵~
@@ -307,9 +318,9 @@ public final class MISCTWFItems {
 		REGISTER.register(bus);
 
 		// 动态注册远行者护甲套装喵~
-		for(EquipmentSlot type : EquipmentSlot.values()) {
-			if(type.getType() == EquipmentSlot.Type.HUMANOID_ARMOR) {
-				WAYFARER_ARMORS.put(type, ItemEntry.register(WayfarerArmorItem.name + "_" + type.name().toLowerCase(Locale.ENGLISH), () -> new WayfarerArmorItem(type)));
+		for(ArmorItem.Type type : ArmorItem.Type.values()) {
+			if(type.getSlot().getType() == EquipmentSlot.Type.HUMANOID_ARMOR) {
+				WAYFARER_ARMORS.put(type, ItemEntry.register(WayfarerArmorItem.name + "_" + type.name().toLowerCase(Locale.ENGLISH), () -> new WayfarerArmorItem(type), ENERGY_ITEM_MODIFIER));
 			}
 		}
 	}
@@ -323,14 +334,17 @@ public final class MISCTWFItems {
 		private static final List<ItemEntry<?>> ITEMS = Lists.newArrayList();
 
 		private final DeferredHolder<Item, T> regObject;
+		private final Consumer<ItemStack> tabStackModifier;
 
 		/**
 		 * 构造方法喵~
 		 *
 		 * @param regObject 延迟注册对象喵~
+		 * @param tabStackModifier 物品堆叠修改器喵~
 		 */
-		private ItemEntry(DeferredHolder<Item, T> regObject) {
+		private ItemEntry(DeferredHolder<Item, T> regObject, Consumer<ItemStack> tabStackModifier) {
 			this.regObject = regObject;
+			this.tabStackModifier = tabStackModifier;
 		}
 
 		/**
@@ -339,10 +353,23 @@ public final class MISCTWFItems {
 		 * @param name 物品注册名喵~
 		 * @param make 物品构造函数喵~
 		 * @param <T> 物品类型喵~
-		 * @return 物品注册入口喵~
+		 * @return 物品注册条目喵~
 		 */
 		public static <T extends Item> ItemEntry<T> register(String name, Supplier<? extends T> make) {
-			return new ItemEntry<>(REGISTER.register(name, make));
+			return new ItemEntry<>(REGISTER.register(name, make), stack -> {});
+		}
+
+		/**
+		 * 注册物品喵~
+		 *
+		 * @param name 物品注册名喵~
+		 * @param make 物品构造函数喵~
+		 * @param tabStackModifier 物品堆叠修改器喵~
+		 * @param <T> 物品类型喵~
+		 * @return 物品注册条目喵~
+		 */
+		public static <T extends Item> ItemEntry<T> register(String name, Supplier<? extends T> make, Consumer<ItemStack> tabStackModifier) {
+			return new ItemEntry<>(REGISTER.register(name, make), tabStackModifier);
 		}
 
 		/**
@@ -375,12 +402,14 @@ public final class MISCTWFItems {
 		}
 
 		/**
-		 * 获取所有已注册的物品条目喵~
+		 * 获取所有已注册的物品堆叠喵~
+		 * <br/>
+		 * 便于在创造物品栏中获取物品喵~
 		 *
-		 * @return 物品条目流喵~
+		 * @return 物品堆叠流喵~
 		 */
-		public static Stream<ItemEntry<?>> getItems() {
-			return ITEMS.stream();
+		public static Stream<ItemStack> getItems() {
+			return ITEMS.stream().map(ItemEntry::toTabStack);
 		}
 
 		/**
@@ -390,6 +419,12 @@ public final class MISCTWFItems {
 		 */
 		public static ItemStack getRandom(RandomSource random) {
 			return new ItemStack(Util.getRandom(ITEMS, random));
+		}
+
+		private ItemStack toTabStack() {
+			ItemStack ret = new ItemStack(this.regObject.get());
+			this.tabStackModifier.accept(ret);
+			return ret;
 		}
 	}
 }

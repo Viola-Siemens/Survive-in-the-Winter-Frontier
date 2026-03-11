@@ -1,12 +1,15 @@
 package com.hexagram2021.misc_twf.common;
 
 import com.hexagram2021.misc_twf.common.entity.ZombieAnimalEntity;
+import com.hexagram2021.misc_twf.common.item.IEnergyItem;
 import com.hexagram2021.misc_twf.common.network.ClientboundMonsterEggAnimationPacket;
 import com.hexagram2021.misc_twf.common.network.ServerboundOpenTacBackpackPacket;
 import com.hexagram2021.misc_twf.common.register.*;
+import com.mrh0.createaddition.energy.InternalEnergyStorage;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -40,9 +43,11 @@ public final class MISCTWFContent {
 	public static void modConstruct(IEventBus bus) {
 		initTags();
 
+		MISCTWFArmorMaterials.init(bus);
 		MISCTWFAttachmentTypes.init(bus);
 		MISCTWFAttributes.init(bus);
 		MISCTWFBlockStateProperties.init();
+		MISCTWFCreativeModeTabs.init(bus);
 		MISCTWFDataComponentTypes.init(bus);
 		MISCTWFFluids.init(bus);
 		MISCTWFBlocks.init(bus);
@@ -51,6 +56,8 @@ public final class MISCTWFContent {
 		MISCTWFEntities.init(bus);
 		MISCTWFRecipeTypes.init(bus);
 		MISCTWFRecipeSerializers.init(bus);
+		MISCTWFStructurePieceTypes.init();
+		MISCTWFStructureTypes.init(bus);
 		MISCTWFMobEffects.init(bus);
 		MISCTWFMenuTypes.init(bus);
 		MISCTWFTravelersBackpackTacOps.init(bus);
@@ -94,8 +101,46 @@ public final class MISCTWFContent {
 	public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
 		event.registerBlockEntity(
 				Capabilities.ItemHandler.BLOCK,
+				MISCTWFBlockEntities.MOLD_DETACHER.get(),
+				(container, side) -> side == null ? new InvWrapper(container) : new SidedInvWrapper(container, side)
+		);
+		event.registerBlockEntity(
+				Capabilities.ItemHandler.BLOCK,
 				MISCTWFBlockEntities.MOLD_WORKBENCH.get(),
 				(container, side) -> side == null ? new InvWrapper(container) : new SidedInvWrapper(container, side)
+		);
+		event.registerBlockEntity(
+				Capabilities.ItemHandler.BLOCK,
+				MISCTWFBlockEntities.RECOVERY_FURNACE.get(),
+				(container, side) -> side == null ? new InvWrapper(container) : new SidedInvWrapper(container, side)
+		);
+		event.registerBlockEntity(
+				Capabilities.ItemHandler.BLOCK,
+				MISCTWFBlockEntities.ULTRAVIOLET_LAMP.get(),
+				(container, side) -> side == null ? new InvWrapper(container) : new SidedInvWrapper(container, side)
+		);
+		event.registerBlockEntity(
+				Capabilities.EnergyStorage.BLOCK,
+				MISCTWFBlockEntities.ULTRAVIOLET_LAMP.get(),
+				(container, side) -> new InternalEnergyStorage(160, 160, 1)
+		);
+		event.registerItem(
+				Capabilities.EnergyStorage.ITEM,
+				(itemStack, context) -> itemStack.getItem() instanceof IEnergyItem energyItem ? new InternalEnergyStorage(
+						energyItem.getEnergyCapability(),
+						energyItem.getMaxEnergyReceiveSpeed(),
+						energyItem.getMaxEnergyExtractSpeed()
+				) : new InternalEnergyStorage(0, 0, 0),
+				MISCTWFItems.MILITARY_ACCUMULATOR, MISCTWFItems.ORDINARY_ACCUMULATOR, MISCTWFItems.NIGHT_VISION_DEVICE
+		);
+		event.registerItem(
+				Capabilities.EnergyStorage.ITEM,
+				(itemStack, context) -> itemStack.getItem() instanceof IEnergyItem energyItem ? new InternalEnergyStorage(
+						energyItem.getEnergyCapability(),
+						energyItem.getMaxEnergyReceiveSpeed(),
+						energyItem.getMaxEnergyExtractSpeed()
+				) : new InternalEnergyStorage(0, 0, 0),
+				MISCTWFItems.WAYFARER_ARMORS.values().toArray(ItemLike[]::new)
 		);
 	}
 
@@ -106,8 +151,7 @@ public final class MISCTWFContent {
 	 */
 	@SubscribeEvent
 	public static void registerStructures(RegistryEvent.Register<StructureFeature<?>> event) {
-		MISCTWFStructures.init(event.getRegistry()::register);
-		MISCTWFStructurePieceTypes.init();
+		MISCTWFStructureTypes.init(event.getRegistry()::register);
 		MISCTWFConfiguredStructures.init();
 		MISCTWFStructureSets.init();
 	}

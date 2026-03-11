@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf.common.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -25,8 +26,16 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
+/**
+ * 轮式担架方块，是一个双层方块，支持水平四方向放置喵~
+ * <p>
+ * 上半部分包含担架扶手的碰撞箱，下半部分包含担架主体和轮子的碰撞箱喵~
+ *
+ * @author liudongyu
+ */
 @SuppressWarnings("deprecation")
 public class WheeledStretcherBlock extends HorizontalDirectionalBlock {
+	public static final MapCodec<WheeledStretcherBlock> CODEC = simpleCodec(WheeledStretcherBlock::new);
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
 
 	private static final VoxelShape UPPER_NORTH_SHAPE = Shapes.or(Block.box(15.0D, 1.0D, 23.0D, 16.0D, 23.0D, 24.0D), Block.box(11.5D, 19.0D, 23.0D, 19.5D, 23.0D, 24.0D));
@@ -36,6 +45,11 @@ public class WheeledStretcherBlock extends HorizontalDirectionalBlock {
 	private static final VoxelShape LOWER_X_SHAPE = Block.box(-10.0D, 0.0D, 0.0D, 26.0D, 20.0D, 16.0D);
 	private static final VoxelShape LOWER_Z_SHAPE = Block.box(0.0D, 0.0D, -10.0D, 16.0D, 20.0D, 26.0D);
 
+	/**
+	 * 构造轮式担架方块，并设置默认朝向为北、默认为下半部分喵~
+	 *
+	 * @param props 方块属性喵~
+	 */
 	public WheeledStretcherBlock(Properties props) {
 		super(props);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(HALF, DoubleBlockHalf.LOWER));
@@ -121,5 +135,10 @@ public class WheeledStretcherBlock extends HorizontalDirectionalBlock {
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(HALF, FACING);
+	}
+
+	@Override
+	protected MapCodec<WheeledStretcherBlock> codec() {
+		return CODEC;
 	}
 }

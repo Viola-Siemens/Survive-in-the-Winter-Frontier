@@ -1,14 +1,18 @@
 package com.hexagram2021.misc_twf.common.item;
 
-import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 
-import javax.annotation.Nullable;
-
+/**
+ * 蓄电池物品的抽象基类，提供默认的充放电速度实现喵~
+ *
+ * @author liudongyu
+ */
 public abstract class AccumulatorItem extends Item implements IEnergyItem {
+	/**
+	 * 构造一个蓄电池物品喵~
+	 *
+	 * @param props 物品属性喵~
+	 */
 	protected AccumulatorItem(Properties props) {
 		super(props);
 	}
@@ -21,22 +25,5 @@ public abstract class AccumulatorItem extends Item implements IEnergyItem {
 	@Override
 	public int getMaxEnergyExtractSpeed() {
 		return 1;
-	}
-
-	@Override
-	public void readShareTag(ItemStack stack, @Nullable CompoundTag nbt) {
-		if (nbt != null) {
-			this.readEnergyShareTag(nbt, stack);
-		}
-		super.readShareTag(stack, nbt);
-	}
-
-	@Override
-	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> list) {
-		if (this.allowdedIn(tab)) {
-			ItemStack itemStack = new ItemStack(this);
-			this.readShareTag(itemStack, this.getMaxEnergyTag(itemStack));
-			list.add(itemStack);
-		}
 	}
 }
