@@ -48,10 +48,27 @@ import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * 模具加工台方块喵~
+ * <p>
+ * 这是一个 3（宽）x 2（高）的多方块结构，继承自 Create 的 {@link HorizontalKineticBlock}，
+ * 可以接收旋转动力来自动加工子弹模具。同时实现了 {@link IBE} 和 {@link IWrenchableWithBracket}
+ * 接口，支持方块实体绑定和扳手交互喵~
+ * <p>
+ * 结构中 {@link MoldWorkbenchPart#BOTTOM BOTTOM} 为主方块，{@link MoldWorkbenchPart#LEFT_BOTTOM LEFT_BOTTOM}
+ * 也持有方块实体。安装动力臂（{@link #ARMED} 为 true）后可启用自动合成功能喵~
+ *
+ * @see MoldWorkbenchPart
+ * @see MoldWorkbenchBlockEntity
+ * @author liudongyu
+ */
 @SuppressWarnings("deprecation")
 public class MoldWorkbenchBlock extends HorizontalKineticBlock implements IBE<MoldWorkbenchBlockEntity>, IWrenchableWithBracket {
+	/** 本方块的编解码器喵~ */
 	public static final MapCodec<MoldWorkbenchBlock> CODEC = simpleCodec(MoldWorkbenchBlock::new);
+	/** 方块状态属性：多方块结构中的部件位置喵~ */
 	public static final EnumProperty<MoldWorkbenchPart> PART = MISCTWFBlockStateProperties.MOLD_WORKBENCH_PART;
+	/** 方块状态属性：是否已安装动力臂喵~ */
 	public static final BooleanProperty ARMED = MISCTWFBlockStateProperties.ARMED;
 	private static final Map<Direction, Map<MoldWorkbenchPart, VoxelShape>> SHAPE_BY_PART = Util.make(() -> {
 		Map<Direction, Map<MoldWorkbenchPart, VoxelShape>> ret = Maps.newEnumMap(Direction.class);

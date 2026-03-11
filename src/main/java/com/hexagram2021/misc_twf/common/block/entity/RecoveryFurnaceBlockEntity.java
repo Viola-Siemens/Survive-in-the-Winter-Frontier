@@ -138,7 +138,6 @@ public class RecoveryFurnaceBlockEntity extends BaseContainerBlockEntity impleme
 				case DATA_RECOVERING_PROGRESS -> RecoveryFurnaceBlockEntity.this.recoveringProgress = value;
 				case DATA_RECOVERING_TOTAL_TIME -> RecoveryFurnaceBlockEntity.this.recoveringTotalTime = value;
 			}
-
 		}
 
 		@Override
@@ -584,7 +583,7 @@ public class RecoveryFurnaceBlockEntity extends BaseContainerBlockEntity impleme
 	}
 
 	/**
-	 * 根��配方和数量创建经验球喵~
+	 * 根据配方和数量创建经验球喵~
 	 *
 	 * @param level 服务端世界喵~
 	 * @param position 生成经验球的位置喵~
@@ -592,9 +591,9 @@ public class RecoveryFurnaceBlockEntity extends BaseContainerBlockEntity impleme
 	 * @param experience 单次配方提供的经验值喵~
 	 */
 	private static void createExperience(ServerLevel level, Vec3 position, int count, float experience) {
-		int i = Mth.floor((float)count * experience);
-		float f = Mth.frac((float)count * experience);
-		if (f != 0.0F && Math.random() < (double)f) {
+		int i = Mth.floor(count * experience);
+		float f = Mth.frac(count * experience);
+		if (f != 0.0F && Math.random() < f) {
 			++i;
 		}
 

@@ -45,7 +45,7 @@ public class MoldDetacherBlockEntity extends KineticBlockEntity implements Conta
 	public static final int SLOT_RESULT1 = 1;
 	/** 第二个输出槽位索引喵~ */
 	public static final int SLOT_RESULT2 = 2;
-	/** 第三个输出槽位索引��~ */
+	/** 第三个输出槽位索引喵~ */
 	public static final int SLOT_RESULT3 = 3;
 	/** 最大输出槽位数量喵~ */
 	public static final int MAX_RESULT_COUNT = 3;
@@ -104,7 +104,7 @@ public class MoldDetacherBlockEntity extends KineticBlockEntity implements Conta
 	 *
 	 * @param level 世界对象,为 null 时返回 false 喵~
 	 * @param itemStack 要检查的物品喵~
-	 * @return 如果存在对应配方则返�� true,否则返回 false 喵~
+	 * @return 如果存在对应配方则返回 true,否则返回 false 喵~
 	 */
 	private static boolean isInput(@Nullable Level level, ItemStack itemStack) {
 		if(level == null) {
@@ -209,7 +209,7 @@ public class MoldDetacherBlockEntity extends KineticBlockEntity implements Conta
 				this.level.setBlock(this.getBlockPos(), blockState.setValue(MoldDetacherBlock.TRIGGERED, true), Block.UPDATE_ALL);
 			}
 		} else if(triggered) {
-			// 速度不足,更新方块状态���未触发状态喵~
+			// 速度不足，更新方块状态为未触发状态喵~
 			this.level.setBlock(this.getBlockPos(), blockState.setValue(MoldDetacherBlock.TRIGGERED, false), Block.UPDATE_ALL);
 		}
 	}

@@ -40,11 +40,30 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
+/**
+ * 回收炉方块喵~
+ * <p>
+ * 这是一个 L 形多方块结构（底部 + 顶部 + 前方，共 3 个方块），继承自 {@link HorizontalDirectionalBlock}
+ * 并实现 {@link EntityBlock} 接口。玩家可以使用回收炉将物品熔炼回收喵~
+ * <p>
+ * 结构中 {@link RecoveryFurnacePart#BOTTOM BOTTOM} 为主方块（持有方块实体），
+ * {@link RecoveryFurnacePart#TOP TOP} 位于正上方，
+ * {@link RecoveryFurnacePart#FRONT FRONT} 位于朝向方向的同层位置。
+ * 使用回收炉会激怒附近的猪灵喵~
+ *
+ * @see RecoveryFurnacePart
+ * @see RecoveryFurnaceBlockEntity
+ * @author liudongyu
+ */
 @SuppressWarnings("deprecation")
 public class RecoveryFurnaceBlock extends HorizontalDirectionalBlock implements EntityBlock {
+	/** 本方块的编解码器喵~ */
 	public static final MapCodec<RecoveryFurnaceBlock> CODEC = simpleCodec(RecoveryFurnaceBlock::new);
+	/** 方块状态属性：多方块结构中的部件位置喵~ */
 	public static final EnumProperty<RecoveryFurnacePart> PART = MISCTWFBlockStateProperties.RECOVERY_FURNACE_PART;
+	/** 方块状态属性：回收炉是否处于打开状态喵~ */
 	public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
+	/** 方块状态属性：回收炉是否正在燃烧喵~ */
 	public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
 	public RecoveryFurnaceBlock(Properties props) {
