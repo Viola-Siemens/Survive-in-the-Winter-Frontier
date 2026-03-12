@@ -6,14 +6,20 @@ import com.hexagram2021.misc_twf.common.entity.ZombieRabbitEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
+/**
+ * 僵尸兔子的实体渲染器喵~
+ * 负责渲染僵尸兔子的模型和纹理，包含转化时的抖动效果喵~
+ *
+ * @author liudongyu
+ */
 @OnlyIn(Dist.CLIENT)
 public class ZombieRabbitRenderer extends MobRenderer<ZombieRabbitEntity, ZombieRabbitModel<ZombieRabbitEntity>> {
-	private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(MODID, "textures/entity/zombie_rabbit.png");
+	private static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.fromNamespaceAndPath(MODID, "textures/entity/zombie_rabbit.png");
 
 	public ZombieRabbitRenderer(EntityRendererProvider.Context context) {
 		super(context, new ZombieRabbitModel<>(context.bakeLayer(MISCTWFModelLayers.ZOMBIE_RABBIT)), 0.3F);

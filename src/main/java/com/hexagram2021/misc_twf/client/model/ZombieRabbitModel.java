@@ -1,6 +1,5 @@
 package com.hexagram2021.misc_twf.client.model;
 
-import com.google.common.collect.ImmutableList;
 import com.hexagram2021.misc_twf.common.entity.ZombieRabbitEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -12,9 +11,19 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
+import java.util.List;
+
+/**
+ * 僵尸兔子的客户端模型类，基于实体模型喵~
+ * 定义僵尸兔子的头部、耳朵、鼻子、身体、四肢和尾巴等部件的几何形状喵~
+ * 包含跳跃动画逻辑，幼年兔子会进行额外的缩放和位移处理喵~
+ *
+ * @param <T> 僵尸兔子实体类型喵~
+ * @author liudongyu
+ */
 @OnlyIn(Dist.CLIENT)
 public class ZombieRabbitModel<T extends ZombieRabbitEntity> extends EntityModel<T> {
 	private static final float REAR_JUMP_ANGLE = 50.0F;
@@ -115,26 +124,27 @@ public class ZombieRabbitModel<T extends ZombieRabbitEntity> extends EntityModel
 		return LayerDefinition.create(meshdefinition, 64, 32);
 	}
 
-	public void renderToBuffer(PoseStack transform, VertexConsumer consumer, int x, int y, float r, float g, float b, float a) {
+	@Override
+	public void renderToBuffer(PoseStack transform, VertexConsumer consumer, int x, int y, int color) {
 		if (this.young) {
 			transform.pushPose();
 			transform.scale(0.56666666F, 0.56666666F, 0.56666666F);
 			transform.translate(0.0D, 1.375D, 0.125D);
-			ImmutableList.of(this.head, this.leftEar, this.rightEar, this.nose)
-					.forEach(modelPart -> modelPart.render(transform, consumer, x, y, r, g, b, a));
+			List.of(this.head, this.leftEar, this.rightEar, this.nose)
+					.forEach(modelPart -> modelPart.render(transform, consumer, x, y, color));
 			transform.popPose();
 			transform.pushPose();
 			transform.scale(0.4F, 0.4F, 0.4F);
 			transform.translate(0.0D, 2.25D, 0.0D);
-			ImmutableList.of(this.leftRearFoot, this.rightRearFoot, this.leftHaunch, this.rightHaunch, this.body, this.leftFrontLeg, this.rightFrontLeg, this.tail)
-					.forEach(modelPart -> modelPart.render(transform, consumer, x, y, r, g, b, a));
+			List.of(this.leftRearFoot, this.rightRearFoot, this.leftHaunch, this.rightHaunch, this.body, this.leftFrontLeg, this.rightFrontLeg, this.tail)
+					.forEach(modelPart -> modelPart.render(transform, consumer, x, y, color));
 			transform.popPose();
 		} else {
 			transform.pushPose();
 			transform.scale(NEW_SCALE, NEW_SCALE, NEW_SCALE);
 			transform.translate(0.0D, 1.0D, 0.0D);
-			ImmutableList.of(this.leftRearFoot, this.rightRearFoot, this.leftHaunch, this.rightHaunch, this.body, this.leftFrontLeg, this.rightFrontLeg, this.head, this.rightEar, this.leftEar, this.tail, this.nose)
-					.forEach(modelPart -> modelPart.render(transform, consumer, x, y, r, g, b, a));
+			List.of(this.leftRearFoot, this.rightRearFoot, this.leftHaunch, this.rightHaunch, this.body, this.leftFrontLeg, this.rightFrontLeg, this.head, this.rightEar, this.leftEar, this.tail, this.nose)
+					.forEach(modelPart -> modelPart.render(transform, consumer, x, y, color));
 			transform.popPose();
 		}
 

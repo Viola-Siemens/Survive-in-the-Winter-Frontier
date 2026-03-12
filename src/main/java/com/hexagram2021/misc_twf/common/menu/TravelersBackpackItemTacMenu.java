@@ -3,6 +3,8 @@ package com.hexagram2021.misc_twf.common.menu;
 import com.hexagram2021.misc_twf.common.register.MISCTWFMenuTypes;
 import com.hexagram2021.misc_twf.common.util.IAmmoBackpack;
 import com.tiviacz.travelersbackpack.capability.CapabilityUtils;
+import com.tiviacz.travelersbackpack.inventory.BackpackContainer;
+import com.tiviacz.travelersbackpack.inventory.BackpackWrapper;
 import com.tiviacz.travelersbackpack.inventory.TravelersBackpackContainer;
 import com.tiviacz.travelersbackpack.items.TravelersBackpackItem;
 import com.tiviacz.travelersbackpack.util.Reference;
@@ -14,17 +16,24 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Objects;
 
+/**
+ * 旅行背包物品的 TAC 弹药槽菜单喵~
+ * 当旅行背包以物品形式（手持或穿戴）使用时，使用此菜单管理弹药槽交互喵~
+ * 支持从主手、穿戴栏或其他玩家的穿戴栏获取背包数据喵~
+ *
+ * @author liudongyu
+ */
 public class TravelersBackpackItemTacMenu extends AbstractTravelersBackpackTacMenu {
 
 	public TravelersBackpackItemTacMenu(int id, Inventory inventory, FriendlyByteBuf extraData) {
-		this(id, inventory, (IAmmoBackpack)createInventory(inventory, extraData));
+		this(id, inventory, createInventory(inventory, extraData));
 	}
 
-	public TravelersBackpackItemTacMenu(int id, Inventory inventory, IAmmoBackpack ammoBackpack) {
-		super(MISCTWFMenuTypes.TRAVELERS_BACKPACK_ITEM_TAC_SLOT_MENU.get(), id, inventory, ammoBackpack);
+	public TravelersBackpackItemTacMenu(int id, Inventory inventory, BackpackWrapper backpackWrapper) {
+		super(MISCTWFMenuTypes.TRAVELERS_BACKPACK_ITEM_TAC_SLOT_MENU.get(), id, inventory, backpackWrapper);
 	}
 
-	private static TravelersBackpackContainer createInventory(Inventory inventory, FriendlyByteBuf data) {
+	private static BackpackContainer createInventory(Inventory inventory, FriendlyByteBuf data) {
 		Objects.requireNonNull(inventory, "playerInventory cannot be null");
 		Objects.requireNonNull(data, "data cannot be null");
 		byte screenID = data.readByte();

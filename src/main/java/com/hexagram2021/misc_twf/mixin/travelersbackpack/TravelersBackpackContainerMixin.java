@@ -1,10 +1,10 @@
 package com.hexagram2021.misc_twf.mixin.travelersbackpack;
 
 import com.hexagram2021.misc_twf.common.util.IAmmoBackpack;
-import com.tiviacz.travelersbackpack.inventory.TravelersBackpackContainer;
+import com.tiviacz.travelersbackpack.inventory.BackpackContainer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -12,7 +12,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(TravelersBackpackContainer.class)
+/**
+ * 旅行背包容器的 Mixin 类，为旅行背包注入 TAC 弹药存储功能喵~
+ * 通过 Mixin 向 BackpackContainer 中添加弹药物品栏和升级状态字段喵~
+ * 在背包数据的保存和加载时同步弹药槽数据喵~
+ *
+ * @author liudongyu
+ */
+@Mixin(BackpackContainer.class)
 public abstract class TravelersBackpackContainerMixin implements IAmmoBackpack {
 	@Shadow(remap = false)
 	protected abstract ItemStackHandler createHandler(int size, boolean isInventory);

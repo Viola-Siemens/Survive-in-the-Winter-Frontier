@@ -7,9 +7,16 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
+/**
+ * 夜视仪装备的客户端模型类喵~
+ * 定义夜视仪的几何形状，包含帽子、连接件、左右目镜等部件喵~
+ * 用于 Curios 饰品槽的渲染喵~
+ *
+ * @author liudongyu
+ */
 @OnlyIn(Dist.CLIENT)
 public class NightVisionDeviceModel extends Model {
 	public final ModelPart root;
@@ -18,6 +25,11 @@ public class NightVisionDeviceModel extends Model {
 	public final ModelPart left;
 	public final ModelPart right;
 
+	/**
+	 * 构造夜视仪模型，从根模型部件中解析出各子部件喵~
+	 *
+	 * @param root 根模型部件喵~
+	 */
 	public NightVisionDeviceModel(ModelPart root) {
 		super(RenderType::entitySolid);
 		this.root = root;
@@ -27,6 +39,11 @@ public class NightVisionDeviceModel extends Model {
 		this.right = this.connection.getChild("right");
 	}
 
+	/**
+	 * 创建夜视仪的身体层定义，包含帽子、连接件和左右目镜的网格数据喵~
+	 *
+	 * @return 层定义喵~
+	 */
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition mesh = new MeshDefinition();
 		PartDefinition root = mesh.getRoot();
@@ -51,8 +68,7 @@ public class NightVisionDeviceModel extends Model {
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack transform, VertexConsumer vertexConsumer, int packedLight, int packedOverlay,
-							   float r, float g, float b, float a) {
-		this.root.render(transform, vertexConsumer, packedLight, packedOverlay, r, g, b, a);
+	public void renderToBuffer(PoseStack transform, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
+		this.root.render(transform, vertexConsumer, packedLight, packedOverlay, color);
 	}
 }

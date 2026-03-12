@@ -7,9 +7,16 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.animal.Cow;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
+/**
+ * 僵尸牛的客户端模型类，基于四足动物模型喵~
+ * 定义僵尸牛的头部（含牛角）、身体和四条腿的几何形状喵~
+ *
+ * @param <T> 僵尸牛实体类型喵~
+ * @author liudongyu
+ */
 @OnlyIn(Dist.CLIENT)
 public class ZombieCowModel<T extends ZombieAnimalEntity<Cow>> extends QuadrupedModel<T> {
 	public ZombieCowModel(ModelPart root) {

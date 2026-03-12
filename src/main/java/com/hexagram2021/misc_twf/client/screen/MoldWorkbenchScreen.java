@@ -2,25 +2,31 @@ package com.hexagram2021.misc_twf.client.screen;
 
 import com.hexagram2021.misc_twf.common.menu.MoldWorkbenchMenu;
 import com.hexagram2021.misc_twf.common.recipe.MoldWorkbenchRecipe;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
+/**
+ * 模具加工台的客户端 GUI 界面喵~
+ * 提供配方选择、滚动浏览和配方预览等交互功能喵~
+ * 支持鼠标点击选择配方、滚轮滚动和拖拽滚动条浏览配方列表喵~
+ *
+ * @author liudongyu
+ */
 public class MoldWorkbenchScreen extends AbstractContainerScreen<MoldWorkbenchMenu> {
-	private static final ResourceLocation BG_LOCATION = new ResourceLocation(MODID, "textures/gui/container/mold_workbench.png");
+	private static final ResourceLocation BG_LOCATION = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/container/mold_workbench.png");
 	private static final int SCROLLER_WIDTH = 12;
 	private static final int SCROLLER_HEIGHT = 15;
 	private static final int RECIPES_COLUMNS = 4;
@@ -42,20 +48,16 @@ public class MoldWorkbenchScreen extends AbstractContainerScreen<MoldWorkbenchMe
 	}
 
 	@Override
-	public void render(PoseStack transform, int x, int y, float partialTicks) {
+	public void render(GuiGraphics transform, int x, int y, float partialTicks) {
 		super.render(transform, x, y, partialTicks);
 		this.renderTooltip(transform, x, y);
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int x, int y) {
-		this.renderBackground(transform);
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.setShaderTexture(0, BG_LOCATION);
-		this.blit(transform, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+	protected void renderBg(GuiGraphics transform, float partialTicks, int x, int y) {
+		transform.blit(BG_LOCATION, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
 		int skipY = (int)(41.0F * this.scrollOffs);
-		this.blit(transform, this.leftPos + 119, this.topPos + 15 + skipY, 176 + (this.isScrollBarActive() ? 0 : SCROLLER_WIDTH), 0, SCROLLER_WIDTH, SCROLLER_HEIGHT);
+		transform.blit(BG_LOCATION, this.leftPos + 119, this.topPos + 15 + skipY, 176 + (this.isScrollBarActive() ? 0 : SCROLLER_WIDTH), 0, SCROLLER_WIDTH, SCROLLER_HEIGHT);
 		int recipeX = this.leftPos + RECIPES_X;
 		int recipeY = this.topPos + RECIPES_Y;
 		int endIndex = this.startIndex + RECIPES_COLUMNS * RECIPES_ROWS;
@@ -64,29 +66,29 @@ public class MoldWorkbenchScreen extends AbstractContainerScreen<MoldWorkbenchMe
 	}
 
 	@Override
-	protected void renderTooltip(PoseStack transform, int x, int y) {
+	protected void renderTooltip(GuiGraphics transform, int x, int y) {
 		super.renderTooltip(transform, x, y);
 		if (this.displayRecipes) {
 			int recipeX = this.leftPos + RECIPES_X;
 			int recipeY = this.topPos + RECIPES_Y;
 			int endIndex = this.startIndex + RECIPES_COLUMNS * RECIPES_ROWS;
-			List<MoldWorkbenchRecipe> recipes = this.menu.getRecipes();
+			List<RecipeHolder<MoldWorkbenchRecipe>> recipes = this.menu.getRecipes();
 
 			for(int i = this.startIndex; i < endIndex && i < this.menu.getNumRecipes(); ++i) {
 				int index = i - this.startIndex;
 				int renderX = recipeX + index % RECIPES_COLUMNS * RECIPES_IMAGE_SIZE_WIDTH;
 				int renderY = recipeY + index / RECIPES_COLUMNS * RECIPES_IMAGE_SIZE_HEIGHT + 2;
 				if (x >= renderX && x < renderX + RECIPES_IMAGE_SIZE_WIDTH && y >= renderY && y < renderY + RECIPES_IMAGE_SIZE_HEIGHT) {
-					this.renderTooltip(transform, recipes.get(i).getResultItem(), x, y);
+					transform.renderTooltip(this.font, recipes.get(i).value().getResultItem(), x, y);
 				}
 			}
 		}
 		if (this.menu.mechanicalArmSlot == this.hoveredSlot && !this.hoveredSlot.hasItem()) {
-			this.renderTooltip(transform, new TranslatableComponent("container.misc_twf.mold_workbench.tooltip.mechanical_arm_slot"), x, y);
+			transform.renderTooltip(this.font, Component.translatable("container.misc_twf.mold_workbench.tooltip.mechanical_arm_slot"), x, y);
 		}
 	}
 
-	private void renderButtons(PoseStack transform, int x, int y, int recipeX, int recipeY, int endIndex) {
+	private void renderButtons(GuiGraphics transform, int x, int y, int recipeX, int recipeY, int endIndex) {
 		for(int i = this.startIndex; i < endIndex && i < this.menu.getNumRecipes(); ++i) {
 			int index = i - this.startIndex;
 			int renderX = recipeX + index % RECIPES_COLUMNS * RECIPES_IMAGE_SIZE_WIDTH;
@@ -98,26 +100,24 @@ public class MoldWorkbenchScreen extends AbstractContainerScreen<MoldWorkbenchMe
 				buttonY += RECIPES_IMAGE_SIZE_HEIGHT * 2;
 			}
 
-			this.blit(transform, renderX, renderY - 1, 0, buttonY, RECIPES_IMAGE_SIZE_WIDTH, RECIPES_IMAGE_SIZE_HEIGHT);
+			transform.blit(BG_LOCATION, renderX, renderY - 1, 0, buttonY, RECIPES_IMAGE_SIZE_WIDTH, RECIPES_IMAGE_SIZE_HEIGHT);
 		}
 	}
 
-	private void renderRecipes(PoseStack transform, int recipeX, int recipeY, int endIndex) {
-		List<MoldWorkbenchRecipe> $$3 = this.menu.getRecipes();
+	private void renderRecipes(GuiGraphics transform, int recipeX, int recipeY, int endIndex) {
+		List<RecipeHolder<MoldWorkbenchRecipe>> recipes = this.menu.getRecipes();
 
 		for(int i = this.startIndex; i < endIndex && i < this.menu.getNumRecipes(); ++i) {
 			int index = i - this.startIndex;
 			int renderX = recipeX + index % RECIPES_COLUMNS * RECIPES_IMAGE_SIZE_WIDTH;
 			int renderY = recipeY + index / RECIPES_COLUMNS * RECIPES_IMAGE_SIZE_HEIGHT + 2;
-			assert this.minecraft != null;
-			this.minecraft.getItemRenderer().renderAndDecorateItem($$3.get(i).getResultItem(), renderX, renderY);
+			transform.renderItem(recipes.get(i).value().getResultItem(
+					Objects.requireNonNull(Objects.requireNonNull(this.minecraft).level).registryAccess()
+			),renderX, renderY);
 			if(i == this.menu.getSelectedRecipeIndex()) {
-				RenderSystem.setShader(GameRenderer::getPositionTexShader);
-				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-				RenderSystem.setShaderTexture(0, BG_LOCATION);
 				int progress = this.menu.getWorkingProgress();
-				this.blit(transform, renderX - 1, renderY + 15, RECIPES_IMAGE_SIZE_WIDTH, this.imageHeight + 1, progress, 1);
-				this.blit(transform, renderX + progress - 1, renderY + 15, RECIPES_IMAGE_SIZE_WIDTH + progress, this.imageHeight, MoldWorkbenchMenu.PROGRESS_BAR_LENGTH - progress, 1);
+				transform.blit(BG_LOCATION, renderX - 1, renderY + 15, RECIPES_IMAGE_SIZE_WIDTH, this.imageHeight + 1, progress, 1);
+				transform.blit(BG_LOCATION, renderX + progress - 1, renderY + 15, RECIPES_IMAGE_SIZE_WIDTH + progress, this.imageHeight, MoldWorkbenchMenu.PROGRESS_BAR_LENGTH - progress, 1);
 			}
 		}
 	}
@@ -132,8 +132,8 @@ public class MoldWorkbenchScreen extends AbstractContainerScreen<MoldWorkbenchMe
 
 			for(int i = this.startIndex; i < endIndex; ++i) {
 				int index = i - this.startIndex;
-				double diffX = x - (double)(recipeX + index % 4 * 16);
-				double diffY = y - (double)(recipeY + index / 4 * 18);
+				double diffX = x - (recipeX + index % 4 * 16);
+				double diffY = y - (recipeY + index / 4 * 18);
 				if (diffX >= 0.0 && diffY >= 0.0 && diffX < 16.0 && diffY < 18.0) {
 					assert this.minecraft != null;
 					assert this.minecraft.player != null;
@@ -162,19 +162,19 @@ public class MoldWorkbenchScreen extends AbstractContainerScreen<MoldWorkbenchMe
 			int recipeY = this.topPos + RECIPES_Y;
 			int maxRecipeY = recipeY + SCROLLER_FULL_HEIGHT;
 			this.scrollOffs = Mth.clamp(((float)fromY - recipeY - 7.5F) / (maxRecipeY - recipeY - 15.0F), 0.0F, 1.0F);
-			this.startIndex = (int)((double)(this.scrollOffs * (float)this.getOffscreenRows()) + 0.5D) * RECIPES_COLUMNS;
+			this.startIndex = (int)((this.scrollOffs * this.getOffscreenRows()) + 0.5D) * RECIPES_COLUMNS;
 			return true;
 		}
 		return super.mouseDragged(fromX, fromY, activeButton, toX, toY);
 	}
 
 	@Override
-	public boolean mouseScrolled(double x, double y, double delta) {
+	public boolean mouseScrolled(double x, double y, double deltaX, double deltaY) {
 		if (this.isScrollBarActive()) {
 			int totalY = this.getOffscreenRows();
-			float scrollOffShift = (float)delta / (float)totalY;
+			float scrollOffShift = (float)deltaY / totalY;
 			this.scrollOffs = Mth.clamp(this.scrollOffs - scrollOffShift, 0.0F, 1.0F);
-			this.startIndex = (int)((double)(this.scrollOffs * totalY) + 0.5D) * RECIPES_COLUMNS;
+			this.startIndex = (int)((this.scrollOffs * totalY) + 0.5D) * RECIPES_COLUMNS;
 		}
 
 		return true;

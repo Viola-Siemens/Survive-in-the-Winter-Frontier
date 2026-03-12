@@ -1,22 +1,20 @@
 package com.hexagram2021.misc_twf.common.menu.slot;
 
-import com.hexagram2021.misc_twf.common.util.IAmmoBackpack;
 import com.tacz.guns.api.item.IAmmo;
-import com.tiviacz.travelersbackpack.capability.CapabilityUtils;
-import com.tiviacz.travelersbackpack.inventory.ITravelersBackpackContainer;
-import com.tiviacz.travelersbackpack.util.Reference;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.SlotItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
 
+/**
+ * 弹药槽物品处理器，限制仅允许放入弹药物品喵~
+ * 通过 TaC（永恒枪械工坊）的 IAmmo 接口检验物品是否为有效弹药喵~
+ *
+ * @author liudongyu
+ */
 public class BulletSlotItemHandler extends SlotItemHandler {
-	private final Player player;
-	private final IAmmoBackpack container;
-
-	public BulletSlotItemHandler(Player player, IAmmoBackpack container, int index, int xPosition, int yPosition) {
-		super(container.getAmmoHandler(), index, xPosition, yPosition);
-		this.player = player;
-		this.container = container;
+	public BulletSlotItemHandler(ItemStackHandler ammoHandler, int index, int xPosition, int yPosition) {
+		super(ammoHandler, index, xPosition, yPosition);
 	}
 
 	@Override
@@ -24,17 +22,12 @@ public class BulletSlotItemHandler extends SlotItemHandler {
 		return isValid(stack);
 	}
 
-	public static boolean isValid(ItemStack stack) {
-		return stack.getItem() instanceof IAmmo;
+	@Override
+	public boolean mayPickup(Player playerIn) {
+		return true;
 	}
 
-	@Override
-	public void setChanged() {
-		super.setChanged();
-		if (this.container instanceof ITravelersBackpackContainer travelersBackpackContainer &&
-				travelersBackpackContainer.getScreenID() == Reference.WEARABLE_SCREEN_ID) {
-			CapabilityUtils.synchronise(this.player);
-			CapabilityUtils.synchroniseToOthers(this.player);
-		}
+	public static boolean isValid(ItemStack stack) {
+		return stack.getItem() instanceof IAmmo;
 	}
 }

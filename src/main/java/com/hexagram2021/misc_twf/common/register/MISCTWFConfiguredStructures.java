@@ -29,51 +29,51 @@ public final class MISCTWFConfiguredStructures {
 	private static final List<MobSpawnSettings.SpawnerData> MONSTER_OVERRIDE_LIST = Util.make(() -> {
 		List<MobSpawnSettings.SpawnerData> ret = Lists.newArrayList();
 		ret.add(new MobSpawnSettings.SpawnerData(EntityType.ZOMBIE, 30, 2, 4));
-		EntityType<?> NIGHT_HUNTER = ForgeRegistries.ENTITIES.getValue(new ResourceLocation("zombie_extreme", "night_hunter"));
+		EntityType<?> NIGHT_HUNTER = ForgeRegistries.ENTITIES.getValue(ResourceLocation.fromNamespaceAndPath("zombie_extreme", "night_hunter"));
 		if(NIGHT_HUNTER != null) {
 			ret.add(new MobSpawnSettings.SpawnerData(NIGHT_HUNTER, 5, 1, 2));
 		}
-		EntityType<?> INFECTED_JUGGERNAUT = ForgeRegistries.ENTITIES.getValue(new ResourceLocation("zombie_extreme", "infected_juggernaut"));
+		EntityType<?> INFECTED_JUGGERNAUT = ForgeRegistries.ENTITIES.getValue(ResourceLocation.fromNamespaceAndPath("zombie_extreme", "infected_juggernaut"));
 		if(INFECTED_JUGGERNAUT != null) {
 			ret.add(new MobSpawnSettings.SpawnerData(INFECTED_JUGGERNAUT, 10, 1, 2));
 		}
-		EntityType<?> INFECTED_HAZMAT = ForgeRegistries.ENTITIES.getValue(new ResourceLocation("zombie_extreme", "infected_hazmat"));
+		EntityType<?> INFECTED_HAZMAT = ForgeRegistries.ENTITIES.getValue(ResourceLocation.fromNamespaceAndPath("zombie_extreme", "infected_hazmat"));
 		if(INFECTED_HAZMAT != null) {
 			ret.add(new MobSpawnSettings.SpawnerData(INFECTED_HAZMAT, 5, 1, 2));
 		}
-		EntityType<?> SMOKER = ForgeRegistries.ENTITIES.getValue(new ResourceLocation("undead_revamp2", "thesmoker"));
+		EntityType<?> SMOKER = ForgeRegistries.ENTITIES.getValue(ResourceLocation.fromNamespaceAndPath("undead_revamp2", "thesmoker"));
 		if(SMOKER != null) {
 			ret.add(new MobSpawnSettings.SpawnerData(SMOKER, 3, 1, 2));
 		}
-		EntityType<?> BOMBER = ForgeRegistries.ENTITIES.getValue(new ResourceLocation("undead_revamp2", "bomber"));
+		EntityType<?> BOMBER = ForgeRegistries.ENTITIES.getValue(ResourceLocation.fromNamespaceAndPath("undead_revamp2", "bomber"));
 		if(BOMBER != null) {
 			ret.add(new MobSpawnSettings.SpawnerData(BOMBER, 2, 1, 2));
 		}
-		EntityType<?> SPITTER = ForgeRegistries.ENTITIES.getValue(new ResourceLocation("undead_revamp2", "thespitter"));
+		EntityType<?> SPITTER = ForgeRegistries.ENTITIES.getValue(ResourceLocation.fromNamespaceAndPath("undead_revamp2", "thespitter"));
 		if(SPITTER != null) {
 			ret.add(new MobSpawnSettings.SpawnerData(SPITTER, 2, 1, 2));
 		}
-		EntityType<?> SUCKER = ForgeRegistries.ENTITIES.getValue(new ResourceLocation("undead_revamp2", "sucker"));
+		EntityType<?> SUCKER = ForgeRegistries.ENTITIES.getValue(ResourceLocation.fromNamespaceAndPath("undead_revamp2", "sucker"));
 		if(SUCKER != null) {
 			ret.add(new MobSpawnSettings.SpawnerData(SUCKER, 3, 1, 2));
 		}
-		EntityType<?> HUNTER = ForgeRegistries.ENTITIES.getValue(new ResourceLocation("undead_revamp2", "thehunter"));
+		EntityType<?> HUNTER = ForgeRegistries.ENTITIES.getValue(ResourceLocation.fromNamespaceAndPath("undead_revamp2", "thehunter"));
 		if(HUNTER != null) {
 			ret.add(new MobSpawnSettings.SpawnerData(HUNTER, 4, 1, 2));
 		}
-		EntityType<?> RAT_KING = ForgeRegistries.ENTITIES.getValue(new ResourceLocation("zombie_extreme", "rat_king"));
+		EntityType<?> RAT_KING = ForgeRegistries.ENTITIES.getValue(ResourceLocation.fromNamespaceAndPath("zombie_extreme", "rat_king"));
 		if(RAT_KING != null) {
 			ret.add(new MobSpawnSettings.SpawnerData(RAT_KING, 1, 1, 2));
 		}
-		EntityType<?> INFLATED = ForgeRegistries.ENTITIES.getValue(new ResourceLocation("zombie_extreme", "inflated"));
+		EntityType<?> INFLATED = ForgeRegistries.ENTITIES.getValue(ResourceLocation.fromNamespaceAndPath("zombie_extreme", "inflated"));
 		if(INFLATED != null) {
 			ret.add(new MobSpawnSettings.SpawnerData(INFLATED, 1, 1, 2));
 		}
-		EntityType<?> PATIENT_ZERO = ForgeRegistries.ENTITIES.getValue(new ResourceLocation("zombie_extreme", "patient_zero"));
+		EntityType<?> PATIENT_ZERO = ForgeRegistries.ENTITIES.getValue(ResourceLocation.fromNamespaceAndPath("zombie_extreme", "patient_zero"));
 		if(PATIENT_ZERO != null) {
 			ret.add(new MobSpawnSettings.SpawnerData(PATIENT_ZERO, 1, 1, 2));
 		}
-		EntityType<?> CHAINSAW = ForgeRegistries.ENTITIES.getValue(new ResourceLocation("zombie_extreme", "chainsaw"));
+		EntityType<?> CHAINSAW = ForgeRegistries.ENTITIES.getValue(ResourceLocation.fromNamespaceAndPath("zombie_extreme", "chainsaw"));
 		if(CHAINSAW != null) {
 			ret.add(new MobSpawnSettings.SpawnerData(CHAINSAW, 1, 1, 2));
 		}
@@ -106,7 +106,7 @@ public final class MISCTWFConfiguredStructures {
 	 */
 	@SuppressWarnings("SameParameterValue")
 	private static Holder<ConfiguredStructureFeature<?, ?>> register(String name, ConfiguredStructureFeature<?, ?> configuredStructureFeature) {
-		return BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE, new ResourceLocation(MODID, name), configuredStructureFeature);
+		return BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE, ResourceLocation.fromNamespaceAndPath(MODID, name), configuredStructureFeature);
 	}
 
 	/**

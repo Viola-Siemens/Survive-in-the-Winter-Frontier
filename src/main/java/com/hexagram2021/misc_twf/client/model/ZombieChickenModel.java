@@ -1,6 +1,5 @@
 package com.hexagram2021.misc_twf.client.model;
 
-import com.google.common.collect.ImmutableList;
 import com.hexagram2021.misc_twf.common.entity.ZombieChickenEntity;
 import net.minecraft.client.model.AgeableListModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -10,9 +9,18 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
+import java.util.List;
+
+/**
+ * 僵尸鸡的客户端模型类，基于可衰老列表模型喵~
+ * 定义僵尸鸡的头部、身体、双腿、双翅、喙和肉髯等部件的几何形状和动画逻辑喵~
+ *
+ * @param <T> 僵尸鸡实体类型喵~
+ * @author liudongyu
+ */
 @OnlyIn(Dist.CLIENT)
 public class ZombieChickenModel<T extends ZombieChickenEntity> extends AgeableListModel<T> {
 	private final ModelPart head;
@@ -80,12 +88,14 @@ public class ZombieChickenModel<T extends ZombieChickenEntity> extends AgeableLi
 		return LayerDefinition.create(meshdefinition, 64, 32);
 	}
 
+	@Override
 	protected Iterable<ModelPart> headParts() {
-		return ImmutableList.of(this.head, this.beak, this.redThing);
+		return List.of(this.head, this.beak, this.redThing);
 	}
 
+	@Override
 	protected Iterable<ModelPart> bodyParts() {
-		return ImmutableList.of(this.body, this.rightLeg, this.leftLeg, this.rightWing, this.leftWing);
+		return List.of(this.body, this.rightLeg, this.leftLeg, this.rightWing, this.leftWing);
 	}
 
 	@Override

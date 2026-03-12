@@ -7,14 +7,20 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
+/**
+ * 僵尸北极熊的实体渲染器喵~
+ * 负责渲染僵尸北极熊的模型和纹理，包含 1.25 倍体型缩放和转化时的抖动效果喵~
+ *
+ * @author liudongyu
+ */
 @OnlyIn(Dist.CLIENT)
 public class ZombiePolarBearRenderer extends MobRenderer<ZombiePolarBearEntity, ZombiePolarBearModel<ZombiePolarBearEntity>> {
-	private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(MODID, "textures/entity/zombie_polar_bear.png");
+	private static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.fromNamespaceAndPath(MODID, "textures/entity/zombie_polar_bear.png");
 
 	public ZombiePolarBearRenderer(EntityRendererProvider.Context context) {
 		super(context, new ZombiePolarBearModel<>(context.bakeLayer(MISCTWFModelLayers.ZOMBIE_POLAR_BEAR)), 0.9F);

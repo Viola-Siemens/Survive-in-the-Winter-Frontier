@@ -9,9 +9,17 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
+/**
+ * 僵尸北极熊的客户端模型类，基于四足动物模型喵~
+ * 定义僵尸北极熊的头部（含嘴部和耳朵）、身体和四条腿的几何形状喵~
+ * 包含站立动画逻辑，控制身体和前腿的旋转角度喵~
+ *
+ * @param <T> 僵尸北极熊实体类型喵~
+ * @author liudongyu
+ */
 @OnlyIn(Dist.CLIENT)
 public class ZombiePolarBearModel<T extends ZombiePolarBearEntity> extends QuadrupedModel<T> {
 	public ZombiePolarBearModel(ModelPart root) {

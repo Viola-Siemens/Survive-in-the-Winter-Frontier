@@ -14,11 +14,12 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.client.ICurioRenderer;
 
@@ -26,6 +27,13 @@ import java.util.Objects;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
+/**
+ * 夜视仪的 Curios 饰品渲染器喵~
+ * 负责在玩家佩戴夜视仪时，将夜视仪模型渲染到玩家头部喵~
+ * 实现 ICurioRenderer 接口以与 Curios API 集成喵~
+ *
+ * @author liudongyu
+ */
 @OnlyIn(Dist.CLIENT)
 public class NightVisionDeviceRenderer implements ICurioRenderer {
 	private final NightVisionDeviceModel model;
@@ -41,10 +49,10 @@ public class NightVisionDeviceRenderer implements ICurioRenderer {
 																		  float netHeadYaw, float headPitch) {
 		if(stack.getItem() instanceof NightVisionDeviceItem curiosItem) {
 			followBodyRotations(slotContext.entity(), this.model);
-			VertexConsumer vertexConsumer = renderTypeBuffer.getBuffer(RenderType.entityCutout(new ResourceLocation(
-					MODID, "textures/models/" + Objects.requireNonNull(curiosItem.getRegistryName()).getPath() + ".png"
+			VertexConsumer vertexConsumer = renderTypeBuffer.getBuffer(RenderType.entityCutout(ResourceLocation.fromNamespaceAndPath(
+					MODID, "textures/models/" + Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(curiosItem)).getPath() + ".png"
 			)));
-			this.model.renderToBuffer(transform, vertexConsumer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+			this.model.renderToBuffer(transform, vertexConsumer, light, OverlayTexture.NO_OVERLAY);
 		}
 	}
 

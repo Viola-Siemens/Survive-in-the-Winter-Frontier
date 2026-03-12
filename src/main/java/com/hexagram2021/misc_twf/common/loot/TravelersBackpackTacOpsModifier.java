@@ -53,8 +53,8 @@ public class TravelersBackpackTacOpsModifier extends OrConditionLootModifier {
 		if(context.hasParam(LootContextParams.BLOCK_ENTITY)) {
 			BlockEntity blockEntity = context.getParamOrNull(LootContextParams.BLOCK_ENTITY);
 			// 如果方块实体是旅行背包方块实体喵~
-			if(blockEntity instanceof BackpackBlockEntity) {
-				IAmmoBackpack ammoBackpack = (IAmmoBackpack)blockEntity;
+			if(blockEntity instanceof BackpackBlockEntity backpackBlockEntity) {
+				IAmmoBackpack ammoBackpack = (IAmmoBackpack)backpackBlockEntity.getWrapper();
 				// 如果该背包支持弹药存储喵~
 				if(ammoBackpack.canStoreAmmo()) {
 					// 遍历所有掉落物品喵~

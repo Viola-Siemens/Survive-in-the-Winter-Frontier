@@ -6,14 +6,20 @@ import com.hexagram2021.misc_twf.common.entity.ZombieGoatEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
+/**
+ * 僵尸山羊的实体渲染器喵~
+ * 负责渲染僵尸山羊的模型和纹理，包含转化时的抖动效果喵~
+ *
+ * @author liudongyu
+ */
 @OnlyIn(Dist.CLIENT)
 public class ZombieGoatRenderer extends MobRenderer<ZombieGoatEntity, ZombieGoatModel<ZombieGoatEntity>> {
-	private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(MODID, "textures/entity/zombie_goat.png");
+	private static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.fromNamespaceAndPath(MODID, "textures/entity/zombie_goat.png");
 
 	public ZombieGoatRenderer(EntityRendererProvider.Context context) {
 		super(context, new ZombieGoatModel<>(context.bakeLayer(MISCTWFModelLayers.ZOMBIE_GOAT)), 0.7F);

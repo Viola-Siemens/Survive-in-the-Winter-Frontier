@@ -5,6 +5,8 @@ import com.hexagram2021.misc_twf.common.block.entity.MonsterEggBlockEntity;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.model.GeoModel;
 
@@ -15,6 +17,7 @@ import software.bernie.geckolib.model.GeoModel;
  *
  * @author liudongyu
  */
+@OnlyIn(Dist.CLIENT)
 public class MonsterEggModel extends GeoModel<MonsterEggBlockEntity> {
 	/**
 	 * 获取怪物蛋的几何模型资源位置喵~

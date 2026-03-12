@@ -8,9 +8,17 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
+/**
+ * 僵尸山羊的客户端模型类，基于四足动物模型喵~
+ * 定义僵尸山羊的头部（含羊角、耳朵、鼻子和山羊胡）、身体和四条腿的几何形状喵~
+ * 幼年僵尸山羊会隐藏羊角喵~
+ *
+ * @param <T> 僵尸山羊实体类型喵~
+ * @author liudongyu
+ */
 @OnlyIn(Dist.CLIENT)
 public class ZombieGoatModel<T extends ZombieGoatEntity> extends QuadrupedModel<T> {
 	public ZombieGoatModel(ModelPart root) {

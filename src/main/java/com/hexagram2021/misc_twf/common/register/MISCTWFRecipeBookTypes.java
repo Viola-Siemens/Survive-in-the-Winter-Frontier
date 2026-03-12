@@ -20,12 +20,19 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * 模组配方书类型注册类喵~
+ * 注册回收炉的配方书类型和分类，与 TaC（永恒枪械工坊）模组联动喵~
+ * 将回收配方按枪械、弹药、配件和杂项进行分类显示喵~
+ *
+ * @author liudongyu
+ */
 public final class MISCTWFRecipeBookTypes {
 	public static final RecipeBookType RECOVER_FURNACE = RecipeBookType.create("MISC_TWF$RECOVER_FURNACE");
 
-	private static final ResourceLocation LOGO_GUNS = new ResourceLocation("tacz", "glock_17");
-	private static final ResourceLocation LOGO_BULLETS = new ResourceLocation("tacz", "9mm");
-	private static final ResourceLocation LOGO_ATTACHMENTS = new ResourceLocation("tacz", "sight_sro_dot");
+	private static final ResourceLocation LOGO_GUNS = ResourceLocation.fromNamespaceAndPath("tacz", "glock_17");
+	private static final ResourceLocation LOGO_BULLETS = ResourceLocation.fromNamespaceAndPath("tacz", "9mm");
+	private static final ResourceLocation LOGO_ATTACHMENTS = ResourceLocation.fromNamespaceAndPath("tacz", "sight_sro_dot");
 
 	private static final ItemStack DEFAULT_ITEM_ICON_GUNS = new ItemStack(Items.BOW);
 	private static final ItemStack DEFAULT_ITEM_ICON_ATTACHMENTS = new ItemStack(Items.IRON_INGOT);

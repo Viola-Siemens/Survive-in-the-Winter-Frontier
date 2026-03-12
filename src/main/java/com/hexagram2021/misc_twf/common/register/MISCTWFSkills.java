@@ -52,7 +52,7 @@ public final class MISCTWFSkills {
 	));
 
 	private static Passive createPassive(String name, Aptitude aptitude, String textureName, Attribute attribute, String attributeUuid, double attributeValue, int... levelsRequired) {
-		return new Passive(new ResourceLocation(MODID, name), aptitude, new ResourceLocation(MODID, textureName), attribute, attributeUuid, attributeValue, levelsRequired);
+		return new Passive(ResourceLocation.fromNamespaceAndPath(MODID, name), aptitude, ResourceLocation.fromNamespaceAndPath(MODID, textureName), attribute, attributeUuid, attributeValue, levelsRequired);
 	}
 	 */
 

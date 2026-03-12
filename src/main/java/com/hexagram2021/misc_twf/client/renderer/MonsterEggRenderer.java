@@ -3,6 +3,8 @@ package com.hexagram2021.misc_twf.client.renderer;
 import com.hexagram2021.misc_twf.client.model.MonsterEggModel;
 import com.hexagram2021.misc_twf.common.block.entity.MonsterEggBlockEntity;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
 
 /**
@@ -11,6 +13,7 @@ import software.bernie.geckolib.renderer.GeoBlockRenderer;
  *
  * @author liudongyu
  */
+@OnlyIn(Dist.CLIENT)
 public class MonsterEggRenderer extends GeoBlockRenderer<MonsterEggBlockEntity> {
 	/**
 	 * 构造怪物蛋渲染器喵~

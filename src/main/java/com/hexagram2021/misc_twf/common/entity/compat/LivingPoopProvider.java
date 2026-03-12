@@ -12,9 +12,15 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
+/**
+ * 动物排便信息的 Jade/WAILA 提示提供者喵~
+ * 在客户端为目标动物显示排便冷却时间，在服务端从动物的能力数据中读取冷却信息喵~
+ *
+ * @author liudongyu
+ */
 public enum LivingPoopProvider implements IEntityComponentProvider, IServerDataProvider<Entity> {
 	INSTANCE;
 

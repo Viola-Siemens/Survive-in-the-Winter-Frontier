@@ -12,9 +12,15 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
+/**
+ * 动物产奶信息的 Jade/WAILA 提示提供者喵~
+ * 在客户端为目标动物显示产奶冷却时间，在服务端从实现了 IProduceMilk 接口的实体中读取冷却信息喵~
+ *
+ * @author liudongyu
+ */
 public enum MobProduceMilkProvider implements IEntityComponentProvider, IServerDataProvider<Entity> {
 	INSTANCE;
 

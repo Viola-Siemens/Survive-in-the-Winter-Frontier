@@ -5,6 +5,7 @@ import com.hexagram2021.misc_twf.common.menu.container.TravelersBackpackTacConta
 import com.hexagram2021.misc_twf.common.util.IAmmoBackpack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.tiviacz.travelersbackpack.inventory.BackpackContainer;
 import com.tiviacz.travelersbackpack.inventory.menu.BackpackBaseMenu;
 import com.tiviacz.travelersbackpack.util.Reference;
 import io.netty.buffer.ByteBuf;
@@ -87,13 +88,12 @@ public class ServerboundOpenTacBackpackPacket implements CustomPacketPayload, IM
 			if(context.player() instanceof ServerPlayer serverPlayer) {
 				MenuProvider toOpen = null;
 				if(this.type == TYPE_BACKPACK_TO_TAC_SLOT && serverPlayer.containerMenu instanceof BackpackBaseMenu menu) {
-					if (menu.container instanceof IAmmoBackpack ammoBackpack && ammoBackpack.canStoreAmmo()) {
-						toOpen = new TravelersBackpackTacContainer(ammoBackpack, this.screenId);
+					if (menu.getWrapper() instanceof IAmmoBackpack ammoBackpack && ammoBackpack.canStoreAmmo()) {
+						toOpen = new TravelersBackpackTacContainer(menu.getWrapper(), this.screenId);
 					}
 				} else if(this.type == TYPE_TAC_SLOT_TO_BACKPACK &&
-						serverPlayer.containerMenu instanceof AbstractTravelersBackpackTacMenu menu &&
-						menu.container instanceof MenuProvider menuProvider) {
-					toOpen = menuProvider;
+						serverPlayer.containerMenu instanceof AbstractTravelersBackpackTacMenu menu) {
+					toOpen = new BackpackContainer(menu.getWrapper().getBackpackStack(), serverPlayer, menu.getWrapper().getScreenID(), menu.getWrapper().index);
 				}
 				if(toOpen != null) {
 					switch (this.screenId) {

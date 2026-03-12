@@ -6,9 +6,16 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.animal.Pig;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
+/**
+ * 僵尸猪的客户端模型类，基于四足动物模型喵~
+ * 定义僵尸猪的头部（含猪鼻）和四条腿的几何形状喵~
+ *
+ * @param <T> 僵尸猪实体类型喵~
+ * @author liudongyu
+ */
 @OnlyIn(Dist.CLIENT)
 public class ZombiePigModel<T extends ZombieAnimalEntity<Pig>> extends QuadrupedModel<T> {
 	public ZombiePigModel(ModelPart root) {

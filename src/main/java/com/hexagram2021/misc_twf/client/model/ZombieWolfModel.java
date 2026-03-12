@@ -1,6 +1,5 @@
 package com.hexagram2021.misc_twf.client.model;
 
-import com.google.common.collect.ImmutableList;
 import com.hexagram2021.misc_twf.common.entity.ZombieAnimalEntity;
 import net.minecraft.client.model.ColorableAgeableListModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -11,9 +10,19 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.animal.Wolf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
+import java.util.List;
+
+/**
+ * 僵尸狼的客户端模型类，基于可染色可衰老列表模型喵~
+ * 定义僵尸狼的头部、身体、上半身、四条腿和尾巴的几何形状喵~
+ * 包含行走和尾巴摆动的动画逻辑喵~
+ *
+ * @param <T> 僵尸狼实体类型喵~
+ * @author liudongyu
+ */
 @OnlyIn(Dist.CLIENT)
 public class ZombieWolfModel<T extends ZombieAnimalEntity<Wolf>> extends ColorableAgeableListModel<T> {
 	private final ModelPart head;
@@ -73,12 +82,12 @@ public class ZombieWolfModel<T extends ZombieAnimalEntity<Wolf>> extends Colorab
 
 	@Override
 	protected Iterable<ModelPart> headParts() {
-		return ImmutableList.of(this.head);
+		return List.of(this.head);
 	}
 
 	@Override
 	protected Iterable<ModelPart> bodyParts() {
-		return ImmutableList.of(this.body, this.rightHindLeg, this.leftHindLeg, this.rightFrontLeg, this.leftFrontLeg, this.tail, this.upperBody);
+		return List.of(this.body, this.rightHindLeg, this.leftHindLeg, this.rightFrontLeg, this.leftFrontLeg, this.tail, this.upperBody);
 	}
 
 	@Override
