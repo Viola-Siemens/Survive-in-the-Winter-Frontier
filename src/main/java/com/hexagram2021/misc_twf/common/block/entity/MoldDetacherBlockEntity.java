@@ -28,6 +28,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -157,7 +158,7 @@ public class MoldDetacherBlockEntity extends KineticBlockEntity implements Conta
 						.filter(itemStack -> ItemStack.isSameItemSameComponents(itemStack, this.items.getFirst()))
 						.findFirst().map(ItemStack::getCount).orElse(1)
 		);
-		NonNullList<ItemStack> results = recipe.get().value().results();
+		List<ItemStack> results = recipe.get().value().results();
 		results.forEach(itemStack -> {
 			ItemStack remaining = itemStack.copy();
 			for(int i = this.items.size() - 1; i >= 0; --i) {

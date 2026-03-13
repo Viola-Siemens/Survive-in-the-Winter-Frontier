@@ -31,6 +31,13 @@ public class BackpackTacUpgradeRecipe extends SmithingTransformRecipe {
 		super(template, base, addition, result);
 	}
 
+	/**
+	 * 组装配方结果，在锻造产物上设置 TAC 弹药槽数据组件喵~
+	 *
+	 * @param container 锻造台输入容器喵~
+	 * @param provider 注册表查询提供者喵~
+	 * @return 附带 TAC 数据的结果物品喵~
+	 */
 	@Override
 	public ItemStack assemble(SmithingRecipeInput container, HolderLookup.Provider provider) {
 		ItemStack itemStack = super.assemble(container, provider);
@@ -50,42 +57,20 @@ public class BackpackTacUpgradeRecipe extends SmithingTransformRecipe {
 	 * 背包战术升级配方的序列化器，负责配方的编解码喵~
 	 */
 	public static class Serializer implements RecipeSerializer<BackpackTacUpgradeRecipe> {
-		/**
-		 * 从网络字节缓冲区中反序列化配方喵~
-		 *
-		 * @param buf 网络字节缓冲区喵~
-		 * @return 反序列化得到的背包战术升级配方喵~
-		 */
-		public static BackpackTacUpgradeRecipe fromNetwork(RegistryFriendlyByteBuf buf) {
-			Ingredient template = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
-			Ingredient base = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
-			Ingredient addition = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
-			ItemStack result = ItemStack.STREAM_CODEC.decode(buf);
-			return new BackpackTacUpgradeRecipe(template, base, addition, result);
-		}
-
-		/**
-		 * 将配方序列化写入网络字节缓冲区喵~
-		 *
-		 * @param buf 网络字节缓冲区喵~
-		 * @param recipe 要序列化的配方喵~
-		 */
-		public static void toNetwork(RegistryFriendlyByteBuf buf, BackpackTacUpgradeRecipe recipe) {
-			Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.template);
-			Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.base);
-			Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.addition);
-			ItemStack.STREAM_CODEC.encode(buf, recipe.result);
-		}
-
+		/** 配方的 MapCodec 编解码器，用于 JSON 序列化与反序列化喵~ */
 		private static final MapCodec<BackpackTacUpgradeRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 				Ingredient.CODEC.fieldOf("template").forGetter(recipe -> recipe.template),
 				Ingredient.CODEC.fieldOf("base").forGetter(recipe -> recipe.base),
 				Ingredient.CODEC.fieldOf("addition").forGetter(recipe -> recipe.addition),
 				ItemStack.STRICT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result)
 		).apply(instance, BackpackTacUpgradeRecipe::new));
-		public static final StreamCodec<RegistryFriendlyByteBuf, BackpackTacUpgradeRecipe> STREAM_CODEC = StreamCodec.of(
-				BackpackTacUpgradeRecipe.Serializer::toNetwork,
-				BackpackTacUpgradeRecipe.Serializer::fromNetwork
+		/** 配方的 StreamCodec 网络编解码器，用于客户端与服务端之间的网络传输喵~ */
+		public static final StreamCodec<RegistryFriendlyByteBuf, BackpackTacUpgradeRecipe> STREAM_CODEC = StreamCodec.composite(
+				Ingredient.CONTENTS_STREAM_CODEC, recipe -> recipe.template,
+				Ingredient.CONTENTS_STREAM_CODEC, recipe -> recipe.base,
+				Ingredient.CONTENTS_STREAM_CODEC, recipe -> recipe.addition,
+				ItemStack.STREAM_CODEC, recipe -> recipe.result,
+				BackpackTacUpgradeRecipe::new
 		);
 
 		@Override

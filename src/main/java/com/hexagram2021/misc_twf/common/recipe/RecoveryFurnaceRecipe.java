@@ -1,46 +1,53 @@
 package com.hexagram2021.misc_twf.common.recipe;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 import com.hexagram2021.misc_twf.client.IHasCustomIconRecipe;
 import com.hexagram2021.misc_twf.common.recipe.cache.CachedRecipeList;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlocks;
 import com.hexagram2021.misc_twf.common.register.MISCTWFRecipeSerializers;
 import com.hexagram2021.misc_twf.common.register.MISCTWFRecipeTypes;
-import com.tacz.guns.crafting.result.GunSmithTableResult;
-import com.tacz.guns.resource.CommonAssetsManager;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.Util;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.neoforged.neoforge.common.Tags;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-public record RecoveryFurnaceRecipe(ResourceLocation id, GunSmithTableResult ingredient, List<ItemStack> results, float experience, int recoveringTime) implements Recipe<SingleRecipeInput>, IHasCustomIconRecipe {
+/**
+ * 回收炉配方，定义了回收炉将物品分解为多种原材料的逻辑喵~
+ * <p>
+ * 回收炉是多输出配方，一次输入可产出多个不同物品喵~
+ * 支持经验奖励和自定义回收时间喵~
+ *
+ * @param ingredient 配方的输入物品（含数量）喵~
+ * @param group 配方分组名称喵~
+ * @param results 配方的输出结果列表喵~
+ * @param experience 回收获得的经验值喵~
+ * @param recoveringTime 回收所需时间（游戏刻）喵~
+ *
+ * @author liudongyu
+ */
+public record RecoveryFurnaceRecipe(ItemStack ingredient, String group, List<ItemStack> results, float experience, int recoveringTime) implements Recipe<SingleRecipeInput>, IHasCustomIconRecipe {
+	/** 回收炉配方的缓存列表，用于快速查询已加载的配方喵~ */
 	public static final CachedRecipeList<RecoveryFurnaceRecipe> recipeList = new CachedRecipeList<>(
 			MISCTWFRecipeTypes.RECOVERY_FURNACE,
 			RecoveryFurnaceRecipe.class
 	);
 
+	/** 常见可回收物品标签到对应物品的映射表，用于在 JEI 等兼容层中显示回收产物喵~ */
 	public static final Map<TagKey<Item>, Item> COMMON_RECOVERABLE_TAGS = Util.make(() -> {
 		ImmutableMap.Builder<TagKey<Item>, Item> builder = ImmutableMap.builder();
 		builder.put(Tags.Items.NUGGETS_GOLD, Items.GOLD_NUGGET);
@@ -55,7 +62,6 @@ public record RecoveryFurnaceRecipe(ResourceLocation id, GunSmithTableResult ing
 		builder.put(Tags.Items.STORAGE_BLOCKS_IRON, Items.IRON_BLOCK);
 		builder.put(Tags.Items.STORAGE_BLOCKS_LAPIS, Items.LAPIS_BLOCK);
 		builder.put(Tags.Items.STORAGE_BLOCKS_NETHERITE, Items.NETHERITE_BLOCK);
-		builder.put(Tags.Items.STORAGE_BLOCKS_QUARTZ, Items.QUARTZ_BLOCK);
 		builder.put(Tags.Items.GEMS_AMETHYST, Items.AMETHYST_SHARD);
 		builder.put(Tags.Items.GEMS_DIAMOND, Items.DIAMOND);
 		builder.put(Tags.Items.GEMS_EMERALD, Items.EMERALD);
@@ -65,46 +71,45 @@ public record RecoveryFurnaceRecipe(ResourceLocation id, GunSmithTableResult ing
 		return builder.build();
 	});
 
+	/**
+	 * 检查输入物品是否与配方匹配喵~
+	 * 需要物品类型相同且输入数量不少于配方要求喵~
+	 *
+	 * @param container 单物品输入容器喵~
+	 * @param level 当前世界喵~
+	 * @return 匹配则返回 true喵~
+	 */
 	@Override
-	public boolean matches(Container container, Level level) {
-		ItemStack ingredient = this.ingredient.getResult();
+	public boolean matches(SingleRecipeInput container, Level level) {
 		ItemStack slotItem = container.getItem(0);
-		return containsTag(slotItem, ingredient) && ingredient.getCount() <= slotItem.getCount();
+		return ItemStack.isSameItem(this.ingredient, slotItem) && this.ingredient.getCount() <= slotItem.getCount();
 	}
 
-	private static final ImmutableSet<String> CHECKING_TAG_KEYS = Util.make(() -> {
-		ImmutableSet.Builder<String> builder = ImmutableSet.builder();
-		builder.add("AmmoId");
-		builder.add("AttachmentId");
-		builder.add("GunId");
-		return builder.build();
-	});
-
-	private static boolean containsTag(ItemStack source, ItemStack target) {
-		CompoundTag targetTag = target.getTag();
-		if(targetTag == null) {
-			return true;
-		}
-		CompoundTag srcTag = source.getTag();
-		if(srcTag == null) {
-			return false;
-		}
-		return targetTag.getAllKeys().stream().filter(CHECKING_TAG_KEYS::contains).allMatch(key -> Objects.equals(targetTag.get(key), srcTag.get(key)));
-	}
-
+	/**
+	 * @deprecated 多输出配方，请使用 {@link RecoveryFurnaceRecipe#results()} 获取所有产出喵~
+	 */
 	@Deprecated
 	@Override
-	public ItemStack getResultItem() {
-		return this.results.get(0);
+	public ItemStack getResultItem(HolderLookup.Provider provider) {
+		return this.results.getFirst();
 	}
 
+	/**
+	 * @deprecated 多输出配方，请使用 {@link RecoveryFurnaceRecipe#assembleAll(SingleRecipeInput)} 获取产出的完整结果喵~
+	 */
 	@Deprecated
 	@Override
-	public ItemStack assemble(Container container) {
-		return this.getResultItem().copy();
+	public ItemStack assemble(SingleRecipeInput container, HolderLookup.Provider provider) {
+		return this.getResultItem(provider).copy();
 	}
 
-	public List<ItemStack> assembleAll(Container container) {
+	/**
+	 * 组装所有配方产物并返回副本列表喵~
+	 *
+	 * @param container 单物品输入容器喵~
+	 * @return 所有产出物品的副本列表喵~
+	 */
+	public List<ItemStack> assembleAll(SingleRecipeInput container) {
 		return this.results.stream().map(ItemStack::copy).toList();
 	}
 
@@ -116,23 +121,18 @@ public record RecoveryFurnaceRecipe(ResourceLocation id, GunSmithTableResult ing
 	@Override
 	public NonNullList<Ingredient> getIngredients() {
 		NonNullList<Ingredient> ret = NonNullList.create();
-		ret.add(Ingredient.of(this.ingredient.getResult()));
+		ret.add(Ingredient.of(this.ingredient));
 		return ret;
 	}
 
 	@Override
 	public String getGroup() {
-		return this.ingredient.getGroup();
+		return this.group;
 	}
 
 	@Override
 	public ItemStack getToastSymbol() {
 		return new ItemStack(MISCTWFBlocks.RECOVERY_FURNACE);
-	}
-
-	@Override
-	public ResourceLocation getId() {
-		return this.id;
 	}
 
 	@Override
@@ -145,68 +145,51 @@ public record RecoveryFurnaceRecipe(ResourceLocation id, GunSmithTableResult ing
 		return MISCTWFRecipeTypes.RECOVERY_FURNACE.get();
 	}
 
+	/**
+	 * 返回回收炉配方在配方书中的自定义图标，即输入物品喵~
+	 *
+	 * @param ingredient 默认的配方结果物品喵~
+	 * @return 配方输入物品作为图标喵~
+	 */
 	@Override
 	public ItemStack misc_twf$recipeIcon(ItemStack ingredient) {
-		return this.ingredient.getResult();
+		return this.ingredient;
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<RecoveryFurnaceRecipe> {
+	/**
+	 * 回收炉配方的序列化器，基于 Codec 实现 JSON 和网络编解码喵~
+	 */
+	public static class Serializer implements RecipeSerializer<RecoveryFurnaceRecipe> {
+		/** 默认回收时间（游戏刻）喵~ */
 		public static final int DEFAULT_RECOVERING_TIME = 200;
 
-		@SuppressWarnings("deprecation")
+		/** 配方的 MapCodec 编解码器，用于 JSON 序列化与反序列化喵~ */
+		private static final MapCodec<RecoveryFurnaceRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+				ItemStack.CODEC.fieldOf("ingredient").forGetter(RecoveryFurnaceRecipe::ingredient),
+				Codec.STRING.fieldOf("group").forGetter(RecoveryFurnaceRecipe::group),
+				ItemStack.CODEC.listOf().fieldOf("results").forGetter(RecoveryFurnaceRecipe::results),
+				Codec.FLOAT.optionalFieldOf("experience", 0.0F).forGetter(RecoveryFurnaceRecipe::experience),
+				Codec.INT.optionalFieldOf("recoveringTime", DEFAULT_RECOVERING_TIME).forGetter(RecoveryFurnaceRecipe::recoveringTime)
+		).apply(instance, RecoveryFurnaceRecipe::new));
+
+		/** 配方的 StreamCodec 网络编解码器，用于客户端与服务端之间的网络传输喵~ */
+		private static final StreamCodec<RegistryFriendlyByteBuf, RecoveryFurnaceRecipe> STREAM_CODEC = StreamCodec.composite(
+				ItemStack.STREAM_CODEC, RecoveryFurnaceRecipe::ingredient,
+				ByteBufCodecs.STRING_UTF8, RecoveryFurnaceRecipe::group,
+				ItemStack.LIST_STREAM_CODEC, RecoveryFurnaceRecipe::results,
+				ByteBufCodecs.FLOAT, RecoveryFurnaceRecipe::experience,
+				ByteBufCodecs.INT, RecoveryFurnaceRecipe::recoveringTime,
+				RecoveryFurnaceRecipe::new
+		);
+
 		@Override
-		public RecoveryFurnaceRecipe fromJson(ResourceLocation id, JsonObject json) {
-			JsonElement ingredientJson = GsonHelper.isArrayNode(json, "ingredient") ? GsonHelper.getAsJsonArray(json, "ingredient") : GsonHelper.getAsJsonObject(json, "ingredient");
-
-			GunSmithTableResult ingredient;
-			if(ingredientJson.isJsonObject()) {
-				ingredient = CommonAssetsManager.GSON.fromJson(ingredientJson.getAsJsonObject(), GunSmithTableResult.class);
-			} else {
-				throw new JsonSyntaxException("Expected ingredient to be a JsonObject, was " + GsonHelper.getType(ingredientJson));
-			}
-			if (!json.has("result")) {
-				throw new JsonSyntaxException("Missing result, expected to find a string or object");
-			}
-			List<ItemStack> results = Lists.newArrayList();
-			JsonElement resultJson = json.get("result");
-			if(resultJson instanceof JsonArray array) {
-				array.forEach(resultJsonElement -> {
-					if(resultJsonElement.isJsonObject()) {
-						results.add(ShapedRecipe.itemStackFromJson(resultJsonElement.getAsJsonObject()));
-					} else {
-						throw new JsonSyntaxException("Expected element of item list to be a JsonObject, was " + GsonHelper.getType(resultJsonElement));
-					}
-				});
-			} else if (resultJson.isJsonObject()) {
-				results.add(ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result")));
-			} else {
-				String resultItem = GsonHelper.getAsString(json, "result");
-				ResourceLocation resourcelocation = new ResourceLocation(resultItem);
-				results.add(new ItemStack(Registry.ITEM.getOptional(resourcelocation).orElseThrow(() -> new IllegalStateException("Item: " + resultItem + " does not exist"))));
-			}
-
-			float experience = GsonHelper.getAsFloat(json, "experience", 0.0F);
-			int time = GsonHelper.getAsInt(json, "recoveringtime", DEFAULT_RECOVERING_TIME);
-			return new RecoveryFurnaceRecipe(id, ingredient, results, experience, time);
+		public MapCodec<RecoveryFurnaceRecipe> codec() {
+			return CODEC;
 		}
 
 		@Override
-		public RecoveryFurnaceRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
-			ItemStack resultItem = buf.readItem();
-			String group = buf.readUtf();
-			List<ItemStack> results = buf.readCollection(Lists::newArrayListWithCapacity, FriendlyByteBuf::readItem);
-			float experience = buf.readFloat();
-			int time = buf.readVarInt();
-			return new RecoveryFurnaceRecipe(id, new GunSmithTableResult(resultItem, group), results, experience, time);
-		}
-
-		@Override
-		public void toNetwork(FriendlyByteBuf buf, RecoveryFurnaceRecipe recipe) {
-			buf.writeItem(recipe.ingredient.getResult());
-			buf.writeUtf(recipe.ingredient.getGroup());
-			buf.writeCollection(recipe.results, FriendlyByteBuf::writeItem);
-			buf.writeFloat(recipe.experience);
-			buf.writeVarInt(recipe.recoveringTime);
+		public StreamCodec<RegistryFriendlyByteBuf, RecoveryFurnaceRecipe> streamCodec() {
+			return STREAM_CODEC;
 		}
 	}
 }

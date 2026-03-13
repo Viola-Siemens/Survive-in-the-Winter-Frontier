@@ -1,31 +1,40 @@
 package com.hexagram2021.misc_twf.common.recipe;
 
-import com.google.gson.JsonObject;
 import com.hexagram2021.misc_twf.common.recipe.cache.CachedRecipeList;
 import com.hexagram2021.misc_twf.common.register.MISCTWFRecipeSerializers;
 import com.hexagram2021.misc_twf.common.register.MISCTWFRecipeTypes;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.world.Container;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
-public record MoldWorkbenchRecipe(ResourceLocation id, Ingredient input, ItemStack result, int workingTime) implements Recipe<SingleRecipeInput> {
+/**
+ * 模具工作台配方，定义了模具工作台将原料加工为模具产品的逻辑喵~
+ * <p>
+ * 每个配方包含一个输入原料、一个输出结果和可配置的加工时间喵~
+ *
+ * @param input 配方的输入原料喵~
+ * @param result 配方的输出结果喵~
+ * @param workingTime 加工所需时间（游戏刻）喵~
+ *
+ * @author liudongyu
+ */
+public record MoldWorkbenchRecipe(Ingredient input, ItemStack result, int workingTime) implements Recipe<SingleRecipeInput> {
+	/** 默认加工时间（游戏刻），当配方 JSON 未指定 working_time 时使用喵~ */
 	public static final int DEFAULT_WORKING_TIME = 40;
 
+	/** 模具工作台配方的缓存列表，用于快速查询已加载的配方喵~ */
 	public static final CachedRecipeList<MoldWorkbenchRecipe> recipeList = new CachedRecipeList<>(
 			MISCTWFRecipeTypes.MOLD_WORKBENCH,
 			MoldWorkbenchRecipe.class
 	);
-
-	@Override
-	public ResourceLocation getId() {
-		return this.id;
-	}
 
 	@Override
 	public NonNullList<Ingredient> getIngredients() {
@@ -33,18 +42,18 @@ public record MoldWorkbenchRecipe(ResourceLocation id, Ingredient input, ItemSta
 	}
 
 	@Override
-	public boolean matches(Container container, Level level) {
+	public boolean matches(SingleRecipeInput container, Level level) {
 		return this.input.test(container.getItem(0));
 	}
 
 	@Override
-	public ItemStack getResultItem() {
+	public ItemStack getResultItem(HolderLookup.Provider provider) {
 		return this.result;
 	}
 
 	@Override
-	public ItemStack assemble(Container container) {
-		return this.getResultItem().copy();
+	public ItemStack assemble(SingleRecipeInput container, HolderLookup.Provider provider) {
+		return this.getResultItem(provider).copy();
 	}
 
 	@Override
@@ -62,35 +71,33 @@ public record MoldWorkbenchRecipe(ResourceLocation id, Ingredient input, ItemSta
 		return MISCTWFRecipeTypes.MOLD_WORKBENCH.get();
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<MoldWorkbenchRecipe> {
+	/**
+	 * 模具工作台配方的序列化器，基于 Codec 实现 JSON 和网络编解码喵~
+	 */
+	public static class Serializer implements RecipeSerializer<MoldWorkbenchRecipe> {
+		/** 配方的 MapCodec 编解码器，用于 JSON 序列化与反序列化喵~ */
+		private static final MapCodec<MoldWorkbenchRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+				Ingredient.CODEC.fieldOf("ingredient").forGetter(MoldWorkbenchRecipe::input),
+				ItemStack.STRICT_CODEC.fieldOf("result").forGetter(MoldWorkbenchRecipe::result),
+				Codec.INT.optionalFieldOf("working_time", DEFAULT_WORKING_TIME).forGetter(MoldWorkbenchRecipe::workingTime)
+		).apply(instance, MoldWorkbenchRecipe::new));
+
+		/** 配方的 StreamCodec 网络编解码器，用于客户端与服务端之间的网络传输喵~ */
+		private static final StreamCodec<RegistryFriendlyByteBuf, MoldWorkbenchRecipe> STREAM_CODEC = StreamCodec.composite(
+				Ingredient.CONTENTS_STREAM_CODEC, MoldWorkbenchRecipe::input,
+				ItemStack.STREAM_CODEC, MoldWorkbenchRecipe::result,
+				ByteBufCodecs.INT, MoldWorkbenchRecipe::workingTime,
+				MoldWorkbenchRecipe::new
+		);
+
 		@Override
-		public MoldWorkbenchRecipe fromJson(ResourceLocation id, JsonObject jsonObject) {
-			Ingredient input;
-			if (GsonHelper.isArrayNode(jsonObject, "ingredient")) {
-				input = Ingredient.fromJson(GsonHelper.getAsJsonArray(jsonObject, "ingredient"));
-			} else {
-				input = Ingredient.fromJson(GsonHelper.getAsJsonObject(jsonObject, "ingredient"));
-			}
-			ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.convertToJsonObject(
-					GsonHelper.getAsJsonObject(jsonObject, "result"), "element of item list"
-			));
-			int workingTime = GsonHelper.getAsInt(jsonObject, "working_time", DEFAULT_WORKING_TIME);
-			return new MoldWorkbenchRecipe(id, input, result, workingTime);
+		public MapCodec<MoldWorkbenchRecipe> codec() {
+			return CODEC;
 		}
 
 		@Override
-		public MoldWorkbenchRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
-			Ingredient input = Ingredient.fromNetwork(buf);
-			ItemStack result = buf.readItem();
-			int workingTime = buf.readVarInt();
-			return new MoldWorkbenchRecipe(id, input, result, workingTime);
-		}
-
-		@Override
-		public void toNetwork(FriendlyByteBuf buf, MoldWorkbenchRecipe recipe) {
-			recipe.input.toNetwork(buf);
-			buf.writeItem(recipe.result);
-			buf.writeVarInt(recipe.workingTime);
+		public StreamCodec<RegistryFriendlyByteBuf, MoldWorkbenchRecipe> streamCodec() {
+			return STREAM_CODEC;
 		}
 	}
 }

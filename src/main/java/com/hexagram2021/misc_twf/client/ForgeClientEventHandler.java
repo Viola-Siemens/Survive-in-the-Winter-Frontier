@@ -16,7 +16,7 @@ import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
 /**
- * Forge 客户端事件处理器，用���监听客户端物品提示事件喵~
+ * Forge 客户端事件处理器，用于监听客户端物品提示事件喵~
  * 负责为能源物品显示电量信息，以及为已升级 TAC 弹药槽的旅行背包显示提示信息喵~
  *
  * @author liudongyu

@@ -8,7 +8,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
 /**
- * 模组流体标签注册类��~
+ * 模组流体标签注册类喵~
  * 定义用于血液等自定义流体的标签喵~
  *
  * @author liudongyu

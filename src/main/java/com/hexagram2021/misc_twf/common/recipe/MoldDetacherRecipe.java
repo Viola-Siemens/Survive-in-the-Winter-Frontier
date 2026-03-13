@@ -1,31 +1,30 @@
 package com.hexagram2021.misc_twf.common.recipe;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.hexagram2021.misc_twf.common.block.entity.MoldDetacherBlockEntity;
 import com.hexagram2021.misc_twf.common.recipe.cache.CachedRecipeList;
 import com.hexagram2021.misc_twf.common.register.MISCTWFRecipeSerializers;
 import com.hexagram2021.misc_twf.common.register.MISCTWFRecipeTypes;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
+import java.util.List;
+
 /**
  * 模具拆卸机配方，定义了模具拆卸机的输入原料和多个输出结果喵~
  *
- * @param id 配方的资源路径标识符喵~
  * @param input 配方的输入原料喵~
  * @param results 配方的输出结果列表喵~
  *
  * @author liudongyu
  */
-public record MoldDetacherRecipe(ResourceLocation id, Ingredient input, NonNullList<ItemStack> results) implements Recipe<SingleRecipeInput> {
+public record MoldDetacherRecipe(Ingredient input, List<ItemStack> results) implements Recipe<SingleRecipeInput> {
+	/** 模具拆卸机配方的缓存列表，用于快速查询已加载的配方喵~ */
 	public static final CachedRecipeList<MoldDetacherRecipe> recipeList = new CachedRecipeList<>(
 			MISCTWFRecipeTypes.MOLD_DETACHER,
 			MoldDetacherRecipe.class
@@ -67,55 +66,30 @@ public record MoldDetacherRecipe(ResourceLocation id, Ingredient input, NonNullL
 	}
 
 	/**
-	 * 模具拆卸机配方的序列化器，负责 JSON 解析和网络编解码喵~
+	 * 模具拆卸机配方的序列化器，基于 Codec 实现 JSON 和网络编解码喵~
 	 */
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<MoldDetacherRecipe> {
+	public static class Serializer implements RecipeSerializer<MoldDetacherRecipe> {
+		/** 配方的 MapCodec 编解码器，用于 JSON 序列化与反序列化喵~ */
+		private static final MapCodec<MoldDetacherRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+				Ingredient.CODEC.fieldOf("ingredient").forGetter(MoldDetacherRecipe::input),
+				ItemStack.CODEC.listOf().fieldOf("results").forGetter(MoldDetacherRecipe::results)
+		).apply(instance, MoldDetacherRecipe::new));
+
+		/** 配方的 StreamCodec 网络编解码器，用于客户端与服务端之间的网络传输喵~ */
+		private static final StreamCodec<RegistryFriendlyByteBuf, MoldDetacherRecipe> STREAM_CODEC = StreamCodec.composite(
+				Ingredient.CONTENTS_STREAM_CODEC, MoldDetacherRecipe::input,
+				ItemStack.LIST_STREAM_CODEC, MoldDetacherRecipe::results,
+				MoldDetacherRecipe::new
+		);
+
 		@Override
-		public MoldDetacherRecipe fromJson(ResourceLocation id, JsonObject jsonObject) {
-			Ingredient input;
-			if (GsonHelper.isArrayNode(jsonObject, "ingredient")) {
-				input = Ingredient.fromJson(GsonHelper.getAsJsonArray(jsonObject, "ingredient"));
-			} else {
-				input = Ingredient.fromJson(GsonHelper.getAsJsonObject(jsonObject, "ingredient"));
-			}
-			NonNullList<ItemStack> results = itemsFromJson(GsonHelper.getAsJsonArray(jsonObject, "results"));
-			if(results.isEmpty()) {
-				throw new JsonParseException("No results for mold detacher recipe.");
-			}
-			if(results.size() > MoldDetacherBlockEntity.MAX_RESULT_COUNT) {
-				throw new JsonParseException("Too many results for mold detacher recipe. The maximum is %d.".formatted(MoldDetacherBlockEntity.MAX_RESULT_COUNT));
-			}
-			return new MoldDetacherRecipe(id, input, results);
-		}
-
-		private static NonNullList<ItemStack> itemsFromJson(JsonArray jsonArray) {
-			NonNullList<ItemStack> nonNullList = NonNullList.create();
-
-			for(int i = 0; i < jsonArray.size(); ++i) {
-				ItemStack itemStack = ShapedRecipe.itemStackFromJson(GsonHelper.convertToJsonObject(jsonArray.get(i), "element of item list"));
-				if(!itemStack.isEmpty()) {
-					nonNullList.add(itemStack);
-				}
-			}
-
-			return nonNullList;
+		public MapCodec<MoldDetacherRecipe> codec() {
+			return CODEC;
 		}
 
 		@Override
-		public MoldDetacherRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
-			Ingredient input = Ingredient.fromNetwork(buf);
-			int i = buf.readVarInt();
-			NonNullList<ItemStack> results = NonNullList.withSize(i, ItemStack.EMPTY);
-
-			results.replaceAll(ignored -> buf.readItem());
-			return new MoldDetacherRecipe(id, input, results);
-		}
-
-		@Override
-		public void toNetwork(FriendlyByteBuf buf, MoldDetacherRecipe recipe) {
-			recipe.input.toNetwork(buf);
-			buf.writeVarInt(recipe.results.size());
-			recipe.results.forEach(buf::writeItem);
+		public StreamCodec<RegistryFriendlyByteBuf, MoldDetacherRecipe> streamCodec() {
+			return STREAM_CODEC;
 		}
 	}
 }
