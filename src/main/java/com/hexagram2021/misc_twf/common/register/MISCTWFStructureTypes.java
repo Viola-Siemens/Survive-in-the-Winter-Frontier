@@ -1,10 +1,8 @@
 package com.hexagram2021.misc_twf.common.register;
 
-import com.hexagram2021.misc_twf.common.world.structures.BossLairFeature;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
@@ -16,9 +14,6 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
  */
 public final class MISCTWFStructureTypes {
 	private static final DeferredRegister<StructureType<?>> REGISTER = DeferredRegister.create(Registries.STRUCTURE_TYPE, MODID);
-
-	/** Boss 巢穴结构类型喵~ */
-	public static final DeferredHolder<StructureType<?>, StructureType<BossLairFeature>> BOSS_LAIR = REGISTER.register("boss_lair", () -> () -> BossLairFeature.CODEC);
 
 	private MISCTWFStructureTypes() {
 	}

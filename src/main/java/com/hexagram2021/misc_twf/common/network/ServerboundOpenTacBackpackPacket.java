@@ -1,12 +1,7 @@
 package com.hexagram2021.misc_twf.common.network;
 
-import com.hexagram2021.misc_twf.common.menu.AbstractTravelersBackpackTacMenu;
-import com.hexagram2021.misc_twf.common.menu.container.TravelersBackpackTacContainer;
-import com.hexagram2021.misc_twf.common.util.IAmmoBackpack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.tiviacz.travelersbackpack.inventory.BackpackContainer;
-import com.tiviacz.travelersbackpack.inventory.menu.BackpackBaseMenu;
 import com.tiviacz.travelersbackpack.util.Reference;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
@@ -14,8 +9,6 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.MenuProvider;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.Optional;
@@ -81,29 +74,8 @@ public class ServerboundOpenTacBackpackPacket implements CustomPacketPayload, IM
 		}
 	}
 
-	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	@Override
 	public void handle(IPayloadContext context) {
-		context.enqueueWork(() -> {
-			if(context.player() instanceof ServerPlayer serverPlayer) {
-				MenuProvider toOpen = null;
-				if(this.type == TYPE_BACKPACK_TO_TAC_SLOT && serverPlayer.containerMenu instanceof BackpackBaseMenu menu) {
-					if (menu.getWrapper() instanceof IAmmoBackpack ammoBackpack && ammoBackpack.canStoreAmmo()) {
-						toOpen = new TravelersBackpackTacContainer(menu.getWrapper(), this.screenId);
-					}
-				} else if(this.type == TYPE_TAC_SLOT_TO_BACKPACK &&
-						serverPlayer.containerMenu instanceof AbstractTravelersBackpackTacMenu menu) {
-					toOpen = new BackpackContainer(menu.getWrapper().getBackpackStack(), serverPlayer, menu.getWrapper().getScreenID(), menu.getWrapper().index);
-				}
-				if(toOpen != null) {
-					switch (this.screenId) {
-						case Reference.BLOCK_ENTITY_SCREEN_ID -> serverPlayer.openMenu(toOpen, this.blockPos.get());
-						case Reference.ITEM_SCREEN_ID, Reference.WEARABLE_SCREEN_ID -> serverPlayer.openMenu(toOpen, buf -> buf.writeByte(this.screenId));
-						default -> throw new IllegalStateException("Unknown Screen ID: " + this.screenId);
-					}
-				}
-			}
-		});
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package com.hexagram2021.misc_twf.common;
 
-import com.hexagram2021.misc_twf.common.entity.ZombieAnimalEntity;
 import com.hexagram2021.misc_twf.common.item.IEnergyItem;
 import com.hexagram2021.misc_twf.common.network.ClientboundMonsterEggAnimationPacket;
 import com.hexagram2021.misc_twf.common.network.ServerboundOpenTacBackpackPacket;
@@ -8,16 +7,13 @@ import com.hexagram2021.misc_twf.common.register.*;
 import com.mrh0.createaddition.energy.InternalEnergyStorage;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.levelgen.feature.Feature;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
-import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
@@ -142,48 +138,6 @@ public final class MISCTWFContent {
 				) : new InternalEnergyStorage(0, 0, 0),
 				MISCTWFItems.WAYFARER_ARMORS.values().toArray(ItemLike[]::new)
 		);
-	}
-
-	/**
-	 * 注册结构特征喵~
-	 *
-	 * @param event 结构特征注册事件喵~
-	 */
-	@SubscribeEvent
-	public static void registerStructures(RegistryEvent.Register<StructureFeature<?>> event) {
-		MISCTWFStructureTypes.init(event.getRegistry()::register);
-		MISCTWFConfiguredStructures.init();
-		MISCTWFStructureSets.init();
-	}
-
-	/**
-	 * 注册世界生成特征喵~
-	 *
-	 * @param event 特征注册事件喵~
-	 */
-	@SubscribeEvent
-	public static void registerFeatures(RegistryEvent.Register<Feature<?>> event) {
-		MISCTWFFeatures.init(event.getRegistry()::register);
-		MISCTWFConfiguredFeatures.init();
-		MISCTWFPlacedFeatures.init();
-	}
-
-	/**
-	 * 创建自定义实体的属性喵~
-	 * 为所有僵尸动物实体配置生命值、移动速度和攻击力等属性喵~
-	 *
-	 * @param event 实体属性创建事件喵~
-	 */
-	@SubscribeEvent
-	public static void onAttributeCreate(EntityAttributeCreationEvent event) {
-		event.put(MISCTWFEntities.ZOMBIE_CHICKEN.get(), ZombieAnimalEntity.createAttributes(4.0D, 0.25D).build());
-		event.put(MISCTWFEntities.ZOMBIE_COW.get(), ZombieAnimalEntity.createAttributes(10.0D, 0.25D).add(Attributes.ATTACK_DAMAGE, 3.0D).build());
-		event.put(MISCTWFEntities.ZOMBIE_GOAT.get(), ZombieAnimalEntity.createAttributes(10.0D, 0.3D).build());
-		event.put(MISCTWFEntities.ZOMBIE_PIG.get(), ZombieAnimalEntity.createAttributes(10.0D, 0.25D).build());
-		event.put(MISCTWFEntities.ZOMBIE_POLAR_BEAR.get(), ZombieAnimalEntity.createAttributes(30.0D, 0.25D).add(Attributes.ATTACK_DAMAGE, 6.0D).build());
-		event.put(MISCTWFEntities.ZOMBIE_RABBIT.get(), ZombieAnimalEntity.createAttributes(3.0D, 0.3D).build());
-		event.put(MISCTWFEntities.ZOMBIE_SHEEP.get(), ZombieAnimalEntity.createAttributes(8.0D, 0.23D).build());
-		event.put(MISCTWFEntities.ZOMBIE_WOLF.get(), ZombieAnimalEntity.createAttributes(8.0D, 0.3D).add(Attributes.ATTACK_DAMAGE, 2.0D).build());
 	}
 
 	/**

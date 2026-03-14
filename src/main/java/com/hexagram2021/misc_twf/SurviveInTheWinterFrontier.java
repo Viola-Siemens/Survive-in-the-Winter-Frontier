@@ -39,7 +39,6 @@ public class SurviveInTheWinterFrontier {
 
 		modBus.addListener(this::setup);
 		NeoForge.EVENT_BUS.addListener(this::serverStarted);
-		NeoForge.EVENT_BUS.register(this);
 	}
 
 	/**

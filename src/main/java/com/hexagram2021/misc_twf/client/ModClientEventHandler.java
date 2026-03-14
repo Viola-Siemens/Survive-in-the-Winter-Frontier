@@ -2,15 +2,15 @@ package com.hexagram2021.misc_twf.client;
 
 import com.hexagram2021.misc_twf.client.model.*;
 import com.hexagram2021.misc_twf.client.renderer.*;
-import com.hexagram2021.misc_twf.client.screen.*;
-import com.hexagram2021.misc_twf.common.infrastructure.compat.ModCreateCompat;
 import com.hexagram2021.misc_twf.common.register.*;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
@@ -32,15 +32,6 @@ public final class ModClientEventHandler {
 	@SubscribeEvent
 	public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		event.registerLayerDefinition(MISCTWFModelLayers.NIGHT_VISION_DEVICE, NightVisionDeviceModel::createBodyLayer);
-
-		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_CHICKEN, ZombieChickenModel::createBodyLayer);
-		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_COW, ZombieCowModel::createBodyLayer);
-		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_GOAT, ZombieGoatModel::createBodyLayer);
-		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_PIG, ZombiePigModel::createBodyLayer);
-		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_POLAR_BEAR, ZombiePolarBearModel::createBodyLayer);
-		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_RABBIT, ZombieRabbitModel::createBodyLayer);
-		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_SHEEP, ZombieSheepModel::createBodyLayer);
-		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_WOLF, ZombieWolfModel::createBodyLayer);
 	}
 
 	/**
@@ -51,14 +42,6 @@ public final class ModClientEventHandler {
 	 */
 	@SubscribeEvent
 	public static void onRegisterRenderer(EntityRenderersEvent.RegisterRenderers event) {
-		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_CHICKEN.get(), ZombieChickenRenderer::new);
-		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_COW.get(), ZombieCowRenderer::new);
-		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_GOAT.get(), ZombieGoatRenderer::new);
-		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_PIG.get(), ZombiePigRenderer::new);
-		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_POLAR_BEAR.get(), ZombiePolarBearRenderer::new);
-		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_RABBIT.get(), ZombieRabbitRenderer::new);
-		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_SHEEP.get(), ZombieSheepRenderer::new);
-		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_WOLF.get(), ZombieWolfRenderer::new);
 		event.registerBlockEntityRenderer(MISCTWFBlockEntities.MONSTER_EGG.get(), MonsterEggRenderer::new);
 	}
 
@@ -70,8 +53,26 @@ public final class ModClientEventHandler {
 	 */
 	@SubscribeEvent
 	public static void onClientSetup(final FMLClientSetupEvent event) {
-		ModCreateCompat.register();
 		event.enqueueWork(ModClientEventHandler::registerCuriosRenderers);
+	}
+
+	/**
+	 * 注册流体贴图材质喵~
+	 * @param event 注册客户端扩展事件喵~
+	 */
+	@SubscribeEvent
+	public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
+		event.registerFluidType(new IClientFluidTypeExtensions() {
+			@Override
+			public ResourceLocation getStillTexture() {
+				return ResourceLocation.fromNamespaceAndPath(MODID, "block/fluid/blood_still");
+			}
+
+			@Override
+			public ResourceLocation getFlowingTexture() {
+				return ResourceLocation.fromNamespaceAndPath(MODID, "block/fluid/blood_flowing");
+			}
+		}, MISCTWFFluids.BLOOD_FLUID.type());
 	}
 
 	/**
@@ -79,20 +80,6 @@ public final class ModClientEventHandler {
 	 */
 	private static void registerCuriosRenderers() {
 		CuriosRendererRegistry.register(MISCTWFItems.NIGHT_VISION_DEVICE.get(), NightVisionDeviceRenderer::new);
-	}
-
-	/**
-	 * 注册容器菜单对应的屏幕喵~
-	 *
-	 * @param event 菜单屏幕注册事件喵~
-	 */
-	@SubscribeEvent
-	private static void registerContainersAndScreens(RegisterMenuScreensEvent event) {
-		event.register(MISCTWFMenuTypes.ULTRAVIOLET_LAMP_MENU.get(), UltravioletLampScreen::new);
-		event.register(MISCTWFMenuTypes.TRAVELERS_BACKPACK_BLOCK_ENTITY_TAC_SLOT_MENU.get(), TravelersBackpackTacScreen::new);
-		event.register(MISCTWFMenuTypes.TRAVELERS_BACKPACK_ITEM_TAC_SLOT_MENU.get(), TravelersBackpackTacScreen::new);
-		event.register(MISCTWFMenuTypes.MOLD_WORKBENCH_MENU.get(), MoldWorkbenchScreen::new);
-		event.register(MISCTWFMenuTypes.RECOVERY_FURNACE_MENU.get(), RecoveryFurnaceScreen::new);
 	}
 
 	private ModClientEventHandler() {

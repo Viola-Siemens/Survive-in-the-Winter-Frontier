@@ -1,6 +1,5 @@
 package com.hexagram2021.misc_twf.common.register;
 
-import com.hexagram2021.misc_twf.common.world.structures.pieces.BossLairPieces;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -14,18 +13,6 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
  * @author liudongyu
  */
 public final class MISCTWFStructurePieceTypes {
-	/** Boss 巢穴大厅组件类型喵~ */
-	public static final StructurePieceType HALL_TYPE = register("boss_lair_hall", BossLairPieces.HallPiece::new);
-	/** Boss 巢穴入口组件类型喵~ */
-	public static final StructurePieceType START_TYPE = register("boss_lair_start", BossLairPieces.StartPiece::new);
-	/** Boss 巢穴锅炉房组件类型喵~ */
-	public static final StructurePieceType BOILER_ROOM_TYPE = register("boss_lair_boiler", BossLairPieces.BoilerRoomPiece::new);
-	/** Boss 巢穴 Boss 房间组件类型喵~ */
-	public static final StructurePieceType BOSS_ROOM_TYPE = register("boss_lair_boss", BossLairPieces.BossRoomPiece::new);
-	/** Boss 巢穴楼梯组件类型喵~ */
-	public static final StructurePieceType STAIRCASE_TYPE = register("boss_lair_staircase", BossLairPieces.StaircasePiece::new);
-	/** Boss 巢穴墙壁组件类型喵~ */
-	public static final StructurePieceType WALL_TYPE = register("boss_lair_wall", BossLairPieces.WallPiece::new);
 
 	private MISCTWFStructurePieceTypes() {
 	}

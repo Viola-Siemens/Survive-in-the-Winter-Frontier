@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "texture": "misc_twf:models/night_vision_device"
+    "texture": "misc_twf:block/night_vision_device"
   },
   "elements": [
     {

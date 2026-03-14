@@ -1,9 +1,6 @@
 package com.hexagram2021.misc_twf.common.block.entity;
 
 import com.hexagram2021.misc_twf.common.block.MoldWorkbenchBlock;
-import com.hexagram2021.misc_twf.common.block.properties.MoldWorkbenchPart;
-import com.hexagram2021.misc_twf.common.menu.MoldWorkbenchMenu;
-import com.hexagram2021.misc_twf.common.recipe.MoldWorkbenchRecipe;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlocks;
 import com.simibubi.create.api.contraption.transformable.TransformableBlockEntity;
@@ -25,6 +22,7 @@ import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.ItemStack;
@@ -152,9 +150,9 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 		return Component.translatable("container.misc_twf.mold_workbench");
 	}
 
-	@Override
-	public MoldWorkbenchMenu createMenu(int id, Inventory inventory, Player player) {
-		return new MoldWorkbenchMenu(id, inventory, this, this.dataAccess);
+	@Override @Nullable
+	public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
+		return null;
 	}
 
 	@Override
@@ -185,55 +183,6 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 		nbt.putInt("RecipeIndex", this.recipeIndex);
 		if(this.recipeUsed != null) {
 			nbt.putString("RecipeUsed", this.recipeUsed.toString());
-		}
-	}
-
-	@Override
-	public void tick() {
-		super.tick();
-		// 只有底部部分才执行 tick 逻辑喵~
-		if(this.getBlockState().getValue(MoldWorkbenchBlock.PART) != MoldWorkbenchPart.BOTTOM) {
-			return;
-		}
-		assert this.level != null;
-		if(this.workTotalTime > 0) {
-			ResourceLocation recipeUsed = this.recipeUsed;
-			if(recipeUsed != null) {
-				ItemStack input = this.getItem(SLOT_INPUT);
-				ItemStack result = this.getItem(SLOT_RESULT);
-				RecipeHolder<?> recipe = this.level.getRecipeManager().byKey(recipeUsed).orElse(null);
-				boolean resultEmpty = result.isEmpty();
-				// 检查配方是否仍然有效喵~
-				if(recipe != null && (resultEmpty || ItemStack.isSameItemSameComponents(
-						result, recipe.value().getResultItem(this.level.registryAccess())
-				))) {
-					// 增加加工进度喵~
-					this.workProgress += 1;
-					if (this.workProgress < this.workTotalTime) {
-						return;
-					}
-					// 加工完成,生成产物喵~
-					if (recipe.value() instanceof MoldWorkbenchRecipe moldWorkbenchRecipe && moldWorkbenchRecipe.matches(this, this.level)) {
-						input.shrink(1);
-						if(resultEmpty) {
-							this.setItem(SLOT_RESULT, moldWorkbenchRecipe.assemble(this));
-						} else {
-							result.grow(1);
-						}
-					}
-				}
-				// 如果满足速度要求且输入槽不为空,继续下一次加工喵~
-				if(this.isSpeedRequirementFulfilled() && !input.isEmpty()) {
-					this.workProgress = 0;
-					this.setChanged();
-					return;
-				}
-				// 停止加工,重置配方喵~
-				this.recipeIndex = -1;
-				this.recipeUsed = null;
-			}
-			this.workProgress = this.workTotalTime = 0;
-			this.setChanged();
 		}
 	}
 
@@ -345,19 +294,6 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 	@Override
 	public void fillStackedContents(StackedContents contents) {
 		this.items.forEach(contents::accountStack);
-	}
-
-	/**
-	 * 设置当前使用的配方喵~
-	 *
-	 * @param recipe 配方持有者,为 null 时清除当前配方喵~
-	 */
-	public void setRecipeUsed(@Nullable RecipeHolder<MoldWorkbenchRecipe> recipe) {
-		if (recipe == null) {
-			this.recipeUsed = null;
-		} else {
-			this.recipeUsed = recipe.id();
-		}
 	}
 
 	/**

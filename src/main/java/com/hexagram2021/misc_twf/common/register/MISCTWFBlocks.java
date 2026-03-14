@@ -1,7 +1,6 @@
 package com.hexagram2021.misc_twf.common.register;
 
 import com.google.common.collect.ImmutableList;
-import com.hexagram2021.misc_twf.SurviveInTheWinterFrontier;
 import com.hexagram2021.misc_twf.common.block.*;
 import com.hexagram2021.misc_twf.common.infrastructure.compat.ModCreateCompat;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -713,7 +712,7 @@ public final class MISCTWFBlocks {
 		 * @param make 方块构造函数喵~
 		 */
 		public BlockEntry(String name, Supplier<BlockBehaviour.Properties> properties, Function<BlockBehaviour.Properties, T> make) {
-			this(name, properties, make, SurviveInTheWinterFrontier.ITEM_GROUP);
+			this(name, properties, make, MISCTWFCreativeModeTabs.MAIN);
 		}
 
 		/**
@@ -724,7 +723,7 @@ public final class MISCTWFBlocks {
 		 * @param make 方块构造函数喵~
 		 * @param tab 创造模式标签页，为 null 则不注册物品喵~
 		 */
-		public BlockEntry(String name, Supplier<BlockBehaviour.Properties> properties, Function<BlockBehaviour.Properties, T> make, @Nullable CreativeModeTab tab) {
+		public BlockEntry(String name, Supplier<BlockBehaviour.Properties> properties, Function<BlockBehaviour.Properties, T> make, @Nullable DeferredHolder<CreativeModeTab, CreativeModeTab> tab) {
 			this.properties = properties;
 			this.regObject = REGISTER.register(name, () -> make.apply(properties.get()));
 			if(tab != null) {

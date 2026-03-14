@@ -19,33 +19,33 @@ file="META-INF/accesstransformer.cfg"
 config="${mod_id}.mixins.json"
 
 [[dependencies.misc_twf]]
-    modId="forge"
+    modId="neoforge"
     mandatory=true
-    versionRange="[40,)"
+    versionRange="[21,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.18.2,1.19)"
+    versionRange="[1.21,1.21.1]"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
     modId="createaddition"
     mandatory=true
-    versionRange="[1.18.2-1.0.0,)"
+    versionRange="[1,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
     modId="curios"
     mandatory=true
-    versionRange="[1.18.2-5.0.9.1,)"
+    versionRange="[9,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
     modId="expandability"
     mandatory=true
-    versionRange="[6.0.0,)"
+    versionRange="[12,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
@@ -55,50 +55,26 @@ config="${mod_id}.mixins.json"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
-    modId="hunger_reworked_reforged"
-    mandatory=true
-    versionRange="[1,)"
-    ordering="NONE"
-    side="BOTH"
-[[dependencies.misc_twf]]
     modId="jade"
     mandatory=true
     versionRange="[5.2.0,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
-    modId="justlevelingfork"
-    mandatory=true
-    versionRange="[1,)"
-    ordering="NONE"
-    side="BOTH"
-[[dependencies.misc_twf]]
-    modId="tacz"
-    mandatory=true
-    versionRange="[1,)"
-    ordering="NONE"
-    side="BOTH"
-[[dependencies.misc_twf]]
     modId="travelersbackpack"
     mandatory=true
-    versionRange="[1.18.2-7.1.41,)"
+    versionRange="[1.21.1-10,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
     modId="tetrachordlib"
     mandatory=true
-    versionRange="[1.18,1.19)"
+    versionRange="[1.21,1.22)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
     modId="zombie_extreme"
     mandatory=true
     versionRange="[0.2.0,)"
-    ordering="NONE"
-    side="BOTH"
-[[dependencies.misc_twf]]
-    modId="mixinextras"
-    mandatory=true
-    versionRange="[0,)"
     ordering="NONE"
     side="BOTH"

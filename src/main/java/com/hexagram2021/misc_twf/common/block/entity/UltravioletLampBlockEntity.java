@@ -2,7 +2,6 @@ package com.hexagram2021.misc_twf.common.block.entity;
 
 import com.hexagram2021.misc_twf.common.block.UltravioletLampBlock;
 import com.hexagram2021.misc_twf.common.entity.IAvoidBlockMonster;
-import com.hexagram2021.misc_twf.common.menu.UltravioletLampMenu;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItemTags;
 import com.hexagram2021.misc_twf.common.register.MISCTWFMobEffects;
@@ -18,6 +17,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -90,9 +90,9 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 		this.items = items;
 	}
 
-	@Override
-	protected UltravioletLampMenu createMenu(int id, Inventory inventory) {
-		return new UltravioletLampMenu(id, inventory, this);
+	@Override @Nullable
+	protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
+		return null;
 	}
 
 	@Override

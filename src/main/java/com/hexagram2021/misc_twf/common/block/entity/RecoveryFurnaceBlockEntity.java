@@ -1,12 +1,7 @@
 package com.hexagram2021.misc_twf.common.block.entity;
 
-import com.google.common.collect.Lists;
 import com.hexagram2021.misc_twf.common.block.RecoveryFurnaceBlock;
-import com.hexagram2021.misc_twf.common.menu.RecoveryFurnaceMenu;
-import com.hexagram2021.misc_twf.common.recipe.RecoveryFurnaceRecipe;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
-import com.hexagram2021.misc_twf.common.register.MISCTWFRecipeTypes;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.*;
 import net.minecraft.core.particles.ParticleTypes;
@@ -14,7 +9,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -27,14 +21,13 @@ import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.RecipeCraftingHolder;
 import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.state.BlockState;
@@ -113,7 +106,7 @@ public class RecoveryFurnaceBlockEntity extends BaseContainerBlockEntity impleme
 
 		@Override
 		protected boolean isOwnContainer(Player player) {
-			return player.containerMenu instanceof RecoveryFurnaceMenu menu && menu.getContainer() == RecoveryFurnaceBlockEntity.this;
+			return false;
 		}
 	};
 
@@ -172,9 +165,9 @@ public class RecoveryFurnaceBlockEntity extends BaseContainerBlockEntity impleme
 		this.items = items;
 	}
 
-	@Override
-	protected RecoveryFurnaceMenu createMenu(int id, Inventory inventory) {
-		return new RecoveryFurnaceMenu(id, inventory, this, this.dataAccess);
+	@Override @Nullable
+	protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
+		return null;
 	}
 
 	@Override
@@ -261,176 +254,6 @@ public class RecoveryFurnaceBlockEntity extends BaseContainerBlockEntity impleme
 	 * @param blockEntity 方块实体喵~
 	 */
 	public static void serverTick(Level level, BlockPos blockPos, BlockState blockState, RecoveryFurnaceBlockEntity blockEntity) {
-		boolean lit = blockEntity.isLit();
-		boolean changed = false;
-		if (blockEntity.isLit()) {
-			// 燃烧时间递减喵~
-			--blockEntity.litTime;
-		}
-
-		ItemStack itemstack = blockEntity.items.get(SLOT_FUEL);
-		if (!blockEntity.isLit() && (itemstack.isEmpty() || blockEntity.items.get(SLOT_INPUT).isEmpty())) {
-			// 没有燃料或输入物品时,回收进度缓慢倒退喵~
-			if (blockEntity.recoveringProgress > 0) {
-				blockEntity.recoveringProgress = Mth.clamp(blockEntity.recoveringProgress - 2, 0, blockEntity.recoveringTotalTime);
-			}
-		} else {
-			RecipeHolder<RecoveryFurnaceRecipe> recipe = level.getRecipeManager().getRecipeFor(MISCTWFRecipeTypes.RECOVERY_FURNACE.get(), new SingleRecipeInput(blockEntity.items.getFirst()), level).orElse(null);
-			int i = blockEntity.getMaxStackSize();
-			if (!blockEntity.isLit() && blockEntity.canBurn(recipe, blockEntity.items, i)) {
-				// 燃烧燃料喵~
-				blockEntity.litTime = blockEntity.getBurnDuration(itemstack);
-				blockEntity.litDuration = blockEntity.litTime;
-				if (blockEntity.isLit()) {
-					changed = true;
-					// 处理容器物品(如桶)喵~
-					if (itemstack.hasContainerItem()) {
-						blockEntity.items.set(SLOT_FUEL, itemstack.getContainerItem());
-					} else if (!itemstack.isEmpty()) {
-						itemstack.shrink(1);
-						if (itemstack.isEmpty()) {
-							blockEntity.items.set(SLOT_FUEL, itemstack.getContainerItem());
-						}
-					}
-				}
-			}
-
-			if (blockEntity.isLit() && blockEntity.canBurn(recipe, blockEntity.items, i)) {
-				// 正在燃烧且可以回收,增加回收进度喵~
-				++blockEntity.recoveringProgress;
-				if (blockEntity.recoveringProgress == blockEntity.recoveringTotalTime) {
-					// 回收完成,执行回收操作喵~
-					blockEntity.recoveringProgress = 0;
-					blockEntity.recoveringTotalTime = getTotalCookTime(level, blockEntity);
-					if (blockEntity.burn(level, recipe, blockEntity.items, i)) {
-						blockEntity.setRecipeUsed(recipe);
-					}
-
-					changed = true;
-				}
-			} else {
-				// 无法回收,重置进度喵~
-				blockEntity.recoveringProgress = 0;
-			}
-		}
-
-		if (lit != blockEntity.isLit()) {
-			// 燃烧状态改变,更新方块状态喵~
-			changed = true;
-			blockState = blockState.setValue(RecoveryFurnaceBlock.LIT, blockEntity.isLit());
-			level.setBlock(blockPos, blockState, Block.UPDATE_ALL);
-		}
-
-		if (changed) {
-			setChanged(level, blockPos, blockState);
-		}
-	}
-
-	/**
-	 * 检查是否可以执行回收操作喵~
-	 *
-	 * @param recipe 回收配方喵~
-	 * @param items 物品槽位列表喵~
-	 * @param maxCount 最大堆叠数量喵~
-	 * @return 如果可以回收则返回 true,否则返回 false 喵~
-	 */
-	public boolean canBurn(@Nullable RecipeHolder<RecoveryFurnaceRecipe> recipe, NonNullList<ItemStack> items, int maxCount) {
-		if (!items.get(SLOT_INPUT).isEmpty() && recipe != null) {
-			// 获取所有产物喵~
-			List<ItemStack> results = recipe.value().assembleAll(this);
-			if(results.isEmpty()) {
-				return false;
-			}
-			// 检查每个产物是否有足够的空间喵~
-			for(ItemStack result: results) {
-				if (result.isEmpty()) {
-					return false;
-				}
-				int count = result.getCount();
-				for(int i = SLOT_RESULT_START; i < SLOT_RESULT_END; ++i) {
-					ItemStack slotItem = items.get(i);
-					if (slotItem.isEmpty()) {
-						// 找到空槽位,可以放入喵~
-						count = 0;
-						break;
-					}
-					if (ItemStack.isSameItem(slotItem, result)) {
-						// 找到相同物品,检查是否有空间喵~
-						int minMaxCount = Math.min(maxCount, slotItem.getMaxStackSize());
-						if (slotItem.getCount() + count <= minMaxCount) {
-							count = 0;
-							break;
-						}
-						count -= minMaxCount - slotItem.getCount();
-					}
-				}
-				if(count > 0) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * 执行回收操作,将输入物品转换为产物喵~
-	 *
-	 * @param level 世界对象喵~
-	 * @param recipe 回收配方喵~
-	 * @param items 物品槽位列表喵~
-	 * @param maxCount 最大堆叠数量喵~
-	 * @return 如果回收成功则返回 true,否则返回 false 喵~
-	 */
-	private boolean burn(Level level, @Nullable RecipeHolder<RecoveryFurnaceRecipe> recipe, NonNullList<ItemStack> items, int maxCount) {
-		if (recipe != null && this.canBurn(recipe, items, maxCount)) {
-			ItemStack input = items.get(SLOT_INPUT);
-			List<ItemStack> results = recipe.value().assembleAll(this);
-			// 将所有产物放入输出槽喵~
-			for(ItemStack result: results) {
-				int count = result.getCount();
-				for (int i = SLOT_RESULT_START; i < SLOT_RESULT_END; ++i) {
-					ItemStack slotItem = items.get(i);
-					if (slotItem.isEmpty()) {
-						items.set(i, result.copy());
-						count = 0;
-						break;
-					}
-					if (ItemStack.isSameItem(slotItem, result)) {
-						int minMaxCount = Math.min(maxCount, slotItem.getMaxStackSize());
-						if (slotItem.getCount() + count <= minMaxCount) {
-							slotItem.grow(count);
-							count = 0;
-							break;
-						}
-						int grow = minMaxCount - slotItem.getCount();
-						slotItem.grow(grow);
-						count -= grow;
-					}
-				}
-				if (count > 0) {
-					// 输出槽已满,将多余的产物掉落到世界中喵~
-					Block.popResource(level, this.worldPosition, new ItemStack(result.getItem(), count));
-				}
-			}
-			// 消耗输入物品喵~
-			input.shrink(recipe.value().ingredient().getResult().getCount());
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * 获取燃料的燃烧持续时间喵~
-	 *
-	 * @param fuel 燃料物品喵~
-	 * @return 燃烧持续时间(游戏刻),如果不是燃料则返回 0 喵~
-	 */
-	protected int getBurnDuration(ItemStack fuel) {
-		if (fuel.isEmpty()) {
-			return 0;
-		}
-		return fuel.getBurnTime(MISCTWFRecipeTypes.RECOVERY_FURNACE.get());
 	}
 
 	/**
@@ -441,8 +264,7 @@ public class RecoveryFurnaceBlockEntity extends BaseContainerBlockEntity impleme
 	 * @return 回收时间(游戏刻),如果没有配方则返回 200 喵~
 	 */
 	private static int getTotalCookTime(Level level, Container container) {
-		return level.getRecipeManager().getRecipeFor(MISCTWFRecipeTypes.RECOVERY_FURNACE.get(), new SingleRecipeInput(container.getItem(0)), level)
-				.map(recipeHolder -> recipeHolder.value().recoveringTime()).orElse(200);
+		return 200;
 	}
 
 	@Override
@@ -543,43 +365,10 @@ public class RecoveryFurnaceBlockEntity extends BaseContainerBlockEntity impleme
 
 	/**
 	 * 空实现,用于兼容接口喵~
-	 *
-	 * <p>回收炉不使用此方法来授予配方,而是使用 {@link #awardUsedRecipesAndPopExperience(ServerPlayer)} 喵~</p>
 	 */
 	@Override
 	public void awardUsedRecipes(Player player, List<ItemStack> itemStacks) {
 		// 空实现,不需要做任何事情喵~
-	}
-
-	/**
-	 * 授予玩家已使用的配方并生成经验球喵~
-	 *
-	 * @param player 要授予配方的玩家喵~
-	 */
-	public void awardUsedRecipesAndPopExperience(ServerPlayer player) {
-		List<RecipeHolder<?>> list = this.getRecipesToAwardAndPopExperience(player.serverLevel(), player.position());
-		player.awardRecipes(list);
-		this.recipesUsed.clear();
-	}
-
-	/**
-	 * 获取需要授予的配方并在指定位置生成经验球喵~
-	 *
-	 * @param level 服务端世界喵~
-	 * @param position 生成经验球的位置喵~
-	 * @return 需要授予的配方列表喵~
-	 */
-	public List<RecipeHolder<?>> getRecipesToAwardAndPopExperience(ServerLevel level, Vec3 position) {
-		List<RecipeHolder<?>> list = Lists.newArrayList();
-
-		for (Object2IntMap.Entry<ResourceLocation> entry : this.recipesUsed.object2IntEntrySet()) {
-			level.getRecipeManager().byKey(entry.getKey()).ifPresent(recipe -> {
-				list.add(recipe);
-				createExperience(level, position, entry.getIntValue(), ((RecoveryFurnaceRecipe) recipe.value()).experience());
-			});
-		}
-
-		return list;
 	}
 
 	/**

@@ -1,10 +1,8 @@
 package com.hexagram2021.misc_twf.common.block.entity;
 
 import com.hexagram2021.misc_twf.common.block.MoldDetacherBlock;
-import com.hexagram2021.misc_twf.common.recipe.MoldDetacherRecipe;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlocks;
-import com.hexagram2021.misc_twf.common.register.MISCTWFRecipeTypes;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,22 +12,15 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * 模具分离器方块实体,用于自动将完成工序的子弹模具分离为子弹和空模具喵~
@@ -108,10 +99,7 @@ public class MoldDetacherBlockEntity extends KineticBlockEntity implements Conta
 	 * @return 如果存在对应配方则返回 true,否则返回 false 喵~
 	 */
 	private static boolean isInput(@Nullable Level level, ItemStack itemStack) {
-		if(level == null) {
-			return false;
-		}
-		return level.getRecipeManager().getRecipeFor(MISCTWFRecipeTypes.MOLD_DETACHER.get(), new SingleRecipeInput(itemStack), level).isPresent();
+		return false;
 	}
 
 	/**
@@ -128,16 +116,7 @@ public class MoldDetacherBlockEntity extends KineticBlockEntity implements Conta
 	 */
 	private boolean canDetach() {
 		assert this.level != null;
-		return this.level.getRecipeManager()
-				.getRecipeFor(MISCTWFRecipeTypes.MOLD_DETACHER.get(), new SingleRecipeInput(this.items.getFirst()), this.level)
-				.filter(
-						moldDetacherRecipe -> moldDetacherRecipe.value().results().stream()
-								.mapToInt(
-										itemStack -> this.items.stream().noneMatch(
-												slot -> ItemStack.isSameItemSameComponents(itemStack, slot) && itemStack.getCount() + slot.getCount() <= slot.getMaxStackSize()
-										) ? 1 : 0
-								).sum() - this.items.stream().filter(ItemStack::isEmpty).count() <= 0
-				).isPresent();
+		return false;
 	}
 
 	/**
@@ -147,39 +126,6 @@ public class MoldDetacherBlockEntity extends KineticBlockEntity implements Conta
 	 * 如果所有输出槽都满了,多余的产物会掉落到世界中喵~</p>
 	 */
 	private void detach() {
-		assert this.level != null;
-		Optional<RecipeHolder<MoldDetacherRecipe>> recipe = this.level.getRecipeManager()
-				.getRecipeFor(MISCTWFRecipeTypes.MOLD_DETACHER.get(), new SingleRecipeInput(this.items.getFirst()), this.level);
-		if(recipe.isEmpty()) {
-			return;
-		}
-		this.items.getFirst().shrink(
-				Arrays.stream(recipe.get().value().input().getItems())
-						.filter(itemStack -> ItemStack.isSameItemSameComponents(itemStack, this.items.getFirst()))
-						.findFirst().map(ItemStack::getCount).orElse(1)
-		);
-		List<ItemStack> results = recipe.get().value().results();
-		results.forEach(itemStack -> {
-			ItemStack remaining = itemStack.copy();
-			for(int i = this.items.size() - 1; i >= 0; --i) {
-				ItemStack slot = this.items.get(i);
-				if(ItemStack.isSameItemSameComponents(slot, remaining)) {
-					int count = remaining.split(slot.getMaxStackSize() - slot.getCount()).getCount() + slot.getCount();
-					slot.setCount(count);
-					if(remaining.isEmpty()) {
-						break;
-					}
-				} else if(slot.isEmpty()) {
-					this.items.set(i, remaining.copy());
-					remaining.setCount(0);
-					break;
-				}
-			}
-			if(!remaining.isEmpty()) {
-				this.level.addFreshEntity(new ItemEntity(this.level, this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ(), remaining));
-			}
-		});
-		this.setChanged();
 	}
 
 	@Override

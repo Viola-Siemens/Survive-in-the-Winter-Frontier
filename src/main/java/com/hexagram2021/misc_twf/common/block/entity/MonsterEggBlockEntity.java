@@ -7,7 +7,6 @@ import com.hexagram2021.misc_twf.common.network.ClientboundMonsterEggAnimationPa
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockTags;
 import com.hexagram2021.misc_twf.common.register.MISCTWFDataComponentTypes;
-import com.scarasol.sona.init.SonaMobEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -18,6 +17,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -143,10 +143,10 @@ public class MonsterEggBlockEntity extends BlockEntity implements GeoBlockEntity
 		if (gameTime % 5 == 0) {
 			monsterEgg.soundData.entrySet().removeIf(entry ->
 					gameTime - entry.getValue().gameTime > entry.getValue().duration);
-			List<LivingEntity> livingEntities = level.getEntitiesOfClass(LivingEntity.class, AABB.ofSize(blockPos.getBottomCenter(), 8.0D, 4.0D, 8.0D), livingEntity -> livingEntity.hasEffect(SonaMobEffects.EXPOSURE.get()));
+			List<LivingEntity> livingEntities = level.getEntitiesOfClass(LivingEntity.class, AABB.ofSize(blockPos.getBottomCenter(), 8.0D, 4.0D, 8.0D), livingEntity -> livingEntity.hasEffect(MobEffects.UNLUCK));
 			boolean flag = !livingEntities.isEmpty();
 			for(LivingEntity livingEntity: livingEntities) {
-				MobEffectInstance mobEffectInstance = livingEntity.getEffect(SonaMobEffects.EXPOSURE.get());
+				MobEffectInstance mobEffectInstance = livingEntity.getEffect(MobEffects.UNLUCK);
 				if(mobEffectInstance != null) {
 					int amplifier = mobEffectInstance.getAmplifier();
 					int duration = mobEffectInstance.getDuration();

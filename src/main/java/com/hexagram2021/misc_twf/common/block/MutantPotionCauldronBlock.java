@@ -4,7 +4,6 @@ import com.hexagram2021.misc_twf.common.ModVanillaCompat;
 import com.hexagram2021.misc_twf.common.block.entity.MutantPotionCauldronBlockEntity;
 import com.hexagram2021.misc_twf.common.register.MISCTWFBlockEntities;
 import com.mojang.serialization.MapCodec;
-import net.darkhax.gamestages.GameStageHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -133,7 +132,7 @@ public class MutantPotionCauldronBlock extends AbstractCauldronBlock implements 
 	 */
 	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 	public static boolean hasStageToCovert(Player player) {
-		return GameStageHelper.hasStage(player, "vaccination");
+		return true;
 	}
 
 	@Override
