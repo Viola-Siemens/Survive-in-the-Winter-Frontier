@@ -3,7 +3,6 @@ package com.hexagram2021.misc_twf.common.register;
 import com.hexagram2021.misc_twf.common.fluid.BloodFluid;
 import com.hexagram2021.misc_twf.common.fluid.FluidConstructor;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BucketItem;
@@ -45,7 +44,6 @@ public final class MISCTWFFluids {
 	 */
 	public static final FluidEntry<BloodFluid> BLOOD_FLUID = FluidEntry.register(
 			"blood", MISCTWFFluidTags.BLOOD, BloodFluid.Source::new, BloodFluid.Flowing::new,
-			ResourceLocation.fromNamespaceAndPath(MODID, "block/fluid/blood_still"), ResourceLocation.fromNamespaceAndPath(MODID, "block/fluid/blood_flowing"),
 			() -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(5.0F)
 					.speedFactor(0.5F).noCollission().replaceable().pushReaction(PushReaction.DESTROY).liquid().noLootTable(),
 			(entry, props) -> new LiquidBlock(entry.getStill(), props),
@@ -115,8 +113,6 @@ public final class MISCTWFFluids {
 		 * @param fluidTag 流体标签喵~
 		 * @param stillMaker 静态流体构造器喵~
 		 * @param flowingMaker 流动流体构造器喵~
-		 * @param stillTex 静态流体纹理资源位置喵~
-		 * @param flowingTex 流动流体纹理资源位置喵~
 		 * @param blockProperties 流体方块属性提供器喵~
 		 * @param blockMaker 流体方块创建函数喵~
 		 * @param <T> 流体类型喵~
@@ -124,16 +120,15 @@ public final class MISCTWFFluids {
 		 */
 		public static <T extends Fluid> FluidEntry<T> register(String name, TagKey<Fluid> fluidTag,
 															   FluidConstructor<T> stillMaker, FluidConstructor<T> flowingMaker,
-															   ResourceLocation stillTex, ResourceLocation flowingTex,
 															   Supplier<BlockBehaviour.Properties> blockProperties,
 															   BiFunction<FluidEntry<T>, BlockBehaviour.Properties, ? extends LiquidBlock> blockMaker,
 															   FluidType.Properties properties) {
 			Mutable<FluidEntry<T>> thisMutable = new MutableObject<>();
 			DeferredHolder<Fluid, T> still = REGISTER.register(name, () -> makeFluid(
-					stillMaker, thisMutable.getValue(), fluidTag, stillTex, flowingTex
+					stillMaker, thisMutable.getValue(), fluidTag
 			));
 			DeferredHolder<Fluid, T> flowing = REGISTER.register("flowing_" + name, () -> makeFluid(
-					flowingMaker, thisMutable.getValue(), fluidTag, stillTex, flowingTex
+					flowingMaker, thisMutable.getValue(), fluidTag
 			));
 			MISCTWFBlocks.BlockEntry<LiquidBlock> block = new MISCTWFBlocks.BlockEntry<>(
 					name,
@@ -154,13 +149,11 @@ public final class MISCTWFFluids {
 		 * @param maker 流体构造器喵~
 		 * @param entry 流体条目喵~
 		 * @param fluidTag 流体标签喵~
-		 * @param stillTex 静态流体纹理喵~
-		 * @param flowingTex 流动流体纹理喵~
 		 * @param <T> 流体类型喵~
 		 * @return 流体实例喵~
 		 */
-		private static <T extends Fluid> T makeFluid(FluidConstructor<T> maker, FluidEntry<T> entry, TagKey<Fluid> fluidTag, ResourceLocation stillTex, ResourceLocation flowingTex) {
-			return maker.create(entry, fluidTag, stillTex, flowingTex);
+		private static <T extends Fluid> T makeFluid(FluidConstructor<T> maker, FluidEntry<T> entry, TagKey<Fluid> fluidTag) {
+			return maker.create(entry, fluidTag);
 		}
 
 		/**

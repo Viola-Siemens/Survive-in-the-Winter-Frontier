@@ -95,7 +95,7 @@ public class RecoveryFurnaceMenu extends RecipeBookMenu<SingleRecipeInput, Recov
 
 	@Override
 	public boolean recipeMatches(RecipeHolder<RecoveryFurnaceRecipe> recipe) {
-		return recipe.value().matches(this.container, this.level);
+		return recipe.value().matches(new SingleRecipeInput(this.container.getItem(RecoveryFurnaceBlockEntity.SLOT_INPUT)), this.level);
 	}
 
 	@Override

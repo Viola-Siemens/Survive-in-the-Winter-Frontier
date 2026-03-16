@@ -79,7 +79,9 @@ public class MoldWorkbenchScreen extends AbstractContainerScreen<MoldWorkbenchMe
 				int renderX = recipeX + index % RECIPES_COLUMNS * RECIPES_IMAGE_SIZE_WIDTH;
 				int renderY = recipeY + index / RECIPES_COLUMNS * RECIPES_IMAGE_SIZE_HEIGHT + 2;
 				if (x >= renderX && x < renderX + RECIPES_IMAGE_SIZE_WIDTH && y >= renderY && y < renderY + RECIPES_IMAGE_SIZE_HEIGHT) {
-					transform.renderTooltip(this.font, recipes.get(i).value().getResultItem(), x, y);
+					transform.renderTooltip(this.font, recipes.get(i).value().getResultItem(
+							Objects.requireNonNull(Objects.requireNonNull(this.minecraft).level).registryAccess()
+					), x, y);
 				}
 			}
 		}

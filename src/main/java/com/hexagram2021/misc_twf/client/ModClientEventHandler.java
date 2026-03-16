@@ -5,12 +5,15 @@ import com.hexagram2021.misc_twf.client.renderer.*;
 import com.hexagram2021.misc_twf.client.screen.*;
 import com.hexagram2021.misc_twf.common.infrastructure.compat.ModCreateCompat;
 import com.hexagram2021.misc_twf.common.register.*;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
@@ -72,6 +75,25 @@ public final class ModClientEventHandler {
 	public static void onClientSetup(final FMLClientSetupEvent event) {
 		ModCreateCompat.register();
 		event.enqueueWork(ModClientEventHandler::registerCuriosRenderers);
+	}
+
+	/**
+	 * 注册流体贴图材质喵~
+	 * @param event 注册客户端扩展事件喵~
+	 */
+	@SubscribeEvent
+	public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
+		event.registerFluidType(new IClientFluidTypeExtensions() {
+			@Override
+			public ResourceLocation getStillTexture() {
+				return ResourceLocation.fromNamespaceAndPath(MODID, "block/fluid/blood_still");
+			}
+
+			@Override
+			public ResourceLocation getFlowingTexture() {
+				return ResourceLocation.fromNamespaceAndPath(MODID, "block/fluid/blood_flowing");
+			}
+		}, MISCTWFFluids.BLOOD_FLUID.type());
 	}
 
 	/**

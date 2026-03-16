@@ -195,7 +195,7 @@ public final class ForgeEventHandler {
 	 * @param event 玩家 tick 事件喵~
 	 */
 	@SubscribeEvent
-	public static void onPlayerTick(PlayerTickEvent event) {
+	public static void onPlayerTick(PlayerTickEvent.Pre event) {
 		Player player = event.getEntity();
 		if(!player.level().isClientSide && player.tickCount % 20 == 0) {
 			player.getArmorSlots().forEach(armorSlot -> {

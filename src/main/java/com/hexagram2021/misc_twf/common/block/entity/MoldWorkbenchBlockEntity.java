@@ -103,6 +103,9 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 						MoldWorkbenchBlockEntity.this.recipeUsed = null;
 					}
 				}
+				default -> {
+					// 忽略越界的 set 操作
+				}
 			}
 		}
 
@@ -197,11 +200,10 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 		}
 		assert this.level != null;
 		if(this.workTotalTime > 0) {
-			ResourceLocation recipeUsed = this.recipeUsed;
-			if(recipeUsed != null) {
+			if(this.recipeUsed != null) {
 				ItemStack input = this.getItem(SLOT_INPUT);
 				ItemStack result = this.getItem(SLOT_RESULT);
-				RecipeHolder<?> recipe = this.level.getRecipeManager().byKey(recipeUsed).orElse(null);
+				RecipeHolder<?> recipe = this.level.getRecipeManager().byKey(this.recipeUsed).orElse(null);
 				boolean resultEmpty = result.isEmpty();
 				// 检查配方是否仍然有效喵~
 				if(recipe != null && (resultEmpty || ItemStack.isSameItemSameComponents(
@@ -213,10 +215,11 @@ public class MoldWorkbenchBlockEntity extends KineticBlockEntity implements Cont
 						return;
 					}
 					// 加工完成,生成产物喵~
-					if (recipe.value() instanceof MoldWorkbenchRecipe moldWorkbenchRecipe && moldWorkbenchRecipe.matches(this, this.level)) {
+					SingleRecipeInput recipeInput = new SingleRecipeInput(input);
+					if (recipe.value() instanceof MoldWorkbenchRecipe moldWorkbenchRecipe && moldWorkbenchRecipe.matches(recipeInput, this.level)) {
 						input.shrink(1);
 						if(resultEmpty) {
-							this.setItem(SLOT_RESULT, moldWorkbenchRecipe.assemble(this));
+							this.setItem(SLOT_RESULT, moldWorkbenchRecipe.assemble(recipeInput, this.level.registryAccess()));
 						} else {
 							result.grow(1);
 						}

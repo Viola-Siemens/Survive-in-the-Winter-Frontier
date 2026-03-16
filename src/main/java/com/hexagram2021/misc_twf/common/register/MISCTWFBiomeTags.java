@@ -1,6 +1,6 @@
 package com.hexagram2021.misc_twf.common.register;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
@@ -19,7 +19,7 @@ public final class MISCTWFBiomeTags {
 
 	@SuppressWarnings("SameParameterValue")
 	private static TagKey<Biome> create(String name) {
-		return TagKey.create(Registry.BIOME_REGISTRY, ResourceLocation.fromNamespaceAndPath(MODID, name));
+		return TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(MODID, name));
 	}
 
 	private MISCTWFBiomeTags() {

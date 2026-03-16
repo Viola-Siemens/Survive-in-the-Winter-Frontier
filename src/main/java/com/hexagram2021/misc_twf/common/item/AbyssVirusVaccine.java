@@ -2,8 +2,7 @@ package com.hexagram2021.misc_twf.common.item;
 
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
 import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
-import net.minecraft.Util;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -37,6 +36,6 @@ public class AbyssVirusVaccine extends Item {
 	}
 
 	public static void afterUse(Player player, LivingEntity entity) {
-		player.sendMessage(new TranslatableComponent("message.misc_twf.abyss_virus_vaccine.success", entity.getDisplayName()), Util.NIL_UUID);
+		player.sendSystemMessage(Component.translatable("message.misc_twf.abyss_virus_vaccine.success", entity.getDisplayName()));
 	}
 }
