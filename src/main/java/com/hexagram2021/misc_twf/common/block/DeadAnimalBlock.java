@@ -58,6 +58,12 @@ public class DeadAnimalBlock extends BaseEntityBlock {
 
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
+	/**
+	 * 构造动物尸体方块
+	 * @param lootsSupplier	战利品
+	 * @param rottenFlesh	完全腐烂后掉落的腐肉数量
+	 * @param props			方块属性
+	 */
 	public DeadAnimalBlock(Supplier<List<ItemStack>> lootsSupplier, int rottenFlesh, Properties props) {
 		super(props);
 		this.lootsSupplier = lootsSupplier;
@@ -163,6 +169,10 @@ public class DeadAnimalBlock extends BaseEntityBlock {
 		}
 	}
 
+	/**
+	 * 获取尸体完全腐烂后掉落的腐肉数量
+	 * @return 腐肉数量
+	 */
 	public int rottenFlesh() {
 		return this.rottenFlesh;
 	}

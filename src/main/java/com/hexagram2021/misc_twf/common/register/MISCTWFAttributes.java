@@ -21,7 +21,7 @@ public final class MISCTWFAttributes {
 	 * 枪械精通属性，影响玩家使用枪械的熟练度和伤害加成喵~
 	 * 默认值为 0.0，取值范围为 -100.0 到 100.0 喵~
 	 */
-	public static final DeferredHolder<Attribute, Attribute> GUN_MASTERY = REGISTER.register("gun_mastery", () -> new RangedAttribute(
+	public static final DeferredHolder<Attribute, RangedAttribute> GUN_MASTERY = REGISTER.register("gun_mastery", () -> new RangedAttribute(
 			"attribute.name.misc_twf.gun_mastery", 0.0D, -100.0D, 100.0D
 	));
 

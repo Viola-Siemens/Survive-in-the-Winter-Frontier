@@ -14,7 +14,7 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
  * @author liudongyu
  */
 @SuppressWarnings("unused")
-public class MISCTWFLogger {
+public final class MISCTWFLogger {
 	private static final Logger LOGGER = LogManager.getLogger(MODID);
 
 	/**
@@ -91,5 +91,8 @@ public class MISCTWFLogger {
 	 */
 	public static void debug(@Nullable Object object) {
 		log(Level.DEBUG, object);
+	}
+
+	private MISCTWFLogger() {
 	}
 }
