@@ -261,7 +261,7 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.ofFullCopy(NETHER_WART_BLOCK).noOcclusion(),
 				props -> new DeadAnimalBlock(() -> {
 					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
-					Item rawHorse = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "sheng_horsemeat"));
+					Item rawHorse = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "raw_horse_meat"));
 					builder.add(new ItemStack(rawHorse), new ItemStack(rawHorse));
 					builder.add(new ItemStack(Items.BONE), new ItemStack(Items.BONE), new ItemStack(Items.LEATHER));
 					return builder.build();
@@ -291,7 +291,7 @@ public final class MISCTWFBlocks {
 				props -> new DeadAnimalBlock(() -> {
 					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
 					Item polarBear = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "polar_bear"));
-					Item rawBear = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "sheng_bearmeat"));
+					Item rawBear = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "raw_bear_meat"));
 					builder.add(new ItemStack(polarBear), new ItemStack(polarBear));
 					builder.add(new ItemStack(rawBear), new ItemStack(rawBear), new ItemStack(rawBear), new ItemStack(rawBear));
 					builder.add(new ItemStack(Items.BONE), new ItemStack(Items.BONE));
@@ -320,7 +320,7 @@ public final class MISCTWFBlocks {
 				props -> new DeadAnimalBlock(() -> {
 					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
 					builder.add(new ItemStack(Items.BONE), new ItemStack(Items.BONE), new ItemStack(Items.MUTTON), new ItemStack(Items.MUTTON));
-					Item rawGigot = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "sheng_yangtui"));
+					Item rawGigot = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "raw_mutton_leg"));
 					builder.add(new ItemStack(rawGigot), new ItemStack(rawGigot));
 					return builder.build();
 				}, 5, props)
@@ -333,7 +333,7 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.ofFullCopy(NETHER_WART_BLOCK).noOcclusion(),
 				props -> new DeadAnimalBlock(() -> {
 					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
-					Item rawWolf = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "sheng_wolfmeat"));
+					Item rawWolf = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "raw_wolf_meat"));
 					builder.add(new ItemStack(rawWolf), new ItemStack(rawWolf, 2));
 					builder.add(new ItemStack(Items.BONE), new ItemStack(Items.BONE));
 					return builder.build();
