@@ -24,16 +24,21 @@ import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.animal.goat.GoatAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.AbstractFurnaceBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.event.entity.living.LivingConversionEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
@@ -218,6 +223,20 @@ public final class ForgeEventHandler {
 								.ifPresent(effect -> player.addEffect(new MobEffectInstance(effect, 40)))
 				);
 			}
+		}
+	}
+
+	/**
+	 * 处理打火石或火焰弹点燃熔炉
+	 * @param event 方块工具修改事件
+	 */
+	@SubscribeEvent
+	public static void onBlockToolModification(BlockEvent.BlockToolModificationEvent event) {
+		BlockState blockState = event.getFinalState();
+		if(event.getItemAbility().equals(ItemAbilities.FIRESTARTER_LIGHT) && blockState.getBlock() instanceof AbstractFurnaceBlock &&
+				blockState.hasProperty(BlockStateProperties.LIT) && !blockState.getValue(BlockStateProperties.LIT) &&
+				(!blockState.hasProperty(BlockStateProperties.WATERLOGGED) || !blockState.getValue(BlockStateProperties.WATERLOGGED))) {
+			event.setFinalState(blockState.setValue(BlockStateProperties.LIT, true));
 		}
 	}
 
