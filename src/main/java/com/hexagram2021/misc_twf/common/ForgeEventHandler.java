@@ -68,7 +68,7 @@ public final class ForgeEventHandler {
 	@SubscribeEvent
 	public static void onLivingTick(EntityTickEvent.Post event) {
 		if(event.getEntity() instanceof LivingEntity livingEntity && !livingEntity.level().isClientSide && livingEntity.getType().is(MISCTWFEntityTags.POOPING_ANIMALS)) {
-			PoopingAnimal poopingAnimal = livingEntity.getData(MISCTWFAttachmentTypes.ITEM_ENTITY_CONVERSION);
+			PoopingAnimal poopingAnimal = livingEntity.getData(MISCTWFAttachmentTypes.POOPING);
 			int remainingTicks = poopingAnimal.getPoopingRemainingTicks();
 			if(remainingTicks < 0) {
 				poopingAnimal.resetPoopingTicks(livingEntity);
