@@ -38,6 +38,12 @@ public class TravelersBackpackTacScreen extends AbstractContainerScreen<Abstract
 
 	private final byte screenId;
 
+	/**
+	 * 构造函数
+	 * @param menu 菜单
+	 * @param inventory 玩家物品栏
+	 * @param title 标题
+	 */
 	public TravelersBackpackTacScreen(AbstractTravelersBackpackTacMenu menu, Inventory inventory, Component title) {
 		super(menu, inventory, title);
 		this.screenId = (byte) menu.getWrapper().getScreenID();

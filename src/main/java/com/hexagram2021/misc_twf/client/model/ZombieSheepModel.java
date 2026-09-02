@@ -18,10 +18,18 @@ import net.neoforged.api.distmarker.OnlyIn;
  */
 @OnlyIn(Dist.CLIENT)
 public class ZombieSheepModel<T extends ZombieSheepEntity> extends QuadrupedModel<T> {
+	/**
+	 * 构造函数
+	 * @param root 根模型
+	 */
 	public ZombieSheepModel(ModelPart root) {
 		super(root, false, 8.0F, 4.0F, 2.0F, 2.0F, 24);
 	}
 
+	/**
+	 * 创建模型层定义
+	 * @return 层定义
+	 */
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = QuadrupedModel.createBodyMesh(12, CubeDeformation.NONE);
 		PartDefinition root = meshdefinition.getRoot();

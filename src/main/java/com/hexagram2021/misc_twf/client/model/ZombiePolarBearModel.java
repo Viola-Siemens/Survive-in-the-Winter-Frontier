@@ -22,10 +22,18 @@ import net.neoforged.api.distmarker.OnlyIn;
  */
 @OnlyIn(Dist.CLIENT)
 public class ZombiePolarBearModel<T extends ZombiePolarBearEntity> extends QuadrupedModel<T> {
+	/**
+	 * 构造函数
+	 * @param root 根模型
+	 */
 	public ZombiePolarBearModel(ModelPart root) {
 		super(root, true, 16.0F, 4.0F, 2.25F, 2.0F, 24);
 	}
 
+	/**
+	 * 创建模型层定义
+	 * @return 层定义
+	 */
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition root = meshdefinition.getRoot();

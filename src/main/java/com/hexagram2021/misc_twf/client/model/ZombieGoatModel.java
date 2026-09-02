@@ -21,10 +21,18 @@ import net.neoforged.api.distmarker.OnlyIn;
  */
 @OnlyIn(Dist.CLIENT)
 public class ZombieGoatModel<T extends ZombieGoatEntity> extends QuadrupedModel<T> {
+	/**
+	 * 构造函数
+	 * @param root 根模型
+	 */
 	public ZombieGoatModel(ModelPart root) {
 		super(root, true, 19.0F, 1.0F, 2.5F, 2.0F, 24);
 	}
 
+	/**
+	 * 创建模型层定义
+	 * @return 层定义
+	 */
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition root = meshdefinition.getRoot();
@@ -53,6 +61,7 @@ public class ZombieGoatModel<T extends ZombieGoatEntity> extends QuadrupedModel<
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
+	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.head.getChild("left_horn").visible = !entity.isBaby();
 		this.head.getChild("right_horn").visible = !entity.isBaby();

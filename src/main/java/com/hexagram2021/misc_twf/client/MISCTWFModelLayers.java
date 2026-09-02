@@ -14,7 +14,7 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
  * @author liudongyu
  */
 @OnlyIn(Dist.CLIENT)
-public class MISCTWFModelLayers {
+public final class MISCTWFModelLayers {
 	/** 夜视仪模型层喵~ */
 	public static final ModelLayerLocation NIGHT_VISION_DEVICE = register("night_vision_device");
 
@@ -42,5 +42,8 @@ public class MISCTWFModelLayers {
 	@SuppressWarnings("SameParameterValue")
 	private static ModelLayerLocation register(String name, String layer) {
 		return new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(MODID, name), layer);
+	}
+
+	private MISCTWFModelLayers() {
 	}
 }

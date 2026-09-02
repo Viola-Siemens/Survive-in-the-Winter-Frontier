@@ -32,6 +32,10 @@ public class ZombieChickenModel<T extends ZombieChickenEntity> extends AgeableLi
 	private final ModelPart beak;
 	private final ModelPart redThing;
 
+	/**
+	 * 构造函数
+	 * @param root 根模型
+	 */
 	public ZombieChickenModel(ModelPart root) {
 		this.head = root.getChild("head");
 		this.beak = root.getChild("beak");
@@ -43,6 +47,10 @@ public class ZombieChickenModel<T extends ZombieChickenEntity> extends AgeableLi
 		this.leftWing = root.getChild("left_wing");
 	}
 
+	/**
+	 * 创建模型层定义
+	 * @return 层定义
+	 */
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();

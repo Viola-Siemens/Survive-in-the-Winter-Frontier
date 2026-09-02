@@ -43,6 +43,10 @@ public class ZombieRabbitModel<T extends ZombieRabbitEntity> extends EntityModel
 	private float jumpRotation;
 	private static final float NEW_SCALE = 0.6F;
 
+	/**
+	 * 构造函数
+	 * @param root 根模型
+	 */
 	public ZombieRabbitModel(ModelPart root) {
 		this.leftRearFoot = root.getChild("left_hind_foot");
 		this.rightRearFoot = root.getChild("right_hind_foot");
@@ -58,6 +62,10 @@ public class ZombieRabbitModel<T extends ZombieRabbitEntity> extends EntityModel
 		this.nose = root.getChild("nose");
 	}
 
+	/**
+	 * 创建模型层定义
+	 * @return 层定义
+	 */
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();

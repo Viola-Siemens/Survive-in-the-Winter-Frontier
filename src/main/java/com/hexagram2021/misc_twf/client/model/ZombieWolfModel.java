@@ -34,6 +34,10 @@ public class ZombieWolfModel<T extends ZombieAnimalEntity<Wolf>> extends Colorab
 	private final ModelPart tail;
 	private final ModelPart upperBody;
 
+	/**
+	 * 构造函数
+	 * @param root 根模型
+	 */
 	public ZombieWolfModel(ModelPart root) {
 		this.head = root.getChild("head");
 		this.body = root.getChild("body");
@@ -45,6 +49,10 @@ public class ZombieWolfModel<T extends ZombieAnimalEntity<Wolf>> extends Colorab
 		this.tail = root.getChild("tail");
 	}
 
+	/**
+	 * 创建模型层定义
+	 * @return 层定义
+	 */
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition root = meshdefinition.getRoot();

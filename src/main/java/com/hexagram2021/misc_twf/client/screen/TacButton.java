@@ -25,6 +25,10 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 public class TacButton extends Button {
 	private static final ResourceLocation EXTRAS_TAC_TRAVELERS_BACKPACK = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/container/travelers_backpack_tac.png");
 
+	/**
+	 * 构造函数
+	 * @param screen 背包界面
+	 */
 	public TacButton(BackpackScreen screen) {
 		super(screen, 16, 73 + screen.visibleRows * 18, 18, 18);
 	}

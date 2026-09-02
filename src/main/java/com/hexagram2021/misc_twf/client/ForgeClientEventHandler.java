@@ -22,7 +22,7 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
  * @author liudongyu
  */
 @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
-public class ForgeClientEventHandler {
+public final class ForgeClientEventHandler {
 	/**
 	 * 处理物品提示显示事件喵~
 	 * 当鼠标悬浮在能源物品上时显示电量信息，悬浮在旅行背包上时显示 TAC 弹药槽提示喵~
@@ -42,5 +42,8 @@ public class ForgeClientEventHandler {
 				event.getToolTip().add(Component.translatable("item.misc_twf.has_tac_slot").withStyle(ChatFormatting.GRAY));
 			}
 		}
+	}
+
+	private ForgeClientEventHandler() {
 	}
 }

@@ -21,6 +21,12 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 public class UltravioletLampScreen extends AbstractContainerScreen<UltravioletLampMenu> {
 	private static final ResourceLocation BG_LOCATION = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/container/ultraviolet_lamp.png");
 
+	/**
+	 * 构造函数
+	 * @param menu 菜单
+	 * @param inventory 玩家物品栏
+	 * @param title 标题
+	 */
 	public UltravioletLampScreen(UltravioletLampMenu menu, Inventory inventory, Component title) {
 		super(menu, inventory, title);
 	}

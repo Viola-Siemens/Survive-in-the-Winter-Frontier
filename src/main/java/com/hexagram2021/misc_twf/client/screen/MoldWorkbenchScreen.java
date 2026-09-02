@@ -41,6 +41,12 @@ public class MoldWorkbenchScreen extends AbstractContainerScreen<MoldWorkbenchMe
 	private int startIndex;
 	private boolean displayRecipes;
 
+	/**
+	 * 构造函数
+	 * @param menu 菜单
+	 * @param inventory 玩家物品栏
+	 * @param title 标题
+	 */
 	public MoldWorkbenchScreen(MoldWorkbenchMenu menu, Inventory inventory, Component title) {
 		super(menu, inventory, title);
 		menu.registerUpdateListener(this::containerChanged);
@@ -124,6 +130,7 @@ public class MoldWorkbenchScreen extends AbstractContainerScreen<MoldWorkbenchMe
 		}
 	}
 
+	@SuppressWarnings({"IntegerDivisionInFloatingPointContext", "java:S2184"})
 	@Override
 	public boolean mouseClicked(double x, double y, int mouseButton) {
 		this.scrolling = false;

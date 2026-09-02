@@ -23,10 +23,16 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
  * @author liudongyu
  */
 public class RecoveryFurnaceScreen extends AbstractContainerScreen<RecoveryFurnaceMenu> implements RecipeUpdateListener {
-	public final RecoveryFurnaceRecipeBookComponent recipeBookComponent = new RecoveryFurnaceRecipeBookComponent();
+	private final RecoveryFurnaceRecipeBookComponent recipeBookComponent = new RecoveryFurnaceRecipeBookComponent();
 	private boolean widthTooNarrow;
 	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/container/recovery_furnace.png");
 
+	/**
+	 * 构造函数
+	 * @param menu 菜单
+	 * @param inventory 玩家物品栏
+	 * @param title 标题
+	 */
 	public RecoveryFurnaceScreen(RecoveryFurnaceMenu menu, Inventory inventory, Component title) {
 		super(menu, inventory, title);
 	}

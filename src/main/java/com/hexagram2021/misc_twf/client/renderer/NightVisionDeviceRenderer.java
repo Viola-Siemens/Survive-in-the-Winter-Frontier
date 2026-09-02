@@ -38,6 +38,9 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 public class NightVisionDeviceRenderer implements ICurioRenderer {
 	private final NightVisionDeviceModel model;
 
+	/**
+	 * 构造函数
+	 */
 	public NightVisionDeviceRenderer() {
 		this.model = new NightVisionDeviceModel(Minecraft.getInstance().getEntityModels().bakeLayer(MISCTWFModelLayers.NIGHT_VISION_DEVICE));
 	}
@@ -66,7 +69,7 @@ public class NightVisionDeviceRenderer implements ICurioRenderer {
 			EntityModel<LivingEntity> entityModel = livingRenderer.getModel();
 
 			if (entityModel instanceof HumanoidModel<LivingEntity> bipedModel) {
-				model.hat.copyFrom(bipedModel.hat);
+				model.getHat().copyFrom(bipedModel.hat);
 			}
 		}
 	}

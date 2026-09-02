@@ -19,11 +19,12 @@ import net.neoforged.api.distmarker.OnlyIn;
  */
 @OnlyIn(Dist.CLIENT)
 public class NightVisionDeviceModel extends Model {
-	public final ModelPart root;
-	public final ModelPart hat;
-	public final ModelPart connection;
-	public final ModelPart left;
-	public final ModelPart right;
+	private final ModelPart root;
+
+	private final ModelPart hat;
+	private final ModelPart connection;
+	private final ModelPart left;
+	private final ModelPart right;
 
 	/**
 	 * 构造夜视仪模型，从根模型部件中解析出各子部件喵~
@@ -70,5 +71,13 @@ public class NightVisionDeviceModel extends Model {
 	@Override
 	public void renderToBuffer(PoseStack transform, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
 		this.root.render(transform, vertexConsumer, packedLight, packedOverlay, color);
+	}
+
+	/**
+	 * 获取帽子层模型部分
+	 * @return 帽子层模型部分
+	 */
+	public ModelPart getHat() {
+		return this.hat;
 	}
 }
