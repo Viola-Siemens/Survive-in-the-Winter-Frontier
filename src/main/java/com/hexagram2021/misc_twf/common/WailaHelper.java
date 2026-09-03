@@ -5,12 +5,18 @@ import com.hexagram2021.misc_twf.common.block.compat.MutantPotionCauldronProvide
 import com.hexagram2021.misc_twf.common.block.entity.MutantPotionCauldronBlockEntity;
 import com.hexagram2021.misc_twf.common.entity.compat.LivingPoopProvider;
 import com.hexagram2021.misc_twf.common.entity.compat.MobProduceMilkProvider;
-import mcp.mobius.waila.api.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Cow;
 import net.minecraft.world.entity.animal.goat.Goat;
+import snownee.jade.api.IWailaClientRegistration;
+import snownee.jade.api.IWailaCommonRegistration;
+import snownee.jade.api.IWailaPlugin;
+import snownee.jade.api.WailaPlugin;
 
-@SuppressWarnings("UnstableApiUsage")
+/**
+ * Jade 兼容插件
+ * @author liudongyu
+ */
 @WailaPlugin
 public class WailaHelper implements IWailaPlugin {
 	@Override
@@ -23,9 +29,9 @@ public class WailaHelper implements IWailaPlugin {
 
 	@Override
 	public void registerClient(IWailaClientRegistration registration) {
-		registration.registerComponentProvider(MutantPotionCauldronProvider.INSTANCE, TooltipPosition.BODY, MutantPotionCauldronBlock.class);
-		registration.registerComponentProvider(MobProduceMilkProvider.INSTANCE, TooltipPosition.BODY, Cow.class);
-		registration.registerComponentProvider(MobProduceMilkProvider.INSTANCE, TooltipPosition.BODY, Goat.class);
-		registration.registerComponentProvider(LivingPoopProvider.INSTANCE, TooltipPosition.BODY, LivingEntity.class);
+		registration.registerBlockComponent(MutantPotionCauldronProvider.INSTANCE, MutantPotionCauldronBlock.class);
+		registration.registerEntityComponent(MobProduceMilkProvider.INSTANCE, Cow.class);
+		registration.registerEntityComponent(MobProduceMilkProvider.INSTANCE, Goat.class);
+		registration.registerEntityComponent(LivingPoopProvider.INSTANCE, LivingEntity.class);
 	}
 }

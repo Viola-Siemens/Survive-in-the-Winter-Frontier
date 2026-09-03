@@ -1,0 +1,79 @@
+# Module: misc_twf_industry (Industry)
+# Phase 0 skeleton. External dependency list is a DRAFT (see docs/MODULARIZATION.md 4.1/4.3/6.2-E2).
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier/issues"
+
+[[mods]]
+    modId="${mod_id}"
+    version="${mod_version}"
+    displayName="${mod_name}"
+    credits="Hexagram"
+    authors="${mod_authors}"
+    description='''${mod_description}'''
+
+[[accessTransformers]]
+    file="META-INF/accesstransformer.cfg"
+
+[[mixins]]
+    config="${mod_id}.mixins.json"
+
+[[dependencies.${mod_id}]]
+    modId="neoforge"
+    mandatory=true
+    versionRange="[21,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.21,1.21.1]"
+    ordering="NONE"
+    side="BOTH"
+
+# createaddition: energy addon for the UV lamp / accumulators (implies create)
+[[dependencies.${mod_id}]]
+    modId="createaddition"
+    mandatory=true
+    versionRange="[1,)"
+    ordering="NONE"
+    side="BOTH"
+
+# create: recovery furnace & ammo/mold industry machinery (version range to be finalized)
+[[dependencies.${mod_id}]]
+    modId="create"
+    mandatory=true
+    versionRange="[1,)"
+    ordering="NONE"
+    side="BOTH"
+
+# curios: night vision head slot (mandatory)
+[[dependencies.${mod_id}]]
+    modId="curios"
+    mandatory=true
+    versionRange="[9,)"
+    ordering="NONE"
+    side="BOTH"
+
+# tetrachordlib: UV lamp position KD tree (mandatory)
+[[dependencies.${mod_id}]]
+    modId="tetrachordlib"
+    mandatory=true
+    versionRange="[1.21,1.22)"
+    ordering="NONE"
+    side="BOTH"
+
+# Gun mod: provided by Superb Warfare on 1.21.1 (runtime modId = superbwarfare, code namespace tacz).
+# Recovery-furnace recipe book categories statically import com.tacz.guns.* (E2) => mandatory unless
+# refactored to lazy/optional registration.
+[[dependencies.${mod_id}]]
+    modId="superbwarfare"
+    mandatory=true
+    versionRange="[0.8.8,)"
+    ordering="NONE"
+    side="BOTH"
+
+# ponder: optional (Ponder scenes only take effect when create ponder is present)
+# Registrate: library jar provided by create at runtime; no mod dependency entry needed.
+# jei: optional (JEI categories for recovery furnace & molds); dev-time classpath only.

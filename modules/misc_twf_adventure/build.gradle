@@ -1,0 +1,25 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.gradle.userdev' version '7.1.20'
+}
+
+apply from: rootProject.file('gradle/module-common.gradle')
+
+// 依赖草案（对应 docs/MODULARIZATION.md 4.1/4.3 与 6.2-E1/E3/E4，依赖就绪后定稿）。
+dependencies {
+    // travelersbackpack：TAC 弹药槽升级与容器 mixin 的目标模组（强制）
+    implementation 'curse.maven:travelersbackpack-321117:7543685'
+    // 枪械模组：1.21.1 由 superb-warfare 提供（运行时 modId=superbwarfare，代码命名空间仍为 tacz；强制）
+    implementation 'curse.maven:superb-warfare-1218165:7292699-sources-7292701'
+    // curios：superb-warfare 的运行时依赖（其 0.8.8 声明 curios/geckolib 为 required），dev 运行需要
+    implementation 'top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1'
+    // geckolib：怪物蛋动画等（强制）
+    implementation 'software.bernie.geckolib:geckolib-neoforge-1.21.1:4.8.4'
+    // expandability：血液流体游泳微调（强制）
+    implementation 'be.florens:expandability-neoforge:12.0.0'
+    // kubejs：巢穴战利品等引用其物品（仅数据引用，可选；代码需要时改 implementation）
+    compileOnly 'curse.maven:kubejs-238086:7278501'
+    // zombie_extreme：怪物蛋孵化池/巢穴战利品引用的实体与物品（6.2-E3，巢穴结构依赖其实体和装饰方块）
+    runtimeOnly 'curse.maven:zombie_extreme-392809:7014504'
+    // Sona：MonsterEggBlockEntity 曾直接 import（无 1.21.1），按“约定 API + TODO 占位”处理，发布后补依赖
+}

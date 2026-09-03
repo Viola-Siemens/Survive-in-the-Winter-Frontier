@@ -12,3 +12,18 @@ pluginManagement {
 plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
 }
+
+rootProject.name = 'Survive-in-the-Winter-Frontier'
+
+// ---- 模块化拆分（阶段 0 骨架，见 docs/MODULARIZATION.md 4.2 / 8）----
+// 根工程仍为过渡期单体（modid = misc_twf），业务代码迁移完成后再退役。
+def miscTwfModules = [
+        'misc_twf_zombie_animals',
+        'misc_twf_wildlife',
+        'misc_twf_industry',
+        'misc_twf_adventure'
+]
+miscTwfModules.each { name ->
+    include ":$name"
+    project(":$name").projectDir = file("modules/$name")
+}

@@ -1,0 +1,17 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.gradle.userdev' version '7.1.20'
+}
+
+apply from: rootProject.file('gradle/module-common.gradle')
+
+// 依赖草案（对应 docs/MODULARIZATION.md 4.1/4.3 与 6.2，依赖就绪后定稿）。
+// 骨架阶段仅用于固定依赖面；业务代码迁入时按需打开/调整版本区间。
+dependencies {
+    // hordes：感染/转化豁免 mixin 的目标模组（强制，缺失会使 mixin 阶段直接崩溃）
+    implementation 'curse.maven:hordes-485779:6772331'
+    // atlaslib：hordes 的运行时依赖（hordes 1.6.2b 声明依赖），dev 运行需要同置于 classpath
+    implementation 'curse.maven:atlaslib-463826:5449009'
+    // zombie_extreme：仅实体战利品数据引用（可选，缺失按数据降级，见 6.2-E3）；运行期需要 geckolib，暂不入依赖
+    // runtimeOnly 'curse.maven:zombie_extreme-392809:7014504'
+}

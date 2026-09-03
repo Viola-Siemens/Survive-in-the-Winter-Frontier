@@ -1,0 +1,36 @@
+# Module: misc_twf_wildlife (Wildlife / Husbandry)
+# Phase 0 skeleton. No mandatory third-party dependency by design (E5: guard & degrade).
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier/issues"
+
+[[mods]]
+    modId="${mod_id}"
+    version="${mod_version}"
+    displayName="${mod_name}"
+    credits="Hexagram"
+    authors="${mod_authors}"
+    description='''${mod_description}'''
+
+[[accessTransformers]]
+    file="META-INF/accesstransformer.cfg"
+
+[[mixins]]
+    config="${mod_id}.mixins.json"
+
+[[dependencies.${mod_id}]]
+    modId="neoforge"
+    mandatory=true
+    versionRange="[21,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.21,1.21.1]"
+    ordering="NONE"
+    side="BOTH"
+
+# Optional links are added here only when the corresponding code dependency is migrated in
+# (candidates: easydiet / kubejs / cold_sweat / delightful - all optional, degrade gracefully).

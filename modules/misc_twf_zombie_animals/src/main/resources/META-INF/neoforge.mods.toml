@@ -1,0 +1,50 @@
+# Module: misc_twf_zombie_animals (Zombie Animals)
+# Phase 0 skeleton. External dependency list is a DRAFT (see docs/MODULARIZATION.md 4.1/4.3);
+# finalize ranges after upstream mods settle on 1.21.1.
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier/issues"
+
+[[mods]]
+    modId="${mod_id}"
+    version="${mod_version}"
+    displayName="${mod_name}"
+    credits="Hexagram"
+    authors="${mod_authors}"
+    description='''${mod_description}'''
+
+[[accessTransformers]]
+    file="META-INF/accesstransformer.cfg"
+
+[[mixins]]
+    config="${mod_id}.mixins.json"
+
+[[dependencies.${mod_id}]]
+    modId="neoforge"
+    mandatory=true
+    versionRange="[21,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.21,1.21.1]"
+    ordering="NONE"
+    side="BOTH"
+
+# hordes: mandatory (infection/transformation exemption mixin targets its classes)
+[[dependencies.${mod_id}]]
+    modId="hordes"
+    mandatory=true
+    versionRange="[1.5.3,)"
+    ordering="NONE"
+    side="BOTH"
+
+# zombie_extreme: optional, data-only references in entity loot tables (degrade to logs when absent)
+[[dependencies.${mod_id}]]
+    modId="zombie_extreme"
+    mandatory=false
+    versionRange="[0.2.6.5,)"
+    ordering="NONE"
+    side="BOTH"

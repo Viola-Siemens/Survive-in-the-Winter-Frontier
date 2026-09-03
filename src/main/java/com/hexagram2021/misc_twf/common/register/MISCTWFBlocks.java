@@ -1,7 +1,6 @@
 package com.hexagram2021.misc_twf.common.register;
 
 import com.google.common.collect.ImmutableList;
-import com.hexagram2021.misc_twf.SurviveInTheWinterFrontier;
 import com.hexagram2021.misc_twf.common.block.*;
 import com.hexagram2021.misc_twf.common.infrastructure.compat.ModCreateCompat;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -9,7 +8,10 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -20,6 +22,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -214,7 +217,7 @@ public final class MISCTWFBlocks {
 		public static final BlockEntry<DeadAnimalBlock> DEAD_CHICKEN = new BlockEntry<>(
 				"dead_chicken",
 				() -> BlockBehaviour.Properties.ofFullCopy(NETHER_WART_BLOCK).noOcclusion(),
-				props -> new DeadAnimalBlock(() -> ImmutableList.of(
+				props -> new DeadAnimalBlock(() -> List.of(
 						new ItemStack(Items.BONE),
 						new ItemStack(Items.BONE),
 						new ItemStack(Items.CHICKEN),
@@ -228,7 +231,7 @@ public final class MISCTWFBlocks {
 		public static final BlockEntry<DeadAnimalBlock> DEAD_COW = new BlockEntry<>(
 				"dead_cow",
 				() -> BlockBehaviour.Properties.ofFullCopy(NETHER_WART_BLOCK).noOcclusion(),
-				props -> new DeadAnimalBlock(() -> ImmutableList.of(
+				props -> new DeadAnimalBlock(() -> List.of(
 						new ItemStack(Items.BEEF),
 						new ItemStack(Items.BEEF),
 						new ItemStack(Items.BEEF),
@@ -274,7 +277,7 @@ public final class MISCTWFBlocks {
 		public static final BlockEntry<DeadAnimalBlock> DEAD_PIG = new BlockEntry<>(
 				"dead_pig",
 				() -> BlockBehaviour.Properties.ofFullCopy(NETHER_WART_BLOCK).noOcclusion(),
-				props -> new DeadAnimalBlock(() -> ImmutableList.of(
+				props -> new DeadAnimalBlock(() -> List.of(
 						new ItemStack(Items.BONE),
 						new ItemStack(Items.BONE),
 						new ItemStack(Items.LEATHER),
@@ -305,7 +308,7 @@ public final class MISCTWFBlocks {
 		public static final BlockEntry<DeadAnimalBlock> DEAD_RABBIT = new BlockEntry<>(
 				"dead_rabbit",
 				() -> BlockBehaviour.Properties.ofFullCopy(NETHER_WART_BLOCK).noOcclusion(),
-				props -> new DeadAnimalBlock(() -> ImmutableList.of(
+				props -> new DeadAnimalBlock(() -> List.of(
 						new ItemStack(Items.RABBIT),
 						new ItemStack(Items.RABBIT_FOOT),
 						new ItemStack(Items.RABBIT_FOOT),
@@ -713,7 +716,7 @@ public final class MISCTWFBlocks {
 		 * @param make 方块构造函数喵~
 		 */
 		public BlockEntry(String name, Supplier<BlockBehaviour.Properties> properties, Function<BlockBehaviour.Properties, T> make) {
-			this(name, properties, make, SurviveInTheWinterFrontier.ITEM_GROUP);
+			this(name, properties, make, MISCTWFCreativeModeTabs.MAIN);
 		}
 
 		/**
@@ -724,7 +727,7 @@ public final class MISCTWFBlocks {
 		 * @param make 方块构造函数喵~
 		 * @param tab 创造模式标签页，为 null 则不注册物品喵~
 		 */
-		public BlockEntry(String name, Supplier<BlockBehaviour.Properties> properties, Function<BlockBehaviour.Properties, T> make, @Nullable CreativeModeTab tab) {
+		public BlockEntry(String name, Supplier<BlockBehaviour.Properties> properties, Function<BlockBehaviour.Properties, T> make, @Nullable DeferredHolder<CreativeModeTab, CreativeModeTab> tab) {
 			this.properties = properties;
 			this.regObject = REGISTER.register(name, () -> make.apply(properties.get()));
 			if(tab != null) {

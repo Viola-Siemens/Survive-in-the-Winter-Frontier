@@ -1,0 +1,14 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.gradle.userdev' version '7.1.20'
+}
+
+apply from: rootProject.file('gradle/module-common.gradle')
+
+// 依赖草案（对应 docs/MODULARIZATION.md 4.1/4.3 与 6.2-E5，依赖就绪后定稿）。
+// 本模块无强制外部依赖；对第三方注册名的引用一律“可选模组判定 + 判空 + 原版替代”。
+dependencies {
+    // TODO 以下为随业务代码迁入的可选联动（代码依赖出现时再打开并定稿版本）：
+    // kubejs / cold_sweat / delightful：动物尸体掉落、饮食联动（E5，现为注册名硬查）
+    // easydiet：盐分组联动（D3，属本模块机制域）
+}

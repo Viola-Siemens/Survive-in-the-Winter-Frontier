@@ -1,0 +1,28 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.gradle.userdev' version '7.1.20'
+}
+
+apply from: rootProject.file('gradle/module-common.gradle')
+
+// 依赖草案（对应 docs/MODULARIZATION.md 4.1/4.3 与 6.2-E2，依赖就绪后定稿）。
+dependencies {
+    // Create 系：能量/灯（createaddition）、回收炉与模具（create + Registrate + ponder）
+    implementation 'curse.maven:create-328085:7408951'
+    implementation 'curse.maven:createaddition-439890:7518252'
+    // Registrate：模具工作台等注册（runtime 类由 create 的 jar 提供，故仅 compileOnly）
+    compileOnly 'com.tterrag.registrate:Registrate:MC1.21-1.3.0+67'
+    // Ponder：模具/回收炉场景（可选；开发期随 create 场景展示加载）
+    implementation 'net.createmod.ponder:ponder-neoforge:1.0.81+mc1.21.1'
+    // curios：夜视仪 head 槽等（强制，见 5.3）
+    implementation 'top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1'
+    // flywheel：create 的运行时依赖，dev 运行需要同置于 classpath
+    runtimeOnly 'dev.engine-room.flywheel:flywheel-neoforge-1.21.1:1.0.6'
+    // tetrachordlib：灯坐标 KD 树等（强制）
+    implementation 'curse.maven:tetrachordlib-980149:5644644'
+    // 枪械模组：1.21.1 由 superb-warfare 提供（运行时 modId=superbwarfare，代码命名空间仍为 tacz；
+    // 回收炉配方书分类静态 import com.tacz.guns.*，E2：编译+运行依赖，除非后续重构为可选注册）
+    implementation 'curse.maven:superb-warfare-1218165:7292699-sources-7292701'
+    // JEI：回收炉/模具 JEI 类别（可选，开发期如需内置 JEI 可改 implementation 或加 runtimeOnly）
+    compileOnly 'mezz.jei:jei-1.21.1-neoforge:19.27.0.340'
+}

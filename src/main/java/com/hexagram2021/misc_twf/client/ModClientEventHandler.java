@@ -2,8 +2,10 @@ package com.hexagram2021.misc_twf.client;
 
 import com.hexagram2021.misc_twf.client.model.*;
 import com.hexagram2021.misc_twf.client.renderer.*;
-import com.hexagram2021.misc_twf.client.screen.*;
-import com.hexagram2021.misc_twf.common.infrastructure.compat.ModCreateCompat;
+import com.hexagram2021.misc_twf.client.screen.MoldWorkbenchScreen;
+import com.hexagram2021.misc_twf.client.screen.RecoveryFurnaceScreen;
+import com.hexagram2021.misc_twf.client.screen.TravelersBackpackTacScreen;
+import com.hexagram2021.misc_twf.client.screen.UltravioletLampScreen;
 import com.hexagram2021.misc_twf.common.register.*;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -73,7 +75,6 @@ public final class ModClientEventHandler {
 	 */
 	@SubscribeEvent
 	public static void onClientSetup(final FMLClientSetupEvent event) {
-		ModCreateCompat.register();
 		event.enqueueWork(ModClientEventHandler::registerCuriosRenderers);
 	}
 

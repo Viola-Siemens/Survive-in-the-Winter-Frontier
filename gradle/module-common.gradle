@@ -1,0 +1,137 @@
+// ============================================================================
+// 模块公共构建约定（骨架阶段）
+// 由 modules/<模块>/build.gradle 通过 apply from 引入，统一各模块的
+// 版本、存档命名、运行任务、资源与仓库配置，避免 4 份构建脚本各自漂移。
+// 说明：本文件仅服务阶段 0 骨架；依赖与版式细节见 docs/MODULARIZATION.md 4.2/4.3/8。
+// ============================================================================
+
+version = mod_version
+group = "com.hexagram2021.${mod_id}"
+
+base {
+    archivesName = mod_id
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+minecraft.accessTransformers.file project.file('src/main/resources/META-INF/accesstransformer.cfg')
+
+runs {
+    configureEach {
+        systemProperty 'forge.logging.markers', 'REGISTRIES'
+        systemProperty 'forge.logging.console.level', 'debug'
+
+        modSource project.sourceSets.main
+    }
+
+    client {
+        workingDirectory project.file('run/client')
+        systemProperty 'forge.enabledGameTestNamespaces', mod_id
+    }
+
+    server {
+        workingDirectory project.file('run/server')
+        systemProperty 'forge.enabledGameTestNamespaces', mod_id
+    }
+
+    gameTestServer {
+        workingDirectory project.file('run/testServer')
+        systemProperty 'forge.enabledGameTestNamespaces', mod_id
+    }
+
+    data {
+        workingDirectory project.file('run/data')
+
+        programArguments.addAll '--mod', mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+    }
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir 'src/generated/resources'
+        }
+    }
+}
+
+repositories {
+    maven {
+        url "https://cursemaven.com"
+    }
+    maven {
+        name 'tterrag maven'
+        url 'https://maven.tterrag.com'
+    }
+    maven {
+        name = 'Blamejared Maven'
+        url = 'https://maven.blamejared.com/'
+    }
+    maven {
+        name = "theillusivec4's Maven"
+        url = 'https://maven.theillusivec4.top/'
+    }
+    maven {
+        name 'DVS1 Maven FS'
+        url 'https://dvs1.progwml6.com/files/maven'
+    }
+    maven {
+        name 'DevOS'
+        url 'https://mvn.devos.one/snapshots/'
+    }
+    maven {
+        name 'Create Mod Maven'
+        url 'https://maven.createmod.net/'
+    }
+    maven {
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
+    maven {
+        name = 'GeckoLib'
+        url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+    }
+    maven {
+        name = "Florensie's Maven"
+        url = "https://maven.florens.be/releases"
+    }
+    maven {
+        name = "ParchmentMC"
+        url = "https://maven.parchmentmc.org/"
+    }
+}
+
+dependencies {
+    implementation "net.neoforged:neoforge:${neo_version}"
+}
+
+tasks.withType(ProcessResources).configureEach {
+    // 命名空间级聚合资源（assets/misc_twf/lang/*.json、sounds.json 等）单一来源：
+    // 不注册为模块源根（避免 IDEA 多模块共享目录告警），改为打包/复制时冗余进每个模块
+    // （见文档 4.2“聚合资源文件策略”）。
+    from(rootProject.file('shared-resources')) {
+        exclude 'README.md'
+    }
+
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            neo_version_range      : neo_version_range,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}

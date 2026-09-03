@@ -1,0 +1,9 @@
+{
+  "required": false,
+  "package": "com.hexagram2021.misc_twf_zombie_animals.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "misc_twf_zombie_animals.refmap.json",
+  "minVersion": "0.8",
+  "mixins": [],
+  "client": []
+}

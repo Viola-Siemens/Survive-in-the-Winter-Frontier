@@ -10,6 +10,11 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
+/**
+ * 僵尸鸡
+ *
+ * @author liudongyu
+ */
 public class ZombieChickenEntity extends ZombieAnimalEntity<Chicken> {
 	public float flap;
 	public float flapSpeed;
@@ -18,6 +23,11 @@ public class ZombieChickenEntity extends ZombieAnimalEntity<Chicken> {
 	public float flapping = 1.0F;
 	private float nextFlap = 1.0F;
 
+	/**
+	 * 构造函数
+	 * @param entityType 实体类型
+	 * @param level 世界
+	 */
 	public ZombieChickenEntity(EntityType<? extends Zombie> entityType, Level level) {
 		super(entityType, EntityType.CHICKEN, level);
 	}
@@ -27,15 +37,15 @@ public class ZombieChickenEntity extends ZombieAnimalEntity<Chicken> {
 		super.aiStep();
 		this.oFlap = this.flap;
 		this.oFlapSpeed = this.flapSpeed;
-		this.flapSpeed += (this.onGround ? -1.0F : 4.0F) * 0.3F;
+		this.flapSpeed += (this.onGround() ? -1.0F : 4.0F) * 0.3F;
 		this.flapSpeed = Mth.clamp(this.flapSpeed, 0.0F, 1.0F);
-		if (!this.onGround && this.flapping < 1.0F) {
+		if (!this.onGround() && this.flapping < 1.0F) {
 			this.flapping = 1.0F;
 		}
 
 		this.flapping *= 0.9F;
 		Vec3 vec3 = this.getDeltaMovement();
-		if (!this.onGround && vec3.y < 0.0D) {
+		if (!this.onGround() && vec3.y < 0.0D) {
 			this.setDeltaMovement(vec3.multiply(1.0D, 0.6D, 1.0D));
 		}
 

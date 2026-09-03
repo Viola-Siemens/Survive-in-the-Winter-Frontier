@@ -1,0 +1,85 @@
+# Module: misc_twf_adventure (Adventure & Exploration)
+# Phase 0 skeleton. External dependency list is a DRAFT (see docs/MODULARIZATION.md 4.1/4.3/6.2).
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier/issues"
+
+[[mods]]
+    modId="${mod_id}"
+    version="${mod_version}"
+    displayName="${mod_name}"
+    credits="Hexagram"
+    authors="${mod_authors}"
+    description='''${mod_description}'''
+
+[[accessTransformers]]
+    file="META-INF/accesstransformer.cfg"
+
+[[mixins]]
+    config="${mod_id}.mixins.json"
+
+[[dependencies.${mod_id}]]
+    modId="neoforge"
+    mandatory=true
+    versionRange="[21,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.21,1.21.1]"
+    ordering="NONE"
+    side="BOTH"
+
+# travelersbackpack: TAC ammo slot upgrade & container mixins (mandatory)
+[[dependencies.${mod_id}]]
+    modId="travelersbackpack"
+    mandatory=true
+    versionRange="[1.21.1-10,)"
+    ordering="NONE"
+    side="BOTH"
+
+# Gun mod: provided by Superb Warfare on 1.21.1 (runtime modId = superbwarfare, code namespace tacz)
+[[dependencies.${mod_id}]]
+    modId="superbwarfare"
+    mandatory=true
+    versionRange="[0.8.8,)"
+    ordering="NONE"
+    side="BOTH"
+
+# geckolib: monster egg animations etc. (mandatory)
+[[dependencies.${mod_id}]]
+    modId="geckolib"
+    mandatory=true
+    versionRange="[4.8.4,)"
+    ordering="NONE"
+    side="BOTH"
+
+# expandability: swimming tweaks on the blood fluid (mandatory)
+[[dependencies.${mod_id}]]
+    modId="expandability"
+    mandatory=true
+    versionRange="[12,)"
+    ordering="NONE"
+    side="BOTH"
+
+# zombie_extreme: monster egg hatching pool & lair loot references (optional; runtime behaviour TBD, 6.2-E3)
+[[dependencies.${mod_id}]]
+    modId="zombie_extreme"
+    mandatory=false
+    versionRange="[0.2.6.5,)"
+    ordering="NONE"
+    side="BOTH"
+
+# kubejs: lair loot references to its items (optional, data-only)
+[[dependencies.${mod_id}]]
+    modId="kubejs"
+    mandatory=false
+    versionRange="[1,)"
+    ordering="NONE"
+    side="BOTH"
+
+# Sona: no 1.21.1 build yet; placeholder API + TODO until it publishes.
+# Optional link: misc_twf_zombie_animals (M1) - vaccine writes immunity via M1 public API (E7),
+# added here once that code dependency is migrated in.
