@@ -30,40 +30,23 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 public final class ModClientEventHandler {
 	/**
 	 * 注册实体模型层定义喵~
-	 * 包括夜视设备饰品和所有僵尸动物实体的模型层喵~
+	 * 注册饰品与剩余实体所需的模型层喵~
 	 *
 	 * @param event 模型层注册事件喵~
 	 */
 	@SubscribeEvent
 	public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		event.registerLayerDefinition(MISCTWFModelLayers.NIGHT_VISION_DEVICE, NightVisionDeviceModel::createBodyLayer);
-
-		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_CHICKEN, ZombieChickenModel::createBodyLayer);
-		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_COW, ZombieCowModel::createBodyLayer);
-		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_GOAT, ZombieGoatModel::createBodyLayer);
-		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_PIG, ZombiePigModel::createBodyLayer);
-		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_POLAR_BEAR, ZombiePolarBearModel::createBodyLayer);
-		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_RABBIT, ZombieRabbitModel::createBodyLayer);
-		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_SHEEP, ZombieSheepModel::createBodyLayer);
-		event.registerLayerDefinition(MISCTWFModelLayers.ZOMBIE_WOLF, ZombieWolfModel::createBodyLayer);
 	}
 
 	/**
 	 * 注册实体和方块实体的渲染器喵~
-	 * 包括所有僵尸动物实体和怪物蛋方块实体的渲染器喵~
+	 * 注册怪物蛋方块实体等渲染器喵~
 	 *
 	 * @param event 渲染器注册事件喵~
 	 */
 	@SubscribeEvent
 	public static void onRegisterRenderer(EntityRenderersEvent.RegisterRenderers event) {
-		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_CHICKEN.get(), ZombieChickenRenderer::new);
-		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_COW.get(), ZombieCowRenderer::new);
-		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_GOAT.get(), ZombieGoatRenderer::new);
-		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_PIG.get(), ZombiePigRenderer::new);
-		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_POLAR_BEAR.get(), ZombiePolarBearRenderer::new);
-		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_RABBIT.get(), ZombieRabbitRenderer::new);
-		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_SHEEP.get(), ZombieSheepRenderer::new);
-		event.registerEntityRenderer(MISCTWFEntities.ZOMBIE_WOLF.get(), ZombieWolfRenderer::new);
 		event.registerBlockEntityRenderer(MISCTWFBlockEntities.MONSTER_EGG.get(), MonsterEggRenderer::new);
 	}
 

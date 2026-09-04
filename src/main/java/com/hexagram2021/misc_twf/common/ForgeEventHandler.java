@@ -4,10 +4,8 @@ import be.florens.expandability.api.EventResult;
 import be.florens.expandability.api.forge.PlayerSwimEvent;
 import com.google.common.collect.Streams;
 import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
-import com.hexagram2021.misc_twf.common.effect.FragileEffect;
-import com.hexagram2021.misc_twf.common.entity.ZombieGoatEntity;
-import com.hexagram2021.misc_twf.common.entity.ZombieSheepEntity;
 import com.hexagram2021.misc_twf.common.entity.capability.PoopingAnimal;
+import com.hexagram2021.misc_twf_zombie_animals.server.MISCTWFImmunitySavedData;
 import com.hexagram2021.misc_twf.common.item.AbyssVirusVaccine;
 import com.hexagram2021.misc_twf.common.item.WayfarerArmorItem;
 import com.hexagram2021.misc_twf.common.register.*;
@@ -20,21 +18,16 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.animal.Sheep;
-import net.minecraft.world.entity.animal.goat.GoatAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
-import net.neoforged.neoforge.event.entity.living.LivingConversionEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
@@ -81,40 +74,6 @@ public final class ForgeEventHandler {
 	}
 
 	/**
-	 * 处理生物受伤前的伤害计算喵~
-	 * 应用"脆弱"效果的伤害加成，以及僵尸山羊的冲撞击退效果喵~
-	 *
-	 * @param event 生物伤害事件喵~
-	 */
-	@SubscribeEvent
-	public static void onLivingHurt(LivingDamageEvent.Pre event) {
-		LivingEntity livingEntity = event.getEntity();
-		MobEffectInstance effectInstance = livingEntity.getEffect(MISCTWFMobEffects.FRAGILE);
-		if(effectInstance != null) {
-			event.setNewDamage(event.getNewDamage() * FragileEffect.getDamageMultiplier(effectInstance.getAmplifier()));
-		}
-
-		if(event.getSource().getEntity() instanceof ZombieGoatEntity goat) {
-			Vec3 direction = goat.position().subtract(livingEntity.position()).normalize();
-			double multiplier = goat.isBaby() ? GoatAi.BABY_RAM_KNOCKBACK_FORCE : GoatAi.ADULT_RAM_KNOCKBACK_FORCE;
-			livingEntity.knockback(direction.x * multiplier, direction.y * multiplier, direction.z * multiplier);
-		}
-	}
-
-	/**
-	 * 处理生物转化完成后的事件喵~
-	 * 保持绵羊的羊毛颜色在转化为僵尸绵羊后不变喵~
-	 *
-	 * @param event 生物转化事件喵~
-	 */
-	@SubscribeEvent
-	public static void onLivingConvert(LivingConversionEvent.Post event) {
-		if(event.getEntity() instanceof Sheep sheep && event.getOutcome() instanceof ZombieSheepEntity zombieSheep) {
-			zombieSheep.setColor(sheep.getColor());
-		}
-	}
-
-	/**
 	 * 处理玩家与实体交互的事件喵~
 	 * 实现深渊病毒疫苗的使用逻辑，为生物提供僵尸化免疫效果喵~
 	 *
@@ -131,7 +90,7 @@ public final class ForgeEventHandler {
 					event.setCanceled(true);
 					return;
 				}
-				if(MISCTWFSavedData.isImmuneToZombification(entity.getUUID())) {
+				if(MISCTWFImmunitySavedData.isImmuneToZombification(entity.getUUID())) {
 					event.setCancellationResult(InteractionResult.FAIL);
 					event.setCanceled(true);
 					return;
@@ -140,7 +99,7 @@ public final class ForgeEventHandler {
 				if(entity instanceof Mob mob) {
 					mob.setPersistenceRequired();
 				}
-				MISCTWFSavedData.setImmuneToZombification(entity.getUUID(), entity.tickCount);
+				MISCTWFImmunitySavedData.setImmuneToZombification(entity.getUUID(), entity.tickCount);
 				AbyssVirusVaccine.afterUse(player, entity);
 				if(itemstack.isEmpty()) {
 					player.setItemInHand(event.getHand(), new ItemStack(MISCTWFItems.Materials.SYRINGE));

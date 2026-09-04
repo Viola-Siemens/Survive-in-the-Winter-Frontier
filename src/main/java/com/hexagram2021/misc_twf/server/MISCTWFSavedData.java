@@ -20,7 +20,6 @@ import net.minecraft.world.level.saveddata.SavedData;
 import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.Function;
 
 /**
@@ -43,19 +42,16 @@ public class MISCTWFSavedData extends SavedData {
 	/** 存档数据名称喵~ */
 	public static final String SAVED_DATA_NAME = "MiscTWF-SavedData";
 
-	private static final String TAG_IMMUNITY = "immunity";
-	private static final String TAG_ID = "id";
-	private static final String TAG_CONTENT = "content";
-
 	private static final String TAG_LAMPS = "lamps";
 	private static final String TAG_POSITION = "position";
 
-	private final Map<UUID, VaccineContent> immunityAgainstZombification;
 	private final Map<ResourceLocation, KDTree<BlockPos, Integer>> lampPositions;
 
+	/**
+	 * 构造函数
+	 */
 	public MISCTWFSavedData() {
 		super();
-		this.immunityAgainstZombification = Maps.newHashMap();
 		this.lampPositions = Maps.newHashMap();
 	}
 
@@ -67,13 +63,6 @@ public class MISCTWFSavedData extends SavedData {
 	 */
 	public MISCTWFSavedData(CompoundTag nbt, @SuppressWarnings("unused") HolderLookup.Provider provider) {
 		this();
-		if(nbt.contains(TAG_IMMUNITY, Tag.TAG_LIST)) {
-			ListTag list = nbt.getList(TAG_IMMUNITY, Tag.TAG_COMPOUND);
-			for(Tag tag: list) {
-				CompoundTag compoundTag = (CompoundTag)tag;
-				this.immunityAgainstZombification.put(compoundTag.getUUID(TAG_ID), new VaccineContent(nbt.getCompound(TAG_CONTENT)));
-			}
-		}
 		if(nbt.contains(TAG_LAMPS, Tag.TAG_COMPOUND)) {
 			CompoundTag lamps = nbt.getCompound(TAG_LAMPS);
 			dimensions.forEach(dimension -> {
@@ -94,17 +83,6 @@ public class MISCTWFSavedData extends SavedData {
 
 	@Override
 	public CompoundTag save(CompoundTag nbt, HolderLookup.Provider provider) {
-		ListTag immunity = new ListTag();
-		synchronized (this.immunityAgainstZombification) {
-			this.immunityAgainstZombification.forEach((uuid, content) -> {
-				CompoundTag tag = new CompoundTag();
-				tag.putUUID(TAG_ID, uuid);
-				tag.put(TAG_CONTENT, content.save());
-				immunity.add(tag);
-			});
-		}
-		nbt.put(TAG_IMMUNITY, immunity);
-
 		synchronized (this.lampPositions) {
 			CompoundTag lamps = new CompoundTag();
 			this.lampPositions.forEach((dimension, tree) -> {
@@ -120,36 +98,6 @@ public class MISCTWFSavedData extends SavedData {
 		}
 
 		return nbt;
-	}
-
-	/**
-	 * 设置指定 UUID 的实体对僵尸化的免疫时间喵~
-	 *
-	 * @param uuid 实体 UUID 喵~
-	 * @param time 免疫时间（tick）喵~
-	 */
-	public static void setImmuneToZombification(UUID uuid, int time) {
-		if(INSTANCE == null) {
-			MISCTWFLogger.warn("Ignore trying to set immunity for uuid " + uuid + " as saved data is not loaded.");
-			return;
-		}
-		synchronized (INSTANCE.immunityAgainstZombification) {
-			INSTANCE.immunityAgainstZombification.put(uuid, new VaccineContent(time));
-		}
-		INSTANCE.setDirty();
-	}
-	/**
-	 * 检查指定 UUID 的实体是否对僵尸化免疫喵~
-	 *
-	 * @param uuid 实体 UUID 喵~
-	 * @return 是否免疫喵~
-	 */
-	public static boolean isImmuneToZombification(UUID uuid) {
-		if(INSTANCE == null) {
-			MISCTWFLogger.warn("Ignore trying to get immunity for uuid " + uuid + " as saved data is not loaded.");
-			return false;
-		}
-		return INSTANCE.immunityAgainstZombification.containsKey(uuid);
 	}
 
 	/**
@@ -215,46 +163,5 @@ public class MISCTWFSavedData extends SavedData {
 	 */
 	public static void setInstance(MISCTWFSavedData in) {
 		INSTANCE = in;
-	}
-
-	/**
-	 * 疫苗免疫内容，记录免疫持续时间喵~
-	 */
-	public static class VaccineContent {
-		/** 免疫持续时间（tick），-1 表示永久喵~ */
-		public final int time;
-
-		/**
-		 * 通过时间值构造疫苗内容喵~
-		 *
-		 * @param time 免疫时间（tick）喵~
-		 */
-		public VaccineContent(int time) {
-			this.time = time;
-		}
-
-		/**
-		 * 从 NBT 数据反序列化疫苗内容喵~
-		 *
-		 * @param nbt NBT 复合标签喵~
-		 */
-		public VaccineContent(CompoundTag nbt) {
-			if(nbt.contains("time")) {
-				this.time = nbt.getInt("time");
-			} else {
-				this.time = -1;
-			}
-		}
-
-		/**
-		 * 将疫苗内容序列化为 NBT 数据喵~
-		 *
-		 * @return 序列化后的 NBT 复合标签喵~
-		 */
-		public CompoundTag save() {
-			CompoundTag nbt = new CompoundTag();
-			nbt.putInt("time", this.time);
-			return nbt;
-		}
 	}
 }

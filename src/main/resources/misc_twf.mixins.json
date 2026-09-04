@@ -16,7 +16,6 @@
     "vanilla.AbstractFurnaceBlockEntityMixin",
     "vanilla.items.FireChargeItemMixin",
     "vanilla.items.FlintAndSteelItemMixin",
-    "hordes.InfectionEventHandlerMixin",
     "vanilla.entities.AbstractHorseEntityMixin",
     "vanilla.entities.AnimalEntityMixin",
     "vanilla.entities.CowEntityMixin",

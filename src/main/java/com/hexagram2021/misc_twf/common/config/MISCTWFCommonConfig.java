@@ -25,8 +25,6 @@ public final class MISCTWFCommonConfig {
 	public static final ModConfigSpec.IntValue WAYFARER_ARMOR_CAPABILITY;
 	public static final ModConfigSpec.ConfigValue<List<? extends String>> WAYFARER_ARMOR_EFFECTS;
 
-	public static final ModConfigSpec.BooleanValue ZOMBIE_ANIMALS_CAN_BE_HEALED;
-
 	public static final ModConfigSpec.IntValue POSSIBILITY_FALL_DESTROY_EGG;
 	public static final ModConfigSpec.IntValue POSSIBILITY_STEP_DESTROY_EGG;
 
@@ -50,8 +48,6 @@ public final class MISCTWFCommonConfig {
 					() -> "minecraft:effect_name",
 					o -> o instanceof String str && str.matches(REGISTRY_NAME_MATCHER)
 			);
-
-			ZOMBIE_ANIMALS_CAN_BE_HEALED = BUILDER.comment("If true, players can use golden apples to heal zombie animals").define("ZOMBIE_ANIMALS_CAN_BE_HEALED", true);
 
 			POSSIBILITY_FALL_DESTROY_EGG = BUILDER.comment("Possibility (in percentage) of monster egg crashes when player falls on it.").defineInRange("POSSIBILITY_FALL_DESTROY_EGG", 75, 0, 100);
 			POSSIBILITY_STEP_DESTROY_EGG = BUILDER.comment("Possibility (in percentage) of monster egg crashes when player steps on it.").defineInRange("POSSIBILITY_STEP_DESTROY_EGG", 40, 0, 100);

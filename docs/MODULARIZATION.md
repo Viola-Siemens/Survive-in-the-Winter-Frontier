@@ -117,7 +117,7 @@ M4 冒险： 医疗 / 背包×枪械 / 巢穴与怪物蛋 / 装饰（内部强�
 - **内容清单**：
   - 实体：`zombie_chicken/cow/goat/pig/polar_bear/rabbit/sheep/wolf`（原 `MISCTWFEntities`、`common/entity/*`、AI goal）；
   - 行为：僵尸山羊冲撞击退、兔子跳跃、绵羊转化保留毛色、金苹果治疗（原 `ForgeEventHandler` 中随域方法）；
-  - 效果：`FragileEffect`（如伤害加深语义属本域则带走；否则留给触发方，需运行时确认）；
+  - 效果：~~`FragileEffect`~~（**已修订归属，见 §6.1/§10**：脆弱效果实际仅由工业模块紫外线灯施加，按“留给触发方”归 M3，不随 M1 迁出）；
   - 渲染/音效：8 套模型与渲染器、全套实体音效与 ogg；
   - **僵尸化免疫（D4）**：`MISCTWFImmunitySavedData`（原 `MISCTWFSavedData` 免疫部分，含读写 API：`isImmune(uuid)` / `markImmune(...)`）；
   - Hordes 联动：`hordes/InfectionEventHandlerMixin`（感染豁免/转化豁免）、`data/hordes/tags/entity_types/infection_entities.json`；
@@ -191,6 +191,7 @@ M4 冒险： 医疗 / 背包×枪械 / 巢穴与怪物蛋 / 装饰（内部强�
 | 血液流体/血块/血污/内脏等 | M4 | 装饰语境（expandability 游泳微调随域） |
 | 冬小麦与面包/蛋糕/曲奇数据 | M2 | — |
 | `ZOMBIE_ANIMALS_CAN_BE_HEALED` / 蛋的踩踏/坠落概率 | M1 / M4 | 各随机制属主 |
+| FragileEffect（脆弱效果） | **M3（紫外线灯施加）** | 修订（见 §10）：证据为 `UltravioletLampBlockEntity` 施加脆弱 II/IV；§5.1 原“M1 待确认”作废 |
 | `TACZ_WHITELIST`（枪声吸引怪物白名单） | 待运行时确认 | 归其消费机制所在模块（疑似 M1 或 M4） |
 
 ### 6.2 已核实的引用与处置
@@ -251,3 +252,24 @@ M4 冒险： 医疗 / 背包×枪械 / 巢穴与怪物蛋 / 装饰（内部强�
 6. 弹药槽对弹药品类的过滤口径与枪械模组版本绑定。
 7. `DeferredBlock`（createdeco/verdure 等）懒解析在方块缺失时的实际降级行为。
 8. 数据条件（`mod_loaded`）在配方/战利品/worldgen 中各自的支持情况（决定 6.2 各处置的最终形态）。
+
+---
+
+## 10. 实施状态（随拆分滚动维护）
+
+> 本节随各模块实际拆分进度更新，作为“计划方案”与“落地现状”的对账记录。
+
+| 模块 | 状态 | 说明 |
+| --- | --- | --- |
+| M1 `misc_twf_zombie_animals` | **已完成迁入与移植（v1）** | 实体/行为/渲染/音效、免疫存档与 API、Hordes 豁免 mixin 与数据、模块配置均已迁入；模块在 NeoForge 1.21.1 下**可独立编译打包**（`misc_twf_zombie_animals-4.0.0.jar`）。运行期联编冒烟待依赖就绪。 |
+| M2 `misc_twf_wildlife` | 未开始 | — |
+| M3 `misc_twf_industry` | 未开始 | — |
+| M4 `misc_twf_adventure` | 未开始 | — |
+
+- **FragileEffect 归属修订（运行时证据，§5.1/§6.1 已同步）**：脆弱效果在单体中只被紫外线灯（工业域）施加（`UltravioletLampBlockEntity` 施加脆弱 II/IV），按“留给触发方”原则归 M3，不随 M1 迁出；其伤害加成消费方（原 `ForgeEventHandler.onLivingHurt`）同样留在根工程（M3 域）。
+- **M1 免疫机制落地位置（决策 D4）**：`server/MISCTWFImmunitySavedData`（模块内），存档名 `MiscTWF-ZombieAnimals`，提供 `isImmuneToZombification/setImmuneToZombification` 公开 API；NBT 反序列化顺带修正原单体“误读外层 nbt”的疑似笔误。
+- **过渡期根工程引用 M1**：根工程（仍含 M4 疫苗等代码）以 `implementation project(':misc_twf_zombie_animals')` 消费 M1 免疫 API（对应未来 M4 → M1，E7），M4 拆分完成后移除。
+- **M1 移植适配要点（1.18 → NeoForge 1.21.1）**：`Entity.level()`；synced data 经 `SynchedEntityData.Builder`；`Mob#finalizeSpawn` 4 参；`MeleeAttackGoal.checkAndPerformAttack(LivingEntity)`（北极熊攻击目标重写）；`GameEvent.ENTITY_INTERACT`；转化/破坏判定改 `net.neoforged.neoforge.event.EventHooks`（`canLivingConvert/onLivingConvert/canEntityGrief`）；hordes 豁免 mixin 按 hordes 1.21.1 源码注入 `onDamage(LivingDamageEvent.Post)` 与 `onInfectDeath`。
+- **根工程编译现状（2024 基准）**：整体编译失败均为**既有移植遗留**，与 M1 拆分无关（按 M1 标识检索 0 命中）。遗留类别：`com.tacz.guns.*` 缺失（枪械模组 1.21.1 包结构与代码不一致，E2）、`net.minecraftforge.*`/`ForgeRegistries` 1.18 残留、gamestages/sona/diet(EasyDiet)/embeddiumplus 等第三方 API 未就绪。上述将在对应模块轮次（M2–M4）与依赖就绪后逐项消化。
+- **M1 网络/创造页**：M1 无网络包与创造页需求（僵尸动物无自产物品/刷怪蛋；原 2 个网络包均属 M4），故无新增。
+- **mixin 配置**：模块 `misc_twf_zombie_animals.mixins.json` 目前 `required=false`，联编回归通过后再翻 `true`。

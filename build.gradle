@@ -47,7 +47,12 @@ runs {
     }
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
+    // 命名空间级聚合资源（lang/sounds.json）单一来源（见 docs/MODULARIZATION.md 4.2）；过渡期根工程同样打包
+    srcDir rootProject.file('shared-resources')
+    exclude 'README.md'
+}
 
 repositories {
     maven {
@@ -97,6 +102,9 @@ repositories {
 
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
+
+    // 过渡期：根工程（仍含 M4 疫苗等代码）消费 M1 免疫 API（决策 D4 / 6.2-E7），M4 拆分后移除
+    implementation project(':misc_twf_zombie_animals')
 
     implementation ("mezz.jei:jei-1.21.1-neoforge:19.27.0.340")
     implementation ("be.florens:expandability-neoforge:12.0.0")
