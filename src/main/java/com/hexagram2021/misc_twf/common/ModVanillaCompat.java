@@ -16,7 +16,10 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DispenserBlock;
@@ -168,8 +171,6 @@ public final class ModVanillaCompat {
 		});
 
 		// ======== 发射器行为注册 ======== 喵~
-		// 动物粪便使用骨粉的发射器行为喵~
-		DispenserBlock.registerBehavior(MISCTWFItems.Materials.ANIMAL_POOP.get(), DispenserBlock.DISPENSER_REGISTRY.getOrDefault(Items.BONE_MEAL, DispenseItemBehavior.NOOP));
 		// 血液桶使用自定义的发射器行为喵~
 		DispenserBlock.registerBehavior(MISCTWFFluids.BLOOD_FLUID.getBucket(), BUCKET_DISPENSE_BEHAVIOR);
 	}

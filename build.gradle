@@ -121,19 +121,19 @@ dependencies {
     implementation("net.createmod.ponder:ponder-neoforge:1.0.81+mc1.21.1")
     implementation ("curse.maven:createaddition-439890:7518252")        //////
     runtimeOnly ("curse.maven:createdeco-509285:7314692")
-    implementation ("curse.maven:easydiet-1419902:7463630")             //////
+    implementation ("curse.maven:diet-1530806:8573582")                 //////
     compileOnly ("curse.maven:embeddium-908741:6118392")
     compileOnly ("curse.maven:embeddiumplus-931925:7378108")
-    //implementation ("curse.maven:hunger_reworked-847923:6358923")     ////// todo: port it
+    implementation ("curse.maven:hunger_reworked-847923:9007794-sources-9007802")
     implementation ("curse.maven:hordes-485779:6772331")                //////
-    implementation ("curse.maven:jade-324717:7545219")                  //////
+    implementation ("curse.maven:jade-324717:8591319")                  //////
     compileOnly ("curse.maven:kubejs-238086:7278501")
     runtimeOnly ("curse.maven:spark-361579:6225208")
     //implementation ("curse.maven:tacz-1028108:6069322-sources-6069332")           ////// replaced by superb-warfare
     implementation ("curse.maven:superb-warfare-1218165:7292699-sources-7292701")   //////
     implementation ("curse.maven:tetrachordlib-980149:5644644")         //////
     implementation ("curse.maven:travelersbackpack-321117:7543685")     //////
-    //implementation ("curse.maven:justlevelingfork-1073400:5677674")   ////// todo: no 1.21.1
+    implementation ("curse.maven:justlevelingfork-1073400:8555544")
     runtimeOnly ("curse.maven:zombie_extreme-392809:7014504")
     //implementation ("curse.maven:sona-survival-101-1023345:5828134")  // todo: no 1.21.1
 }

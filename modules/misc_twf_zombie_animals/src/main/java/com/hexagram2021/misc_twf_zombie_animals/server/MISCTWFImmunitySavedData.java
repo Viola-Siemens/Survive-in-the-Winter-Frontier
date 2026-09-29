@@ -52,7 +52,6 @@ public class MISCTWFImmunitySavedData extends SavedData {
 			ListTag list = nbt.getList(TAG_IMMUNITY, Tag.TAG_COMPOUND);
 			for(Tag tag: list) {
 				CompoundTag compoundTag = (CompoundTag)tag;
-				// TODO 原单体实现此处误读外层 nbt（疑似笔误），拆分时修正为逐条读取
 				this.immunityAgainstZombification.put(compoundTag.getUUID(TAG_ID), new VaccineContent(compoundTag.getCompound(TAG_CONTENT)));
 			}
 		}

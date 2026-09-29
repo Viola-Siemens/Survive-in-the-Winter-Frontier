@@ -1,15 +1,14 @@
 package com.hexagram2021.misc_twf.common.register;
 
-import com.google.common.collect.ImmutableList;
 import com.hexagram2021.misc_twf.common.block.*;
 import com.hexagram2021.misc_twf.common.infrastructure.compat.ModCreateCompat;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -22,7 +21,6 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -191,169 +189,6 @@ public final class MISCTWFBlocks {
 	 * 怪物蛋喵~
 	 */
 	public static final BlockEntry<MonsterEggBlock> MONSTER_EGG = new BlockEntry<>("monster_egg", () -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).strength(0.5F).sound(SoundType.METAL).noOcclusion(), MonsterEggBlock::new);
-
-	/**
-	 * 冬小麦作物方块喵~
-	 */
-	public static final BlockEntry<CropBlock> WINTER_WHEAT = new BlockEntry<>("winter_wheat", () -> BlockBehaviour.Properties.ofFullCopy(WHEAT), props -> new CropBlock(props) {
-		@Override
-		protected ItemLike getBaseSeedId() {
-			return MISCTWFItems.Materials.WINTER_WHEAT;
-		}
-	}, null);
-
-	private MISCTWFBlocks() {
-	}
-
-	/**
-	 * 动物尸体方块注册器喵~
-	 * <p>
-	 * 包含各类动物尸体方块的注册喵~
-	 */
-	public static final class DeadAnimals {
-		/**
-		 * 鸡的尸体喵~
-		 */
-		public static final BlockEntry<DeadAnimalBlock> DEAD_CHICKEN = new BlockEntry<>(
-				"dead_chicken",
-				() -> BlockBehaviour.Properties.ofFullCopy(NETHER_WART_BLOCK).noOcclusion(),
-				props -> new DeadAnimalBlock(() -> List.of(
-						new ItemStack(Items.BONE),
-						new ItemStack(Items.BONE),
-						new ItemStack(Items.CHICKEN),
-						new ItemStack(Items.FEATHER),
-						new ItemStack(Items.FEATHER)
-				), 3, props)
-		);
-		/**
-		 * 牛的尸体喵~
-		 */
-		public static final BlockEntry<DeadAnimalBlock> DEAD_COW = new BlockEntry<>(
-				"dead_cow",
-				() -> BlockBehaviour.Properties.ofFullCopy(NETHER_WART_BLOCK).noOcclusion(),
-				props -> new DeadAnimalBlock(() -> List.of(
-						new ItemStack(Items.BEEF),
-						new ItemStack(Items.BEEF),
-						new ItemStack(Items.BEEF),
-						new ItemStack(Items.BONE),
-						new ItemStack(Items.BONE),
-						new ItemStack(Items.BONE),
-						new ItemStack(Items.LEATHER)
-				), 5, props)
-		);
-		/**
-		 * 山羊的尸体喵~
-		 */
-		public static final BlockEntry<DeadAnimalBlock> DEAD_GOAT = new BlockEntry<>(
-				"dead_goat",
-				() -> BlockBehaviour.Properties.ofFullCopy(NETHER_WART_BLOCK).noOcclusion(),
-				props -> new DeadAnimalBlock(() -> {
-					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
-					Item rawGoat = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("delightful", "raw_goat"));
-					Item goatFur = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cold_sweat", "goat_fur"));
-					builder.add(new ItemStack(rawGoat), new ItemStack(rawGoat));
-					builder.add(new ItemStack(goatFur), new ItemStack(goatFur));
-					builder.add(new ItemStack(Items.BONE), new ItemStack(Items.BONE));
-					return builder.build();
-				}, 8, props)
-		);
-		/**
-		 * 马的尸体喵~
-		 */
-		public static final BlockEntry<DeadAnimalBlock> DEAD_HORSE = new BlockEntry<>(
-				"dead_horse",
-				() -> BlockBehaviour.Properties.ofFullCopy(NETHER_WART_BLOCK).noOcclusion(),
-				props -> new DeadAnimalBlock(() -> {
-					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
-					Item rawHorse = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "raw_horse_meat"));
-					builder.add(new ItemStack(rawHorse), new ItemStack(rawHorse));
-					builder.add(new ItemStack(Items.BONE), new ItemStack(Items.BONE), new ItemStack(Items.LEATHER));
-					return builder.build();
-				}, 5, props)
-		);
-		/**
-		 * 猪的尸体喵~
-		 */
-		public static final BlockEntry<DeadAnimalBlock> DEAD_PIG = new BlockEntry<>(
-				"dead_pig",
-				() -> BlockBehaviour.Properties.ofFullCopy(NETHER_WART_BLOCK).noOcclusion(),
-				props -> new DeadAnimalBlock(() -> List.of(
-						new ItemStack(Items.BONE),
-						new ItemStack(Items.BONE),
-						new ItemStack(Items.LEATHER),
-						new ItemStack(Items.PORKCHOP),
-						new ItemStack(Items.PORKCHOP),
-						new ItemStack(Items.PORKCHOP)
-				), 5, props)
-		);
-		/**
-		 * 北极熊的尸体喵~
-		 */
-		public static final BlockEntry<DeadAnimalBlock> DEAD_POLARBEAR = new BlockEntry<>(
-				"dead_polarbear",
-				() -> BlockBehaviour.Properties.ofFullCopy(NETHER_WART_BLOCK).noOcclusion(),
-				props -> new DeadAnimalBlock(() -> {
-					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
-					Item polarBear = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "polar_bear"));
-					Item rawBear = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "raw_bear_meat"));
-					builder.add(new ItemStack(polarBear), new ItemStack(polarBear));
-					builder.add(new ItemStack(rawBear), new ItemStack(rawBear), new ItemStack(rawBear), new ItemStack(rawBear));
-					builder.add(new ItemStack(Items.BONE), new ItemStack(Items.BONE));
-					return builder.build();
-				}, 10, props)
-		);
-		/**
-		 * 兔子的尸体喵~
-		 */
-		public static final BlockEntry<DeadAnimalBlock> DEAD_RABBIT = new BlockEntry<>(
-				"dead_rabbit",
-				() -> BlockBehaviour.Properties.ofFullCopy(NETHER_WART_BLOCK).noOcclusion(),
-				props -> new DeadAnimalBlock(() -> List.of(
-						new ItemStack(Items.RABBIT),
-						new ItemStack(Items.RABBIT_FOOT),
-						new ItemStack(Items.RABBIT_FOOT),
-						new ItemStack(Items.RABBIT_HIDE)
-				), 3, props)
-		);
-		/**
-		 * 羊的尸体喵~
-		 */
-		public static final BlockEntry<DeadAnimalBlock> DEAD_SHEEP = new BlockEntry<>(
-				"dead_sheep",
-				() -> BlockBehaviour.Properties.ofFullCopy(NETHER_WART_BLOCK).noOcclusion(),
-				props -> new DeadAnimalBlock(() -> {
-					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
-					builder.add(new ItemStack(Items.BONE), new ItemStack(Items.BONE), new ItemStack(Items.MUTTON), new ItemStack(Items.MUTTON));
-					Item rawGigot = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "raw_mutton_leg"));
-					builder.add(new ItemStack(rawGigot), new ItemStack(rawGigot));
-					return builder.build();
-				}, 5, props)
-		);
-		/**
-		 * 狼的尸体喵~
-		 */
-		public static final BlockEntry<DeadAnimalBlock> DEAD_WOLF = new BlockEntry<>(
-				"dead_wolf",
-				() -> BlockBehaviour.Properties.ofFullCopy(NETHER_WART_BLOCK).noOcclusion(),
-				props -> new DeadAnimalBlock(() -> {
-					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
-					Item rawWolf = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("kubejs", "raw_wolf_meat"));
-					builder.add(new ItemStack(rawWolf), new ItemStack(rawWolf, 2));
-					builder.add(new ItemStack(Items.BONE), new ItemStack(Items.BONE));
-					return builder.build();
-				}, 4, props)
-		);
-
-		private DeadAnimals() {
-		}
-
-		/**
-		 * 初始化方法，触发类加载喵~
-		 */
-		private static void init() {
-			// 触发静态字段初始化喵~
-		}
-	}
 
 	/**
 	 * 装饰方块注册器喵~
@@ -695,8 +530,10 @@ public final class MISCTWFBlocks {
 	public static void init(IEventBus bus) {
 		REGISTER.register(bus);
 
-		DeadAnimals.init();
 		Decorations.init();
+	}
+
+	private MISCTWFBlocks() {
 	}
 
 	/**

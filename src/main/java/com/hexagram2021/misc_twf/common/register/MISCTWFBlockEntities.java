@@ -63,24 +63,6 @@ public final class MISCTWFBlockEntities {
 	));
 
 	/**
-	 * 死亡动物方块实体类型，用于存储动物尸体的数据和渲染信息喵~
-	 * 支持多种动物类型，包括鸡、牛、山羊、马、猪、北极熊、兔子、绵羊和狼喵~
-	 */
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DeadAnimalBlockEntity>> DEAD_ANIMAL = REGISTER.register("dead_animal", () -> new BlockEntityType<>(
-			DeadAnimalBlockEntity::new, ImmutableSet.of(
-					MISCTWFBlocks.DeadAnimals.DEAD_CHICKEN.get(),
-					MISCTWFBlocks.DeadAnimals.DEAD_COW.get(),
-					MISCTWFBlocks.DeadAnimals.DEAD_GOAT.get(),
-					MISCTWFBlocks.DeadAnimals.DEAD_HORSE.get(),
-					MISCTWFBlocks.DeadAnimals.DEAD_PIG.get(),
-					MISCTWFBlocks.DeadAnimals.DEAD_POLARBEAR.get(),
-					MISCTWFBlocks.DeadAnimals.DEAD_RABBIT.get(),
-					MISCTWFBlocks.DeadAnimals.DEAD_SHEEP.get(),
-					MISCTWFBlocks.DeadAnimals.DEAD_WOLF.get()
-			), null
-	));
-
-	/**
 	 * 初始化并注册所有方块实体类型到事件总线喵~
 	 *
 	 * @param bus NeoForge 事件总线喵~

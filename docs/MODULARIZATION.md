@@ -262,7 +262,7 @@ M4 冒险： 医疗 / 背包×枪械 / 巢穴与怪物蛋 / 装饰（内部强�
 | 模块 | 状态 | 说明 |
 | --- | --- | --- |
 | M1 `misc_twf_zombie_animals` | **已完成迁入与移植（v1）** | 实体/行为/渲染/音效、免疫存档与 API、Hordes 豁免 mixin 与数据、模块配置均已迁入；模块在 NeoForge 1.21.1 下**可独立编译打包**（`misc_twf_zombie_animals-4.0.0.jar`）。运行期联编冒烟待依赖就绪。 |
-| M2 `misc_twf_wildlife` | 未开始 | — |
+| M2 `misc_twf_wildlife` | **已完成迁入与移植（v1）** | 动物尸体方块族/方块实体/数据组件、粪便 attachment 与排泄计时、产奶冷却、冬小麦与食物数据、Jade 实体信息 provider、AppleSeed 盐分组联动（替代原 EasyDiet）均已迁入；模块在 NeoForge 1.21.1 下**可独立编译打包**（`misc_twf_wildlife-4.0.0.jar`，含 77 个资源与模块创造页）。运行期联编冒烟待依赖就绪。 |
 | M3 `misc_twf_industry` | 未开始 | — |
 | M4 `misc_twf_adventure` | 未开始 | — |
 

@@ -217,5 +217,6 @@
   "subtitles.entity.misc_twf.zombie_sheep.death": "僵尸绵羊：死亡",
   "subtitles.entity.misc_twf.zombie_wolf.ambient": "僵尸狼：喘息",
   "subtitles.entity.misc_twf.zombie_wolf.hurt": "僵尸狼：受伤",
-  "subtitles.entity.misc_twf.zombie_wolf.death": "僵尸狼：死亡"
+  "subtitles.entity.misc_twf.zombie_wolf.death": "僵尸狼：死亡",
+  "itemGroup.misc_twf.wildlife": "冬境边域：农牧生态"
 }

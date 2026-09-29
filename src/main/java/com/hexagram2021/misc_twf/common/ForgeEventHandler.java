@@ -4,12 +4,12 @@ import be.florens.expandability.api.EventResult;
 import be.florens.expandability.api.forge.PlayerSwimEvent;
 import com.google.common.collect.Streams;
 import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
-import com.hexagram2021.misc_twf.common.entity.capability.PoopingAnimal;
-import com.hexagram2021.misc_twf_zombie_animals.server.MISCTWFImmunitySavedData;
 import com.hexagram2021.misc_twf.common.item.AbyssVirusVaccine;
 import com.hexagram2021.misc_twf.common.item.WayfarerArmorItem;
-import com.hexagram2021.misc_twf.common.register.*;
+import com.hexagram2021.misc_twf.common.register.MISCTWFFluids;
+import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
 import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
+import com.hexagram2021.misc_twf_zombie_animals.server.MISCTWFImmunitySavedData;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -32,7 +32,6 @@ import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import java.util.Objects;
@@ -49,29 +48,6 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 public final class ForgeEventHandler {
 	/** 能量能力的标识符喵~ */
 	public static final ResourceLocation ENERGY = ResourceLocation.fromNamespaceAndPath(MODID, "energy");
-	/** 排泄能力的标识符喵~ */
-	public static final ResourceLocation POOPING = ResourceLocation.fromNamespaceAndPath(MODID, "pooping");
-
-	/**
-	 * 处理生物实体的每 tick 更新喵~
-	 * 管理具有排泄能力的动物的排泄计时器和排泄行为喵~
-	 *
-	 * @param event 实体 tick 事件喵~
-	 */
-	@SubscribeEvent
-	public static void onLivingTick(EntityTickEvent.Post event) {
-		if(event.getEntity() instanceof LivingEntity livingEntity && !livingEntity.level().isClientSide && livingEntity.getType().is(MISCTWFEntityTags.POOPING_ANIMALS)) {
-			PoopingAnimal poopingAnimal = livingEntity.getData(MISCTWFAttachmentTypes.POOPING);
-			int remainingTicks = poopingAnimal.getPoopingRemainingTicks();
-			if(remainingTicks < 0) {
-				poopingAnimal.resetPoopingTicks(livingEntity);
-			} else if(remainingTicks > 0) {
-				poopingAnimal.setPoopingRemainingTicks(remainingTicks - 1);
-			} else {
-				poopingAnimal.poop(livingEntity);
-			}
-		}
-	}
 
 	/**
 	 * 处理玩家与实体交互的事件喵~

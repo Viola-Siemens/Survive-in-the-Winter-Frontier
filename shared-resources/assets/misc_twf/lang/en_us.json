@@ -217,5 +217,6 @@
   "subtitles.entity.misc_twf.zombie_sheep.death": "Zombie Sheep dies",
   "subtitles.entity.misc_twf.zombie_wolf.ambient": "Zombie Wolf pants",
   "subtitles.entity.misc_twf.zombie_wolf.hurt": "Zombie Wolf hurts",
-  "subtitles.entity.misc_twf.zombie_wolf.death": "Zombie Wolf dies"
+  "subtitles.entity.misc_twf.zombie_wolf.death": "Zombie Wolf dies",
+  "itemGroup.misc_twf.wildlife": "Winter Frontier: Wildlife"
 }

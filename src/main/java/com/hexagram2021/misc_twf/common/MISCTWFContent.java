@@ -39,7 +39,6 @@ public final class MISCTWFContent {
 		initTags();
 
 		MISCTWFArmorMaterials.init(bus);
-		MISCTWFAttachmentTypes.init(bus);
 		MISCTWFAttributes.init(bus);
 		MISCTWFBlockStateProperties.init();
 		MISCTWFCreativeModeTabs.init(bus);

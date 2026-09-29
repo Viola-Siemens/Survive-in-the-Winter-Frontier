@@ -1,6 +1,6 @@
 # misc_twf_wildlife（农牧生态模块）
 
-模块化拆分 M2（见 `docs/MODULARIZATION.md` 5.2）。当前状态：**M2 盘点完成，迁入工程进行中**（尚未编译闭环，未裁根工程）。
+模块化拆分 M2（见 `docs/MODULARIZATION.md` 5.2）。当前状态：**M2 已完成迁入与移植（v1）**：模块在 NeoForge 1.21.1 下可独立编译打包（`misc_twf_wildlife-4.0.0.jar`），根工程对应内容已裁剪；运行期联编冒烟待依赖就绪。
 
 - modid：`misc_twf_wildlife`；内容命名空间：`misc_twf`（决策 D6）
 - Java 根包：`com.hexagram2021.misc_twf_wildlife`（内部沿用 common/client/mixin/server 分层）
@@ -19,7 +19,7 @@
 **机制类（整类迁移）**
 - `IProduceMilk` + `CowEntityMixin`/`GoatEntityMixin`（产奶冷却，`MILK_INTERVAL`）
 - `PoopingAnimal`/`IPoopingAnimal` + tick 逻辑（原 `ForgeEventHandler#onLivingTick`，按 `pooping_animals` 标签）
-- 食性微调：`AnimalEntityMixin`、`AbstractHorseEntityMixin`（冬小麦可食）、`ParrotEntityMixin`（冬小麦驯食）；面包/蛋糕/曲奇等为数据层修改
+- 食性（1.21 走食物标签，不再用 AnimalEntityMixin）：模块 `data/minecraft/tags/item/{cow,goat,horse,llama,sheep}_food.json` 追加 `misc_twf:winter_wheat`、`chicken_food.json`/`parrot_food.json` 追加 `misc_twf:winter_wheat_seeds`；`AbstractHorseEntityMixin` 保留（原版 `handleEating` 仍硬编码 `Items.WHEAT` 分支，标签只驱动 `isFood`）；面包/蛋糕/曲奇等为数据层修改
 - Jade 兼容：`LivingPoopProvider`/`MobProduceMilkProvider` 迁移入模块，模块新建 Jade 插件类（仅 M2 的两个实体 provider；根 `WailaHelper` 中的 M4 药水锅部分保留）
 - 配置：`MILK_INTERVAL`、`ANIMAL_POOPING_INTERVAL`、`ANIMAL_POOPING_INTERVAL_NOISE`（模块 `MISCTWFWildlifeConfig`）
 

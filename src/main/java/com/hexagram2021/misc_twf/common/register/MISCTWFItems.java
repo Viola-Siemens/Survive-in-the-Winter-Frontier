@@ -11,7 +11,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -44,12 +47,6 @@ public final class MISCTWFItems {
 	 * 包含各类合成材料、作物等基础物品的注册喵~
 	 */
 	public static final class Materials {
-		/**
-		 * 纱线喵~
-		 */
-		public static final ItemEntry<Item> YARN = ItemEntry.register(
-				"yarn", () -> new Item(new Item.Properties())
-		);
 		/**
 		 * 纱布喵~
 		 */
@@ -176,26 +173,6 @@ public final class MISCTWFItems {
 		public static final ItemEntry<Item> ABYSS_VIRUS_VACCINE_BUCKET = ItemEntry.register(
 				"abyss_virus_vaccine_bucket", () -> new Item(new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1))
 		);
-		/**
-		 * 动物粪便喵~
-		 */
-		public static final ItemEntry<Item> ANIMAL_POOP = ItemEntry.register(
-				"animal_poop", () -> new BoneMealItem(new Item.Properties())
-		);
-
-		/**
-		 * 冬小麦喵~
-		 */
-		public static final ItemEntry<Item> WINTER_WHEAT = ItemEntry.register(
-				"winter_wheat", () -> new Item(new Item.Properties())
-		);
-		/**
-		 * 冬小麦种子喵~
-		 */
-		public static final ItemEntry<ItemNameBlockItem> WINTER_WHEAT_SEEDS = ItemEntry.register(
-				"winter_wheat_seeds", () -> new ItemNameBlockItem(MISCTWFBlocks.WINTER_WHEAT.get(), new Item.Properties())
-		);
-
 		private Materials() {
 		}
 
