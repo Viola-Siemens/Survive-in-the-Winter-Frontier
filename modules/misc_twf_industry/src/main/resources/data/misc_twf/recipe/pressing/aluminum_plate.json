@@ -1,0 +1,14 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "tag": "c:ingots/aluminum"
+    }
+  ],
+  "results": [
+    {
+      "count": 1,
+      "id": "misc_twf:aluminum_plate"
+    }
+  ]
+}

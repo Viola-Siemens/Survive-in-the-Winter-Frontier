@@ -7,6 +7,7 @@
     "item": "misc_twf:travelers_backpack_tac_slot"
   },
   "result": {
-    "item": "travelersbackpack:dragon"
+    "count": 1,
+    "id": "travelersbackpack:dragon"
   }
 }

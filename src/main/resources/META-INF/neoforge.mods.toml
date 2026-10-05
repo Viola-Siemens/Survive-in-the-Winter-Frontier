@@ -20,55 +20,46 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
 
 [[dependencies.misc_twf]]
     modId="neoforge"
-    mandatory=true
     versionRange="[21,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
     modId="minecraft"
-    mandatory=true
     versionRange="[1.21,1.21.1]"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
     modId="createaddition"
-    mandatory=true
     versionRange="[1,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
     modId="curios"
-    mandatory=true
     versionRange="[9,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
     modId="expandability"
-    mandatory=true
     versionRange="[12,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
     modId="hordes"
-    mandatory=true
     versionRange="[1.5.3,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
     modId="jade"
-    mandatory=true
     versionRange="[5.2.0,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
     modId="travelersbackpack"
-    mandatory=true
     versionRange="[1.21.1-10,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.misc_twf]]
     modId="tetrachordlib"
-    mandatory=true
     versionRange="[1.21,1.22)"
     ordering="NONE"
     side="BOTH"

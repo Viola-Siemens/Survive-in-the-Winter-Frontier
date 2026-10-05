@@ -1,9 +1,6 @@
 package com.hexagram2021.misc_twf.common.register;
 
 import com.hexagram2021.misc_twf.common.recipe.BackpackTacUpgradeRecipe;
-import com.hexagram2021.misc_twf.common.recipe.MoldDetacherRecipe;
-import com.hexagram2021.misc_twf.common.recipe.MoldWorkbenchRecipe;
-import com.hexagram2021.misc_twf.common.recipe.RecoveryFurnaceRecipe;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.bus.api.IEventBus;
@@ -25,21 +22,6 @@ public final class MISCTWFRecipeSerializers {
 	 * 旅行背包TAC升级配方序列化器，用于将普通旅行背包升级为带弹药槽的版本喵~
 	 */
 	public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<BackpackTacUpgradeRecipe>> BACKPACK_TAC_UPGRADE = REGISTER.register("backpack_tac_upgrade", BackpackTacUpgradeRecipe.Serializer::new);
-
-	/**
-	 * 模具分离器配方序列化器，用于处理从模具中分离子弹的配方数据喵~
-	 */
-	public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<MoldDetacherRecipe>> MOLD_DETACHER = REGISTER.register("mold_detach", MoldDetacherRecipe.Serializer::new);
-
-	/**
-	 * 模具加工台配方序列化器，用于处理制作子弹模具的配方数据喵~
-	 */
-	public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<MoldWorkbenchRecipe>> MOLD_WORKBENCH = REGISTER.register("mold_workbench", MoldWorkbenchRecipe.Serializer::new);
-
-	/**
-	 * 回收炉配方序列化器，用于处理回收和熔炼物品的配方数据喵~
-	 */
-	public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RecoveryFurnaceRecipe>> RECOVERY_FURNACE = REGISTER.register("recovery_furnace", RecoveryFurnaceRecipe.Serializer::new);
 
 	private MISCTWFRecipeSerializers() {
 	}

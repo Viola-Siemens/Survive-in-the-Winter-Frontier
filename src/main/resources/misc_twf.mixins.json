@@ -8,22 +8,12 @@
     "tacz.EntityKineticBulletMixin",
     "tacz.GunAnimationStateContextMixin",
     "tacz.GunHudOverlayMixin",
-    "tacz.GunSmithTableResultAccess",
     "tacz.ModernKineticGunScriptAPIMixin",
-    "tacz.RawGunTableResultAccess",
     "travelersbackpack.TravelersBackpackBlockEntityMixin",
     "travelersbackpack.TravelersBackpackContainerMixin",
-    "vanilla.AbstractFurnaceBlockEntityMixin",
-    "vanilla.entities.EntityMixin",
-    "vanilla.entities.MonsterMixin",
-    "vanilla.items.FireChargeItemMixin",
-    "vanilla.items.FlintAndSteelItemMixin"
-  ],
+    "vanilla.entities.EntityMixin"],
   "minVersion": "0.8",
   "client": [
-    "embeddiumplus.DarknessMixin",
-    "travelersbackpack.TravelersBackpackScreenMixin",
-    "vanilla.LightTextureMixin",
-    "vanilla.RecipeButtonMixin"
+    "travelersbackpack.TravelersBackpackScreenMixin"
   ]
 }

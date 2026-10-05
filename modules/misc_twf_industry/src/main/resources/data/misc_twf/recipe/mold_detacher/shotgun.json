@@ -1,0 +1,16 @@
+{
+  "type": "misc_twf:mold_detach",
+  "ingredient": {
+    "item": "misc_twf:shotgun_bullet_mold_completed"
+  },
+  "results": [
+    {
+      "count": 1,
+      "id": "superbwarfare:shotgun_ammo"
+    },
+    {
+      "count": 1,
+      "id": "misc_twf:shotgun_bullet_mold"
+    }
+  ]
+}

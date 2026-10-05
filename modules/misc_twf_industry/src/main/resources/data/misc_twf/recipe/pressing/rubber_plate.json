@@ -1,0 +1,14 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "zombie_extreme:rubber"
+    }
+  ],
+  "results": [
+    {
+      "count": 1,
+      "id": "misc_twf:rubber_plate"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/world/inventory/RecipeBookType",
+      "name": "MISC_TWF_INDUSTRY_RECOVER_FURNACE",
+      "constructor": "()V",
+      "parameters": []
+    },
+    {
+      "enum": "net/minecraft/client/RecipeBookCategories",
+      "name": "MISC_TWF_INDUSTRY_RECOVER_FURNACE_SEARCH",
+      "constructor": "(Ljava/util/function/Supplier;)V",
+      "parameters": {
+        "class": "com/hexagram2021/misc_twf_industry/common/register/MISCTWFRecipeBookTypes",
+        "field": "MISC_TWF_RECOVER_FURNACE_SEARCH"
+      }
+    },
+    {
+      "enum": "net/minecraft/client/RecipeBookCategories",
+      "name": "MISC_TWF_INDUSTRY_RECOVER_FURNACE_GUNS",
+      "constructor": "(Ljava/util/function/Supplier;)V",
+      "parameters": {
+        "class": "com/hexagram2021/misc_twf_industry/common/register/MISCTWFRecipeBookTypes",
+        "field": "MISC_TWF_RECOVER_FURNACE_GUNS"
+      }
+    },
+    {
+      "enum": "net/minecraft/client/RecipeBookCategories",
+      "name": "MISC_TWF_INDUSTRY_RECOVER_FURNACE_BULLETS",
+      "constructor": "(Ljava/util/function/Supplier;)V",
+      "parameters": {
+        "class": "com/hexagram2021/misc_twf_industry/common/register/MISCTWFRecipeBookTypes",
+        "field": "MISC_TWF_RECOVER_FURNACE_BULLETS"
+      }
+    },
+    {
+      "enum": "net/minecraft/client/RecipeBookCategories",
+      "name": "MISC_TWF_INDUSTRY_RECOVER_FURNACE_MISC",
+      "constructor": "(Ljava/util/function/Supplier;)V",
+      "parameters": {
+        "class": "com/hexagram2021/misc_twf_industry/common/register/MISCTWFRecipeBookTypes",
+        "field": "MISC_TWF_RECOVER_FURNACE_MISC"
+      }
+    }
+  ]
+}

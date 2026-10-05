@@ -2,39 +2,20 @@ package com.hexagram2021.misc_twf.common;
 
 import be.florens.expandability.api.EventResult;
 import be.florens.expandability.api.forge.PlayerSwimEvent;
-import com.google.common.collect.Streams;
-import com.hexagram2021.misc_twf.common.config.MISCTWFCommonConfig;
 import com.hexagram2021.misc_twf.common.item.AbyssVirusVaccine;
-import com.hexagram2021.misc_twf.common.item.WayfarerArmorItem;
 import com.hexagram2021.misc_twf.common.register.MISCTWFFluids;
 import com.hexagram2021.misc_twf.common.register.MISCTWFItems;
-import com.hexagram2021.misc_twf.server.MISCTWFSavedData;
 import com.hexagram2021.misc_twf_zombie_animals.server.MISCTWFImmunitySavedData;
-import net.minecraft.core.GlobalPos;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.AbstractFurnaceBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
-import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
-import net.neoforged.neoforge.event.level.BlockEvent;
-import net.neoforged.neoforge.event.tick.PlayerTickEvent;
-
-import java.util.Objects;
 
 import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 
@@ -104,22 +85,6 @@ public final class ForgeEventHandler {
 	}
 
 	/**
-	 * 处理实体生成位置检查事件喵~
-	 * 阻止怪物在特定区域生成（通过保存数据判定）喵~
-	 *
-	 * @param event 实体生成位置检查事件喵~
-	 */
-	@SubscribeEvent
-	public static void onEntitySpawn(MobSpawnEvent.SpawnPlacementCheck event) {
-		if(event.getEntityType().getCategory().equals(MobCategory.MONSTER) &&
-				MISCTWFSavedData.denyMonsterSpawn(GlobalPos.of(
-						event.getLevel().getLevel().dimension(), event.getPos().above()
-				))) {
-			event.setResult(MobSpawnEvent.SpawnPlacementCheck.Result.FAIL);
-		}
-	}
-
-	/**
 	 * 处理获取燃料燃烧时间获取事件喵~
 	 *
 	 * @param event 获取燃料燃烧时间获取事件喵~
@@ -127,52 +92,6 @@ public final class ForgeEventHandler {
 	@SubscribeEvent
 	public static void onGetBurnTime(FurnaceFuelBurnTimeEvent event) {
 		// empty
-	}
-
-	/**
-	 * 处理玩家的每 tick 更新喵~
-	 *
-	 * @param event 玩家 tick 事件喵~
-	 */
-	@SubscribeEvent
-	public static void onPlayerTick(PlayerTickEvent.Pre event) {
-		Player player = event.getEntity();
-		if(!player.level().isClientSide && player.tickCount % 20 == 0) {
-			player.getArmorSlots().forEach(armorSlot -> {
-				if(armorSlot.getItem() instanceof WayfarerArmorItem item) {
-					IEnergyStorage ies = armorSlot.getCapability(Capabilities.EnergyStorage.ITEM);
-					if (ies != null && ies.getEnergyStored() > 0) {
-						MobEffectInstance effectInstance = item.getTickedEffect();
-						if (effectInstance != null) {
-							player.addEffect(effectInstance);
-						}
-						ies.extractEnergy(1, false);
-					}
-				}
-			});
-
-			if (Streams.stream(player.getArmorSlots()).filter(Objects::nonNull).allMatch(itemStack -> itemStack.getItem() instanceof WayfarerArmorItem)) {
-				MISCTWFCommonConfig.WAYFARER_ARMOR_EFFECTS.get().forEach(
-						id -> BuiltInRegistries.MOB_EFFECT
-								.getHolder(ResourceLocation.parse(id))
-								.ifPresent(effect -> player.addEffect(new MobEffectInstance(effect, 40)))
-				);
-			}
-		}
-	}
-
-	/**
-	 * 处理打火石或火焰弹点燃熔炉
-	 * @param event 方块工具修改事件
-	 */
-	@SubscribeEvent
-	public static void onBlockToolModification(BlockEvent.BlockToolModificationEvent event) {
-		BlockState blockState = event.getFinalState();
-		if(event.getItemAbility().equals(ItemAbilities.FIRESTARTER_LIGHT) && blockState.getBlock() instanceof AbstractFurnaceBlock &&
-				blockState.hasProperty(BlockStateProperties.LIT) && !blockState.getValue(BlockStateProperties.LIT) &&
-				(!blockState.hasProperty(BlockStateProperties.WATERLOGGED) || !blockState.getValue(BlockStateProperties.WATERLOGGED))) {
-			event.setFinalState(blockState.setValue(BlockStateProperties.LIT, true));
-		}
 	}
 
 	private ForgeEventHandler() {

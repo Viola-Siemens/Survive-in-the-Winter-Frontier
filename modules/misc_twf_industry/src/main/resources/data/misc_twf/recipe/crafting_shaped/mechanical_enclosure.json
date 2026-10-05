@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "X": {
+      "tag": "c:plates/aluminum"
+    },
+    "Y": {
+      "tag": "c:plates/rubber"
+    }
+  },
+  "pattern": [
+    "XXX",
+    "YYY"
+  ],
+  "result": {
+    "count": 1,
+    "id": "misc_twf:mechanical_enclosure"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "r": {
+      "item": "createaddition:iron_rod"
+    },
+    "k": {
+      "item": "farmersdelight:iron_knife"
+    },
+    "w": {
+      "item": "create:wrench"
+    },
+    "l": {
+      "item": "minecraft:stripped_oak_log"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "rkw",
+    " l ",
+    " s "
+  ],
+  "result": {
+    "count": 1,
+    "id": "misc_twf:mold_workbench"
+  }
+}

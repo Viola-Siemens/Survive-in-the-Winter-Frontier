@@ -1,7 +1,8 @@
 package com.hexagram2021.misc_twf.common.register;
 
 import com.google.common.collect.ImmutableSet;
-import com.hexagram2021.misc_twf.common.block.entity.*;
+import com.hexagram2021.misc_twf.common.block.entity.MonsterEggBlockEntity;
+import com.hexagram2021.misc_twf.common.block.entity.MutantPotionCauldronBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -19,34 +20,6 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 @SuppressWarnings("ConstantConditions")
 public final class MISCTWFBlockEntities {
 	private static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, MODID);
-
-	/**
-	 * 强紫外线照射灯方块实体类型，用于管理紫外线灯的能量存储和工作状态喵~
-	 */
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<UltravioletLampBlockEntity>> ULTRAVIOLET_LAMP = REGISTER.register("ultraviolet_lamp", () -> new BlockEntityType<>(
-			UltravioletLampBlockEntity::new, ImmutableSet.of(MISCTWFBlocks.ULTRAVIOLET_LAMP.get()), null
-	));
-
-	/**
-	 * 模具分离器方块实体类型，用于自动剥离子弹模具中的弹药喵~
-	 */
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MoldDetacherBlockEntity>> MOLD_DETACHER = REGISTER.register("mold_detacher", () -> new BlockEntityType<>(
-			MoldDetacherBlockEntity::new, ImmutableSet.of(MISCTWFBlocks.MOLD_DETACHER.get()), null
-	));
-
-	/**
-	 * 回收炉方块实体类型，用于回收和熔炼物品喵~
-	 */
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RecoveryFurnaceBlockEntity>> RECOVERY_FURNACE = REGISTER.register("recovery_furnace", () -> new BlockEntityType<>(
-			RecoveryFurnaceBlockEntity::new, ImmutableSet.of(MISCTWFBlocks.RECOVERY_FURNACE.get()), null
-	));
-
-	/**
-	 * 模具加工台方块实体类型，用于制作和加工子弹模具喵~
-	 */
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MoldWorkbenchBlockEntity>> MOLD_WORKBENCH = REGISTER.register("mold_workbench", () -> new BlockEntityType<>(
-			MoldWorkbenchBlockEntity::new, ImmutableSet.of(MISCTWFBlocks.MOLD_WORKBENCH.get()), null
-	));
 
 	/**
 	 * 装变异药品的炼药锅方块实体类型，用于制作变异药剂喵~

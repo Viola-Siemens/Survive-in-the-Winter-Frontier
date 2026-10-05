@@ -6,6 +6,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.smileycorp.hordes.common.event.InfectionDeathEvent;
 import net.smileycorp.hordes.infection.InfectionEventHandler;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -17,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  *
  * @author liudongyu
  */
+@Pseudo
 @Mixin(value = InfectionEventHandler.class, priority = 42)
 public class InfectionEventHandlerMixin {
 	/**

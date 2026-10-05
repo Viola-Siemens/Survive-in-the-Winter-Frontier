@@ -21,13 +21,11 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
 
 [[dependencies.${mod_id}]]
     modId="neoforge"
-    mandatory=true
     versionRange="[21,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.${mod_id}]]
     modId="minecraft"
-    mandatory=true
     versionRange="[1.21,1.21.1]"
     ordering="NONE"
     side="BOTH"
@@ -35,7 +33,6 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
 # travelersbackpack: TAC ammo slot upgrade & container mixins (mandatory)
 [[dependencies.${mod_id}]]
     modId="travelersbackpack"
-    mandatory=true
     versionRange="[1.21.1-10,)"
     ordering="NONE"
     side="BOTH"
@@ -43,7 +40,6 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
 # Gun mod: provided by Superb Warfare on 1.21.1 (runtime modId = superbwarfare, code namespace tacz)
 [[dependencies.${mod_id}]]
     modId="superbwarfare"
-    mandatory=true
     versionRange="[0.8.8,)"
     ordering="NONE"
     side="BOTH"
@@ -51,7 +47,6 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
 # geckolib: monster egg animations etc. (mandatory)
 [[dependencies.${mod_id}]]
     modId="geckolib"
-    mandatory=true
     versionRange="[4.8.4,)"
     ordering="NONE"
     side="BOTH"
@@ -59,7 +54,6 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
 # expandability: swimming tweaks on the blood fluid (mandatory)
 [[dependencies.${mod_id}]]
     modId="expandability"
-    mandatory=true
     versionRange="[12,)"
     ordering="NONE"
     side="BOTH"
@@ -67,7 +61,7 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
 # zombie_extreme: monster egg hatching pool & lair loot references (optional; runtime behaviour TBD, 6.2-E3)
 [[dependencies.${mod_id}]]
     modId="zombie_extreme"
-    mandatory=false
+    type="optional"
     versionRange="[0.2.6.5,)"
     ordering="NONE"
     side="BOTH"
@@ -75,7 +69,7 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
 # kubejs: lair loot references to its items (optional, data-only)
 [[dependencies.${mod_id}]]
     modId="kubejs"
-    mandatory=false
+    type="optional"
     versionRange="[1,)"
     ordering="NONE"
     side="BOTH"

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "u": {
+      "item": "misc_twf:uv_led"
+    },
+    "p": {
+      "item": "create:precision_mechanism"
+    }
+  },
+  "pattern": [
+    "upu",
+    "upu"
+  ],
+  "result": {
+    "count": 1,
+    "id": "misc_twf:lamp_tube"
+  }
+}

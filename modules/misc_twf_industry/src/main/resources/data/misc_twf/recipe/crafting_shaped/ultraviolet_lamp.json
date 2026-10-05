@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "t": {
+      "item": "misc_twf:lamp_tube"
+    },
+    "s": {
+      "item": "misc_twf:lamp_support"
+    },
+    "p": {
+      "item": "misc_twf:lamp_pedestal"
+    }
+  },
+  "pattern": [
+    "t",
+    "s",
+    "p"
+  ],
+  "result": {
+    "count": 1,
+    "id": "misc_twf:ultraviolet_lamp"
+  }
+}

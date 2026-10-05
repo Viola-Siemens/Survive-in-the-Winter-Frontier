@@ -12,6 +12,7 @@ dependencies {
     implementation 'curse.maven:hordes-485779:6772331'
     // atlaslib：hordes 的运行时依赖（hordes 1.6.2b 声明依赖），dev 运行需要同置于 classpath
     implementation 'curse.maven:atlaslib-463826:5449009'
-    // zombie_extreme：仅实体战利品数据引用（可选，缺失按数据降级，见 6.2-E3）；运行期需要 geckolib，暂不入依赖
-    // runtimeOnly 'curse.maven:zombie_extreme-392809:7014504'
+    // zombie_extreme：仅实体战利品数据引用（可选，缺失按数据降级，见 6.2-E3）；运行期需要 geckolib
+    localRuntime 'software.bernie.geckolib:geckolib-neoforge-1.21.1:4.8.4'
+    localRuntime "curse.maven:zombie_extreme-392809:7014504"
 }

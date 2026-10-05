@@ -7,6 +7,7 @@
     "item": "misc_twf:travelers_backpack_tac_slot"
   },
   "result": {
-    "item": "travelersbackpack:magma_cube"
+    "count": 1,
+    "id": "travelersbackpack:magma_cube"
   }
 }

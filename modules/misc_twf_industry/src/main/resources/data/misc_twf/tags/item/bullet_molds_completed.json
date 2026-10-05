@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "misc_twf:handgun_bullet_mold_completed",
+    "misc_twf:heavy_bullet_mold_completed",
+    "misc_twf:rifle_bullet_mold_completed",
+    "misc_twf:shotgun_bullet_mold_completed",
+    "misc_twf:sniper_bullet_mold_completed"
+  ]
+}

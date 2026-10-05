@@ -4,6 +4,13 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "misc_twf_industry.refmap.json",
   "minVersion": "0.8",
-  "mixins": [],
-  "client": []
+  "mixins": [
+    "vanilla.AbstractFurnaceBlockEntityMixin",
+    "vanilla.LightTextureMixin",
+    "vanilla.entities.MonsterMixin"
+  ],
+  "client": [
+    "chloride.DarknessMixin",
+    "vanilla.RecipeButtonMixin"
+  ]
 }

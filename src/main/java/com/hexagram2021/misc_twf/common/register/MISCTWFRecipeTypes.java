@@ -1,6 +1,5 @@
 package com.hexagram2021.misc_twf.common.register;
 
-import com.hexagram2021.misc_twf.common.recipe.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
@@ -20,21 +19,6 @@ import static com.hexagram2021.misc_twf.SurviveInTheWinterFrontier.MODID;
 @SuppressWarnings("SameParameterValue")
 public final class MISCTWFRecipeTypes {
 	private static final DeferredRegister<RecipeType<?>> REGISTER = DeferredRegister.create(Registries.RECIPE_TYPE, MODID);
-
-	/**
-	 * 模具分离器配方类型，用于将子弹从模具中剥离喵~
-	 */
-	public static final DeferredHolder<RecipeType<?>, RecipeType<MoldDetacherRecipe>> MOLD_DETACHER = register("mold_detach");
-
-	/**
-	 * 模具加工台配方类型，用于制作各种子弹模具喵~
-	 */
-	public static final DeferredHolder<RecipeType<?>, RecipeType<MoldWorkbenchRecipe>> MOLD_WORKBENCH = register("mold_workbench");
-
-	/**
-	 * 回收炉配方类型，用于回收和熔炼物品喵~
-	 */
-	public static final DeferredHolder<RecipeType<?>, RecipeType<RecoveryFurnaceRecipe>> RECOVERY_FURNACE = register("recovery_furnace");
 
 	private MISCTWFRecipeTypes() {
 	}

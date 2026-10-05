@@ -263,7 +263,7 @@ M4 冒险： 医疗 / 背包×枪械 / 巢穴与怪物蛋 / 装饰（内部强�
 | --- | --- | --- |
 | M1 `misc_twf_zombie_animals` | **已完成迁入与移植（v1）** | 实体/行为/渲染/音效、免疫存档与 API、Hordes 豁免 mixin 与数据、模块配置均已迁入；模块在 NeoForge 1.21.1 下**可独立编译打包**（`misc_twf_zombie_animals-4.0.0.jar`）。运行期联编冒烟待依赖就绪。 |
 | M2 `misc_twf_wildlife` | **已完成迁入与移植（v1）** | 动物尸体方块族/方块实体/数据组件、粪便 attachment 与排泄计时、产奶冷却、冬小麦与食物数据、Jade 实体信息 provider、AppleSeed 盐分组联动（替代原 EasyDiet）均已迁入；模块在 NeoForge 1.21.1 下**可独立编译打包**（`misc_twf_wildlife-4.0.0.jar`，含 77 个资源与模块创造页）。运行期联编冒烟待依赖就绪。 |
-| M3 `misc_twf_industry` | 未开始 | — |
+| M3 `misc_twf_industry` | **已完成迁入与移植（v1）** | 能源装备与紫外线灯（含灯坐标存档 `MISCTWFLampSavedData`、chloride 真黑暗抑制）、回收炉（配方书分类 SW 化）、弹药模具工业（模具 14 → 5 并产出 `superbwarfare:<cat>_ammo`）均已迁入；模块在 NeoForge 1.21.1 下**可独立编译打包**（`misc_twf_industry-4.0.0.jar`，316 条目），根工程 M3 残留 0 命中；`MISCTWFRecipeBookTypes` 去 TaC 化、两个死代码 accessor 已删。 |
 | M4 `misc_twf_adventure` | 未开始 | — |
 
 - **FragileEffect 归属修订（运行时证据，§5.1/§6.1 已同步）**：脆弱效果在单体中只被紫外线灯（工业域）施加（`UltravioletLampBlockEntity` 施加脆弱 II/IV），按“留给触发方”原则归 M3，不随 M1 迁出；其伤害加成消费方（原 `ForgeEventHandler.onLivingHurt`）同样留在根工程（M3 域）。
@@ -273,3 +273,38 @@ M4 冒险： 医疗 / 背包×枪械 / 巢穴与怪物蛋 / 装饰（内部强�
 - **根工程编译现状（2024 基准）**：整体编译失败均为**既有移植遗留**，与 M1 拆分无关（按 M1 标识检索 0 命中）。遗留类别：`com.tacz.guns.*` 缺失（枪械模组 1.21.1 包结构与代码不一致，E2）、`net.minecraftforge.*`/`ForgeRegistries` 1.18 残留、gamestages/sona/diet(EasyDiet)/embeddiumplus 等第三方 API 未就绪。上述将在对应模块轮次（M2–M4）与依赖就绪后逐项消化。
 - **M1 网络/创造页**：M1 无网络包与创造页需求（僵尸动物无自产物品/刷怪蛋；原 2 个网络包均属 M4），故无新增。
 - **mixin 配置**：模块 `misc_twf_zombie_animals.mixins.json` 目前 `required=false`，联编回归通过后再翻 `true`。
+
+### 10.1 M3 前置调研：TaC 1.18.2 → Superb Warfare 1.21.1 对照结论（已完成）
+
+> 详细报告见 `docs/SuperbWarfare-API-调研报告.md`（含 25 行对照总表与源码附录）。
+
+- **命名空间**：modid = `superbwarfare`，未发现 `tacz` 兼容命名空间 → 现有数据文件中的 `tacz:*` 引用（14 个 mold_detacher 配方、弹药箱/枪械类战利品表）**必须整体改写**。
+- **弹药最大断裂点**：SW 无 `AmmoItemBuilder`、无 `AmmoId`、无口径概念；只有 5 类 `Ammo` 枚举
+  （`HANDGUN/RIFLE/SHOTGUN/SNIPER/HEAVY`，`data/gun/Ammo.java`）对应 5 个固定物品
+  `superbwarfare:{handgun,rifle,shotgun,sniper,heavy}_ammo`；数量存 data component `superbwarfare:ammo_<name>`（int），
+  玩家弹药总量存 data attachment `PlayerVariable.ammo`。
+- **枪械弹药声明（口径的真实替代品）**：枪械数据 JSON 的 `AmmoType` 数组元素为 `AmmoConsumer`，`"Ammo"` 按语法解析：
+  `@RifleAmmo`（消耗玩家弹药池）/ `infinity` / `fe` / `superbwarfare:some_item{SNBT}`（**直接消耗指定物品**）/ `1 @RifleAmmo`（loadAmount）。
+  即：若坚持 14 口径弹药物品，需要以数据包方式覆写 SW 枪械数据把它们指向我方物品（耦合与版本风险高）。
+- **枪械身份**：无 `GunId` NBT；`GunData.from(stack).id` 由物品注册名推导（`superbwarfare:ak_47` 形式）→ 白名单、战利品表、存档字段全部改用物品 id 字符串。
+- **开火/换弹/命中钩子**：`api.event` 仅 6 个事件类，替代 TaC 的 mixin 面：
+  `ShootEvent.Pre/Post`（不可取消）、`ReloadEvent.Pre/Post`、`ProjectileHitEvent.HitEntity/HitBlock`（可取消）、`PreKillEvent`。
+- **音效与投射物**：`SoundTool.playDistantSound(...)` 近似 `SoundManager.sendSoundToNearby`；子弹实体为
+  `entity/projectile/ProjectileEntity`（Builder 风格 API，含 `setGunItemId`）。
+- **客户端**：无 `GunAnimationStateContext`/`GunHudOverlay`；动画走 GeckoLib（`GunGeoItem.animationPredicate` + `ClientEventHandler` 全局状态），
+  HUD 拆为 22 个 `LayeredDraw.Layer`（`AmmoCountOverlay` ID 为 `superbwarfare:ammo_count`），注入用 `RegisterGuiLayersEvent`。
+- **合成**：无枪械工作台/`*TableResult`；枪械用原版锻造台 `minecraft:smithing_transform`（蓝图+材料包+附加材料），
+  根工程两个 TaC accessor mixin（`GunSmithTableResultAccess`/`RawGunTableResultAccess`）**无任何引用，判定为死代码**。
+- **配件**：SW 配件是 `AttachmentType`（Scope/Magazine/Barrel/Stock/Grip）数据 + `Perk` 体系，未找到独立"配件物品"注册；
+  回收炉配方书的"枪械/弹药/配件/杂项"分类需重新设计。
+- **待主人决策**：① 口径路线（收敛 5 类 / 自建 14 口径并覆写 SW 枪械数据 / 14 模具映射 5 类产物）；
+  ② 背包弹药槽定位（mixin `AmmoConsumer`/`InventoryTool` 供弹 / 改用 SW 原生弹药池+弹药盒 / 暂缓）；
+  ③ 枪械精通与枪声吸引的实现路径（事件 or mixin or 暂缓）；④ SW 枪械数据 JSON 原文（需从 `superbwarfare-<ver>.jar` 提取）。
+
+**决策（主人已确认，2025 轮次）**：
+① 口径路线：**模具直接收敛为 5 种**（handgun/rifle/shotgun/sniper/heavy），14 口径注册项、配方与 lang 键移除；
+② 背包弹药槽：**改用 SW 原生弹药体系**（`AmmoSupplierItem` + `AmmoBoxItem` + `PlayerVariable.ammo` 弹药池），TaC 供弹 mixin 作废；
+③ 枪械精通与枪声吸引：**改官方事件**（`ShootEvent.Post` / 伤害事件或 `ProjectileHitEvent`），删除 `mixin/tacz/*` 全部 7 个；
+④ SW 真实数据已由主人提供（`Sources-1.21.1/data/superbwarfare`，含 `sbw/guns/*.json` 与 `recipe/*.json`）。
+TaC 侧补充调研：`docs/TACZ_1.18.2_API_REPORT.md`（含 P0 硬依赖清单与两处"对称性陷阱"）。
+待定项：枪械精通/枪声吸引实现落在 M3 还是 M4；5 种模具的 id 命名与每次分离产出数量；`m4a1_carbine*`/`body_*` 等 M4 装饰道具的 SW 枪械映射。
