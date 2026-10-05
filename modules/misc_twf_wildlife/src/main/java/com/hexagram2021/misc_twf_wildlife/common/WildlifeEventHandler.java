@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf_wildlife.common;
 
+import com.hexagram2021.misc_twf_wildlife.common.config.MISCTWFWildlifeConfig;
 import com.hexagram2021.misc_twf_wildlife.common.entity.capability.PoopingAnimal;
 import com.hexagram2021.misc_twf_wildlife.common.register.MISCTWFAttachmentTypes;
 import com.hexagram2021.misc_twf_wildlife.common.register.MISCTWFEntityTags;
@@ -26,7 +27,8 @@ public final class WildlifeEventHandler {
 	 */
 	@SubscribeEvent
 	public static void onLivingTick(EntityTickEvent.Post event) {
-		if(event.getEntity() instanceof LivingEntity livingEntity && !livingEntity.level().isClientSide && livingEntity.getType().is(MISCTWFEntityTags.POOPING_ANIMALS)) {
+		if(event.getEntity() instanceof LivingEntity livingEntity && !livingEntity.level().isClientSide &&
+				MISCTWFWildlifeConfig.ENABLE_ANIMAL_POOP.get() && livingEntity.getType().is(MISCTWFEntityTags.POOPING_ANIMALS)) {
 			PoopingAnimal poopingAnimal = livingEntity.getData(MISCTWFAttachmentTypes.POOPING);
 			int remainingTicks = poopingAnimal.getPoopingRemainingTicks();
 			if(remainingTicks < 0) {

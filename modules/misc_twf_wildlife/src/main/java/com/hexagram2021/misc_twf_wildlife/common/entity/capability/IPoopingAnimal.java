@@ -32,21 +32,6 @@ public interface IPoopingAnimal {
 	void poop(LivingEntity self);
 
 	/**
-	 * 每刻更新排便计时器，时间到达时触发排便并重置计时器喵~
-	 *
-	 * @param self 执行更新的生物实体喵~
-	 */
-	default void tick(LivingEntity self) {
-		int ticks = this.getPoopingRemainingTicks() - 1;
-		if(ticks > 0) {
-			this.setPoopingRemainingTicks(ticks);
-			return;
-		}
-		this.poop(self);
-		this.resetPoopingTicks(self);
-	}
-
-	/**
 	 * 重置排便计时器为随机值，使用实体的随机数生成器增加变化性喵~
 	 * 计算公式为：(基础间隔 + 随机噪声) × 20 刻喵~
 	 *

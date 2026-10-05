@@ -9,6 +9,7 @@ apply from: rootProject.file('gradle/module-common.gradle')
 dependencies {
     // appleseed：腌制食物联动其 salt 饮食分组（原 EasyDiet 的替代，D3 随本域）
     implementation 'curse.maven:diet-1530806:8573582'
+    localRuntime 'curse.maven:cloudworks_api-1621946:8598893'
     // jade：动物产奶冷却/排泄计时信息展示（可选兼容，Jade 缺失时插件不会被加载）
     implementation 'curse.maven:jade-324717:8591319'
 }

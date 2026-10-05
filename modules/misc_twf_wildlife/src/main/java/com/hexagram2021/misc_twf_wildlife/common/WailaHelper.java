@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf_wildlife.common;
 
+import com.hexagram2021.misc_twf_wildlife.common.config.MISCTWFWildlifeConfig;
 import com.hexagram2021.misc_twf_wildlife.common.entity.compat.LivingPoopProvider;
 import com.hexagram2021.misc_twf_wildlife.common.entity.compat.MobProduceMilkProvider;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,13 +22,17 @@ public class WailaHelper implements IWailaPlugin {
 	public void register(IWailaCommonRegistration registration) {
 		registration.registerEntityDataProvider(MobProduceMilkProvider.INSTANCE, Cow.class);
 		registration.registerEntityDataProvider(MobProduceMilkProvider.INSTANCE, Goat.class);
-		registration.registerEntityDataProvider(LivingPoopProvider.INSTANCE, LivingEntity.class);
+		if(MISCTWFWildlifeConfig.ENABLE_ANIMAL_POOP.get()) {
+			registration.registerEntityDataProvider(LivingPoopProvider.INSTANCE, LivingEntity.class);
+		}
 	}
 
 	@Override
 	public void registerClient(IWailaClientRegistration registration) {
 		registration.registerEntityComponent(MobProduceMilkProvider.INSTANCE, Cow.class);
 		registration.registerEntityComponent(MobProduceMilkProvider.INSTANCE, Goat.class);
-		registration.registerEntityComponent(LivingPoopProvider.INSTANCE, LivingEntity.class);
+		if(MISCTWFWildlifeConfig.ENABLE_ANIMAL_POOP.get()) {
+			registration.registerEntityComponent(LivingPoopProvider.INSTANCE, LivingEntity.class);
+		}
 	}
 }

@@ -21,13 +21,11 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
 
 [[dependencies.${mod_id}]]
     modId="neoforge"
-    mandatory=true
     versionRange="[21,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.${mod_id}]]
     modId="minecraft"
-    mandatory=true
     versionRange="[1.21,1.21.1]"
     ordering="NONE"
     side="BOTH"
@@ -35,7 +33,7 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
 # appleseed: optional, salted-food diet group link (D3 / E5); guarded at runtime
 [[dependencies.${mod_id}]]
     modId="appleseed"
-    mandatory=false
+    type="optional"
     versionRange="[1,)"
     ordering="NONE"
     side="BOTH"
@@ -43,7 +41,7 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
 # jade: optional, entity info providers for milk cooldown / pooping timer
 [[dependencies.${mod_id}]]
     modId="jade"
-    mandatory=false
+    type="optional"
     versionRange="[1,)"
     ordering="NONE"
     side="BOTH"

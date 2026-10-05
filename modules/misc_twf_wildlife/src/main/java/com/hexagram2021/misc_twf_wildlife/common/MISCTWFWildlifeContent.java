@@ -2,9 +2,6 @@ package com.hexagram2021.misc_twf_wildlife.common;
 
 import com.hexagram2021.misc_twf_wildlife.common.register.*;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.common.EventBusSubscriber;
-
-import static com.hexagram2021.misc_twf_wildlife.MiscTwfWildlife.MODID;
 
 /**
  * 农牧生态模块内容注册与初始化管理类喵~
@@ -13,7 +10,6 @@ import static com.hexagram2021.misc_twf_wildlife.MiscTwfWildlife.MODID;
  *
  * @author liudongyu
  */
-@EventBusSubscriber(modid = MODID)
 public final class MISCTWFWildlifeContent {
 	/**
 	 * 模块构造阶段的主入口方法喵~

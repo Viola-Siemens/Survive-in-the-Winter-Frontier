@@ -10,6 +10,11 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 public final class MISCTWFWildlifeConfig {
 	private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
+	/** 是否启用动物排便 */
+	public static final ModConfigSpec.BooleanValue ENABLE_ANIMAL_POOP = BUILDER
+			.comment("Set to true to enable animal pooping.")
+			.define("ENABLE_ANIMAL_POOP", true);
+
 	/** 牛与山羊产奶冷却（秒）喵~ */
 	public static final ModConfigSpec.IntValue MILK_INTERVAL = BUILDER
 			.comment("The cool down for cows and goats to produce milk (in seconds).")
