@@ -70,7 +70,10 @@ public class DeadAnimalBlock extends BaseEntityBlock {
 		this.rottenFlesh = rottenFlesh;
 	}
 
-	private static final TagKey<Item> KNIVES = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("forge", "tools/knives"));
+	private static final TagKey<Item> KNIVES = TagKey.create(
+			Registries.ITEM,
+			ResourceLocation.fromNamespaceAndPath("c", "tools/knives")
+	);
 
 	@Override
 	public ItemInteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos,
