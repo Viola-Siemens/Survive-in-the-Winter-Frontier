@@ -23,5 +23,7 @@ run
 libs
 runs
 
+*.log
+
 # Files from Forge MDK
 forge*changelog.txt

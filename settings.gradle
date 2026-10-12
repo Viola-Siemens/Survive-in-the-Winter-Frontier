@@ -21,7 +21,8 @@ def miscTwfModules = [
         'misc_twf_zombie_animals',
         'misc_twf_wildlife',
         'misc_twf_industry',
-        'misc_twf_adventure'
+        'misc_twf_adventure',
+        'misc_twf_hearing'
 ]
 miscTwfModules.each { name ->
     include ":$name"

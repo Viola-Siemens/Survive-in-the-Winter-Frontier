@@ -1,0 +1,14 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.gradle.userdev' version '7.1.20'
+}
+
+apply from: rootProject.file('gradle/module-common.gradle')
+
+// 依赖（对应 docs/MODULARIZATION.md 11.3）：
+// 核心零第三方依赖——不 import ZT2 / Improved Mobs / ServerCore / The Hordes / CrawlMod / Superb Warfare，
+// 所有第三方兼容只能出现在 com.hexagram2021.misc_twf_hearing.compat 包内。
+dependencies {
+    // TODO H3：枪声适配层需要 superbwarfare（可选，compileOnly + 运行时 ModList 判定），届时放开下一行：
+    // compileOnly 'curse.maven:superb-warfare-1218165:7292699-sources-7292701'
+}

@@ -1,10 +1,10 @@
 package com.hexagram2021.misc_twf_zombie_animals.common.register;
 
+import com.google.common.collect.Maps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.hexagram2021.misc_twf_zombie_animals.MiscTwfZombieAnimals.CONTENT_NAMESPACE;
@@ -19,7 +19,7 @@ public final class MISCTWFSounds {
 	/**
 	 * 用于存储所有待注册的音效事件喵~
 	 */
-	private static final Map<ResourceLocation, SoundEvent> REGISTERED_EVENTS = new HashMap<>();
+	private static final Map<ResourceLocation, SoundEvent> REGISTERED_EVENTS = Maps.newHashMap();
 
 	/** 僵尸鸡的环境音喵~ */
 	public static final SoundEvent ZOMBIE_CHICKEN_AMBIENT = registerSound("entity.zombie_chicken.ambient");

@@ -1,0 +1,39 @@
+# Module: misc_twf_hearing (Hearing / pure noise investigation)
+# Phase 0 skeleton. Pure server-authoritative hearing system replacing Sona (see docs/MODULARIZATION.md ch.11).
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier/issues"
+
+[[mods]]
+    modId="${mod_id}"
+    version="${mod_version}"
+    displayName="${mod_name}"
+    credits="Hexagram"
+    authors="${mod_authors}"
+    description='''${mod_description}'''
+
+[[accessTransformers]]
+    file="META-INF/accesstransformer.cfg"
+
+[[mixins]]
+    config="${mod_id}.mixins.json"
+
+[[dependencies.${mod_id}]]
+    modId="neoforge"
+    versionRange="[21,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    versionRange="[1.21,1.21.1]"
+    ordering="NONE"
+    side="BOTH"
+
+# superbwarfare: optional, server-side gunshot noise adapter (compat layer only; guarded at runtime).
+[[dependencies.${mod_id}]]
+    modId="superbwarfare"
+    type="optional"
+    versionRange="[0.8.8,)"
+    ordering="NONE"
+    side="BOTH"
