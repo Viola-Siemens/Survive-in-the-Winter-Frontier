@@ -564,8 +564,8 @@ HearingApi.emit(level, explosion.position(), spec, null)
 | 阶段 | 交付 | 验收 |
 | --- | --- | --- |
 | H0 骨架 | ✅ **已完成**：`modules/misc_twf_hearing/` 工程、toml（含 optional superbwarfare）/mixin 配置（空）/server config、根包与主类、`settings.gradle` 接入 | `:misc_twf_hearing:jar` 独立 BUILD SUCCESSFUL（离线，22 条目） |
-| H1 核心 | ✅ **核心已实现**：`NoisePulse`（内部可变）/`NoiseSpec`/`NoiseSnapshot`/`NoiseTypes`/`NoiseScoring`/`NoiseSpatialIndex`（区块桶）/`NoiseManager`（emit·合并·容量保护·过期清理·三种查询·统计）/`HearingApi`（线程与坐标校验）/`NoiseEmitEvent.Pre/Post`/`NoiseLifecycleHandler`（tick 清理 + 维度卸载/停服释放）；每类型 radius/strength/lifetime 区间均已配置化 | 编译通过（jar 37 条目）；**剩余**：原版行为来源监听（`VanillaNoiseEventHandler`）与 emit→query→合并→过期 的实机链路验证 |
-| H2 AI | `HearNoiseGoal`、`EntityJoinLevelEvent` 注入 + Attachment 幂等、Tag 黑白名单、节流/错峰、到达/失败/切换/让路 | 原版僵尸：枪声后前往坐标；有 Target 时立即让路；`targetSelector` 未被触碰；**单机重进世界重复注入路径**与 **Hordes 生成是否触发 `EntityJoinLevelEvent`** 两项实测通过 |
+| H1 核心 | ✅ **已完成**：`NoisePulse`（内部可变）/`NoiseSpec`/`NoiseSnapshot`/`NoiseTypes`/`NoiseScoring`（内部与快照两套重载共用唯一公式）/`NoiseSpatialIndex`（区块桶）/`NoiseManager`（emit·合并·容量保护·过期清理·三种查询·统计）/`HearingApi`（线程与坐标校验、按类型配置的 emit 重载）/`NoiseEmitEvent.Pre/Post`/`NoiseLifecycleHandler`（tick 清理 + 维度卸载/停服释放）/`TickRateLimiter`（按类别下沉的限频游标）/`VanillaNoiseEventHandler`（sprint·land·door·container·block_break·glass_break，全部服务端权威）；每类型 radius/strength/lifetime 区间与 `[vanilla]` 开关均已配置化 | 编译通过（jar 60 条目，含 `data/misc_twf/tags/entity_type/*`）；**剩余**：emit→query→合并→过期 的实机链路验证 |
+| H2 AI | ✅ **已实现**：`HearNoiseGoal`（MOVE-only、查询节流+抖动、重寻路间隔、路径失败上限、新声音切换阈值与冷却、让路规则、`stop()` 不主动停导航）、`HearingGoalInjector`（`EntityJoinLevelEvent` + `misc_twf:hearing_mobs`/`hearing_blacklist` 黑名单优先 + 非持久化 Attachment 幂等）、`HearingProfile`（全局配置 + 按实体类型倍率覆盖，格式 `namespace:path=倍率`） | 编译通过；**待实机验收**：原版僵尸闻声前往坐标、有 Target 时立即让路、`targetSelector` 未被触碰、单机重进世界重复注入路径与 Hordes 生成是否触发 `EntityJoinLevelEvent` |
 | H3 兼容与工具 | SW 适配层（`ShootEvent.Post` + 消音分支 + `ExplosionEvent.Detonate`）、`/hearing` 命令、调试日志 | SW 各射速/消音/霰弹/爆炸/载具武器均产生正确类型与半径的 pulse；无客户端反推；命令权限等级 2 且不广播全服 |
 | H4 联编验收 | 按需求 §43 性能场景与 §44 兼容矩阵逐项测试（ZT2 / Improved Mobs / ServerCore / CrawlMod / The Hordes / SW / misc_twf） | 逐条通过并记录；不达标项回退到设计（**不允许**通过扩大项目边界解决） |
 

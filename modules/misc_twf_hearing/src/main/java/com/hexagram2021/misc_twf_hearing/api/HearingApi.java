@@ -73,6 +73,20 @@ public final class HearingApi {
 	}
 
 	/**
+	 * 按类型产生一条噪声（半径、强度与存活时长全部从该类型配置读取）喵~
+	 *
+	 * @param level    服务端维度喵~
+	 * @param position 发声位置喵~
+	 * @param type     噪声类型（未配置类型回退到 {@link NoiseTypes#CUSTOM}）喵~
+	 * @param source   来源实体，可能为空喵~
+	 * @return 写入后的噪声快照；被取消或线程非法时为 null喵~
+	 */
+	@Nullable
+	public static NoiseSnapshot emit(ServerLevel level, Vec3 position, ResourceLocation type, @Nullable Entity source) {
+		return emit(level, position, MISCTWFHearingConfig.rollSpec(type, level.getRandom()), source);
+	}
+
+	/**
 	 * 区域查询：返回**发生位置**位于区域内的未过期噪声（不因传播半径与区域相交而返回）喵~
 	 *
 	 * @param level 服务端维度喵~

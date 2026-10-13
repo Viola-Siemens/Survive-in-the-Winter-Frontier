@@ -68,6 +68,52 @@ public final class MISCTWFHearingConfig {
 			.comment("Noises whose score is below this value are ignored.")
 			.defineInRange("goal.min_score_threshold", 0.10D, 0.0D, 1.0D);
 
+	/** 各实体类型的听觉倍率覆盖（格式 `namespace:path=倍率`，未列出的实体为 1.0）喵~ */
+	public static final ModConfigSpec.ConfigValue<List<? extends String>> ENTITY_HEARING_MULTIPLIERS = BUILDER
+			.comment(
+					"Per entity type hearing multiplier overrides, formatted as 'namespace:path=multiplier'.",
+					"Entity types not listed here use 1.0. The whitelist itself is the entity_type tag misc_twf:hearing_mobs."
+			).defineListAllowEmpty(
+					"goal.entity_hearing_multipliers",
+					List.of("minecraft:zombie=1.0", "minecraft:husk=0.9", "minecraft:drowned=0.8"),
+					() -> "minecraft:zombie=1.0",
+					object -> object instanceof String value && value.contains("=")
+			);
+
+	// ==================== [vanilla] ====================
+	/** 是否启用疾跑脚步噪声喵~ */
+	public static final ModConfigSpec.BooleanValue ENABLE_SPRINT_NOISE = BUILDER
+			.comment("Set to false to disable sprint footstep noises.")
+			.define("vanilla.enable_sprint", true);
+	/** 疾跑噪声的产生间隔（tick）喵~ */
+	public static final ModConfigSpec.IntValue SPRINT_EMIT_INTERVAL_TICKS = BUILDER
+			.comment("Interval between two sprint footstep noises (in ticks).")
+			.defineInRange("vanilla.sprint_emit_interval_ticks", 10, 1, 200);
+	/** 是否启用落地噪声喵~ */
+	public static final ModConfigSpec.BooleanValue ENABLE_LAND_NOISE = BUILDER
+			.comment("Set to false to disable landing noises.")
+			.define("vanilla.enable_land", true);
+	/** 落地发声的最小下落距离（格）喵~ */
+	public static final ModConfigSpec.DoubleValue LAND_MIN_DISTANCE = BUILDER
+			.comment("Minimum fall distance (in blocks) required to emit a landing noise.")
+			.defineInRange("vanilla.land_min_distance", 1.0D, 0.0D, 64.0D);
+	/** 是否启用开关门噪声喵~ */
+	public static final ModConfigSpec.BooleanValue ENABLE_DOOR_NOISE = BUILDER
+			.comment("Set to false to disable door/trapdoor/fence gate noises.")
+			.define("vanilla.enable_door", true);
+	/** 是否启用容器交互噪声喵~ */
+	public static final ModConfigSpec.BooleanValue ENABLE_CONTAINER_NOISE = BUILDER
+			.comment("Set to false to disable container interaction noises.")
+			.define("vanilla.enable_container", true);
+	/** 是否启用方块破坏噪声喵~ */
+	public static final ModConfigSpec.BooleanValue ENABLE_BLOCK_BREAK_NOISE = BUILDER
+			.comment("Set to false to disable block breaking noises.")
+			.define("vanilla.enable_block_break", true);
+	/** 是否启用玻璃破碎噪声喵~ */
+	public static final ModConfigSpec.BooleanValue ENABLE_GLASS_BREAK_NOISE = BUILDER
+			.comment("Set to false to disable glass breaking noises.")
+			.define("vanilla.enable_glass_break", true);
+
 	// ==================== [noise] ====================
 	/** 过期清理间隔（tick）喵~ */
 	public static final ModConfigSpec.IntValue CLEANUP_INTERVAL_TICKS = BUILDER
