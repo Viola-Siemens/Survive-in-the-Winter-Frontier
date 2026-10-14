@@ -2,6 +2,7 @@ package com.hexagram2021.misc_twf_hearing.event;
 
 import com.hexagram2021.misc_twf_hearing.MiscTwfHearing;
 import com.hexagram2021.misc_twf_hearing.core.NoiseManager;
+import com.hexagram2021.misc_twf_hearing.debug.HearingDebugState;
 import net.minecraft.server.level.ServerLevel;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -50,6 +51,7 @@ public final class NoiseLifecycleHandler {
 	@SubscribeEvent
 	public static void onServerStopped(ServerStoppedEvent event) {
 		NoiseManager.releaseAll();
+		HearingDebugState.clear();
 	}
 
 	private NoiseLifecycleHandler() {

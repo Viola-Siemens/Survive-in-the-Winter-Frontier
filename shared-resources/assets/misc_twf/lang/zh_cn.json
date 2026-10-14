@@ -203,5 +203,12 @@
   "item.misc_twf.rifle_bullet_mold_completed": "§e步枪弹模具 (Completed)",
   "item.misc_twf.shotgun_bullet_mold": "§912 号口径霰弹模具",
   "item.misc_twf.shotgun_bullet_mold_completed": "§912 号口径霰弹模具 (Completed)",
-  "itemGroup.misc_twf.industry": "冬境边域：工业生态"
+  "itemGroup.misc_twf.industry": "冬境边域：工业生态",
+  "commands.misc_twf_hearing.stats": "循声统计 %s：有效噪声=%s 索引区块=%s 累计新增=%s 累计合并=%s 累计查询=%s 累计候选=%s",
+  "commands.misc_twf_hearing.stats.empty": "当前还没有任何循声管理器",
+  "commands.misc_twf_hearing.debug": "循声调试已对 %s %s",
+  "commands.misc_twf_hearing.debug.on": "开启",
+  "commands.misc_twf_hearing.debug.off": "关闭",
+  "commands.misc_twf_hearing.emit": "已产生噪声 %s #%s（半径 %s，强度 %s，过期于 %s）",
+  "commands.misc_twf_hearing.emit.rejected": "噪声被拒绝（详见日志）"
 }

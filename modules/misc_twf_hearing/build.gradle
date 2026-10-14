@@ -9,6 +9,6 @@ apply from: rootProject.file('gradle/module-common.gradle')
 // 核心零第三方依赖——不 import ZT2 / Improved Mobs / ServerCore / The Hordes / CrawlMod / Superb Warfare，
 // 所有第三方兼容只能出现在 com.hexagram2021.misc_twf_hearing.compat 包内。
 dependencies {
-    // TODO H3：枪声适配层需要 superbwarfare（可选，compileOnly + 运行时 ModList 判定），届时放开下一行：
-    // compileOnly 'curse.maven:superb-warfare-1218165:7292699-sources-7292701'
+    // superbwarfare：枪声适配层编译依赖（可选：运行时由 HearingCompatBootstrap 用 ModList 判定后才加载适配类）
+    compileOnly 'curse.maven:superb-warfare-1218165:7292699-sources-7292701'
 }

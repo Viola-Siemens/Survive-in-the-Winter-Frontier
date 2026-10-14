@@ -4,6 +4,8 @@ import com.hexagram2021.misc_twf_hearing.api.HearingApi;
 import com.hexagram2021.misc_twf_hearing.api.NoiseSnapshot;
 import com.hexagram2021.misc_twf_hearing.common.config.MISCTWFHearingConfig;
 import com.hexagram2021.misc_twf_hearing.core.NoiseScoring;
+import com.hexagram2021.misc_twf_hearing.debug.HearingDebugState;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -74,6 +76,7 @@ public final class HearNoiseGoal extends Goal {
 		this.destination = this.currentNoise.position();
 		this.currentScore = this.scoreOf(this.currentNoise, now);
 		this.failedPathAttempts = 0;
+		this.reportDebug(serverLevel, "investigates");
 		return this.tryMoveToDestination(now);
 	}
 
@@ -103,6 +106,9 @@ public final class HearNoiseGoal extends Goal {
 	@Override
 	public void stop() {
 		// 按决策 D5：不主动 navigation.stop()，避免清掉刚接管的高优先级 Goal 建立的路径喵~
+		if(this.mob.level() instanceof ServerLevel serverLevel) {
+			this.reportDebug(serverLevel, "stopped investigating");
+		}
 		this.currentNoise = null;
 		this.destination = null;
 		this.currentScore = 0.0F;
@@ -118,6 +124,23 @@ public final class HearNoiseGoal extends Goal {
 	private boolean canHearType(NoiseSnapshot noise) {
 		// TODO P1：如需按类型区分（例如只有爆炸/枪声才吸引远处怪物），在此加入类型白名单喵~
 		return true;
+	}
+
+	/**
+	 * 向开启了循声调试的管理员输出诊断信息（无人开启时不构造消息）喵~
+	 *
+	 * @param level  当前维度喵~
+	 * @param action 行为描述喵~
+	 */
+	private void reportDebug(ServerLevel level, String action) {
+		NoiseSnapshot noise = this.currentNoise;
+		Vec3 destination = this.destination;
+		float score = this.currentScore;
+		HearingDebugState.broadcast(level, () -> Component.literal(
+				"[hearing] " + this.mob.getUUID() + " " + action +
+						(noise == null ? "" : " noise=#" + noise.id() + " type=" + noise.type() + " score=" + score) +
+						(destination == null ? "" : " dest=" + destination)
+		));
 	}
 
 	private boolean hasLiveTarget() {
@@ -170,6 +193,7 @@ public final class HearNoiseGoal extends Goal {
 		this.destination = candidate.position();
 		this.currentScore = candidateScore;
 		this.failedPathAttempts = 0;
+		this.reportDebug(serverLevel, "switches to");
 		this.nextSwitchAllowedTick = now + MISCTWFHearingConfig.SWITCH_COOLDOWN_TICKS.get();
 		this.tryMoveToDestination(now);
 	}

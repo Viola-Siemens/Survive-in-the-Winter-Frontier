@@ -1,6 +1,7 @@
 package com.hexagram2021.misc_twf_hearing;
 
 import com.hexagram2021.misc_twf_hearing.common.config.MISCTWFHearingConfig;
+import com.hexagram2021.misc_twf_hearing.compat.HearingCompatBootstrap;
 import com.hexagram2021.misc_twf_hearing.common.register.MISCTWFHearingAttachments;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -31,6 +32,8 @@ public class MiscTwfHearing {
 	 * @param modContainer 模块容器喵~
 	 */
 	public MiscTwfHearing(IEventBus modBus, ModContainer modContainer) {
+		// 按已加载的模组注册第三方兼容层（SW 缺失时不加载适配类）喵~
+		HearingCompatBootstrap.registerIfPresent();
 		// 注册"循声 Goal 已注入"的非持久化 Attachment 喵~
 		MISCTWFHearingAttachments.init(modBus);
 		// 循声参数全部为服务端权威数据，故注册为 SERVER 配置喵~

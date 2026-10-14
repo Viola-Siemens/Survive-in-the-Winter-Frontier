@@ -203,5 +203,12 @@
   "item.misc_twf.rifle_bullet_mold_completed": "§eRifle Bullet Mold (Completed)",
   "item.misc_twf.shotgun_bullet_mold": "§912 Gauge Bullet Mold",
   "item.misc_twf.shotgun_bullet_mold_completed": "§912 Gauge Bullet Mold (Completed)",
-  "itemGroup.misc_twf.industry": "Winter Frontier: Industry"
+  "itemGroup.misc_twf.industry": "Winter Frontier: Industry",
+  "commands.misc_twf_hearing.stats": "Noise stats %s: pulses=%s chunks=%s emitted=%s merged=%s queries=%s candidates=%s",
+  "commands.misc_twf_hearing.stats.empty": "No active noise manager yet",
+  "commands.misc_twf_hearing.debug": "Hearing debug for %s is now %s",
+  "commands.misc_twf_hearing.debug.on": "ON",
+  "commands.misc_twf_hearing.debug.off": "OFF",
+  "commands.misc_twf_hearing.emit": "Emitted noise %s #%s (radius %s, strength %s, expire %s)",
+  "commands.misc_twf_hearing.emit.rejected": "Noise was rejected (see log)"
 }

@@ -113,6 +113,10 @@ public final class MISCTWFHearingConfig {
 	public static final ModConfigSpec.BooleanValue ENABLE_GLASS_BREAK_NOISE = BUILDER
 			.comment("Set to false to disable glass breaking noises.")
 			.define("vanilla.enable_glass_break", true);
+	/** 是否启用爆炸噪声喵~ */
+	public static final ModConfigSpec.BooleanValue ENABLE_EXPLOSION_NOISE = BUILDER
+			.comment("Set to false to disable explosion noises.")
+			.define("vanilla.enable_explosion", true);
 
 	// ==================== [noise] ====================
 	/** 过期清理间隔（tick）喵~ */
