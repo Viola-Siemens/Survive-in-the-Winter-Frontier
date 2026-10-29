@@ -1,10 +1,10 @@
 package com.hexagram2021.misc_twf_hearing.debug;
 
+import com.google.common.collect.Sets;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -18,7 +18,7 @@ import java.util.function.Supplier;
  * @author liudongyu
  */
 public final class HearingDebugState {
-	private static final Set<UUID> ENABLED_PLAYERS = new HashSet<>();
+	private static final Set<UUID> ENABLED_PLAYERS = Sets.newHashSet();
 
 	/**
 	 * 切换指定玩家的调试状态喵~

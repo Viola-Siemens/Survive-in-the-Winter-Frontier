@@ -9,6 +9,7 @@ import com.hexagram2021.misc_twf_hearing.core.NoiseManager;
 import com.hexagram2021.misc_twf_hearing.debug.HearingDebugState;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
@@ -19,6 +20,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -44,18 +46,25 @@ public final class HearingCommand {
 	@SubscribeEvent
 	public static void onRegisterCommands(RegisterCommandsEvent event) {
 		CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
-		dispatcher.register(Commands.literal("hearing")
-				.requires(source -> source.hasPermission(2))
-				.then(Commands.literal("stats").executes(HearingCommand::executeStats))
-				.then(Commands.literal("debug")
-						.then(Commands.argument("player", EntityArgument.player())
-								.then(Commands.literal("on").executes(context -> executeDebug(context, true)))
-								.then(Commands.literal("off").executes(context -> executeDebug(context, false)))))
-				.then(Commands.literal("emit")
-						.then(Commands.argument("type", ResourceLocationArgument.id())
-								.then(Commands.argument("radius", FloatArgumentType.floatArg(0.5F, 512.0F))
-										.then(Commands.argument("strength", FloatArgumentType.floatArg(0.0F, 1.0F))
-												.executes(HearingCommand::executeEmit)))))
+		dispatcher.register(
+				Commands.literal("hearing")
+						.requires(source -> source.hasPermission(2))
+						.then(Commands.literal("stats").executes(HearingCommand::executeStats))
+						.then(Commands.literal("debug").then(
+								Commands.argument("player", EntityArgument.player())
+										.then(Commands.literal("on").executes(context -> executeDebug(context, true)))
+										.then(Commands.literal("off").executes(context -> executeDebug(context, false)))
+						)).then(Commands.literal("emit").then(
+								Commands.argument("type", ResourceLocationArgument.id()).then(
+										Commands.argument("radius", FloatArgumentType.floatArg(0.5F, 512.0F)).then(
+												Commands.argument("strength", FloatArgumentType.floatArg(0.0F, 1.0F))
+														.executes(HearingCommand::executeEmit).then(
+																Commands.argument("lifetime", IntegerArgumentType.integer(1, 1048576))
+																		.executes(HearingCommand::executeEmitWithLifetime)
+														)
+										)
+								)
+						))
 		);
 	}
 
@@ -96,7 +105,25 @@ public final class HearingCommand {
 		ServerLevel level = source.getLevel();
 		Vec3 position = source.getPosition();
 		int lifetime = MISCTWFHearingConfig.getSettings(type).rollLifetime(level.getRandom());
-		NoiseSnapshot snapshot = HearingApi.emit(level, position, new NoiseSpec(type, radius, strength, lifetime), null);
+		return execute(source, type, level, position, radius, strength, lifetime);
+	}
+
+	private static int executeEmitWithLifetime(CommandContext<CommandSourceStack> context) {
+		CommandSourceStack source = context.getSource();
+		ResourceLocation type = ResourceLocationArgument.getId(context, "type");
+		float radius = FloatArgumentType.getFloat(context, "radius");
+		float strength = FloatArgumentType.getFloat(context, "strength");
+		int lifetime = IntegerArgumentType.getInteger(context, "lifetime");
+		ServerLevel level = source.getLevel();
+		Vec3 position = source.getPosition();
+		return execute(source, type, level, position, radius, strength, lifetime);
+	}
+
+	private static int execute(CommandSourceStack source, ResourceLocation type, ServerLevel level, Vec3 position,
+							   float radius, float strength, int lifetime) {
+		// 由实体执行时归属该实体（便于验证合并语义）；命令方块/控制台执行时 getEntity() 为空，按匿名噪声处理（§12.2 不合并）喵~
+		Entity executor = source.getEntity();
+		NoiseSnapshot snapshot = HearingApi.emit(level, position, new NoiseSpec(type, radius, strength, lifetime), executor);
 		if(snapshot == null) {
 			source.sendFailure(Component.translatable("commands.misc_twf_hearing.emit.rejected"));
 			return 0;

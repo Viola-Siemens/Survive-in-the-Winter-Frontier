@@ -11,4 +11,6 @@ apply from: rootProject.file('gradle/module-common.gradle')
 dependencies {
     // superbwarfare：枪声适配层编译依赖（可选：运行时由 HearingCompatBootstrap 用 ModList 判定后才加载适配类）
     compileOnly 'curse.maven:superb-warfare-1218165:7292699-sources-7292701'
+
+    localRuntime 'curse.maven:spark-361579:6225208'
 }
