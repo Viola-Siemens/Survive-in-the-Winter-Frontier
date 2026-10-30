@@ -72,7 +72,7 @@ public class DeadAnimalBlock extends BaseEntityBlock {
 
 	private static final TagKey<Item> KNIVES = TagKey.create(
 			Registries.ITEM,
-			ResourceLocation.fromNamespaceAndPath("c", "tools/knives")
+			ResourceLocation.fromNamespaceAndPath("c", "tools/knife")
 	);
 
 	@Override
