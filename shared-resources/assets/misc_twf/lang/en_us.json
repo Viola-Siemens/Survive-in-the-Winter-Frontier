@@ -209,6 +209,7 @@
   "commands.misc_twf_hearing.debug": "Hearing debug for %s is now %s",
   "commands.misc_twf_hearing.debug.on": "ON",
   "commands.misc_twf_hearing.debug.off": "OFF",
+  "commands.misc_twf_hearing.debug.copy": "Copy this uuid to clipboard",
   "commands.misc_twf_hearing.emit": "Emitted noise %s #%s (radius %s, strength %s, expire %s)",
   "commands.misc_twf_hearing.emit.rejected": "Noise was rejected (see log)"
 }

@@ -5,7 +5,10 @@ import com.hexagram2021.misc_twf_hearing.api.NoiseSnapshot;
 import com.hexagram2021.misc_twf_hearing.common.config.MISCTWFHearingConfig;
 import com.hexagram2021.misc_twf_hearing.core.NoiseScoring;
 import com.hexagram2021.misc_twf_hearing.debug.HearingDebugState;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -136,11 +139,17 @@ public final class HearNoiseGoal extends Goal {
 		NoiseSnapshot noise = this.currentNoise;
 		Vec3 destination = this.destination;
 		float score = this.currentScore;
-		HearingDebugState.broadcast(level, () -> Component.literal(
-				"[hearing] " + this.mob.getUUID() + " " + action +
-						(noise == null ? "" : " noise=#" + noise.id() + " type=" + noise.type() + " score=" + score) +
-						(destination == null ? "" : " dest=" + destination)
-		));
+		String uuid = this.mob.getUUID().toString();
+		HearingDebugState.broadcast(
+				level, () -> Component.literal("[hearing] ")
+						.append(Component.literal(uuid).withStyle(
+								style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, uuid))
+										.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("commands.misc_twf_hearing.debug.copy")))
+										.withColor(ChatFormatting.DARK_GREEN)
+						)).append(" " + action +
+								(noise == null ? "" : " noise=#" + noise.id() + " type=" + noise.type() + " score=" + score) +
+								(destination == null ? "" : " dest=" + destination))
+		);
 	}
 
 	private boolean hasLiveTarget() {
