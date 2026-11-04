@@ -34,6 +34,6 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
 [[dependencies.${mod_id}]]
     modId="superbwarfare"
     type="optional"
-    versionRange="[0.8.8,)"
+    versionRange="[0.8.9,)"
     ordering="NONE"
     side="BOTH"

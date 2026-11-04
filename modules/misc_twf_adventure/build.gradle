@@ -10,7 +10,7 @@ dependencies {
     // travelersbackpack：TAC 弹药槽升级与容器 mixin 的目标模组（强制）
     implementation 'curse.maven:travelersbackpack-321117:7543685'
     // 枪械模组：1.21.1 由 superb-warfare 提供（运行时 modId=superbwarfare，代码命名空间仍为 tacz；强制）
-    implementation 'curse.maven:superb-warfare-1218165:7292699-sources-7292701'
+    implementation 'curse.maven:superb-warfare-1218165:9019824-sources-9019839'
     // curios：superb-warfare 的运行时依赖（其 0.8.8 声明 curios/geckolib 为 required），dev 运行需要
     implementation 'top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1'
     // geckolib：怪物蛋动画等（强制）

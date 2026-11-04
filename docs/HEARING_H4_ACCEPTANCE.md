@@ -19,6 +19,7 @@
 4. **测试环境建议**：创造/生存各测一轮；单人存档与专服各测一轮（至少单人一次）。
 5. **关于 `/hearing emit` 的来源归属（重要）**：本命令**由实体执行时噪声归属该实体**（可用玩家身份执行来验证"合并"）；**由命令方块/控制台执行时没有来源实体**，属于**匿名噪声**，按需求 §12.2 默认**不合并**——因此"命令方块连发 5 次得到 5 个 pulse"是**正确行为**，不是缺陷。
 6. **`queries=0` 的常见原因**：附近没有命中 `misc_twf:hearing_mobs` 白名单的实体时，噪声只会入索引、不会被任何 Goal 查询；验证查询/统计前请先确认附近确有白名单实体。
+7. **诊断行格式（2025-11 修订后）**：`[hearing] <mob-uuid> investigates noise=#<id> ...` 只在 Goal **真正启动**时打印一次；结束时打印 `[hearing] <mob-uuid> stopped investigating (<原因>)`，原因为 `arrived` / `path-failed` / `target` / `no-destination`。**同一个 pulse 不应重复出现多轮 investigate/stop**（见 T-AI-12）。
 
 ---
 
@@ -79,6 +80,9 @@
 | T-AI-9 | 黑白名单与默认关闭 | 把某实体只放进 `hearing_blacklist`（且在白名单里） | 该实体完全不循声（黑名单优先） | | | |
 | T-AI-10 | 幂等注入（单人重进世界） | 记下僵尸 UUID，退出存档重进，再次观察循声行为 | 行为正常且**没有重复添加 Goal**（不会出现速度叠加/重复寻路） | | | |
 | T-AI-11 | hearing_mobs 为空 | 清空白名单数据包后重载 | 无任何实体获得循声（不默认给任何实体） | | | |
+| T-AI-12 | 到达后不重复 investigate（防重入） | `/hearing debug <player> on`，对一个半径较大的枪声噪声让僵尸走到位，**持续观察 30 秒** | 只出现 **1 次** `investigates` + **1 次** `stopped investigating (arrived)`；不会每个查询间隔重复 investigate/stop；若重复则记为失败并附日志 | | | |
+| T-AI-13 | 不可达目标不反复重试 | 把噪声放到怪物无法到达处（隔墙/封闭空间），emit 大半径噪声，观察 30 秒 | 失败 `max_path_failures` 次后输出 `stopped investigating (path-failed)`；之后**不再**对同一 pulse 反复 investigate | | | |
+| T-AI-14 | 结束原因可读 | 分别触发到达、被 Target 打断、不可达 | `stopped investigating` 后缀分别为 `(arrived)` / `(target)` / `(path-failed)`，便于定位 | | | |
 
 ---
 

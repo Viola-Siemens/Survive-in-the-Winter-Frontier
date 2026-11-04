@@ -130,7 +130,7 @@ dependencies {
     implementation ("curse.maven:jade-324717:8591319")                  //////
     compileOnly ("curse.maven:kubejs-238086:7278501")
     runtimeOnly ("curse.maven:spark-361579:6225208")
-    implementation ("curse.maven:superb-warfare-1218165:7292699-sources-7292701")   //////
+    implementation ("curse.maven:superb-warfare-1218165:9019824-sources-9019839")   //////
     implementation ("curse.maven:tetrachordlib-980149:5644644")         //////
     implementation ("curse.maven:travelersbackpack-321117:7543685")     //////
     implementation ("curse.maven:justlevelingfork-1073400:8555544")

@@ -63,7 +63,7 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
 # Recipe book categories judge GunItem/AmmoSupplierItem/AmmoBoxItem from Superb Warfare, so it is a required dependency.
 [[dependencies.${mod_id}]]
     modId="superbwarfare"
-    versionRange="[0.8.8,)"
+    versionRange="[0.8.9,)"
     ordering="NONE"
     side="BOTH"
 

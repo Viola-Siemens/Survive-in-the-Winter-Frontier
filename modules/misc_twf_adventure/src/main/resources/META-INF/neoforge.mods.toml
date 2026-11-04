@@ -40,7 +40,7 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
 # Gun mod: provided by Superb Warfare on 1.21.1 (runtime modId = superbwarfare, code namespace tacz)
 [[dependencies.${mod_id}]]
     modId="superbwarfare"
-    versionRange="[0.8.8,)"
+    versionRange="[0.8.9,)"
     ordering="NONE"
     side="BOTH"
 

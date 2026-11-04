@@ -495,9 +495,11 @@ score           = strength × distanceFactor × freshnessFactor
   **必须幂等**：用**非持久化 Entity Attachment**（`HEARING_GOAL_ATTACHED`）做重复注入标记。
 - `HearNoiseGoal` 仅 `setFlags(EnumSet.of(Goal.Flag.MOVE))`：
   - `canUse()`：有真实 Target → false；`now < nextQueryTick` → false（否则按 `query_interval + rand(jitter)` 排下一次查询）；调用 `HearingApi.findBestAudible(...)`；命中则记录 `currentNoise/destination` 并首次寻路。
-  - `canContinueToUse()`：有真实 Target → false；到达（`arrival_distance`）→ false；`failedPathAttempts >= max_path_failures` → false。
+  - `canContinueToUse()`：有真实 Target → false（`endReason = target`）；到达（`arrival_distance`）→ false（`endReason = arrived`）；`failedPathAttempts >= max_path_failures` → false（`endReason = path-failed`）。
+  - **防重入约束（H4 实测补充）**：`canUse()` 的筛选谓词必须排除（a）**已处于到达距离内**的噪声、（b）**曾因不可达而放弃**的 pulse（记录 `unreachableNoiseId`，id 单调递增不会复用）。否则会出现"到达 → 结束 → 下次查询又把同一个 pulse 选中 → 立刻因 arrived 结束"的抖动（表现为每个查询间隔重复打印 `investigates` / `stopped investigating`，并可能伴随无意义的寻路请求）。
+  - `start()`：Goal 真正启动后才输出 "investigates" 诊断（放在 `canUse()` 里会在"选中但立即结束"时误报）。
   - `tick()`：有 Target 立即让路；`nextSwitchAllowedTick` 之后用评分切换更值得调查的新声音（`newScore > currentScore × switch_threshold`）；`now >= nextRepathTick && navigation.isDone()` 才重新寻路。
-  - `stop()`：清空本 Goal 状态；**P0 不主动 `navigation.stop()`**（避免清掉刚接管 Goal 的路径），由 ZT2/CrawlMod 实测后再定（§11.13-D5）。
+  - `stop()`：输出带结束原因的 "stopped investigating (arrived|path-failed|target|no-destination)"，便于诊断；清空本 Goal 状态；**P0 不主动 `navigation.stop()`**（避免清掉刚接管 Goal 的路径），由 ZT2/CrawlMod 实测后再定（§11.13-D5）。
 - 明确禁止：`mob.setTarget(...)`、`targetSelector.addGoal(...)`、修改 `Sensing`/`TargetGoal`/`PathNavigation`/`NodeEvaluator`、为循声唤醒 inactive Mob、每 tick 重建路径。
 
 ### 11.10 噪声来源（P0 白名单）

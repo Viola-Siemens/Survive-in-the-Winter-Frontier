@@ -39,6 +39,9 @@ public final class HearNoiseGoal extends Goal {
 	private long nextRepathTick;
 	private long nextSwitchAllowedTick;
 	private int failedPathAttempts;
+	/** 因不可达而放弃的噪声 id（id 单调递增不会复用，用于避免反复重试同一个不可达目标）喵~ */
+	private long unreachableNoiseId = Long.MIN_VALUE;
+	private EndReason endReason = EndReason.UNKNOWN;
 
 	/**
 	 * 构造循声 Goal 喵~
@@ -76,19 +79,41 @@ public final class HearNoiseGoal extends Goal {
 		this.destination = this.currentNoise.position();
 		this.currentScore = this.scoreOf(this.currentNoise, now);
 		this.failedPathAttempts = 0;
-		this.reportDebug(serverLevel, "investigates");
 		return this.tryMoveToDestination(now);
 	}
 
 	@Override
+	public void start() {
+		// 只有在 canUse 真正成功、Goal 实际启动后才输出诊断，避免"选中后立刻结束"造成重复刷屏喵~
+		this.endReason = EndReason.UNKNOWN;
+		if(this.mob.level() instanceof ServerLevel serverLevel) {
+			this.reportDebug(serverLevel, "investigates");
+		}
+	}
+
+	@Override
 	public boolean canContinueToUse() {
-		if(this.hasLiveTarget() || this.destination == null) {
+		if(this.hasLiveTarget()) {
+			this.endReason = EndReason.TARGET;
+			return false;
+		}
+		if(this.destination == null) {
+			this.endReason = EndReason.NO_DESTINATION;
 			return false;
 		}
 		if(this.arrived()) {
+			this.endReason = EndReason.ARRIVED;
 			return false;
 		}
-		return this.failedPathAttempts < MISCTWFHearingConfig.MAX_PATH_FAILURES.get();
+		if(this.failedPathAttempts >= MISCTWFHearingConfig.MAX_PATH_FAILURES.get()) {
+			// 记录该 pulse 不可达，避免每个查询间隔都对同一目标反复重试寻路喵~
+			if(this.currentNoise != null) {
+				this.unreachableNoiseId = this.currentNoise.id();
+			}
+			this.endReason = EndReason.PATH_FAILED;
+			return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -107,23 +132,31 @@ public final class HearNoiseGoal extends Goal {
 	public void stop() {
 		// 按决策 D5：不主动 navigation.stop()，避免清掉刚接管的高优先级 Goal 建立的路径喵~
 		if(this.mob.level() instanceof ServerLevel serverLevel) {
-			this.reportDebug(serverLevel, "stopped investigating");
+			this.reportDebug(serverLevel, "stopped investigating (" + this.endReason + ")");
 		}
 		this.currentNoise = null;
 		this.destination = null;
 		this.currentScore = 0.0F;
 		this.failedPathAttempts = 0;
+		this.endReason = EndReason.UNKNOWN;
 	}
 
 	/**
-	 * 允许调查的噪声类型过滤（P0 接受全部类型，留给后续按类型细调）喵~
+	 * 允许调查的噪声类型过滤喵~
+	 *
+	 * <p>除类型过滤外，这里还承担两项"防重入"职责：<br>
+	 * 1. 已经站在到达距离内的噪声不再选中（否则会在到达后每个查询间隔重复 investigate 又立刻 stop）；<br>
+	 * 2. 曾因不可达而放弃的 pulse 不再选中，避免对同一不可达目标反复重试寻路喵~</p>
 	 *
 	 * @param noise 噪声快照喵~
 	 * @return 是否可调查喵~
 	 */
 	private boolean canHearType(NoiseSnapshot noise) {
 		// TODO P1：如需按类型区分（例如只有爆炸/枪声才吸引远处怪物），在此加入类型白名单喵~
-		return true;
+		if(noise.id() == this.unreachableNoiseId) {
+			return false;
+		}
+		return this.mob.position().distanceTo(noise.position()) > this.profile.arrivalDistance();
 	}
 
 	/**
