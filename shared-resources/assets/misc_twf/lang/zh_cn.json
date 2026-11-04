@@ -209,6 +209,7 @@
   "commands.misc_twf_hearing.debug": "循声调试已对 %s %s",
   "commands.misc_twf_hearing.debug.on": "开启",
   "commands.misc_twf_hearing.debug.off": "关闭",
+  "commands.misc_twf_hearing.debug.copy": "复制该 UUID 到剪贴板",
   "commands.misc_twf_hearing.emit": "已产生噪声 %s #%s（半径 %s，强度 %s，过期于 %s）",
   "commands.misc_twf_hearing.emit.rejected": "噪声被拒绝（详见日志）"
 }
