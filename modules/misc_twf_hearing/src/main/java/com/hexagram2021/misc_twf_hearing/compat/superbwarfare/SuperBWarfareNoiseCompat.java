@@ -49,6 +49,7 @@ public final class SuperBWarfareNoiseCompat {
 		 *
 		 * @param event SBW 开火后事件喵~
 		 */
+		@SuppressWarnings({"deprecation", "UnstableApiUsage"})
 		@SubscribeEvent
 		public void onShoot(ShootEvent.Post event) {
 			ServerLevel level = event.getLevel();
@@ -58,7 +59,7 @@ public final class SuperBWarfareNoiseCompat {
 				return;
 			}
 			boolean suppressed = data.attachment.get(AttachmentType.BARREL) == 2;
-			double rawRadius = data.compute().soundRadius;
+			double rawRadius = data.compute().getSoundRadius();
 			ResourceLocation type = suppressed ? NoiseTypes.SUPPRESSED_GUNSHOT : NoiseTypes.GUNSHOT;
 			float radius = (float) (suppressed ? Math.max(MIN_SUPPRESSED_RADIUS, rawRadius * 0.5D) : rawRadius);
 			if(radius <= 0.0F) {
