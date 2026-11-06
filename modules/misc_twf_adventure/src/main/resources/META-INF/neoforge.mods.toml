@@ -37,7 +37,7 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
     ordering="NONE"
     side="BOTH"
 
-# Gun mod: provided by Superb Warfare on 1.21.1 (runtime modId = superbwarfare, code namespace tacz)
+# Gun mod: provided by Superb Warfare on 1.21.1 (runtime modId = superbwarfare); gun/ammo ids are rewritten in Phase B
 [[dependencies.${mod_id}]]
     modId="superbwarfare"
     versionRange="[0.8.9,)"
@@ -74,6 +74,25 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
     ordering="NONE"
     side="BOTH"
 
-# Sona: no 1.21.1 build yet; placeholder API + TODO until it publishes.
-# Optional link: misc_twf_zombie_animals (M1) - vaccine writes immunity via M1 public API (E7),
-# added here once that code dependency is migrated in.
+# Optional cross-module links (see docs/MODULARIZATION.md 4.3 / 11.13):
+# - misc_twf_hearing: monster egg hears noises via NoiseEmitEvent.Post (replaces Sona EXPOSURE);
+# - misc_twf_zombie_animals: vaccine writes immunity through M1 public API (E7).
+# Both are compileOnly/optional: missing modules must degrade instead of crashing (D5).
+[[dependencies.${mod_id}]]
+    modId="misc_twf_hearing"
+    type="optional"
+    versionRange="[4,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="misc_twf_zombie_animals"
+    type="optional"
+    versionRange="[4,)"
+    ordering="NONE"
+    side="BOTH"
+
+# TODO Phase B: two code dependencies are not yet declared because their CurseForge coordinates are unknown:
+# - com.seniors.justlevelingfork (skills/passives registry, used by MISCTWFSkills)
+# - net.mcbbs.uid1525632.hungerreworkedreforged (AttributeRegistration, used by MISCTWFSkills)
+# Sona is intentionally removed: hearing replaces EXPOSURE (D5).

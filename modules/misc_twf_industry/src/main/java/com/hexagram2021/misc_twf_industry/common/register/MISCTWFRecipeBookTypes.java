@@ -2,8 +2,8 @@ package com.hexagram2021.misc_twf_industry.common.register;
 
 import com.atsuishio.superbwarfare.data.gun.Ammo;
 import com.atsuishio.superbwarfare.init.ModItems;
-import com.atsuishio.superbwarfare.item.common.ammo.AmmoBoxItem;
-import com.atsuishio.superbwarfare.item.common.ammo.AmmoSupplierItem;
+import com.atsuishio.superbwarfare.item.ammo.AmmoBoxItem;
+import com.atsuishio.superbwarfare.item.ammo.AmmoSupplierItem;
 import com.atsuishio.superbwarfare.item.gun.GunItem;
 import com.hexagram2021.misc_twf_industry.common.recipe.RecoveryFurnaceRecipe;
 import net.minecraft.client.RecipeBookCategories;

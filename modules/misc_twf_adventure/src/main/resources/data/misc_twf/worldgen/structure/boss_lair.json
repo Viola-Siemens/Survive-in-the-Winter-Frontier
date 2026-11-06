@@ -1,0 +1,7 @@
+{
+  "type": "misc_twf:boss_lair",
+  "biomes": "#misc_twf:has_structure/boss_lair",
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_thin",
+  "spawn_overrides": {}
+}

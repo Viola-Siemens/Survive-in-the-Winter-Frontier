@@ -102,40 +102,57 @@ repositories {
 
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
+}
 
-    // 过渡期：根工程（仍含 M4 疫苗等代码）消费 M1 免疫 API（决策 D4 / 6.2-E7），M4 拆分后移除
-    implementation project(':misc_twf_zombie_animals')
+// ============================================================================
+// jar-in-jar 聚合：根工程自 M4 迁移完成后不再包含业务代码，五个模块以嵌套 jar 的形式
+// 打进本 jar 的 META-INF/jarjar/，并生成 NeoForge 需要的 metadata.json。
+// 发布时安装 root jar 即可获得全部内容；也可单独安装模块 jar（模块之间经 optional 依赖协作）。
+// ============================================================================
+def nestedModules = [
+        'misc_twf_zombie_animals',
+        'misc_twf_wildlife',
+        'misc_twf_industry',
+        'misc_twf_hearing',
+        'misc_twf_adventure'
+]
 
-    implementation ("mezz.jei:jei-1.21.1-neoforge:19.27.0.340")
-    implementation ("be.florens:expandability-neoforge:12.0.0")
-    compileOnly ("com.tterrag.registrate:Registrate:MC1.21-1.3.0+67")
-    implementation ('software.bernie.geckolib:geckolib-neoforge-1.21.1:4.8.4')
-    implementation ("top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1")
-    runtimeOnly ("net.darkhax.bookshelf:bookshelf-neoforge-1.21.1:21.1.81")
-    runtimeOnly ("dev.engine-room.flywheel:flywheel-neoforge-1.21.1:1.0.6")
+def nestedJarDir = layout.buildDirectory.dir('jarjar')
 
-    //implementation ("curse.maven:astages-1120180:6892933")            ////// todo: it's not open-sourced
-    implementation ('curse.maven:atlaslib-463826:5449009')              //////
-    //runtimeOnly ("curse.maven:biomancy-492939:4496477")       // todo: no 1.21.1
-    implementation ("curse.maven:create-328085:7408951")                //////
-    implementation("net.createmod.ponder:ponder-neoforge:1.0.81+mc1.21.1")
-    implementation ("curse.maven:createaddition-439890:7518252")        //////
-    runtimeOnly ("curse.maven:createdeco-509285:7314692")
-    implementation ("curse.maven:diet-1530806:8573582")                 //////
-    compileOnly ("curse.maven:sodium-394468:8756580")
-    compileOnly ("curse.maven:embeddiumplus-931925:7378108")
-    compileOnly ("curse.maven:sodiumextras-447673:8892306")
-    implementation ("curse.maven:hunger_reworked-847923:9007794-sources-9007802")
-    implementation ("curse.maven:hordes-485779:6772331")                //////
-    implementation ("curse.maven:jade-324717:8591319")                  //////
-    compileOnly ("curse.maven:kubejs-238086:7278501")
-    runtimeOnly ("curse.maven:spark-361579:6225208")
-    implementation ("curse.maven:superb-warfare-1218165:9019824-sources-9019839")   //////
-    implementation ("curse.maven:tetrachordlib-980149:5644644")         //////
-    implementation ("curse.maven:travelersbackpack-321117:7543685")     //////
-    implementation ("curse.maven:justlevelingfork-1073400:8555544")
-    runtimeOnly ("curse.maven:zombie_extreme-392809:7014504")
-    //implementation ("curse.maven:sona-survival-101-1023345:5828134")  // todo: no 1.21.1
+tasks.register('collectNestedJars', Copy) {
+    nestedModules.each { moduleName ->
+        dependsOn(":${moduleName}:jar")
+        from(project(":${moduleName}").tasks.named('jar').flatMap { it.archiveFile })
+    }
+    into(nestedJarDir)
+}
+
+tasks.register('writeJarJarMetadata') {
+    dependsOn 'collectNestedJars'
+    def modules = nestedModules
+    def outputDir = nestedJarDir
+    def nestedVersion = mod_version.toString()
+    doLast {
+        def dir = outputDir.get().asFile
+        def jars = modules.collect { moduleName ->
+            def fileName = "${moduleName}-${nestedVersion}.jar"
+            [
+                    identifier  : [group: "com.hexagram2021.${moduleName}".toString(), artifact: moduleName],
+                    version     : [range: "[${nestedVersion},)".toString(), artifactVersion: nestedVersion],
+                    path        : "META-INF/jarjar/${fileName}".toString(),
+                    isObfuscated: false
+            ]
+        }
+        new File(dir, 'metadata.json').setText(
+                groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson([jars: jars])), 'UTF-8')
+    }
+}
+
+tasks.named('jar', Jar) {
+    dependsOn 'writeJarJarMetadata'
+    from(nestedJarDir) {
+        into 'META-INF/jarjar'
+    }
 }
 
 tasks.withType(ProcessResources).configureEach {

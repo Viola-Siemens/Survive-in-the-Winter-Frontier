@@ -7,16 +7,12 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
     modId="${mod_id}"
     version="${mod_version}"
     displayName="${mod_name}"
-    logoFile="logo.png"
     credits="Hexagram"
     authors="${mod_authors}"
     description='''${mod_description}'''
 
 [[accessTransformers]]
     file="META-INF/accesstransformer.cfg"
-
-[[mixins]]
-    config="${mod_id}.mixins.json"
 
 [[dependencies.misc_twf]]
     modId="neoforge"

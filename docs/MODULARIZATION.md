@@ -87,7 +87,7 @@
     misc_twf_hearing/                 # 循声模块（M4 前置；无内容注册，仅 API/Goal/命令）
   ```
   建议 `buildSrc`（或 included convention）统一模块构建；每模块自带 `neoforge.mods.toml`、`*.mixins.json`、独立配置与独立存档键名、独立创造页。
-- 原 `misc_twf` 单体入口随迁移完成退役；发布由 4 个内容模块 + 1 个循声模块（共 5 个 jar）取代（整合包按需安装，循声模块为 M4 的前置）。
+- 原 `misc_twf` 单体入口随迁移完成退役；发布形态为：**根聚合 jar**（`misc_twf-4.0.0.jar`，通过 `META-INF/jarjar/` + `metadata.json` 内嵌 5 个模块）+ 5 个可单独安装的模块 jar（`misc_twf_zombie_animals` / `misc_twf_wildlife` / `misc_twf_industry` / `misc_twf_hearing` / `misc_twf_adventure`）。整合包默认只装聚合 jar 即可获得全部内容；循声模块作为 M4 的前置，可单独安装或随聚合 jar 一起分发。
 
 ### 4.3 模块间关系与依赖矩阵
 
@@ -173,13 +173,16 @@ H 循声： 独立闭环，不依赖任何兄弟模块（枪声适配走 compat 
   3. **深渊巢穴与怪物蛋**：BossLair 结构全套（type/configured/set/pieces/biome 标签 + 结构数据/代码调色板）、怪物蛋方块/BE/数据组件/特性与放置、孵化判定与客户端动画包（GeckoLib）、巢穴战利品表（含对 M3 材料与大量外部模组物品的引用，见 6.2-E1/E3/E4）；
   4. **末世装饰**：人体尸体族、血腥内脏（含血液流体与 expandability 游泳微调）、医疗家具、垃圾废品、军警/工地道具、感染地块等（与结构同模块，D2）；
   5. **随域微调（D3）**：炼药锅/发射器/酿造、怪物蛋音效的 `sound_barrier` 方块标签、其它明确属冒险机制的微调。
-- **对外提供/消费**：消费 M1 免疫 API（optional）；其余兄弟模块零依赖。
+- **对外提供/消费**：消费 M1 免疫 API（optional）；消费 H 循声 API（optional，怪物蛋"听声激活"）；其余兄弟模块零依赖。
 - **解耦改造点**：
   - 疫苗写入免疫的调用点以 M1 API + 可选模组判定实现（M1 缺失时跳过，不崩溃）；
   - 结构代码对 `createdeco`/`verdure` 等外部方块的懒解析保持"存在即用"；
-  - 战利品/怪物蛋数据对 M3 材料、tacz、zombie_extreme、kubejs 的引用按 6.2 处置；
-  - Sona 引用按"约定 API + TODO 占位"处理（等待其 1.21.1 版本）。
-- **验收要点**：疫苗链可独立游玩（无 M1 时免疫注册降级）；背包升级/弹药存取/破坏保留数据；巢穴与怪物蛋按数据配置生成；装饰道具全部正常。
+  - 战利品/怪物蛋数据对 M3 材料、zombie_extreme、kubejs 的引用按 6.2 处置；
+  - **Sona 已由 H 循声模块整体替代**：怪物蛋的 EXPOSURE 曝光判定改为监听 `NoiseEmitEvent.Post`（事件驱动"听声激活"），旧 `com.scarasol.sona.*` 与 `mixin/tacz/*` 全部删除；
+  - **TaC → SW**：枪械/弹药引用按 `docs/M4_TACZ_TO_SW_MAP.md` 映射（`tacz:m4a1 → superbwarfare:m_4`；16 口径 → 5 类 SW 弹药）；
+  - **背包弹药槽**：保留槽位与 UI，槽位只接受 SW 弹药（`AmmoSupplierItem`/`AmmoBoxItem`），供弹改为"从槽内物品补入 `PlayerVariable.ammo` 玩家弹药池"（`ReloadEvent.Pre`/`ShootEvent.Pre` 时结算），TaC `IAmmo` 体系删除；
+  - **GameStages 移除**：疫苗锅 `hasStageToCovert` 恒 true（`net.darkhax.gamestages` 依赖删除），阶段门槛按业务决策取消。
+- **验收要点**：疫苗链可独立游玩（无 M1 时免疫注册降级）；怪物蛋在无 H 时降级为"不响应声音"；背包升级/弹药存取/破坏保留数据；巢穴与怪物蛋按数据配置生成；装饰道具全部正常。
 
 ---
 
@@ -271,7 +274,7 @@ H 循声： 独立闭环，不依赖任何兄弟模块（枪声适配走 compat 
 | M1 `misc_twf_zombie_animals` | **已完成迁入与移植（v1）** | 实体/行为/渲染/音效、免疫存档与 API、Hordes 豁免 mixin 与数据、模块配置均已迁入；模块在 NeoForge 1.21.1 下**可独立编译打包**（`misc_twf_zombie_animals-4.0.0.jar`）。运行期联编冒烟待依赖就绪。 |
 | M2 `misc_twf_wildlife` | **已完成迁入与移植（v1）** | 动物尸体方块族/方块实体/数据组件、粪便 attachment 与排泄计时、产奶冷却、冬小麦与食物数据、Jade 实体信息 provider、AppleSeed 盐分组联动（替代原 EasyDiet）均已迁入；模块在 NeoForge 1.21.1 下**可独立编译打包**（`misc_twf_wildlife-4.0.0.jar`，含 77 个资源与模块创造页）。运行期联编冒烟待依赖就绪。 |
 | M3 `misc_twf_industry` | **已完成迁入与移植（v1）** | 能源装备与紫外线灯（含灯坐标存档 `MISCTWFLampSavedData`、chloride 真黑暗抑制）、回收炉（配方书分类 SW 化）、弹药模具工业（模具 14 → 5 并产出 `superbwarfare:<cat>_ammo`）均已迁入；模块在 NeoForge 1.21.1 下**可独立编译打包**（`misc_twf_industry-4.0.0.jar`，316 条目），根工程 M3 残留 0 命中；`MISCTWFRecipeBookTypes` 去 TaC 化、两个死代码 accessor 已删。 |
-| M4 `misc_twf_adventure` | 未开始 | — |
+| M4 `misc_twf_adventure` | **已完成迁入与移植（v1）** | Phase A：140 个 Java（含主类初始化链合并）+ 470 个资源迁入，删除 5 个 TaC mixin 与 3 个空包 `package-info`，GameStages 移除，根 `src/main/java` 仅剩聚合主类。Phase B：`MISCTWFBlocks`/`MISCTWFCommonConfig` 按引用重建、Sona `EXPOSURE` → `NoiseEmitEvent.Post`（`MonsterEggHearingHandler`）、Forge→NeoForge、`level` 字段、结构/特性注册改数据驱动、TaC→SW（战利品表按 `docs/M4_TACZ_TO_SW_MAP.md` 改写、`com.tacz` 0 引用）、背包弹药槽改用 `TRAVELERS_BACKPACK_TAC_DATA` + `BackpackAmmoFeeder`（`ShootEvent.Pre`/`ReloadEvent.Pre` → `PlayerVariable.ammo`）、TB 1.21 API 适配、装饰方块注册 44 个（其中 41 个新增，`BodyBlock` 尺寸由模型推断）、`gun_mastery` 改事件驱动（`LivingDamageEvent.Pre` + SW `ProjectileEntity`，取代 TaC mixin）、`data/forge` 路径现代化、**1.21 注册表目录单数化**（`loot_table`/`recipe`/`tags/fluid`）、补 `worldgen/structure|structure_set/boss_lair.json`（生物群系标签按业务决定留空、由数据包填充）。模块**可独立编译打包**（`misc_twf_adventure-4.0.0.jar`，约 750 条目 / 170+ class / 526 资源）；根聚合 jar `misc_twf-4.0.0.jar`（2715 KB，内嵌 5 个模块 + metadata）**构建通过**。**剩余**：弹药持久化与 TAC 界面视觉实机验证、Boss 巢穴生成实机确认、16 个无 Java 类的旧 block id 资源去留、技能系统（`strong_stomach`）去留。 |
 | H `misc_twf_hearing` | **H0~H3 已实现，待 H4 实机验收** | 纯循声系统（替代 Sona，M4 前置）：设计与实施计划见第 11 章；D1/D2/D4/D5/D6 已确认，D3/D7/D8/D9 已按拍板定稿（lifetime 区间随机、每类型 radius/strength 配置化、§30-B、消音半径策略）。现状：工程骨架、核心（数据模型/区块桶索引/评分/管理器/公开 API/事件/限频与生命周期）、AI（`HearNoiseGoal` + Tag 注入 + Attachment 幂等 + `HearingProfile`）、原版来源监听、SW 枪声适配与爆炸噪声、`/hearing` 命令与调试输出均已完成并**可独立编译打包**（`misc_twf_hearing-4.0.0.jar`，70 条目）；**仅剩 H4**：按需求 §43/§44 做实机性能与兼容矩阵验收。 |
 
 - **FragileEffect 归属修订（运行时证据，§5.1/§6.1 已同步）**：脆弱效果在单体中只被紫外线灯（工业域）施加（`UltravioletLampBlockEntity` 施加脆弱 II/IV），按“留给触发方”原则归 M3，不随 M1 迁出；其伤害加成消费方（原 `ForgeEventHandler.onLivingHurt`）同样留在根工程（M3 域）。

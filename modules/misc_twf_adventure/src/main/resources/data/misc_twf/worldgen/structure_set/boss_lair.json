@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 40,
+    "separation": 12,
+    "salt": 1280734621
+  },
+  "structures": [
+    {
+      "structure": "misc_twf:boss_lair",
+      "weight": 1
+    }
+  ]
+}
