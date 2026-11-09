@@ -81,14 +81,14 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
 [[dependencies.${mod_id}]]
     modId="misc_twf_hearing"
     type="optional"
-    versionRange="[4,)"
+    versionRange="[4.0.0-alpha,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.${mod_id}]]
     modId="misc_twf_zombie_animals"
     type="optional"
-    versionRange="[4,)"
+    versionRange="[4.0.0-alpha,)"
     ordering="NONE"
     side="BOTH"
 
