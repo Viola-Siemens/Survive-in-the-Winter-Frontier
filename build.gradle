@@ -129,7 +129,9 @@ def nestedModules = [
 
 def nestedJarDir = layout.buildDirectory.dir('jarjar')
 
-tasks.register('collectNestedJars', Copy) {
+// 注意：此处必须用 Sync 而不是 Copy——Sync 会清理目标目录中不在本次拷贝范围内的旧文件，
+// 否则修改版本号后会残留上一版本的模块 jar，导致聚合 jar 内同时出现新旧两份嵌套 jar喵~
+tasks.register('collectNestedJars', Sync) {
     nestedModules.each { moduleName ->
         dependsOn(":${moduleName}:jar")
         from(project(":${moduleName}").tasks.named('jar').flatMap { it.archiveFile })
