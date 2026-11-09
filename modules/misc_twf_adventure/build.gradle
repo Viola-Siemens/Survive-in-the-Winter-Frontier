@@ -7,6 +7,8 @@ apply from: rootProject.file('gradle/module-common.gradle')
 
 // 依赖草案（对应 docs/MODULARIZATION.md 4.1/4.3 与 6.2-E1/E3/E4，依赖就绪后定稿）。
 dependencies {
+    localRuntime 'thedarkcolour:kotlinforforge-neoforge:5.12.0'
+
     // travelersbackpack：TAC 弹药槽升级与容器 mixin 的目标模组（强制）
     implementation 'curse.maven:travelersbackpack-321117:7543685'
     // 枪械模组：1.21.1 由 superb-warfare 提供（运行时 modId=superbwarfare，代码命名空间仍为 tacz；强制）
@@ -26,5 +28,4 @@ dependencies {
     compileOnly project(':misc_twf_hearing')
     // jade：MutantPotionCauldronProvider 的编译依赖（运行时可选；Jade 缺失时插件不会被加载）
     compileOnly 'curse.maven:jade-324717:8591319'
-    // Sona：MonsterEggBlockEntity 曾直接 import（无 1.21.1），按“约定 API + TODO 占位”处理，发布后补依赖
 }

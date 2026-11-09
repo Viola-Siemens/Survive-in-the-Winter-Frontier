@@ -3,6 +3,7 @@ package com.hexagram2021.misc_twf_adventure.common;
 import be.florens.expandability.api.EventResult;
 import be.florens.expandability.api.forge.PlayerSwimEvent;
 import com.hexagram2021.misc_twf_adventure.common.item.AbyssVirusVaccine;
+import com.hexagram2021.misc_twf_adventure.common.register.MISCTWFBrewingRecipes;
 import com.hexagram2021.misc_twf_adventure.common.register.MISCTWFFluids;
 import com.hexagram2021.misc_twf_adventure.common.register.MISCTWFItems;
 import com.hexagram2021.misc_twf_zombie_animals.server.MISCTWFImmunitySavedData;
@@ -14,6 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
 
@@ -93,6 +95,16 @@ public final class ForgeEventHandler {
 	@SubscribeEvent
 	public static void onGetBurnTime(FurnaceFuelBurnTimeEvent event) {
 		// empty
+	}
+
+	/**
+	 * 注册酿造配方喵~
+	 *
+	 * @param event 酿造配方注册事件喵~
+	 */
+	@SubscribeEvent
+	public static void registerPotions(RegisterBrewingRecipesEvent event) {
+		MISCTWFBrewingRecipes.init(event.getBuilder());
 	}
 
 	private ForgeEventHandler() {

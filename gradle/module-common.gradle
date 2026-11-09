@@ -98,6 +98,10 @@ repositories {
         name = "ParchmentMC"
         url = "https://maven.parchmentmc.org/"
     }
+    maven {
+        name = 'Kotlin for Forge'
+        url = 'https://thedarkcolour.github.io/KotlinForForge/'
+    }
 }
 
 dependencies {

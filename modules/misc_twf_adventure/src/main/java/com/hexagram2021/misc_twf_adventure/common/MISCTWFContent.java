@@ -3,10 +3,8 @@ package com.hexagram2021.misc_twf_adventure.common;
 import com.hexagram2021.misc_twf_adventure.common.network.ClientboundMonsterEggAnimationPacket;
 import com.hexagram2021.misc_twf_adventure.common.network.ServerboundOpenTacBackpackPacket;
 import com.hexagram2021.misc_twf_adventure.common.register.MISCTWFAttributes;
-import com.hexagram2021.misc_twf_adventure.common.register.MISCTWFBrewingRecipes;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 
@@ -17,17 +15,6 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
  * @author liudongyu
  */
 public final class MISCTWFContent {
-
-	/**
-	 * 注册酿造配方喵~
-	 *
-	 * @param event 酿造配方注册事件喵~
-	 */
-	@SubscribeEvent
-	public static void registerPotions(RegisterBrewingRecipesEvent event) {
-		MISCTWFBrewingRecipes.init(event.getBuilder());
-	}
-
 	/**
 	 * 修改原版实体的默认属性喵~
 	 * 为玩家添加枪械精通度属性喵~

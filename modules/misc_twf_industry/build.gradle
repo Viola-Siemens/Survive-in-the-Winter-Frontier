@@ -7,6 +7,8 @@ apply from: rootProject.file('gradle/module-common.gradle')
 
 // 依赖草案（对应 docs/MODULARIZATION.md 4.1/4.3 与 6.2-E2，依赖就绪后定稿）。
 dependencies {
+    localRuntime 'thedarkcolour:kotlinforforge-neoforge:5.12.0'
+
     // Create 系：能量/灯（createaddition）、回收炉与模具（create + Registrate + ponder）
     implementation 'curse.maven:create-328085:7408951'
     implementation 'curse.maven:createaddition-439890:7518252'
