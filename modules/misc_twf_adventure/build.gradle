@@ -21,8 +21,8 @@ dependencies {
     implementation 'be.florens:expandability-neoforge:12.0.0'
     // kubejs：巢穴战利品等引用其物品（仅数据引用，可选；代码需要时改 implementation）
     compileOnly 'curse.maven:kubejs-238086:7278501'
-    // zombie_extreme：怪物蛋孵化池/巢穴战利品引用的实体与物品（6.2-E3，巢穴结构依赖其实体和装饰方块）
-    runtimeOnly 'curse.maven:zombie_extreme-392809:7014504'
+    // mutantszombies、infectedmonsters：怪物蛋孵化池/巢穴战利品引用的实体与物品
+    runtimeOnly 'curse.maven:mutantszombies-1204883:7142128'
     // 交叉模块（可选）：疫苗写入 M1 免疫 API；怪物蛋接循声模块事件（Phase B 落地）
     compileOnly project(':misc_twf_zombie_animals')
     compileOnly project(':misc_twf_hearing')

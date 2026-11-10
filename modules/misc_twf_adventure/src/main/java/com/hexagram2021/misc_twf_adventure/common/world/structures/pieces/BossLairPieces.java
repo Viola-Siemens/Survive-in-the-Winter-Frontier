@@ -630,10 +630,10 @@ public class BossLairPieces {
 	 * Boss 巢穴 Boss 房间组件，生成肉质脉络地形和原始摇篮（Boss 召唤台），并包含战利品背包喵~
 	 */
 	public static final class BossRoomPiece extends AbstractEarRoomPiece {
-		private static final BlockState EMPTY_CANS = state("zombie_extreme", "empty_cans");
-		private static final BlockState IRON_TABLE = state("zombie_extreme", "iron_table");
-		private static final BlockState WOODEN_CHAIR = state("zombie_extreme", "wooden_chair");
-		private static final BlockState DECOMPOSING_BACKPACK = state("zombie_extreme", "decomposing_backpack");
+		private static final BlockState EMPTY_CANS = state("minecraft", "decorated_pot");
+		private static final BlockState IRON_TABLE = state("minecraft", "damaged_anvil");
+		private static final BlockState WOODEN_CHAIR = state("minecraft", "oak_stairs");
+		private static final BlockState DECOMPOSING_BACKPACK = state("minecraft", "chest");
 
 		private static final BlockState PRIMORDIAL_CRADLE = state("biomancy", "primordial_cradle");
 

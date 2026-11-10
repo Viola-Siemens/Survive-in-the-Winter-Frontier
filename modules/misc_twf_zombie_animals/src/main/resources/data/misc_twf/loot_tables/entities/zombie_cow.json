@@ -45,7 +45,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "zombie_extreme:rotten_apple"
+          "name": "minecraft:apple"
         }
       ],
       "rolls": 1.0

@@ -4,22 +4,78 @@
     "entries": [
       {
         "type": "minecraft:zombie",
+        "weight": 250
+      },
+      {
+        "type": "mutantszombies:crawler",
+        "weight": 160
+      },
+      {
+        "type": "mutantszombies:split_head_zombie",
+        "weight": 100
+      },
+      {
+        "type": "infectedmonsters:hazmat",
+        "weight": 90
+      },
+      {
+        "type": "infectedmonsters:smoker",
+        "weight": 80
+      },
+      {
+        "type": "infectedmonsters:pustulant",
+        "weight": 80
+      },
+      {
+        "type": "infectedmonsters:spitter",
+        "weight": 60
+      },
+      {
+        "type": "infectedmonsters:jockey",
+        "weight": 50
+      },
+      {
+        "type": "mutantszombies:spitter",
+        "weight": 30
+      },
+      {
+        "type": "infectedmonsters:ripper",
+        "weight": 30
+      },
+      {
+        "type": "infectedmonsters:mutant",
+        "weight": 20
+      },
+      {
+        "type": "mutantszombies:blister_zombie",
+        "weight": 20
+      },
+      {
+        "type": "infectedmonsters:lesser_night_demon",
+        "weight": 10
+      },
+      {
+        "type": "infectedmonsters:chimera",
         "weight": 6
       },
       {
-        "type": "zombie_extreme:night_hunter",
-        "weight": 5
+        "type": "infectedmonsters:charger",
+        "weight": 4
       },
       {
-        "type": "zombie_extreme:infected_juggernaut",
+        "type": "mutantszombies:rotten_mutant",
+        "weight": 4
+      },
+      {
+        "type": "mutantszombies:zombie_brute",
+        "weight": 3
+      },
+      {
+        "type": "mutantszombies:mutant_brute",
         "weight": 2
       },
       {
-        "type": "zombie_extreme:infected_hazmat",
-        "weight": 2
-      },
-      {
-        "type": "zombie_extreme:patient_zero",
+        "type": "infectedmonsters:night_demon",
         "weight": 1
       }
     ]

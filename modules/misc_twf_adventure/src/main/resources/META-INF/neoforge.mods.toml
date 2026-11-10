@@ -58,11 +58,17 @@ issueTrackerURL="https://github.com/Viola-Siemens/Survive-in-the-Winter-Frontier
     ordering="NONE"
     side="BOTH"
 
-# zombie_extreme: monster egg hatching pool & lair loot references (optional; runtime behaviour TBD, 6.2-E3)
 [[dependencies.${mod_id}]]
-    modId="zombie_extreme"
+    modId="mutantszombies"
     type="optional"
-    versionRange="[0.2.6.5,)"
+    versionRange="[1.3,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="infectedmonsters"
+    type="optional"
+    versionRange="[1,)"
     ordering="NONE"
     side="BOTH"
 
