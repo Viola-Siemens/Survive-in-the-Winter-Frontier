@@ -12,6 +12,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -50,9 +51,8 @@ public final class MISCTWFBlocks {
 	/** 模具分离器方块，与 Create 模组联动使用喵~ */
 	public static final com.tterrag.registrate.util.entry.BlockEntry<MoldDetacherBlock> MOLD_DETACHER = ModCreateCompat.REGISTRATE
 			.block("mold_detacher", MoldDetacherBlock::new)
-			.initialProperties(() -> net.minecraft.world.level.block.Blocks.PODZOL)
+			.initialProperties(() -> Blocks.PODZOL)
 			.properties(properties -> properties.strength(2.0F).sound(SoundType.WOOD).noOcclusion())
-			.simpleItem()
 			.register();
 
 	/** 模具加工台方块，与 Create 模组联动使用喵~ */
@@ -60,7 +60,6 @@ public final class MISCTWFBlocks {
 			.block("mold_workbench", MoldWorkbenchBlock::new)
 			.initialProperties(() -> OAK_PLANKS)
 			.properties(properties -> properties.strength(2.0F).sound(SoundType.WOOD))
-			.simpleItem()
 			.register();
 
 	/** 回收炉方块，用于回收物品喵~ */

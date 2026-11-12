@@ -15,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
@@ -143,6 +144,12 @@ public final class MISCTWFItems {
 			ENERGY_ITEM_MODIFIER
 	);
 
+	/** 模具分离器 */
+	public static final ItemEntry<BlockItem> MOLD_DETACHER = ItemEntry.register("mold_detacher", () -> new BlockItem(MISCTWFBlocks.MOLD_DETACHER.get(), new Item.Properties()));
+
+	/** 模具加工台 */
+	public static final ItemEntry<BlockItem> MOLD_WORKBENCH = ItemEntry.register("mold_workbench", () -> new BlockItem(MISCTWFBlocks.MOLD_WORKBENCH.get(), new Item.Properties()));
+
 	/** 远行者护甲套装映射表喵~ */
 	public static final Map<ArmorItem.Type, ItemEntry<WayfarerArmorItem>> WAYFARER_ARMORS = Maps.newEnumMap(ArmorItem.Type.class);
 
@@ -242,6 +249,19 @@ public final class MISCTWFItems {
 		 */
 		public static <T extends Item> ItemEntry<T> register(String name, Supplier<? extends T> make, Consumer<ItemStack> tabStackModifier) {
 			return new ItemEntry<>(REGISTER.register(name, make), tabStackModifier);
+		}
+
+		/**
+		 * 链接某个已有的物品（不注册）
+		 * @param name 物品名
+		 * @return 物品注册条目
+		 * @param <T> 物品类型
+		 */
+		public static <T extends Item> ItemEntry<T> link(String name) {
+			return new ItemEntry<>(DeferredHolder.create(
+					Registries.ITEM, ResourceLocation.fromNamespaceAndPath(CONTENT_NAMESPACE, name)
+			), stack -> {
+			});
 		}
 
 		@Override

@@ -140,6 +140,7 @@ public final class MISCTWFItems {
 		private ItemEntry(DeferredHolder<Item, T> regObject, Consumer<ItemStack> tabStackModifier) {
 			this.regObject = regObject;
 			this.tabStackModifier = tabStackModifier;
+			ITEMS.add(this);
 		}
 
 		/**
@@ -221,5 +222,8 @@ public final class MISCTWFItems {
 			this.tabStackModifier.accept(ret);
 			return ret;
 		}
+	}
+
+	private MISCTWFItems() {
 	}
 }
