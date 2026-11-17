@@ -7,6 +7,7 @@ import com.hexagram2021.misc_twf_industry.common.register.MISCTWFBlockEntities;
 import com.hexagram2021.misc_twf_industry.common.register.MISCTWFItemTags;
 import com.hexagram2021.misc_twf_industry.common.register.MISCTWFMobEffects;
 import com.hexagram2021.misc_twf_industry.server.MISCTWFLampSavedData;
+import com.mrh0.createaddition.energy.InternalEnergyStorage;
 import net.minecraft.core.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -54,6 +55,8 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 
 	/** 能量消耗倒计时,每次消耗能量后重置为 20 游戏刻喵~ */
 	private int tickEnergyTime = 0;
+
+	private final IEnergyStorage energyCapability = new InternalEnergyStorage(160, 160, 1);
 
 	/**
 	 * 构造强紫外线照射灯方块实体喵~
@@ -278,5 +281,13 @@ public class UltravioletLampBlockEntity extends BaseContainerBlockEntity impleme
 		for(ItemStack itemstack : this.items) {
 			contents.accountStack(itemstack);
 		}
+	}
+
+	/**
+	 * 获取能量存储能力
+	 * @return 能量存储能力
+	 */
+	public IEnergyStorage getEnergyCapability() {
+		return this.energyCapability;
 	}
 }

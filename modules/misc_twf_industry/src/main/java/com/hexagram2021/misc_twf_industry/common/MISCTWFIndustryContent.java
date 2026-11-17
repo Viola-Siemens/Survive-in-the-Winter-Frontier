@@ -1,5 +1,6 @@
 package com.hexagram2021.misc_twf_industry.common;
 
+import com.hexagram2021.misc_twf_industry.common.capability.EnergyItemStorage;
 import com.hexagram2021.misc_twf_industry.common.item.IEnergyItem;
 import com.hexagram2021.misc_twf_industry.common.register.*;
 import com.mrh0.createaddition.energy.InternalEnergyStorage;
@@ -73,24 +74,20 @@ public final class MISCTWFIndustryContent {
 		event.registerBlockEntity(
 				Capabilities.EnergyStorage.BLOCK,
 				MISCTWFBlockEntities.ULTRAVIOLET_LAMP.get(),
-				(container, side) -> new InternalEnergyStorage(160, 160, 1)
+				(container, side) -> container.getEnergyCapability()
 		);
 		event.registerItem(
 				Capabilities.EnergyStorage.ITEM,
-				(itemStack, context) -> itemStack.getItem() instanceof IEnergyItem energyItem ? new InternalEnergyStorage(
-						energyItem.getEnergyCapability(),
-						energyItem.getMaxEnergyReceiveSpeed(),
-						energyItem.getMaxEnergyExtractSpeed()
-				) : new InternalEnergyStorage(0, 0, 0),
+				(itemStack, context) -> itemStack.getItem() instanceof IEnergyItem energyItem ?
+						new EnergyItemStorage(itemStack, energyItem) :
+						new InternalEnergyStorage(0, 0, 0),
 				MISCTWFItems.MILITARY_ACCUMULATOR, MISCTWFItems.ORDINARY_ACCUMULATOR, MISCTWFItems.NIGHT_VISION_DEVICE
 		);
 		event.registerItem(
 				Capabilities.EnergyStorage.ITEM,
-				(itemStack, context) -> itemStack.getItem() instanceof IEnergyItem energyItem ? new InternalEnergyStorage(
-						energyItem.getEnergyCapability(),
-						energyItem.getMaxEnergyReceiveSpeed(),
-						energyItem.getMaxEnergyExtractSpeed()
-				) : new InternalEnergyStorage(0, 0, 0),
+				(itemStack, context) -> itemStack.getItem() instanceof IEnergyItem energyItem ?
+						new EnergyItemStorage(itemStack, energyItem) :
+						new InternalEnergyStorage(0, 0, 0),
 				MISCTWFItems.WAYFARER_ARMORS.values().toArray(ItemLike[]::new)
 		);
 	}
