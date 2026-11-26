@@ -20,7 +20,7 @@ public final class MISCTWFCreativeModeTabs {
 
 	/** 模组主创造模式标签页，包含所有模组物品喵~ */
 	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN = REGISTER.register("main", () -> CreativeModeTab.builder()
-			.title(Component.translatable("itemGroup.misc_twf"))
+			.title(Component.translatable("itemGroup.misc_twf.adventure"))
 			.icon(() -> new ItemStack(MISCTWFItems.ABYSS_VIRUS_VACCINE))
 			.displayItems((parameters, output) -> MISCTWFItems.ItemEntry.getItems().forEach(output::accept))
 			.build()

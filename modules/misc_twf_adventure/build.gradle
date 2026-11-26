@@ -25,7 +25,7 @@ dependencies {
     runtimeOnly 'curse.maven:mutantszombies-1204883:7142128'
     // 交叉模块（可选）：疫苗写入 M1 免疫 API；怪物蛋接循声模块事件（Phase B 落地）
     compileOnly project(':misc_twf_zombie_animals')
-    compileOnly project(':misc_twf_hearing')
+    implementation project(':misc_twf_hearing')
     // jade：MutantPotionCauldronProvider 的编译依赖（运行时可选；Jade 缺失时插件不会被加载）
     compileOnly 'curse.maven:jade-324717:8591319'
 }

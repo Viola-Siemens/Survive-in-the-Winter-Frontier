@@ -90,6 +90,7 @@ public class DeadAnimalBlock extends BaseEntityBlock {
 				);
 				if(!loot.isEmpty()) {
 					Block.popResource(level, blockPos.above(), loot);
+					itemStack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
 				}
 			}
 			return ItemInteractionResult.CONSUME;

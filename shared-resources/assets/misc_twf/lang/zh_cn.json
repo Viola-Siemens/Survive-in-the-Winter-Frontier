@@ -3,8 +3,6 @@
   "language.code": "zh_cn",
   "language.region": "China",
 
-  "itemGroup.misc_twf": "冬境边域：生存法则",
-
   "block.misc_twf.mold_detacher": "模具分离器",
   "block.misc_twf.mold_workbench": "模具加工台",
   "block.misc_twf.recovery_furnace": "回收炉",
@@ -112,7 +110,7 @@
   "item.misc_twf.lamp_pedestal": "紫外线灯底座",
   "item.misc_twf.lamp_tube": "紫外线灯管",
   "item.misc_twf.uv_led": "紫外LED灯",
-  "item.misc_twf.travelers_backpack_tac_slot": "旅行背包永恒枪械工坊子弹槽",
+  "item.misc_twf.travelers_backpack_tac_slot": "旅行背包卓越前线子弹槽",
   "item.misc_twf.animal_poop": "动物粪便",
   "item.misc_twf.winter_wheat": "冬小麦",
   "item.misc_twf.winter_wheat_seeds": "冬小麦种子",
@@ -120,7 +118,7 @@
   "item.misc_twf.clay_mold": "粘土模具",
 
   "item.misc_twf.energy.stored": "电量：（%d / %d）",
-  "item.misc_twf.has_tac_slot": "可以存放TaC弹药",
+  "item.misc_twf.has_tac_slot": "可以存放卓越前线弹药",
 
   "entity.misc_twf.zombie_chicken": "僵尸鸡",
   "entity.misc_twf.zombie_cow": "僵尸牛",
@@ -156,7 +154,7 @@
 
   "message.misc_twf.abyss_virus_vaccine.success": "已将深渊病毒疫苗注射到%s身上。",
 
-  "screen.travelersbackpack.tac_button": "打开永恒枪械工坊子弹槽",
+  "screen.travelersbackpack.tac_button": "打开卓越前线子弹槽",
   "screen.travelersbackpack.tac_back": "返回背包",
 
   "misc_twf.ponder.mold_detacher.header": "使用模具分离器",
@@ -211,5 +209,6 @@
   "commands.misc_twf_hearing.debug.off": "关闭",
   "commands.misc_twf_hearing.debug.copy": "复制该 UUID 到剪贴板",
   "commands.misc_twf_hearing.emit": "已产生噪声 %s #%s（半径 %s，强度 %s，过期于 %s）",
-  "commands.misc_twf_hearing.emit.rejected": "噪声被拒绝（详见日志）"
+  "commands.misc_twf_hearing.emit.rejected": "噪声被拒绝（详见日志）",
+  "itemGroup.misc_twf.adventure": "冬境边域：冒险生态"
 }

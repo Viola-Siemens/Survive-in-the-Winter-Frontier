@@ -3,8 +3,6 @@
   "language.code": "en_us",
   "language.region": "United States",
 
-  "itemGroup.misc_twf": "Survive in the Winter Frontier",
-
   "block.misc_twf.mold_detacher": "Mold Detacher",
   "block.misc_twf.mold_workbench": "Mold Workbench",
   "block.misc_twf.recovery_furnace": "Recovery Furnace",
@@ -112,7 +110,7 @@
   "item.misc_twf.lamp_pedestal": "Lamp Pedestal",
   "item.misc_twf.lamp_tube": "Lamp Tube",
   "item.misc_twf.uv_led": "UV LED",
-  "item.misc_twf.travelers_backpack_tac_slot": "Traveler's Backpack TaC Slot",
+  "item.misc_twf.travelers_backpack_tac_slot": "Traveler's Backpack SuperbWarfare Slot",
   "item.misc_twf.animal_poop": "Animal Poop",
   "item.misc_twf.winter_wheat": "Winter Wheat",
   "item.misc_twf.winter_wheat_seeds": "Winter Wheat Seeds",
@@ -120,7 +118,7 @@
   "item.misc_twf.clay_mold": "Clay Mold",
 
   "item.misc_twf.energy.stored": "Energy: (%d / %d)",
-  "item.misc_twf.has_tac_slot": "Available to store TaC ammo",
+  "item.misc_twf.has_tac_slot": "Available to store SuperbWarfare ammo",
 
   "entity.misc_twf.zombie_chicken": "Zombie Chicken",
   "entity.misc_twf.zombie_cow": "Zombie Cow",
@@ -156,7 +154,7 @@
 
   "message.misc_twf.abyss_virus_vaccine.success": "Injected abyss virus vaccine to %s.",
 
-  "screen.travelersbackpack.tac_button": "Open TaC Bullet Slot",
+  "screen.travelersbackpack.tac_button": "Open SuperbWarfare Bullet Slot",
   "screen.travelersbackpack.tac_back": "Back to Backpack",
 
   "misc_twf.ponder.mold_detacher.header": "Using mold detachers",
@@ -211,5 +209,6 @@
   "commands.misc_twf_hearing.debug.off": "OFF",
   "commands.misc_twf_hearing.debug.copy": "Copy this uuid to clipboard",
   "commands.misc_twf_hearing.emit": "Emitted noise %s #%s (radius %s, strength %s, expire %s)",
-  "commands.misc_twf_hearing.emit.rejected": "Noise was rejected (see log)"
+  "commands.misc_twf_hearing.emit.rejected": "Noise was rejected (see log)",
+  "itemGroup.misc_twf.adventure": "Winter Frontier: Adventure"
 }

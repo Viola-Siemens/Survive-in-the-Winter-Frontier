@@ -6,8 +6,7 @@
   "addition": {
     "item": "misc_twf:travelers_backpack_tac_slot"
   },
-  "result": {
-    "count": 1,
-    "id": "travelersbackpack:lapis"
+  "template": {
+    "tag": "c:leathers"
   }
 }

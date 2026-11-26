@@ -48,7 +48,7 @@ public class TacButton extends Button {
 	@Override
 	public void renderTooltip(GuiGraphics transform, int mouseX, int mouseY) {
 		if(BackpackAmmoHandler.canStoreAmmo(this.screen.getWrapper()) && this.inButton(mouseX, mouseY)) {
-			transform.renderTooltip(this.screen.getFont(), Component.translatable("screen.travelersbackpack.tac_slot"), mouseX, mouseY);
+			transform.renderTooltip(this.screen.getFont(), Component.translatable("screen.travelersbackpack.tac_button"), mouseX, mouseY);
 		}
 	}
 
