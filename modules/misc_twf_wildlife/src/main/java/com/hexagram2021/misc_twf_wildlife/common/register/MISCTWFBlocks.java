@@ -96,7 +96,7 @@ public final class MISCTWFBlocks {
 				() -> BlockBehaviour.Properties.ofFullCopy(NETHER_WART_BLOCK).noOcclusion(),
 				props -> new DeadAnimalBlock(() -> {
 					ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
-					addLoot(builder, optionalItem("delightful", "raw_goat"), 2);
+					addLoot(builder, optionalItem("winter_scavenge", "raw_goat_meat"), 2);
 					addLoot(builder, optionalItem("cold_sweat", "goat_fur"), 2);
 					addLoot(builder, Items.BONE, 2);
 					return builder.build();
